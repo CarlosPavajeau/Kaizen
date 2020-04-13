@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
+using System;
 
 namespace Kaizen
 {
@@ -20,6 +22,28 @@ namespace Kaizen
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Ecolplag API",
+                    Description = "Ecolplag API - ASP.NET Core Web",
+                    TermsOfService = new Uri("https://cla.dotnetfoundation.org/"),
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Carlos Andrés Pavajeau Max",
+                        Email = "cantte098@gmial.com",
+                        Url = new Uri("https://github.com/cantte/")
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Dotnet foundation license",
+                        Url = new Uri("https://www.byasystems.co/license")
+                    }
+                });
+            });
+
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -56,6 +80,12 @@ namespace Kaizen
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(s =>
+            {
+                s.SwaggerEndpoint("/swagger/v1/swagger.json", "My API version-1");
             });
 
             app.UseSpa(spa =>
