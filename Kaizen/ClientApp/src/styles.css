@@ -3,16 +3,20 @@
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;
+  text-decoration: none !important;
 }
 
-code {
-  color: #e01a76;
+*, *:active {
+  outline: none !important;
+  border: none !important;
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.form-element, input, mat-form-field {
+  width: 100%;
+}
+
+.form-element {
+  margin-bottom: 17px;
 }
 
 html, body { height: 100%; }
