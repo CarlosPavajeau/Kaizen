@@ -83,21 +83,15 @@ namespace Kaizen.Controllers
                     Email = inputModel.Email,
                     PhoneNumber = inputModel.PhoneNumber
                 };
-                IdentityResult result = await _userManager.CreateAsync(user, inputModel.Password);
 
+                IdentityResult result = await _userManager.CreateAsync(user, inputModel.Password);
                 if (result.Succeeded)
-                {
                     return GenerateAuthenticateUser(user);
-                }
                 else
-                {
                     return BadRequest();
-                }
             }
             else
-            {
                 return BadRequest();
-            }
         }
 
         [AllowAnonymous]
@@ -106,13 +100,15 @@ namespace Kaizen.Controllers
         {
             if (ModelState.IsValid)
             {
-                Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(login.UsernameOrEmail, login.Password, false, false);
+                ApplicationUser user = await _userManager.FindByNameAsync(login.UsernameOrEmail);
+                if (user is null)
+                    user = await _userManager.FindByEmailAsync(login.UsernameOrEmail);
+                if (user is null)
+                    return NotFound();
 
+                Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
                 if (result.Succeeded)
-                {
-                    ApplicationUser user = await _userManager.FindByNameAsync(login.UsernameOrEmail);
                     return GenerateAuthenticateUser(user);
-                }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
