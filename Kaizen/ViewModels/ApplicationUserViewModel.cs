@@ -1,6 +1,7 @@
-﻿using Kaizen.Models.InputModels;
+﻿using Kaizen.Domain.Entities;
+using Kaizen.InputModels;
 
-namespace Kaizen.Models.ViewModels
+namespace Kaizen.ViewModels
 {
     public class ApplicationUserViewModel : ApplicationUserInputModel
     {

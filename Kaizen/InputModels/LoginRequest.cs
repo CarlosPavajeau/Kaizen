@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Kaizen.Models.InputModels
+namespace Kaizen.InputModels
 {
     public class LoginRequest
     {

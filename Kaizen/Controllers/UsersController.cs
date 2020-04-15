@@ -1,7 +1,7 @@
-﻿using Kaizen.Models;
-using Kaizen.Models.EditModels;
-using Kaizen.Models.InputModels;
-using Kaizen.Models.ViewModels;
+﻿using Kaizen.Domain.Entities;
+using Kaizen.EditModels;
+using Kaizen.InputModels;
+using Kaizen.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
