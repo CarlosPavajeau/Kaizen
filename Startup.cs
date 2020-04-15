@@ -60,7 +60,7 @@ namespace Kaizen
                     TermsOfService = new Uri("https://cla.dotnetfoundation.org/"),
                     Contact = new OpenApiContact
                     {
-                        Name = "Carlos Andrés Pavajeau Max",
+                        Name = "Carlos AndrÃ©s Pavajeau Max",
                         Email = "cantte098@gmial.com",
                         Url = new Uri("https://github.com/cantte/")
                     },
