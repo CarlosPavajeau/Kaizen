@@ -1,0 +1,62 @@
+<section>
+  <div class="center-content">
+    <mat-card style="width: 80%;">
+      <mat-card-header>
+        <mat-card-title>Register new user</mat-card-title>
+      </mat-card-header>
+      <form [formGroup]="registerForm">
+        <div class="form-element">
+          <mat-form-field>
+            <mat-label>Username</mat-label>
+            <input type="text" matInput placeholder="Enter your username" formControlName="username">
+            <mat-hint>Please enter yout username</mat-hint>
+            <mat-error *ngIf="controls['username'].hasError('required')">
+              Username is required
+            </mat-error>
+            <mat-error *ngIf="controls['username'].hasError('minlength')">
+              Username must have at least 5 characters
+            </mat-error>
+            <mat-error *ngIf="controls['username'].hasError('maxlength')">
+              Username must not exceed 15 characters
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-element">
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input type="text" matInput placeholder="Example: manolo@gmail.com" formControlName="email">
+            <mat-hint>Please enter your email</mat-hint>
+            <mat-error *ngIf="controls['email'].hasError('required')">
+              Email is required
+            </mat-error>
+            <mat-error *ngIf="controls['email'].hasError('email')">
+              Invalid email
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-element">
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input type="password" matInput placeholder="Enter your password" formControlName="password">
+            <mat-hint>Please enter your password</mat-hint>
+            <mat-error *ngIf="controls['password'].hasError('required')">
+              Password is required
+            </mat-error>
+            <mat-error *ngIf="controls['password'].hasError('minlength')">
+              Password must have at least 8 characters
+            </mat-error>
+            <mat-error *ngIf="controls['password'].hasError('maxlength')">
+              Pasword must not exceed 30 characters
+            </mat-error>
+          </mat-form-field>
+          <div class="text-center" style="margin-top: 10px;">
+            <div style="display: block; margin-bottom: 5px;">
+              <button type="submit" mat-raised-button class="royal_azure">Register me</button>
+            </div>
+            <a routerLink="/user/login">Do you have account?</a>
+          </div>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</section>

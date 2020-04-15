@@ -1,0 +1,49 @@
+<section>
+  <div class="center-content">
+    <mat-card style="width: 70%;">
+      <mat-card-header>
+        <mat-card-title>Login</mat-card-title>
+      </mat-card-header>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-element">
+          <mat-form-field>
+            <mat-label>Username/Email</mat-label>
+            <input type="text" matInput placeholder="Enter your username" formControlName="usernameOrEmail">
+            <mat-hint>Please enter your username or email</mat-hint>
+            <mat-error *ngIf="controls['usernameOrEmail'].hasError('required')">
+              Username is required
+            </mat-error>
+            <mat-error *ngIf="controls['usernameOrEmail'].hasError('minlength')">
+              Username must have at least 5 characters
+            </mat-error>
+            <mat-error *ngIf="controls['usernameOrEmail'].hasError('maxlength')">
+              Username must not exceed 15 characters
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-element">
+          <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input type="password" matInput placeholder="Your password" formControlName="password">
+            <mat-hint>Please enter your password</mat-hint>
+            <mat-error *ngIf="controls['password'].hasError('required')">
+              Password is required
+            </mat-error>
+            <mat-error *ngIf="controls['password'].hasError('minlength')">
+              Password must have at least 8 characters
+            </mat-error>
+            <mat-error *ngIf="controls['password'].hasError('maxlength')">
+              Pasword must not exceed 30 characters
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="text-center" style="margin-top: 10px;">
+          <div style="display: block; margin-bottom: 5px;">
+            <button type="submit" mat-raised-button class="royal_azure">Login</button>
+          </div>
+          <a routerLink="/user/register">You don't have an account?</a>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+</section>
