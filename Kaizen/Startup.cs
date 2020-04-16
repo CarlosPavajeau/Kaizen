@@ -1,5 +1,7 @@
 using Kaizen.Domain.Data;
+using Kaizen.Domain.Data.Configuration;
 using Kaizen.Domain.Entities;
+using Kaizen.Domain.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,6 +29,15 @@ namespace Kaizen
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<Data>(c =>
+            {
+                c.Provider = (DataProvider)Enum.Parse(typeof(DataProvider), Configuration.GetSection("Data")["Provider"]);
+            });
+
+            services.Configure<ConnectionStrings>(Configuration.GetSection("ConnectionStrings"));
+
+            services.AddEntityFramework(Configuration);
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
