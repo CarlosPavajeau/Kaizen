@@ -36,6 +36,7 @@ export class UserRegisterComponent implements OnInit {
     this.registerForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(15)]],
       email: ['', [Validators.required, Validators.email]],
+      phonenumber: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]]
     });
   }
@@ -45,6 +46,7 @@ export class UserRegisterComponent implements OnInit {
       let user: User = {
         username: this.controls['username'].value,
         email: this.controls['email'].value,
+        phonenumber: this.controls['phonenumber'].value,
         password: this.controls['password'].value
       };
 

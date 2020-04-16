@@ -4,7 +4,7 @@
       <mat-card-header>
         <mat-card-title>Register new user</mat-card-title>
       </mat-card-header>
-      <form [formGroup]="registerForm">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <div class="form-element">
           <mat-form-field>
             <mat-label>Username</mat-label>
@@ -31,6 +31,16 @@
             </mat-error>
             <mat-error *ngIf="controls['email'].hasError('email')">
               Invalid email
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-element">
+          <mat-form-field>
+            <mat-label>Phonenumber</mat-label>
+            <input type="text" matInput placeholder="Example: 53453646" formControlName="phonenumber">
+            <mat-hint>Please enter your phonenumber</mat-hint>
+            <mat-error *ngIf="controls['phonenumber'].hasError('required')">
+              Phonenumber is required
             </mat-error>
           </mat-form-field>
         </div>
