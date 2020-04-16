@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../../models/user';
 import { AuthService } from '../../services/auth.service';
+import { LoginRequest } from '../../models/login-request';
 
 @Component({
   selector: 'app-user-login',
@@ -43,8 +44,8 @@ export class UserLoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      let user: User = {
-        username: this.controls['usernameOrEmail'].value,
+      let user: LoginRequest = {
+        usernameOrEmail: this.controls['usernameOrEmail'].value,
         password: this.controls['password'].value
       };
 

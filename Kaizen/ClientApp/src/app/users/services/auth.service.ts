@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { tap, catchError } from "rxjs/operators";
 import { Endpoints } from 'src/app/global/endpoints';
 import { isNullOrUndefined } from 'util';
+import { LoginRequest } from '../models/login-request';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class AuthService {
       )
   }
 
-  loginUser(user: User): Observable<User> {
+  loginUser(user: LoginRequest): Observable<User> {
     return this.http.post<User>(`${Endpoints.AuthUrl}/Login`, user)
       .pipe(
         tap(_ => console.log('Msg'))
