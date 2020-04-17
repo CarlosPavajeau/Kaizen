@@ -5,6 +5,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { MaterialModule } from '../core/material.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { MaterialModule } from '../core/material.module';
   imports: [
     CommonModule,
     MaterialModule,
+    RouterModule
   ],
   exports: [
     MaterialModule,
