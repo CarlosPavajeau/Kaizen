@@ -2,6 +2,7 @@ using Kaizen.Domain.Data;
 using Kaizen.Domain.Data.Configuration;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Extensions;
+using Kaizen.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,7 +12,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using System;
 using System.Text;
 
@@ -42,46 +42,8 @@ namespace Kaizen
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            byte[] key = Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings")["Key"]);
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).
-            AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
-
-            services.AddSwaggerGen(s =>
-            {
-                s.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Version = "v1",
-                    Title = "Ecolplag API",
-                    Description = "Ecolplag API - ASP.NET Core Web",
-                    TermsOfService = new Uri("https://cla.dotnetfoundation.org/"),
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Carlos Andrés Pavajeau Max",
-                        Email = "cantte098@gmial.com",
-                        Url = new Uri("https://github.com/cantte/")
-                    },
-                    License = new OpenApiLicense
-                    {
-                        Name = "Dotnet foundation license",
-                        Url = new Uri("https://www.byasystems.co/license")
-                    }
-                });
-            });
+            services.AddJwtAuthentication(Configuration);
+            services.AddSwagger();
 
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
@@ -123,11 +85,7 @@ namespace Kaizen
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
-            app.UseSwagger();
-            app.UseSwaggerUI(s =>
-            {
-                s.SwaggerEndpoint("/swagger/v1/swagger.json", "My API version-1");
-            });
+            app.UseSwaggerApiDocumentation();
 
             app.UseSpa(spa =>
             {
