@@ -18,9 +18,9 @@ import { SharedModule } from './shared/shared.module';
     FetchDataComponent
   ],
   imports: [
+    CoreModule.forRoot(),
     GlobalModule.forRoot(),
     AppRoutingModule,
-    CoreModule,
     SharedModule
   ],
   providers: [],
