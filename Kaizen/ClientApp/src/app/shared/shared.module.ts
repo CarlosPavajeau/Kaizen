@@ -5,7 +5,6 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { MaterialModule } from '../core/material.module';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -17,16 +16,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
   imports: [
     CommonModule,
     MaterialModule,
-    BrowserAnimationsModule
   ],
   exports: [
     Page404Component,
     HeaderComponent,
     FooterComponent,
     NavMenuComponent,
-    MaterialModule,
-    CommonModule,
-    BrowserAnimationsModule
+    MaterialModule
   ]
 })
 export class SharedModule { }
