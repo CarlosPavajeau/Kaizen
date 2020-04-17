@@ -15,11 +15,10 @@ import { AuthService } from './services/auth.service';
     UserProfileComponent
   ],
   imports: [
-    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    UserRoutinModule,
+    UserRoutinModule
   ],
   providers: [AuthService]
 })

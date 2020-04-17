@@ -18,11 +18,12 @@ import { MaterialModule } from '../core/material.module';
     MaterialModule,
   ],
   exports: [
+    MaterialModule,
+    CommonModule,
     Page404Component,
     HeaderComponent,
     FooterComponent,
-    NavMenuComponent,
-    MaterialModule
+    NavMenuComponent
   ]
 })
 export class SharedModule { }

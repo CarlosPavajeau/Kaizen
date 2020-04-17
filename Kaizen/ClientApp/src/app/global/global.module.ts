@@ -1,16 +1,14 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
-    HttpClientModule
+    CommonModule
   ]
 })
 export class GlobalModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<GlobalModule> {
     return {
       ngModule: GlobalModule
     };
