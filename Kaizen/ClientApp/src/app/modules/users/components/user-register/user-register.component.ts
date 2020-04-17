@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { User } from '../../models/user';
+
+import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
+import { User } from 'src/app/core/models/user';
 
 @Component({
   selector: 'app-user-register',
@@ -19,7 +20,7 @@ export class UserRegisterComponent implements OnInit {
   }
 
   constructor(
-    private authService: AuthService,
+    private authService: AuthenticationService,
     private formBuilder: FormBuilder,
     private router: Router
   ) { }
