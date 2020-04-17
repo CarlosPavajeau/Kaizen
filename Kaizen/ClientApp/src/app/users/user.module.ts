@@ -3,14 +3,10 @@ import { CommonModule } from '@angular/common';
 import { UserRegisterComponent } from './components/user-register/user-register.component';
 import { UserLoginComponent } from './components/user-login/user-login.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
-import { MaterialModule } from '../core/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
-import { UserRoutinModule } from './user-routin.module';
+import { UserRoutinModule } from './user-routing.module';
 import { AuthService } from './services/auth.service';
-import { CoreModule } from '../core/core.module';
-
-
 
 @NgModule({
   declarations: [
@@ -25,11 +21,6 @@ import { CoreModule } from '../core/core.module';
     SharedModule,
     UserRoutinModule,
   ],
-  providers: [AuthService],
-  exports: [
-    UserRegisterComponent,
-    UserLoginComponent,
-    UserProfileComponent
-  ]
+  providers: [AuthService]
 })
 export class UserModule { }
