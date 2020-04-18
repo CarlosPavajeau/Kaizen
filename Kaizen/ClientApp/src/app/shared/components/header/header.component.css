@@ -1,0 +1,43 @@
+.header {
+  background: #1042A6;
+  overflow: hidden;
+}
+
+header {
+  display: block;
+}
+
+.header-section {
+  text-align: center;
+  padding-top: 60px;
+}
+
+div {
+  display: block;
+}
+
+.headline {
+  color: #fff;
+}
+
+.headline-content {
+  max-width: 550px;
+  margin: 0 auto !important;
+}
+
+.headline h2 {
+  font-size: 18px;
+  font-weight: 300;
+  margin: 15px 0 25px;
+}
+
+.header-start {
+  text-align: center;
+  margin: 60px 0;
+}
+
+@media screen and (max-width: 720px) {
+  .header-start {
+    margin: 15px 0;
+  }
+}

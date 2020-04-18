@@ -1,7 +1,3 @@
-mat-toolbar {
-  margin-bottom: 20px;
-}
-
 mat-toolbar.royal_azure a.active {
   background-color: var(--blue_ryb);
 }
