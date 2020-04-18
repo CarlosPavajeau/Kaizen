@@ -48,6 +48,10 @@ a {
   border: none !important;
 }
 
+*::-webkit-scrollbar {
+  width: 0%;
+}
+
 .form-element, input, mat-form-field {
   width: 100%;
 }
@@ -58,6 +62,27 @@ a {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+app-root {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+  position: absolute;
+  top: 56px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+app-nav-menu {
+  position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+}
 
 mat-card {
   min-width: 250px;
@@ -86,4 +111,14 @@ mat-card {
 
 .royal_azure {
   color: white;
+}
+
+.container {
+  margin-top: 40px;
+}
+
+#mision, #vision {
+  background-color: #f1f1f1d8;
+  min-height: 270px;
+  margin-bottom: 15px;
 }
