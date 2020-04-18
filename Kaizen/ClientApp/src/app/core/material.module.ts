@@ -16,6 +16,7 @@ import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatListModule } from "@angular/material/list";
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 const MaterialModules = [
   MatButtonModule,
@@ -34,7 +35,8 @@ const MaterialModules = [
   MatPaginatorModule,
   MatTooltipModule,
   MatSidenavModule,
-  MatListModule
+  MatListModule,
+  MatProgressSpinnerModule
 ];
 
 @NgModule({
