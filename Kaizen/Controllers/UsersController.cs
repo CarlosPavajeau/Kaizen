@@ -1,16 +1,12 @@
 ﻿using Kaizen.Domain.Entities;
 using Kaizen.EditModels;
+using Kaizen.Infrastructure.Security;
 using Kaizen.InputModels;
 using Kaizen.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Kaizen.Controllers
@@ -125,20 +121,7 @@ namespace Kaizen.Controllers
         {
             ApplicationUserViewModel userView = new ApplicationUserViewModel(user);
 
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            byte[] key = Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings")["Key"]);
-            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new Claim(ClaimTypes.Name, user.UserName)
-                }),
-                Expires = DateTime.Now.AddDays(7),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-
-            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
-            userView.Token = tokenHandler.WriteToken(token);
+            userView.Token = JwtSecurityTokenGenerator.GenerateSecurityToken(Configuration, userView.Username);
 
             return userView;
         }
