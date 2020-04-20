@@ -1,6 +1,26 @@
-﻿namespace Kaizen.Domain.Entities
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace Kaizen.Domain.Entities
 {
-    public class Client
+    public class Client : Person
     {
+        [MaxLength(20)]
+        public string ClientType { get; set; }
+        [MaxLength(50)]
+        public string BussninessName { get; set; }
+        [MaxLength(50)]
+        public string TradeName { get; set; }
+        [Required, MaxLength(10)]
+        public string FirstPhoneNumber { get; set; }
+        [MaxLength(10)]
+        public string SecondPhoneNumber { get; set; }
+        [MaxLength(15)]
+        public string FirstLandLine { get; set; }
+        [MaxLength(15)]
+        public string SecondLandLine { get; set; }
+
+        public ClientAddress ClientAddress { get; set; }
+        public List<ContactPerson> ContactPeople { get; set; }
     }
 }
