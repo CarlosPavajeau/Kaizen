@@ -13,6 +13,7 @@ mat-toolbar.royal_azure a.active {
 .nav-main-content h2 {
   margin-right: 20px;
   text-align: center;
+  vertical-align: middle;
 
   display: inline-block;
   border: none;
@@ -22,4 +23,12 @@ mat-toolbar.royal_azure a.active {
 
 mat-toolbar a, mat-toolbar button {
   color: white !important;
+}
+
+.nav-main-header {
+  display: inline-block;
+}
+
+.nav-main-header h2 {
+  font-weight: lighter;
 }
