@@ -10,7 +10,7 @@ namespace Kaizen.Domain.Entities
         [MaxLength(40)]
         public string Name { get; set; }
         [ForeignKey("ServiceType")]
-        public ServiceType Type { get; set; }
+        public ServiceType ServiceType { get; set; }
         public decimal Cost { get; set; }
     }
 }
