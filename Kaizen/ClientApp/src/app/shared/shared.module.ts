@@ -6,13 +6,17 @@ import { FooterComponent } from './components/footer/footer.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { MaterialModule } from '../core/material.module';
 import { RouterModule } from '@angular/router';
+import { ContactComponent } from './components/contact/contact.component';
+import { AboutComponent } from './components/about/about.component';
 
 @NgModule({
   declarations: [
     Page404Component,
     HeaderComponent,
     FooterComponent,
-    NavMenuComponent
+    NavMenuComponent,
+    ContactComponent,
+    AboutComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +29,9 @@ import { RouterModule } from '@angular/router';
     Page404Component,
     HeaderComponent,
     FooterComponent,
-    NavMenuComponent
+    NavMenuComponent,
+    ContactComponent,
+    AboutComponent
   ]
 })
 export class SharedModule { }
