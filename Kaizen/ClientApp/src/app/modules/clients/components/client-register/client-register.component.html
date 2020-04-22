@@ -1,1 +1,62 @@
-<p>client-register works!</p>
+<div class="container">
+  <section>
+    <mat-card>
+      <mat-card-title>
+
+      </mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="clientForm">
+          <div class="form-element">
+            <mat-form-field>
+              <mat-label>Identificación</mat-label>
+              <input type="tex" matInput placeholder="Ejemplo: 14234353" formControlName="id">
+              <mat-hint>Digite su identificación</mat-hint>
+              <mat-error *ngIf="controls['id'].hasError('required')">Identificación requerida</mat-error>
+              <mat-error *ngIf="controls['id'].hasError('notNumeric')">Digite solo carácteres númericos</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="form-element">
+            <table cellspacing="0">
+              <tr>
+                <td>
+                  <mat-form-field>
+                    <mat-label>Primer nombre</mat-label>
+                    <input type="text" matInput placeholder="Digite su primer nombre" formControlName="firstName">
+                    <mat-hint>Digite su primer nombre</mat-hint>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field>
+                    <mat-label>Segundo nombre</mat-label>
+                    <input type="text" matInput placeholder="Digite su segundo nombre" formControlName="secondName">
+                    <mat-hint>Digite su segundo nombre</mat-hint>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="form-element">
+            <table cellspacing="0">
+              <tr>
+                <td>
+                  <mat-form-field>
+                    <mat-label>Primer apellido</mat-label>
+                    <input type="text" matInput placeholder="Digite su primer apellido" formControlName="lastName">
+                    <mat-hint>Digite su primer apellido</mat-hint>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field>
+                    <mat-label>Segundo apellido</mat-label>
+                    <input type="text" matInput placeholder="Digite su segundo apellido" formControlName="secondLastname">
+                    <mat-hint>Digite su segundo apellido</mat-hint>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </section>
+</div>
