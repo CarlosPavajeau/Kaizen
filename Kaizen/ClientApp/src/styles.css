@@ -54,10 +54,19 @@ a {
 
 .form-element, input, mat-form-field {
   width: 100%;
+  font-size: initial !important;
 }
 
 .form-element {
   margin-bottom: 17px;
+}
+
+.form-element table {
+  width: 100%;
+}
+
+.form-element table td {
+  padding-right: 8px;
 }
 
 html, body { height: 100%; }
@@ -110,7 +119,7 @@ mat-card {
 }
 
 .royal_azure {
-  color: white;
+  color: white !important;
 }
 
 .container {
