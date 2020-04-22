@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ClientService } from '../../services/client.service';
 import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
-import { IForm } from 'src/app/shared/models/form';
+import { IForm } from 'src/app/core/models/form';
 import { CharactersValidators } from 'src/app/shared/validators/characters-validators';
 
 @Component({
