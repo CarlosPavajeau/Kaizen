@@ -36,7 +36,7 @@ export class UserLoginComponent implements OnInit {
 
   initForm(): void {
     this.loginForm = this.formBuilder.group({
-      usernameOrEmail: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(15)]],
+      usernameOrEmail: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]]
     })
   }
