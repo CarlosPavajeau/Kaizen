@@ -16,7 +16,7 @@ namespace Kaizen.Domain.Entities
         [Required, MaxLength(20)]
         public string SeconLastname { get; set; }
 
-        [ForeignKey("UserId")]
+        [ForeignKey("UserId"), Required]
         public ApplicationUser User { get; set; }
     }
 }
