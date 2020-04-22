@@ -10,5 +10,9 @@ namespace Kaizen.Domain.Data
         {
 
         }
+
+        public DbSet<Client> Clients { get; set; }
+        public DbSet<ContactPerson> ContactPeople { get; set; }
+        public DbSet<ClientAddress> ClientAddresses { get; set; }
     }
 }
