@@ -47,12 +47,26 @@ namespace Kaizen.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutClient(string id, ClientEditModel client)
+        public async Task<IActionResult> PutClient(string id, ClientEditModel clientModel)
         {
-            //if (id != client.Id)
-            //{
-            //    return BadRequest();
-            //}
+            Client client = await _context.Clients.FindAsync(id);
+
+            if (client is null)
+            {
+                return BadRequest();
+            }
+
+            client.FirstName = clientModel.FirstName;
+            client.SecondName = clientModel.SecondName;
+            client.LastName = clientModel.LastName;
+            client.SeconLastname = clientModel.SeconLastname;
+            client.ClientType = clientModel.ClientType;
+            client.BusninessName = clientModel.BusninessName;
+            client.TradeName = clientModel.TradeName;
+            client.FirstPhoneNumber = clientModel.FirstPhoneNumber;
+            client.SecondPhoneNumber = clientModel.SecondPhoneNumber;
+            client.FirstLandLine = clientModel.FirstLandLine;
+            client.SecondLandLine = clientModel.SecondLandLine;
 
             _context.Entry(client).State = EntityState.Modified;
 
@@ -79,16 +93,52 @@ namespace Kaizen.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<ClientViewModel>> PostClient(ClientInputModel client)
+        public async Task<ActionResult<ClientViewModel>> PostClient(ClientInputModel clientInput)
         {
-            //_context.Clients.Add(client);
+            ApplicationUser user = await _context.Users.FindAsync(clientInput.UserId);
+            if (user is null)
+            {
+                return BadRequest();
+            }
+
+            Client client = new Client
+            {
+                Id = clientInput.Id,
+                FirstName = clientInput.FirstName,
+                SecondName = clientInput.SecondName,
+                LastName = clientInput.LastName,
+                SeconLastname = clientInput.SeconLastname,
+                ClientType = clientInput.ClientType,
+                BusninessName = clientInput.BusninessName,
+                TradeName = clientInput.TradeName,
+                FirstPhoneNumber = clientInput.FirstPhoneNumber,
+                SecondPhoneNumber = clientInput.SecondPhoneNumber,
+                FirstLandLine = clientInput.FirstLandLine,
+                SecondLandLine = clientInput.SecondLandLine,
+                ClientAddress = new ClientAddress
+                {
+                    City = clientInput.ClientAddress.City,
+                    Neighborhood = clientInput.ClientAddress.Neighborhood,
+                    Street = clientInput.ClientAddress.Street,
+                    ClientId = clientInput.Id
+                },
+                ContactPeople = clientInput.ContactPeople.Select(c => new ContactPerson
+                {
+                    Name = c.Name,
+                    PhoneNumber = c.Phonenumber
+                }).ToList(),
+                User = user
+            };
+
+            _context.Clients.Add(client);
+
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (ClientExists(client.Id))
+                if (ClientExists(clientInput.Id))
                 {
                     return Conflict();
                 }
@@ -98,7 +148,7 @@ namespace Kaizen.Controllers
                 }
             }
 
-            return CreatedAtAction("GetClient", new { id = client.Id }, client);
+            return new ClientViewModel(client);
         }
 
         // DELETE: api/Clients/5
