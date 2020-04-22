@@ -3,4 +3,8 @@ export class Endpoints {
     return "api/Users";
   }
 
+  public static get ClientsUrl(): string {
+    return 'api/Clients';
+  }
+
 }
