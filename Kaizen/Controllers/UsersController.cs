@@ -43,6 +43,13 @@ namespace Kaizen.Controllers
             return new ApplicationUserViewModel(user);
         }
 
+        [HttpGet("[action]/{username}")]
+        [AllowAnonymous]
+        public async Task<ActionResult<bool>> CheckUserExists(string username)
+        {
+            return await _userManager.FindByNameAsync(username) != null;
+        }
+
         // PUT: api/Users/{id}?token={token}
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(string id, [FromQuery] string token, [FromBody] ApplicationUserEditModel editModel)
