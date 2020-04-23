@@ -8,6 +8,8 @@ import { MaterialModule } from '../core/material.module';
 import { RouterModule } from '@angular/router';
 import { ContactComponent } from './components/contact/contact.component';
 import { AboutComponent } from './components/about/about.component';
+import { UniqueClientDirective } from './directives/unique-client.directive';
+import { UniqueUserDirective } from './directives/unique-user.directive';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { AboutComponent } from './components/about/about.component';
     FooterComponent,
     NavMenuComponent,
     ContactComponent,
-    AboutComponent
+    AboutComponent,
+    UniqueClientDirective,
+    UniqueUserDirective
   ],
   imports: [
     CommonModule,
@@ -31,7 +35,9 @@ import { AboutComponent } from './components/about/about.component';
     FooterComponent,
     NavMenuComponent,
     ContactComponent,
-    AboutComponent
+    AboutComponent,
+    UniqueClientDirective,
+    UniqueUserDirective
   ]
 })
 export class SharedModule { }
