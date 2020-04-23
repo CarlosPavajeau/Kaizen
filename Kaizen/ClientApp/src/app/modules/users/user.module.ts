@@ -18,6 +18,9 @@ import { UserRoutinModule } from './user-routing.module';
     ReactiveFormsModule,
     SharedModule,
     UserRoutinModule
+  ],
+  exports: [
+    UserRegisterComponent
   ]
 })
 export class UserModule { }
