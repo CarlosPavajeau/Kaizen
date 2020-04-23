@@ -5,6 +5,8 @@ import { ApiPrefixInterceptor } from './interceptors/api-prefix.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { AuthenticationService } from './authentication/authentication.service';
+import { CheckClientExistsService } from './services/check-client-exists.service';
+import { CheckUserExistsService } from './services/check-user-exists.service';
 
 @NgModule({
   declarations: [],
@@ -16,7 +18,9 @@ import { AuthenticationService } from './authentication/authentication.service';
   ],
   providers: [
     ApiPrefixInterceptor,
-    AuthenticationService
+    AuthenticationService,
+    CheckClientExistsService,
+    CheckUserExistsService
   ]
 })
 export class CoreModule {
