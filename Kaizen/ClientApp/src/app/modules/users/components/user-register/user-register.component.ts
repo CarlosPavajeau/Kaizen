@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 import { User } from 'src/app/core/models/user';
+import { UserExistsValidator } from 'src/app/shared/validators/user-exists-validator';
 
 @Component({
   selector: 'app-user-register',
@@ -13,6 +14,7 @@ import { User } from 'src/app/core/models/user';
 export class UserRegisterComponent implements OnInit {
 
   registerForm: FormGroup;
+  @Output() user = new EventEmitter<User>();
   invalidForm: boolean;
 
   public get controls() {
@@ -21,6 +23,7 @@ export class UserRegisterComponent implements OnInit {
 
   constructor(
     private authService: AuthenticationService,
+    private userValidator: UserExistsValidator,
     private formBuilder: FormBuilder,
     private router: Router
   ) { }
@@ -35,9 +38,11 @@ export class UserRegisterComponent implements OnInit {
 
   initForm(): void {
     this.registerForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(15)]],
-      email: ['', [Validators.required, Validators.email]],
-      phonenumber: ['', [Validators.required]],
+      username: ['', {
+        validators: [Validators.required, Validators.minLength(5), Validators.maxLength(15)],
+        asyncValidators: [this.userValidator.validate.bind(this.userValidator)],
+        updateOn: 'blur'
+      }],
       password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(30)]]
     });
   }
@@ -46,16 +51,10 @@ export class UserRegisterComponent implements OnInit {
     if (this.registerForm.valid) {
       let user: User = {
         username: this.controls['username'].value,
-        email: this.controls['email'].value,
-        phonenumber: this.controls['phonenumber'].value,
         password: this.controls['password'].value
       };
 
-      this.authService.registerUser(user)
-        .subscribe(user => {
-          this.authService.setCurrentUser(user);
-          window.location.reload();
-        });
+      this.user.emit(user);
     } else {
       this.invalidForm = true;
     }

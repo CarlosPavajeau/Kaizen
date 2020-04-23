@@ -21,28 +21,8 @@
             <mat-error *ngIf="controls['username'].hasError('maxlength')">
               Su nombre de usuario no puede exeder los 15 caracteres
             </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="form-element">
-          <mat-form-field>
-            <mat-label>Email</mat-label>
-            <input type="text" matInput placeholder="Ejemplo: manolo@gmail.com" formControlName="email">
-            <mat-hint>Por favor digite su email</mat-hint>
-            <mat-error *ngIf="controls['email'].hasError('required')">
-              Su email es requerido
-            </mat-error>
-            <mat-error *ngIf="controls['email'].hasError('email')">
-              El email digitado es invalido
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="form-element">
-          <mat-form-field>
-            <mat-label>Número de teléfono</mat-label>
-            <input type="text" matInput placeholder="Ejemplo: 3172887632" formControlName="phonenumber">
-            <mat-hint>Por favor digite su número de teléfono</mat-hint>
-            <mat-error *ngIf="controls['phonenumber'].hasError('required')">
-              Su número de teléfono es requerido
+            <mat-error *ngIf="controls['username'].hasError('userExists')">
+              El nombre de usuario digitado ya está registrado
             </mat-error>
           </mat-form-field>
         </div>
