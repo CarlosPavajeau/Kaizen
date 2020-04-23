@@ -69,6 +69,22 @@ a {
   padding-right: 8px;
 }
 
+.form-select {
+  width: 50%;
+}
+
+.mat-stepper-vertical {
+  margin-top: 8px;
+}
+
+.mat-stepper-vertical .mat-form-field {
+  margin-top: 16px;
+}
+
+.mat-stepper-vertical button {
+  margin-right: 7px;
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
