@@ -8,11 +8,12 @@ export interface Client {
   lastName: string;
   secondLastName?: string;
   clientType?: string;
+  NIT?: string;
   busninessName?: string;
   tradeName?: string;
   firstPhoneNumber: string;
   secondPhoneNumber?: string;
-  firstLandline: string;
+  firstLandline?: string;
   secondLandline?: string;
 
   contactPeople: ContactPerson[];
