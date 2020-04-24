@@ -1,54 +1,43 @@
-<section class="container">
-  <div class="center-content">
-    <mat-card style="width: 80%;" class="center-block-content">
-      <mat-card-header>
-        <div class="center-block-content">
-          <mat-card-title>Registro de usuario</mat-card-title>
-        </div>
-      </mat-card-header>
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <div class="form-element">
-          <mat-form-field>
-            <mat-label>Nombre de usuario</mat-label>
-            <input type="text" matInput placeholder="Ejemplo: manolo13" formControlName="username">
-            <mat-hint>Por favor digite su nombre de usuario</mat-hint>
-            <mat-error *ngIf="controls['username'].hasError('required')">
-              Su nombre de usuario es requerido
-            </mat-error>
-            <mat-error *ngIf="controls['username'].hasError('minlength')">
-              Su nombre de usuario debe tener mínimo 5 carácteres
-            </mat-error>
-            <mat-error *ngIf="controls['username'].hasError('maxlength')">
-              Su nombre de usuario no puede exeder los 15 caracteres
-            </mat-error>
-            <mat-error *ngIf="controls['username'].hasError('userExists')">
-              El nombre de usuario digitado ya está registrado
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="form-element">
-          <mat-form-field>
-            <mat-label>Contraseña</mat-label>
-            <input type="password" matInput placeholder="Digite su contraseña de acceso" formControlName="password">
-            <mat-hint>Por favor digite su contraseña</mat-hint>
-            <mat-error *ngIf="controls['password'].hasError('required')">
-              Contraseña requerida
-            </mat-error>
-            <mat-error *ngIf="controls['password'].hasError('minlength')">
-              La contraseña debe tener al menos 8 caracteres
-            </mat-error>
-            <mat-error *ngIf="controls['password'].hasError('maxlength')">
-              La contraseña no debe tener mas de 30 caracteres
-            </mat-error>
-          </mat-form-field>
-          <div class="text-center" style="margin-top: 10px;">
-            <div style="display: block; margin-bottom: 5px;">
-              <button type="submit" mat-raised-button class="royal_azure">Registrarme</button>
-            </div>
-            <a routerLink="/user/login">¿Ya tienes una cuenta?</a>
-          </div>
-        </div>
-      </form>
-    </mat-card>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <div class="form-element">
+    <mat-form-field>
+      <mat-label>Nombre de usuario</mat-label>
+      <input type="text" matInput placeholder="Ejemplo: manolo13" formControlName="username">
+      <mat-hint>Por favor digite su nombre de usuario</mat-hint>
+      <mat-error *ngIf="controls['username'].hasError('required')">
+        Su nombre de usuario es requerido
+      </mat-error>
+      <mat-error *ngIf="controls['username'].hasError('minlength')">
+        Su nombre de usuario debe tener mínimo 5 carácteres
+      </mat-error>
+      <mat-error *ngIf="controls['username'].hasError('maxlength')">
+        Su nombre de usuario no puede exeder los 15 caracteres
+      </mat-error>
+      <mat-error *ngIf="controls['username'].hasError('userExists')">
+        El nombre de usuario digitado ya está registrado
+      </mat-error>
+    </mat-form-field>
   </div>
-</section>
+  <div class="form-element">
+    <mat-form-field>
+      <mat-label>Contraseña</mat-label>
+      <input type="password" matInput placeholder="Digite su contraseña de acceso" formControlName="password">
+      <mat-hint>Por favor digite su contraseña</mat-hint>
+      <mat-error *ngIf="controls['password'].hasError('required')">
+        Contraseña requerida
+      </mat-error>
+      <mat-error *ngIf="controls['password'].hasError('minlength')">
+        La contraseña debe tener al menos 8 caracteres
+      </mat-error>
+      <mat-error *ngIf="controls['password'].hasError('maxlength')">
+        La contraseña no debe tener mas de 30 caracteres
+      </mat-error>
+    </mat-form-field>
+    <div class="text-center" style="margin-top: 10px;">
+      <div style="display: block; margin-bottom: 5px;">
+        <button type="submit" mat-raised-button class="royal_azure">Registrarme</button>
+      </div>
+      <a routerLink="/user/login">¿Ya tienes una cuenta?</a>
+    </div>
+  </div>
+</form>

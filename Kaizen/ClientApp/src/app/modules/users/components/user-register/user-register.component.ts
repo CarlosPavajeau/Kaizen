@@ -49,7 +49,7 @@ export class UserRegisterComponent implements OnInit {
 
   onSubmit() {
     if (this.registerForm.valid) {
-      let user: User = {
+      const user: User = {
         username: this.controls['username'].value,
         password: this.controls['password'].value
       };
