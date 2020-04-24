@@ -53,7 +53,6 @@ export class UserRegisterComponent implements OnInit {
         username: this.controls['username'].value,
         password: this.controls['password'].value
       };
-
       this.user.emit(user);
     } else {
       this.invalidForm = true;

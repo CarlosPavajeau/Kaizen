@@ -22,7 +22,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
 
   user: User;
 
-  public get controls() : { [key: string]: AbstractControl; } {
+  public get controls(): { [key: string]: AbstractControl; } {
     return this.clientForm.controls;
   }
 
@@ -58,9 +58,9 @@ export class ClientRegisterComponent implements OnInit, IForm {
 
   private initUbicationForm() {
     this.ubicationForm = this.formBuilder.group({
-      city: ['', [Validators.required]],
-      neighborhood: ['', [Validators.required]],
-      street: ['', Validators.required]
+      city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
+      neighborhood: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
+      street: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]]
     });
   }
 
@@ -76,7 +76,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
 
   private initLegalPersonForm() {
     this.legalPersonForm = this.formBuilder.group({
-      NIT: ['', Validators.required],
+      NIT: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
       tradeName: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
       businessName: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]]
     });
@@ -97,46 +97,61 @@ export class ClientRegisterComponent implements OnInit, IForm {
     });
   }
 
-  onSubmit(user: User)
-  {
-    if (user) {
-      if (this.allFormsValid()) {
-        let client: Client = {
-          id: this.controls['id'].value,
-          firstName: this.controls['firstName'].value,
-          secondName: this.controls['secondName'].value,
-          lastName: this.controls['lastName'].value,
-          secondLastName: this.controls['secondLastname'].value,
-          clientType: this.controls['clientType'].value,
-          firstPhoneNumber: this.contact_controls['firstPhonenumber'].value,
-          secondPhoneNumber: this.contact_controls['secondPhonenumber'].value,
-          firstLandline: this.contact_controls['firstLandline'].value,
-          secondLandline: this.contact_controls['secondLandline'].value,
-          contactPeople: [
+  onSubmit(user: User): void {
+    if (user && this.allFormsValid()) {
+      let client: Client = this.mapClient();
 
-          ],
-          clientAddress: {
-            city: this.ubication_controls['city'].value,
-            neighborhood: this.ubication_controls['neighborhood'].value,
-            street: this.ubication_controls['street'].value
-          }
-        };
+      user.email = this.contact_controls['email'].value;
+      user.phonenumber = this.contact_controls['firstPhonenumber'].value;
 
-        if (client.clientType == 'JuridicPerson') {
-          client.NIT = this.legal_controls['NIT'].value;
-          client.busninessName = this.legal_controls['businessName'].value;
-          client.tradeName = this.legal_controls['tradeName'].value;
+      this.authService.registerUser(user).subscribe(userRegistered => {
+        if (userRegistered) {
+          client.userId = userRegistered.id;
+          this.clientService.saveClient(client).subscribe(clientRegistered => {
+            if (clientRegistered) {
+              this.authService.setCurrentUser(userRegistered);
+              window.location.reload();
+            }
+          });
         }
-
-        console.log(client);
-        console.log(user);
-      }
+      });
     }
   }
 
-  allFormsValid() : boolean {
+  allFormsValid(): boolean {
     return this.clientForm.valid && this.contactPersonForm.valid &&
       this.ubicationForm.valid &&
       ((this.controls['clientType'].value == 'JuridicPerson') ? this.legalPersonForm.valid : true);
+  }
+
+  mapClient(): Client {
+    let client: Client = {
+      id: this.controls['id'].value,
+      firstName: this.controls['firstName'].value,
+      secondName: this.controls['secondName'].value,
+      lastName: this.controls['lastName'].value,
+      secondLastName: this.controls['secondLastname'].value,
+      clientType: this.controls['clientType'].value,
+      firstPhoneNumber: this.contact_controls['firstPhonenumber'].value,
+      secondPhoneNumber: this.contact_controls['secondPhonenumber'].value,
+      firstLandline: this.contact_controls['firstLandline'].value,
+      secondLandline: this.contact_controls['secondLandline'].value,
+      contactPeople: [
+
+      ],
+      clientAddress: {
+        city: this.ubication_controls['city'].value,
+        neighborhood: this.ubication_controls['neighborhood'].value,
+        street: this.ubication_controls['street'].value
+      }
+    };
+
+    if (client.clientType == 'JuridicPerson') {
+      client.NIT = this.legal_controls['NIT'].value;
+      client.busninessName = this.legal_controls['businessName'].value;
+      client.tradeName = this.legal_controls['tradeName'].value;
+    }
+
+    return client;
   }
 }

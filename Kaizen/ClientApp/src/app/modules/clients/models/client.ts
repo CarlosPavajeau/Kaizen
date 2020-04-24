@@ -16,6 +16,8 @@ export interface Client {
   firstLandline?: string;
   secondLandline?: string;
 
+  userId?: string;
+
   contactPeople: ContactPerson[];
   clientAddress: ClientAddress;
 }
