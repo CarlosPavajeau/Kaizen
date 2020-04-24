@@ -9,12 +9,12 @@ namespace Kaizen.Domain.Entities
         public string Id { get; set; }
         [Required, MaxLength(20)]
         public string FirstName { get; set; }
-        [Required, MaxLength(20)]
+        [MaxLength(20)]
         public string SecondName { get; set; }
         [Required, MaxLength(20)]
         public string LastName { get; set; }
-        [Required, MaxLength(20)]
-        public string SeconLastname { get; set; }
+        [MaxLength(20)]
+        public string SecondLastName { get; set; }
 
         [ForeignKey("UserId"), Required]
         public ApplicationUser User { get; set; }

@@ -7,7 +7,7 @@ namespace Kaizen.Domain.Entities
     {
         [MaxLength(30)]
         public string NIT { get; set; }
-        [MaxLength(20)]
+        [Required, MaxLength(20)]
         public string ClientType { get; set; }
         [MaxLength(50)]
         public string BusninessName { get; set; }

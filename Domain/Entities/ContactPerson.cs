@@ -11,6 +11,8 @@ namespace Kaizen.Domain.Entities
         public string Name { get; set; }
         [MaxLength(10)]
         public string PhoneNumber { get; set; }
+        [Required, MaxLength(10)]
+        public string ClientId { get; set; }
 
         [ForeignKey("ClientId")]
         public Client Client { get; set; }

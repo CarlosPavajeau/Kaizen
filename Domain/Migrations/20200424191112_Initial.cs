@@ -12,7 +12,7 @@ namespace Kaizen.Domain.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<string>(maxLength: 30, nullable: false),
                     Name = table.Column<string>(maxLength: 191, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 191, nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true)
@@ -26,16 +26,16 @@ namespace Kaizen.Domain.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 191, nullable: true),
-                    NormalizedUserName = table.Column<string>(maxLength: 191, nullable: true),
-                    Email = table.Column<string>(maxLength: 191, nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 191, nullable: true),
+                    Id = table.Column<string>(maxLength: 191, nullable: false),
+                    UserName = table.Column<string>(maxLength: 15, nullable: true),
+                    NormalizedUserName = table.Column<string>(maxLength: 15, nullable: true),
+                    Email = table.Column<string>(maxLength: 150, nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 150, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
-                    PasswordHash = table.Column<string>(nullable: true),
+                    PasswordHash = table.Column<string>(maxLength: 191, nullable: true),
                     SecurityStamp = table.Column<string>(nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(maxLength: 10, nullable: true),
                     PhoneNumberConfirmed = table.Column<bool>(nullable: false),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
@@ -93,8 +93,8 @@ namespace Kaizen.Domain.Migrations
                 name: "AspNetUserLogins",
                 columns: table => new
                 {
-                    LoginProvider = table.Column<string>(nullable: false),
-                    ProviderKey = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
+                    ProviderKey = table.Column<string>(maxLength: 128, nullable: false),
                     ProviderDisplayName = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: false)
                 },
@@ -138,8 +138,8 @@ namespace Kaizen.Domain.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    LoginProvider = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(maxLength: 128, nullable: false),
+                    Name = table.Column<string>(maxLength: 128, nullable: false),
                     Value = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
@@ -149,6 +149,77 @@ namespace Kaizen.Domain.Migrations
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Clients",
+                columns: table => new
+                {
+                    Id = table.Column<string>(maxLength: 10, nullable: false),
+                    FirstName = table.Column<string>(maxLength: 20, nullable: false),
+                    SecondName = table.Column<string>(maxLength: 20, nullable: true),
+                    LastName = table.Column<string>(maxLength: 20, nullable: false),
+                    SecondLastName = table.Column<string>(maxLength: 20, nullable: true),
+                    UserId = table.Column<string>(maxLength: 191, nullable: false),
+                    NIT = table.Column<string>(maxLength: 30, nullable: true),
+                    ClientType = table.Column<string>(maxLength: 20, nullable: false),
+                    BusninessName = table.Column<string>(maxLength: 50, nullable: true),
+                    TradeName = table.Column<string>(maxLength: 50, nullable: true),
+                    FirstPhoneNumber = table.Column<string>(maxLength: 10, nullable: false),
+                    SecondPhoneNumber = table.Column<string>(maxLength: 10, nullable: true),
+                    FirstLandLine = table.Column<string>(maxLength: 15, nullable: true),
+                    SecondLandLine = table.Column<string>(maxLength: 15, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clients", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Clients_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ClientAddresses",
+                columns: table => new
+                {
+                    ClientId = table.Column<string>(maxLength: 10, nullable: false),
+                    City = table.Column<string>(maxLength: 40, nullable: true),
+                    Neighborhood = table.Column<string>(maxLength: 40, nullable: true),
+                    Street = table.Column<string>(maxLength: 40, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientAddresses", x => x.ClientId);
+                    table.ForeignKey(
+                        name: "FK_ClientAddresses_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ContactPeople",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(maxLength: 50, nullable: true),
+                    PhoneNumber = table.Column<string>(maxLength: 10, nullable: true),
+                    ClientId = table.Column<string>(maxLength: 10, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ContactPeople", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ContactPeople_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -189,6 +260,22 @@ namespace Kaizen.Domain.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Clients_NIT",
+                table: "Clients",
+                column: "NIT",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Clients_UserId",
+                table: "Clients",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ContactPeople_ClientId",
+                table: "ContactPeople",
+                column: "ClientId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -209,7 +296,16 @@ namespace Kaizen.Domain.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ClientAddresses");
+
+            migrationBuilder.DropTable(
+                name: "ContactPeople");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Clients");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
