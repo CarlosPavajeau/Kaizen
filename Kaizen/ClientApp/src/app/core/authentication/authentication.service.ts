@@ -6,6 +6,7 @@ import { Endpoints } from 'src/app/global/endpoints';
 import { tap } from 'rxjs/operators';
 import { LoginRequest } from '../models/login-request';
 import { isNullOrUndefined } from 'util';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class AuthenticationService {
   readonly USER_LOCALSTORAGE_KEY = 'currentUser';
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private cookieService: CookieService
   ) { }
 
   registerUser(user: User): Observable<User> {
@@ -38,20 +40,18 @@ export class AuthenticationService {
 
   removeUser(): void {
     localStorage.removeItem(this.USER_LOCALSTORAGE_KEY);
+    this.cookieService.delete('user_token');
   }
 
   setCurrentUser(user: User): void {
+    this.cookieService.set('user_token', user.token, 365, '/user', null, true, "Strict");
+    user.token = undefined;
     let user_str = JSON.stringify(user);
     localStorage.setItem(this.USER_LOCALSTORAGE_KEY, user_str);
   }
 
   getToken(): string {
-    const user: User = this.getCurrentUser();
-    if (user) {
-      return user.token;
-    } else {
-      return '';
-    }
+    return this.cookieService.get('user_token');
   }
 
   getCurrentUser(): User {

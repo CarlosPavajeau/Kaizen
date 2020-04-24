@@ -7,6 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AuthenticationService } from './authentication/authentication.service';
 import { CheckClientExistsService } from './services/check-client-exists.service';
 import { CheckUserExistsService } from './services/check-user-exists.service';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [],
@@ -20,7 +21,8 @@ import { CheckUserExistsService } from './services/check-user-exists.service';
     ApiPrefixInterceptor,
     AuthenticationService,
     CheckClientExistsService,
-    CheckUserExistsService
+    CheckUserExistsService,
+    CookieService
   ]
 })
 export class CoreModule {
