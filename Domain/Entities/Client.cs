@@ -5,6 +5,8 @@ namespace Kaizen.Domain.Entities
 {
     public class Client : Person
     {
+        [MaxLength(30)]
+        public string NIT { get; set; }
         [MaxLength(20)]
         public string ClientType { get; set; }
         [MaxLength(50)]
