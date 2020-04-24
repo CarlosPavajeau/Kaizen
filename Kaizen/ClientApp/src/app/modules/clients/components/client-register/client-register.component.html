@@ -1,11 +1,13 @@
 <div class="container">
   <section>
     <mat-card>
-      <mat-card-title>
-
-      </mat-card-title>
+      <mat-card-header>
+        <mat-card-title>
+          <h1>Registro de cliente</h1>
+        </mat-card-title>
+      </mat-card-header>
       <mat-card-content>
-        <mat-vertical-stepper>
+        <mat-vertical-stepper [linear]="true">
           <mat-step [stepControl]="clientForm">
             <ng-template matStepLabel>Datos personales</ng-template>
             <form [formGroup]="clientForm">
@@ -16,6 +18,8 @@
                   <mat-hint>Digite su identificación</mat-hint>
                   <mat-error *ngIf="controls['id'].hasError('required')">Identificación requerida</mat-error>
                   <mat-error *ngIf="controls['id'].hasError('notNumeric')">Digite solo carácteres númericos</mat-error>
+                  <mat-error *ngIf="controls['id'].hasError('minlength')">La identificación debe tener mínimo 8 carácteres</mat-error>
+                  <mat-error *ngIf="controls['id'].hasError('maxlength')">La identificación debe tener máximo 10 carácteres</mat-error>
                   <mat-error *ngIf="controls['id'].hasError('clientExists')">La identidicación digitada ya está registrada</mat-error>
                 </mat-form-field>
               </div>
@@ -78,12 +82,114 @@
             <form [formGroup]="legalPersonForm">
               <div class="form-element">
                 <mat-form-field>
-                  <mat-label>Nombre legal</mat-label>
+                  <mat-label>NIT</mat-label>
+                  <input matInput placeholder="Ejemplo: 423424" formControlName="NIT">
+                </mat-form-field>
+              </div>
+              <div class="form-element">
+                <mat-form-field>
+                  <mat-label>Nombre comercial</mat-label>
+                  <input matInput placeholder="Ejemplo: Manolo S.A.S" formControlName="tradeName">
+                </mat-form-field>
+              </div>
+              <div class="form-element">
+                <mat-form-field>
+                  <mat-label>Razón social</mat-label>
                   <input matInput placeholder="Ejemplo: Manolo S.A.S" formControlName="businessName">
                 </mat-form-field>
               </div>
               <div>
-                <button mat-raised-button matStepperPrevious style="margin-right: 5px;">Regresar</button>
+                <button mat-raised-button matStepperPrevious>Regresar</button>
+                <button mat-raised-button matStepperNext class="royal_azure">Continuar</button>
+              </div>
+            </form>
+          </mat-step>
+          <mat-step>
+            <ng-template matStepLabel>Datos de contacto</ng-template>
+            <form [formGroup]="contactPersonForm">
+              <div class="form-element">
+                <table cellspacing="0">
+                  <tr>
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Primer número de telefono</mat-label>
+                        <input type="tel" matInput placeholder="Digite su número de teléfono" formControlName="firstPhonenumber">
+                        <mat-hint>Digite su primer número de teléfono</mat-hint>
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Segundo número de telefono</mat-label>
+                        <input type="text" matInput placeholder="Digite su número de teléfono" formControlName="secondPhonenumber">
+                        <mat-hint>Digite su segundo número de teléfono</mat-hint>
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="form-element">
+                <table cellspacing="0">
+                  <tr>
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Primer número fijo</mat-label>
+                        <input type="tel" matInput placeholder="Digite su número fijo" formControlName="firstLandline">
+                        <mat-hint>Digite su primer número fijo</mat-hint>
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Segundo número de telefono</mat-label>
+                        <input type="text" matInput placeholder="Digite su número fijo" formControlName="secondLandline">
+                        <mat-hint>Digite su segundo número fijo</mat-hint>
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                </table>
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Dirección de email</mat-label>
+                    <input type="email" matInput formControlName="email">
+                    <mat-hint>Digite su dirección de email</mat-hint>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div>
+                <button mat-raised-button matStepperPrevious>Regresar</button>
+                <button mat-raised-button matStepperNext class="royal_azure">Continuar</button>
+              </div>
+            </form>
+          </mat-step>
+          <mat-step>
+            <ng-template matStepLabel>Datos de ubicación</ng-template>
+            <form [formGroup]="ubicationForm">
+              <div class="form-element">
+                <table cellspacing="0">
+                  <tr>
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Ciudad</mat-label>
+                        <input type="tel" matInput placeholder="Digite su ciudad" formControlName="city">
+                        <mat-hint>Digite su ciudad</mat-hint>
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Barrio</mat-label>
+                        <input type="text" matInput placeholder="Digite su barrio" formControlName="neighborhood">
+                        <mat-hint>Digite su barrio</mat-hint>
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <mat-form-field>
+                <mat-label>Calle</mat-label>
+                <input matInput placeholder="Digite su calle" formControlName="street">
+                <mat-hint>Digite su calle</mat-hint>
+              </mat-form-field>
+              <div>
+                <button mat-raised-button matStepperPrevious>Regresar</button>
                 <button mat-raised-button matStepperNext class="royal_azure">Continuar</button>
               </div>
             </form>
