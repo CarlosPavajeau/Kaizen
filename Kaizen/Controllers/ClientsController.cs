@@ -5,6 +5,7 @@ using Kaizen.InputModels;
 using Kaizen.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -65,7 +66,7 @@ namespace Kaizen.Controllers
             client.FirstName = clientModel.FirstName;
             client.SecondName = clientModel.SecondName;
             client.LastName = clientModel.LastName;
-            client.SeconLastname = clientModel.SeconLastname;
+            client.SecondLastName = clientModel.SecondLastName;
             client.ClientType = clientModel.ClientType;
             client.BusninessName = clientModel.BusninessName;
             client.TradeName = clientModel.TradeName;
@@ -113,8 +114,9 @@ namespace Kaizen.Controllers
                 FirstName = clientInput.FirstName,
                 SecondName = clientInput.SecondName,
                 LastName = clientInput.LastName,
-                SeconLastname = clientInput.SeconLastname,
+                SecondLastName = clientInput.SecondLastName,
                 ClientType = clientInput.ClientType,
+                NIT = clientInput.NIT,
                 BusninessName = clientInput.BusninessName,
                 TradeName = clientInput.TradeName,
                 FirstPhoneNumber = clientInput.FirstPhoneNumber,
@@ -131,7 +133,8 @@ namespace Kaizen.Controllers
                 ContactPeople = clientInput.ContactPeople.Select(c => new ContactPerson
                 {
                     Name = c.Name,
-                    PhoneNumber = c.Phonenumber
+                    PhoneNumber = c.Phonenumber,
+                    ClientId = clientInput.Id
                 }).ToList(),
                 User = user
             };
