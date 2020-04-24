@@ -1,21 +1,21 @@
 ﻿using Kaizen.Domain.Entities;
-using Kaizen.InputModels;
-using System.Collections.Generic;
-using System.Linq;
+using Kaizen.EditModels;
 
 namespace Kaizen.ViewModels
 {
-    public class ClientViewModel : ClientInputModel
+    public class ClientViewModel : ClientEditModel
     {
+        public string Id { get; set; }
         public ClientViewModel(Client client)
         {
             Id = client.Id;
             FirstName = client.FirstName;
             SecondName = client.SecondName;
             LastName = client.LastName;
-            SeconLastname = client.SeconLastname;
+            SecondLastName = client.SecondLastName;
 
             ClientType = client.ClientType;
+            NIT = client.NIT;
             BusninessName = client.BusninessName;
             TradeName = client.TradeName;
 
@@ -23,13 +23,6 @@ namespace Kaizen.ViewModels
             SecondPhoneNumber = client.SecondPhoneNumber;
             FirstLandLine = client.FirstLandLine;
             SecondLandLine = client.SecondLandLine;
-
-            ClientAddress = new ClientAddressViewModel(client.ClientAddress);
-            ContactPeople = (from c in client.ContactPeople
-                             select new ContactPersonViewModel(c)).ToList();
         }
-
-        public new ClientAddressViewModel ClientAddress { get; set; }
-        public new List<ContactPersonViewModel> ContactPeople { get; set; }
     }
 }
