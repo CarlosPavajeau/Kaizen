@@ -7,6 +7,9 @@ import { User } from 'src/app/core/models/user';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 import { ClientExistsValidator } from 'src/app/shared/validators/client-exists-validator';
 import { Client } from '../../models/client';
+import { NotificationsService } from 'src/app/shared/services/notifications.service';
+import { tap, catchError } from 'rxjs/operators';
+import { HttpErrorHandlerService } from 'src/app/shared/services/http-error-handler.service';
 
 @Component({
   selector: 'app-client-register',
@@ -19,8 +22,6 @@ export class ClientRegisterComponent implements OnInit, IForm {
   legalPersonForm: FormGroup;
   contactPersonForm: FormGroup;
   ubicationForm: FormGroup;
-
-  user: User;
 
   public get controls(): { [key: string]: AbstractControl; } {
     return this.clientForm.controls;
@@ -42,7 +43,9 @@ export class ClientRegisterComponent implements OnInit, IForm {
     private clientService: ClientService,
     private authService: AuthenticationService,
     private formBuilder: FormBuilder,
-    private clientValidator: ClientExistsValidator
+    private clientValidator: ClientExistsValidator,
+    private notificationsService: NotificationsService,
+    private httpErrorHandler: HttpErrorHandlerService
   ) { }
 
   ngOnInit(): void {
@@ -76,7 +79,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
 
   private initLegalPersonForm() {
     this.legalPersonForm = this.formBuilder.group({
-      NIT: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30)]],
+      NIT: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(30), CharactersValidators.numericCharacters]],
       tradeName: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]],
       businessName: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(50)]]
     });
@@ -90,9 +93,9 @@ export class ClientRegisterComponent implements OnInit, IForm {
         updateOn: 'blur'
       }],
       firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20), CharactersValidators.alphabeticCharacters]],
-      secondName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20), CharactersValidators.alphabeticCharacters]],
+      secondName: ['', [Validators.minLength(2), Validators.maxLength(20), CharactersValidators.alphabeticCharacters]],
       lastName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20), CharactersValidators.alphabeticCharacters]],
-      secondLastname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(20), CharactersValidators.alphabeticCharacters]],
+      secondLastname: ['', [Validators.minLength(2), Validators.maxLength(20), CharactersValidators.alphabeticCharacters]],
       clientType: ['', [Validators.required]]
     });
   }
@@ -104,17 +107,23 @@ export class ClientRegisterComponent implements OnInit, IForm {
       user.email = this.contact_controls['email'].value;
       user.phonenumber = this.contact_controls['firstPhonenumber'].value;
 
-      this.authService.registerUser(user).subscribe(userRegistered => {
-        if (userRegistered) {
-          client.userId = userRegistered.id;
-          this.clientService.saveClient(client).subscribe(clientRegistered => {
-            if (clientRegistered) {
-              this.authService.setCurrentUser(userRegistered);
-              window.location.reload();
-            }
-          });
-        }
-      });
+      this.authService.registerUser(user).pipe(
+        tap(userRegister => {
+          client.userId = userRegister.id;
+
+          this.clientService.saveClient(client).pipe(
+            tap(clientRegister => {
+              this.notificationsService.showNotification(`Cliente ${clientRegister.firstName} registrado con éxito`, 'OK', false);
+              setTimeout(() => {
+                this.authService.setCurrentUser(userRegister);
+                window.location.reload();
+              }, 2000);
+            }),
+            catchError(this.httpErrorHandler.handleError<Client>('saveClient', null))
+          );
+        }),
+        catchError(this.httpErrorHandler.handleError<User>('saveUser', null))
+      ).subscribe();
     }
   }
 
