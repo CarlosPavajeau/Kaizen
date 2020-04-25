@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { User } from '../models/user';
 import { Observable } from 'rxjs';
 import { Endpoints } from 'src/app/global/endpoints';
-import { tap } from 'rxjs/operators';
 import { LoginRequest } from '../models/login-request';
 import { isNullOrUndefined } from 'util';
 import { CookieService } from 'ngx-cookie-service';
@@ -21,17 +20,11 @@ export class AuthenticationService {
   ) { }
 
   registerUser(user: User): Observable<User> {
-    return this.http.post<User>(Endpoints.AuthUrl, user)
-      .pipe(
-        tap(_ => console.log('Msg'))
-      )
+    return this.http.post<User>(Endpoints.AuthUrl, user);
   }
 
   loginUser(user: LoginRequest): Observable<User> {
-    return this.http.post<User>(`${Endpoints.AuthUrl}/Login`, user)
-      .pipe(
-        tap(_ => console.log('Msg'))
-      )
+    return this.http.post<User>(`${Endpoints.AuthUrl}/Login`, user);
   }
 
   logoutUser(): void {
