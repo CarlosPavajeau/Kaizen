@@ -10,6 +10,8 @@ import { ContactComponent } from './components/contact/contact.component';
 import { AboutComponent } from './components/about/about.component';
 import { UniqueClientDirective } from './directives/unique-client.directive';
 import { UniqueUserDirective } from './directives/unique-user.directive';
+import { NotificationsService } from './services/notifications.service';
+import { HttpErrorHandlerService } from './services/http-error-handler.service';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,10 @@ import { UniqueUserDirective } from './directives/unique-user.directive';
     AboutComponent,
     UniqueClientDirective,
     UniqueUserDirective
+  ],
+  providers: [
+    NotificationsService,
+    HttpErrorHandlerService
   ]
 })
 export class SharedModule { }
