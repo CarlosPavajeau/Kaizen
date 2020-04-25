@@ -8,6 +8,8 @@ import { AuthenticationService } from './authentication/authentication.service';
 import { CheckClientExistsService } from './services/check-client-exists.service';
 import { CheckUserExistsService } from './services/check-user-exists.service';
 import { CookieService } from 'ngx-cookie-service';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
 
 @NgModule({
   declarations: [],
@@ -19,6 +21,8 @@ import { CookieService } from 'ngx-cookie-service';
   ],
   providers: [
     ApiPrefixInterceptor,
+    AuthInterceptor,
+    HttpErrorInterceptor,
     AuthenticationService,
     CheckClientExistsService,
     CheckUserExistsService,
@@ -36,7 +40,9 @@ export class CoreModule {
     return {
       ngModule: CoreModule,
       providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
       ]
     };
   }
