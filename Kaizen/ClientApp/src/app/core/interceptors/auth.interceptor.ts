@@ -27,18 +27,6 @@ export class AuthInterceptor implements HttpInterceptor {
         }
       });
     }
-
-    return next.handle(request)
-      .pipe(
-        tap(
-          succ => { },
-          err => {
-            if (err instanceof HttpErrorResponse && err.status == 401) {
-              this.authService.removeUser();
-              this.router.navigateByUrl('/user/login');
-            }
-          }
-        )
-      )
+    return next.handle(request);
   }
 }
