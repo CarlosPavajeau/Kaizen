@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
 import { LoginRequest } from 'src/app/core/models/login-request';
+import { IForm } from 'src/app/core/models/form';
 
 @Component({
   selector: 'app-user-login',
   templateUrl: './user-login.component.html',
   styleUrls: ['./user-login.component.css']
 })
-export class UserLoginComponent implements OnInit {
+export class UserLoginComponent implements OnInit, IForm {
 
   loginForm: FormGroup;
   invalidUserOrEmail: boolean = false;
@@ -22,16 +22,11 @@ export class UserLoginComponent implements OnInit {
 
   constructor(
     private authService: AuthenticationService,
-    private formBuilder: FormBuilder,
-    private router: Router
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
-    if (this.authService.userLoggedIn()) {
-      this.router.navigateByUrl('/user/profile');
-    } else {
-      this.initForm();
-    }
+    this.initForm();
   }
 
   initForm(): void {
@@ -43,12 +38,12 @@ export class UserLoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.loginForm.valid) {
-      let user: LoginRequest = {
+      let loginRequest: LoginRequest = {
         usernameOrEmail: this.controls['usernameOrEmail'].value,
         password: this.controls['password'].value
       };
 
-      this.authService.loginUser(user)
+      this.authService.loginUser(loginRequest)
         .subscribe(user => {
           if (user) {
             this.authService.setCurrentUser(user);
