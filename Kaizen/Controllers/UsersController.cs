@@ -105,9 +105,11 @@ namespace Kaizen.Controllers
             {
                 ApplicationUser user = await _userManager.FindByNameAsync(login.UsernameOrEmail);
                 if (user is null)
+                {
                     user = await _userManager.FindByEmailAsync(login.UsernameOrEmail);
-                if (user is null)
-                    return NotFound();
+                    if (user is null)
+                        return NotFound();
+                }
 
                 Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
                 if (result.Succeeded)
