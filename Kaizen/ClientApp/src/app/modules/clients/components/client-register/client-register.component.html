@@ -204,6 +204,51 @@
             </form>
           </mat-step>
           <mat-step>
+            <ng-template matStepLabel>Personas de contacto</ng-template>
+            <form [formGroup]="contactPeopleForm">
+              <div class="form-element">
+                <table cellspacing="0">
+                  <tr>
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Nombre 1ra persona de contacto</mat-label>
+                        <input type="text" matInput placeholder="Ejemplo: Juan Carlos" formControlName="person_name_1">
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Número de telefono 1ra persona de contacto</mat-label>
+                        <input type="text" matInput placeholder="Digite u número de teléfono" formControlName="person_phonenumber_1">
+                        </mat-form-field>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="form-element">
+                <table cellspacing="0">
+                  <tr>
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Nombre 2da persona de contacto</mat-label>
+                        <input type="text" matInput placeholder="Ejemplo: Carlos Juan" formControlName="person_name_2">
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Número de telefono 2da persona de contacto</mat-label>
+                        <input type="text" matInput placeholder="Digite u número de teléfono" formControlName="person_phonenumber_2">
+                        </mat-form-field>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div>
+                <button mat-raised-button matStepperPrevious>Regresar</button>
+                <button mat-raised-button matStepperNext class="royal_azure">Continuar</button>
+              </div>
+            </form>
+          </mat-step>
+          <mat-step>
             <ng-template matStepLabel>Datos de ubicación</ng-template>
             <form [formGroup]="ubicationForm">
               <div class="form-element">
