@@ -1,5 +1,6 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { GlobalErrorHandler } from './providers/gobal-error-handler';
 
 @NgModule({
   declarations: [],
@@ -10,7 +11,10 @@ import { CommonModule } from '@angular/common';
 export class GlobalModule {
   static forRoot(): ModuleWithProviders<GlobalModule> {
     return {
-      ngModule: GlobalModule
+      ngModule: GlobalModule,
+      providers: [
+        { provide: ErrorHandler, useClass: GlobalErrorHandler },
+      ]
     };
   }
 }
