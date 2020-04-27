@@ -1,4 +1,5 @@
 ﻿using Kaizen.Domain.Data;
+using Kaizen.Domain.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -39,6 +40,13 @@ namespace Kaizen.Domain.Extensions
             }
 
             return result;
+        }
+
+        public static void ConfigureRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<IUnitWork, UnitWork>();
+            services.AddScoped<IClientsRepository, ClientsRepository>();
+            services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
         }
     }
 }
