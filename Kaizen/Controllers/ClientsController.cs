@@ -1,11 +1,10 @@
-﻿using Kaizen.Domain.Data;
-using Kaizen.Domain.Entities;
+﻿using Kaizen.Domain.Entities;
+using Kaizen.Domain.Repositories;
 using Kaizen.EditModels;
 using Kaizen.InputModels;
 using Kaizen.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,25 +15,27 @@ namespace Kaizen.Controllers
     [ApiController]
     public class ClientsController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IClientsRepository _repository;
+        private readonly IUnitWork _unitWork;
 
-        public ClientsController(ApplicationDbContext context)
+        public ClientsController(IClientsRepository clientsRepository, IUnitWork unitWork)
         {
-            _context = context;
+            _repository = clientsRepository;
+            _unitWork = unitWork;
         }
 
         // GET: api/Clients
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ClientViewModel>>> GetClients()
         {
-            return await _context.Clients.Select(c => new ClientViewModel(c)).ToListAsync();
+            return await _repository.GetAll().Select(c => new ClientViewModel(c)).ToListAsync();
         }
 
         // GET: api/Clients/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ClientViewModel>> GetClient(string id)
         {
-            Client client = await _context.Clients.FindAsync(id);
+            Client client = await _repository.FindByIdAsync(id);
 
             if (client == null)
             {
@@ -47,7 +48,7 @@ namespace Kaizen.Controllers
         [HttpGet("[action]/{id}")]
         public async Task<ActionResult<bool>> CheckClientExists(string id)
         {
-            return await _context.Clients.AnyAsync(c => c.Id == id);
+            return await _repository.GetAll().AnyAsync(c => c.Id == id);
         }
 
         // PUT: api/Clients/5
@@ -56,7 +57,7 @@ namespace Kaizen.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutClient(string id, ClientEditModel clientModel)
         {
-            Client client = await _context.Clients.FindAsync(id);
+            Client client = _repository.FindById(id);
 
             if (client is null)
             {
@@ -75,11 +76,11 @@ namespace Kaizen.Controllers
             client.FirstLandLine = clientModel.FirstLandLine;
             client.SecondLandLine = clientModel.SecondLandLine;
 
-            _context.Entry(client).State = EntityState.Modified;
+            _repository.Update(client);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _unitWork.Save();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -102,7 +103,7 @@ namespace Kaizen.Controllers
         [HttpPost]
         public async Task<ActionResult<ClientViewModel>> PostClient(ClientInputModel clientInput)
         {
-            ApplicationUser user = await _context.Users.FindAsync(clientInput.UserId);
+            ApplicationUser user = _unitWork.ApplicationUsers.FindById(clientInput.UserId);
             if (user is null)
             {
                 return BadRequest();
@@ -139,11 +140,11 @@ namespace Kaizen.Controllers
                 User = user
             };
 
-            _context.Clients.Add(client);
+            _repository.Insert(client);
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _unitWork.Save();
             }
             catch (DbUpdateException)
             {
@@ -164,21 +165,13 @@ namespace Kaizen.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<ClientViewModel>> DeleteClient(string id)
         {
-            Client client = await _context.Clients.FindAsync(id);
-            if (client == null)
-            {
-                return NotFound();
-            }
-
-            _context.Clients.Remove(client);
-            await _context.SaveChangesAsync();
-
+            Client client = await _repository.FindByIdAsync(id);
             return new ClientViewModel(client);
         }
 
         private bool ClientExists(string id)
         {
-            return _context.Clients.Any(e => e.Id == id);
+            return _repository.GetAll().Any(c => c.Id == id);
         }
     }
 }
