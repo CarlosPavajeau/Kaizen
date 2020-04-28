@@ -28,9 +28,31 @@ namespace Kaizen.Domain.Repositories
                 throw new UserNotCreate();
         }
 
+        public async override void Update(ApplicationUser entity)
+        {
+            var result = await _userManager.UpdateAsync(entity);
+            if (!result.Succeeded)
+                throw new UserNotUpdate();
+        }
+
         public async Task<SignInResult> Login(ApplicationUser user, string password)
         {
             return await _signInManager.PasswordSignInAsync(user, password, false, false);
+        }
+
+        public async Task<ApplicationUser> FindByNameAsync(string username)
+        {
+            return await _userManager.FindByNameAsync(username);
+        }
+
+        public async Task<ApplicationUser> FindByEmailAsync(string email)
+        {
+            return await _userManager.FindByEmailAsync(email);
+        }
+
+        public async Task<IdentityResult> CreateAsync(ApplicationUser user, string password)
+        {
+            return await _userManager.CreateAsync(user, password);
         }
     }
 }
