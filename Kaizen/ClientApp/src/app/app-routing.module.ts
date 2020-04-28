@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from "@angular/router";
 import { HomeComponent } from './home/home.component';
-import { Page404Component } from './shared/components/page404/page404.component';
-import { ContactComponent } from './shared/components/contact/contact.component';
-import { AboutComponent } from './shared/components/about/about.component';
+import { Page404Component } from '@shared/components/page404/page404.component';
+import { ContactComponent } from '@shared/components/contact/contact.component';
+import { AboutComponent } from '@shared/components/about/about.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },

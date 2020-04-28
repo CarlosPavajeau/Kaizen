@@ -4,12 +4,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiPrefixInterceptor } from './interceptors/api-prefix.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-import { AuthenticationService } from './authentication/authentication.service';
-import { CheckClientExistsService } from './services/check-client-exists.service';
-import { CheckUserExistsService } from './services/check-user-exists.service';
+import { AuthenticationService } from '@core/authentication/authentication.service';
+import { CheckClientExistsService } from '@core/services/check-client-exists.service';
+import { CheckUserExistsService } from '@core/services/check-user-exists.service';
 import { CookieService } from 'ngx-cookie-service';
-import { AuthInterceptor } from './interceptors/auth.interceptor';
-import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
+import { AuthInterceptor } from '@core/interceptors/auth.interceptor';
+import { HttpErrorInterceptor } from '@core/interceptors/http-error.interceptor';
 
 @NgModule({
   declarations: [],

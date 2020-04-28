@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NotificationsService } from './notifications.service';
+import { NotificationsService } from '@shared/services/notifications.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 

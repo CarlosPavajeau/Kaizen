@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { User } from '../models/user';
 import { Observable } from 'rxjs';
-import { Endpoints } from 'src/app/global/endpoints';
-import { LoginRequest } from '../models/login-request';
 import { isNullOrUndefined } from 'util';
 import { CookieService } from 'ngx-cookie-service';
+
+import { Endpoints } from '@global/endpoints';
+import { LoginRequest } from '@core/models/login-request';
+import { User } from '@core/models/user';
 
 @Injectable({
   providedIn: 'root'

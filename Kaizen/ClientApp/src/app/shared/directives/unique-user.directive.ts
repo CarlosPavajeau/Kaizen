@@ -1,6 +1,6 @@
 import { Directive } from '@angular/core';
 import { NG_ASYNC_VALIDATORS, AsyncValidator } from '@angular/forms';
-import { CheckUserExistsService } from 'src/app/core/services/check-user-exists.service';
+import { CheckUserExistsService } from '@core/services/check-user-exists.service';
 import { map } from 'rxjs/operators';
 
 @Directive({

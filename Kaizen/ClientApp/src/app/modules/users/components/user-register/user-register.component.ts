@@ -1,10 +1,18 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output
+} from '@angular/core';
 
-import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
-import { User } from 'src/app/core/models/user';
-import { UserExistsValidator } from 'src/app/shared/validators/user-exists-validator';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators
+} from '@angular/forms';
+
+import { User } from '@core/models/user';
+import { UserExistsValidator } from '@shared/validators/user-exists-validator';
 
 @Component({
   selector: 'app-user-register',
@@ -22,18 +30,12 @@ export class UserRegisterComponent implements OnInit {
   }
 
   constructor(
-    private authService: AuthenticationService,
     private userValidator: UserExistsValidator,
-    private formBuilder: FormBuilder,
-    private router: Router
+    private formBuilder: FormBuilder
   ) { }
 
   ngOnInit(): void {
-    if (this.authService.userLoggedIn()) {
-      this.router.navigateByUrl('/user/profile');
-    } else {
-      this.initForm();
-    }
+    this.initForm();
   }
 
   initForm(): void {

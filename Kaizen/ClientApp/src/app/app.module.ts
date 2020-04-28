@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 
-import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { AppRoutingModule } from './app-routing.module';
-import { CoreModule } from './core/core.module';
-import { GlobalModule } from './global/global.module';
-import { SharedModule } from './shared/shared.module';
+import { AppComponent } from '@app/app.component';
+import { HomeComponent } from '@app/home/home.component';
+import { AppRoutingModule } from '@app/app-routing.module';
+import { CoreModule } from '@core/core.module';
+import { GlobalModule } from '@global/global.module';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   declarations: [

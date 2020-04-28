@@ -1,7 +1,7 @@
 import { Directive, Injectable } from '@angular/core';
 import { NG_ASYNC_VALIDATORS, AsyncValidator, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { CheckClientExistsService } from 'src/app/core/services/check-client-exists.service';
+import { CheckClientExistsService } from '@core/services/check-client-exists.service';
 import { map } from 'rxjs/operators';
 
 @Directive({

@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ClientService } from '../../services/client.service';
+import { ClientService } from '@modules/clients/services/client.service';
 import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
-import { IForm } from 'src/app/core/models/form';
-import { CharactersValidators } from 'src/app/shared/validators/characters-validators';
-import { User } from 'src/app/core/models/user';
-import { AuthenticationService } from 'src/app/core/authentication/authentication.service';
-import { ClientExistsValidator } from 'src/app/shared/validators/client-exists-validator';
-import { Client } from '../../models/client';
-import { NotificationsService } from 'src/app/shared/services/notifications.service';
-import { tap, catchError } from 'rxjs/operators';
-import { HttpErrorHandlerService } from 'src/app/shared/services/http-error-handler.service';
+import { IForm } from '@core/models/form';
+import { CharactersValidators } from '@shared/validators/characters-validators';
+import { User } from '@core/models/user';
+import { AuthenticationService } from '@core/authentication/authentication.service';
+import { ClientExistsValidator } from '@shared/validators/client-exists-validator';
+import { Client } from '@modules/clients/models/client';
+import { NotificationsService } from '@shared/services/notifications.service';
+import { HttpErrorHandlerService } from '@shared/services/http-error-handler.service';
 
 @Component({
   selector: 'app-client-register',

@@ -2,6 +2,13 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@core/*": ["src/app/core/*"],
+      "@global/*": ["src/app/global/*"],
+      "@shared/*": ["src/app/shared/*"],
+      "@modules/*": ["src/app/modules/*"],
+    },
     "module": "esnext",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
