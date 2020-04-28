@@ -1,4 +1,5 @@
 ﻿using Kaizen.Domain.Entities;
+using Kaizen.Domain.Repositories;
 using Kaizen.EditModels;
 using Kaizen.Infrastructure.Security;
 using Kaizen.InputModels;
@@ -16,27 +17,24 @@ namespace Kaizen.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
+        private IApplicationUserRepository UserRepository { get; }
 
         public UsersController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            IApplicationUserRepository userRepository,
             IConfiguration configuration
             )
         {
-            _signInManager = signInManager;
-            _userManager = userManager;
+            UserRepository = userRepository;
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; set; }
+        private IConfiguration Configuration { get; }
 
         // GET: api/Users/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<ApplicationUserViewModel>> GetUser(string id)
         {
-            ApplicationUser user = await _userManager.FindByIdAsync(id);
+            ApplicationUser user = await UserRepository.FindByIdAsync(id);
 
             if (user == null)
                 return NotFound();
@@ -47,7 +45,7 @@ namespace Kaizen.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<bool>> CheckUserExists(string username)
         {
-            return await _userManager.FindByNameAsync(username) != null;
+            return (await UserRepository.FindByNameAsync(username)) != null;
         }
 
         // PUT: api/Users/{id}?token={token}
@@ -56,7 +54,7 @@ namespace Kaizen.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = await _userManager.FindByIdAsync(id);
+                ApplicationUser user = await UserRepository.FindByIdAsync(id);
 
                 if (user != null)
                 {
@@ -87,7 +85,7 @@ namespace Kaizen.Controllers
                     PhoneNumber = inputModel.PhoneNumber
                 };
 
-                IdentityResult result = await _userManager.CreateAsync(user, inputModel.Password);
+                IdentityResult result = await UserRepository.CreateAsync(user, inputModel.Password);
                 if (result.Succeeded)
                     return GenerateAuthenticateUser(user);
                 else
@@ -103,15 +101,15 @@ namespace Kaizen.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = await _userManager.FindByNameAsync(login.UsernameOrEmail);
+                ApplicationUser user = await UserRepository.FindByNameAsync(login.UsernameOrEmail);
                 if (user is null)
                 {
-                    user = await _userManager.FindByEmailAsync(login.UsernameOrEmail);
+                    user = await UserRepository.FindByEmailAsync(login.UsernameOrEmail);
                     if (user is null)
                         return NotFound();
                 }
 
-                Microsoft.AspNetCore.Identity.SignInResult result = await _signInManager.PasswordSignInAsync(user, login.Password, false, false);
+                Microsoft.AspNetCore.Identity.SignInResult result = await UserRepository.Login(user, login.Password);
                 if (result.Succeeded)
                     return GenerateAuthenticateUser(user);
                 else
