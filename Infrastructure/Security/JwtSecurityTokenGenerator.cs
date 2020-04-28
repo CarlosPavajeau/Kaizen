@@ -12,7 +12,7 @@ namespace Kaizen.Infrastructure.Security
         public static string GenerateSecurityToken(IConfiguration configuration, string username)
         {
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            byte[] key = Encoding.ASCII.GetBytes(configuration.GetSection("AppSettings")["Key"]);
+            byte[] key = Encoding.ASCII.GetBytes(configuration["AppSettings:Key"]);
 
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
