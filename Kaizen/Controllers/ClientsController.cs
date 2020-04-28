@@ -3,6 +3,7 @@ using Kaizen.Domain.Repositories;
 using Kaizen.EditModels;
 using Kaizen.InputModels;
 using Kaizen.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace Kaizen.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ClientsController : ControllerBase
@@ -46,6 +48,7 @@ namespace Kaizen.Controllers
         }
 
         [HttpGet("[action]/{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<bool>> CheckClientExists(string id)
         {
             return await _repository.GetAll().AnyAsync(c => c.Id == id);
@@ -101,6 +104,7 @@ namespace Kaizen.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<ClientViewModel>> PostClient(ClientInputModel clientInput)
         {
             ApplicationUser user = _unitWork.ApplicationUsers.FindById(clientInput.UserId);
