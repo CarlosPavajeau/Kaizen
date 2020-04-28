@@ -37,12 +37,12 @@ namespace Kaizen.Domain.Repositories
             ApplicationDbContext.Set<T>().Update(entity);
         }
 
-        public T FindById(TKey id)
+        public virtual T FindById(TKey id)
         {
             return ApplicationDbContext.Set<T>().Find(id);
         }
 
-        public async Task<T> FindByIdAsync(TKey id)
+        public virtual async Task<T> FindByIdAsync(TKey id)
         {
             return await ApplicationDbContext.Set<T>().FindAsync(id);
         }
