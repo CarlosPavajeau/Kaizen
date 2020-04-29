@@ -1,4 +1,5 @@
-﻿using Kaizen.Domain.Entities;
+﻿using AutoMapper;
+using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.EditModels;
 using Kaizen.Infrastructure.Security;
@@ -17,15 +18,18 @@ namespace Kaizen.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private IApplicationUserRepository UserRepository { get; }
+        private readonly IApplicationUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
         public UsersController(
             IApplicationUserRepository userRepository,
-            IConfiguration configuration
+            IConfiguration configuration,
+            IMapper mapper
             )
         {
-            UserRepository = userRepository;
+            _userRepository = userRepository;
             Configuration = configuration;
+            _mapper = mapper;
         }
 
         private IConfiguration Configuration { get; }
@@ -34,18 +38,18 @@ namespace Kaizen.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ApplicationUserViewModel>> GetUser(string id)
         {
-            ApplicationUser user = await UserRepository.FindByIdAsync(id);
+            ApplicationUser user = await _userRepository.FindByIdAsync(id);
 
             if (user == null)
                 return NotFound();
-            return new ApplicationUserViewModel(user);
+            return _mapper.Map<ApplicationUserViewModel>(user);
         }
 
         [HttpGet("[action]/{username}")]
         [AllowAnonymous]
         public async Task<ActionResult<bool>> CheckUserExists(string username)
         {
-            return (await UserRepository.FindByNameAsync(username)) != null;
+            return (await _userRepository.FindByNameAsync(username)) != null;
         }
 
         // PUT: api/Users/{id}?token={token}
@@ -54,7 +58,7 @@ namespace Kaizen.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = await UserRepository.FindByIdAsync(id);
+                ApplicationUser user = await _userRepository.FindByIdAsync(id);
 
                 if (user != null)
                 {
@@ -85,7 +89,7 @@ namespace Kaizen.Controllers
                     PhoneNumber = inputModel.PhoneNumber
                 };
 
-                IdentityResult result = await UserRepository.CreateAsync(user, inputModel.Password);
+                IdentityResult result = await _userRepository.CreateAsync(user, inputModel.Password);
                 if (result.Succeeded)
                     return GenerateAuthenticateUser(user);
                 else
@@ -101,20 +105,20 @@ namespace Kaizen.Controllers
         {
             if (ModelState.IsValid)
             {
-                ApplicationUser user = await UserRepository.FindByNameAsync(login.UsernameOrEmail);
+                ApplicationUser user = await _userRepository.FindByNameAsync(login.UsernameOrEmail);
                 if (user is null)
                 {
-                    user = await UserRepository.FindByEmailAsync(login.UsernameOrEmail);
+                    user = await _userRepository.FindByEmailAsync(login.UsernameOrEmail);
                     if (user is null)
                         return NotFound();
                 }
 
-                Microsoft.AspNetCore.Identity.SignInResult result = await UserRepository.Login(user, login.Password);
+                Microsoft.AspNetCore.Identity.SignInResult result = await _userRepository.Login(user, login.Password);
                 if (result.Succeeded)
                     return GenerateAuthenticateUser(user);
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError("ErrorMessage", "Invalid login attempt.");
                     return BadRequest(ModelState);
                 }
             }
@@ -126,7 +130,7 @@ namespace Kaizen.Controllers
 
         private ActionResult<ApplicationUserViewModel> GenerateAuthenticateUser(ApplicationUser user)
         {
-            ApplicationUserViewModel userView = new ApplicationUserViewModel(user);
+            ApplicationUserViewModel userView = _mapper.Map<ApplicationUserViewModel>(user);
 
             userView.Token = JwtSecurityTokenGenerator.GenerateSecurityToken(Configuration, userView.Username);
 
