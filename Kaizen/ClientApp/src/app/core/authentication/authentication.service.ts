@@ -38,7 +38,7 @@ export class AuthenticationService {
   }
 
   setCurrentUser(user: User): void {
-    this.cookieService.set('user_token', user.token, 365, '/user', null, true, "Strict");
+    this.cookieService.set('user_token', user.token, 365, '/', null, true);
     user.token = undefined;
     let user_str = JSON.stringify(user);
     localStorage.setItem(this.USER_LOCALSTORAGE_KEY, user_str);
