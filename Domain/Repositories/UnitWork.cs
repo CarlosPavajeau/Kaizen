@@ -26,7 +26,7 @@ namespace Kaizen.Domain.Repositories
             _dbContext.Dispose();
         }
 
-        public async Task Save()
+        public async Task SaveAsync()
         {
             await _dbContext.SaveChangesAsync();
         }

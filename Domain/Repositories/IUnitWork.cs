@@ -7,6 +7,6 @@ namespace Kaizen.Domain.Repositories
     {
         IClientsRepository Clients { get; }
         IApplicationUserRepository ApplicationUsers { get; }
-        Task Save();
+        Task SaveAsync();
     }
 }
