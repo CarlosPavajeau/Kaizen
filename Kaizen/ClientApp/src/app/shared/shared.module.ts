@@ -12,6 +12,7 @@ import { UniqueClientDirective } from '@shared/directives/unique-client.directiv
 import { UniqueUserDirective } from '@shared/directives/unique-user.directive';
 import { NotificationsService } from '@shared/services/notifications.service';
 import { HttpErrorHandlerService } from '@shared/services/http-error-handler.service';
+import { ClientsFilterPipe } from './pipes/clients-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { HttpErrorHandlerService } from '@shared/services/http-error-handler.ser
     ContactComponent,
     AboutComponent,
     UniqueClientDirective,
-    UniqueUserDirective
+    UniqueUserDirective,
+    ClientsFilterPipe
   ],
   imports: [
     CommonModule,
