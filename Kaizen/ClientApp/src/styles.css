@@ -1,108 +1,119 @@
 /* You can add global styles to this file, and also import other style files */
 
+
 /* Provide sufficient contrast against white background */
 
 * {
-  --yellow_sunshine: #FFFB16;
-  --electric_yellow: #FFFB33;
-  --maize: #FFEB70;
-  --sizzling_sunrise: #FFDB00;
-  --spring_green: #16FF87;
-  --vivid_malachite: #14CC14;
-  --wageningen_green: #2FB927;
-  --wageningen_green_2: #3CAF3C;
-  --go_green: #00CC66;
-  --caribbean_green: #18C29C;
-  --lime_green: #48D525;
-  --dodger_blue: #168FFF;
-  --blue_ryb: #004CE5;
-  --blue_crayola: #2062E8;
-  --royal_azure: #0039AC;
-  --new_car: #2059CC;
-  --lapis_lazuli: #2274A5;
-  --blue_shappire: #126872;
-  --orange_red: #FF3F00;
-  --international_orange: #FE4E00;
-  --rosewood: #5A0001;
-  --sunset_orange: #F35D59;
-  --vivid_red: #F00713;
-  --isabelline: #F5EFED;
-  --anti_flash_white: #F2F2F2;
-  --silver: #BFBFBF;
-  --gainsboro: #D9D9D9;
-  --xanadu: #728972;
-  --grullo: #A99B98;
-  --rich_black: #07393D;
-  --licorice: #141115;
-  --arsenic: #3F4042;
-  --rich_black_fogra29: #00091D;
+    --yellow_sunshine: #FFFB16;
+    --electric_yellow: #FFFB33;
+    --maize: #FFEB70;
+    --sizzling_sunrise: #FFDB00;
+    --spring_green: #16FF87;
+    --vivid_malachite: #14CC14;
+    --wageningen_green: #2FB927;
+    --wageningen_green_2: #3CAF3C;
+    --go_green: #00CC66;
+    --caribbean_green: #18C29C;
+    --lime_green: #48D525;
+    --dodger_blue: #168FFF;
+    --blue_ryb: #004CE5;
+    --blue_crayola: #2062E8;
+    --royal_azure: #0039AC;
+    --new_car: #2059CC;
+    --lapis_lazuli: #2274A5;
+    --blue_shappire: #126872;
+    --orange_red: #FF3F00;
+    --international_orange: #FE4E00;
+    --rosewood: #5A0001;
+    --sunset_orange: #F35D59;
+    --vivid_red: #F00713;
+    --isabelline: #F5EFED;
+    --anti_flash_white: #F2F2F2;
+    --silver: #BFBFBF;
+    --gainsboro: #D9D9D9;
+    --xanadu: #728972;
+    --grullo: #A99B98;
+    --rich_black: #07393D;
+    --licorice: #141115;
+    --arsenic: #3F4042;
+    --rich_black_fogra29: #00091D;
 }
 
 a {
-  color: #0366d6;
-  text-decoration: none !important;
+    color: #0366d6;
+    text-decoration: none !important;
 }
 
-*, *:active {
-  outline: none !important;
-  border: none !important;
+*,
+*:active {
+    outline: none !important;
+    border: none !important;
 }
 
 *::-webkit-scrollbar {
-  width: 0%;
+    width: 0%;
 }
 
-.form-element, input, mat-form-field {
-  width: 100%;
-  font-size: initial !important;
+.form-element,
+input,
+mat-form-field {
+    width: 100%;
+    font-size: initial !important;
 }
 
 .form-element {
-  margin-bottom: 17px;
+    margin-bottom: 17px;
 }
 
 .form-element table {
-  width: 100%;
+    width: 100%;
 }
 
 .form-element table td {
-  padding-right: 8px;
+    padding-right: 8px;
 }
 
 .form-select {
-  width: 50%;
+    width: 50%;
 }
 
 .mat-stepper-vertical {
-  margin-top: 8px;
+    margin-top: 8px;
 }
 
 .mat-stepper-vertical .mat-form-field {
-  margin-top: 16px;
+    margin-top: 16px;
 }
 
 .mat-stepper-vertical button {
-  margin-right: 10px;
+    margin-right: 10px;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 app-root {
-  display: -webkit-box;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  flex-direction: column;
-  position: absolute;
-  top: 56px;
-  bottom: 0;
-  left: 0;
-  right: 0;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    position: absolute;
+    top: 56px;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 app-nav-menu {
-  position: fixed;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -110,44 +121,74 @@ app-nav-menu {
 }
 
 mat-card {
-  min-width: 250px;
+    min-width: 250px;
 }
 
 .center-flex-content {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
 
 .center-block-content {
-  display: block;
-  margin: 0 auto;
+    display: block;
+    margin: 0 auto;
 }
 
 .center-element {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .royal_azure {
-  background: var(--royal_azure);
+    background: var(--royal_azure);
 }
 
 .royal_azure {
-  color: white !important;
+    color: white !important;
 }
 
 .container {
-  margin-top: 40px;
+    margin-top: 40px;
 }
 
-#mision, #vision {
-  background-color: #F0F0F0;
-  min-height: 270px;
-  margin-bottom: 15px;
+#mision,
+#vision {
+    background-color: #F0F0F0;
+    min-height: 270px;
+    margin-bottom: 15px;
 }
 
 table {
   width: 100%;
+}
+
+/*Animaciones bonitas UwU*/
+
+.animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.fast {
+    -webkit-animation-duration: 0.4s;
+    animation-duration: 0.4s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.fadeIn {
+    animation-name: fadeIn;
 }

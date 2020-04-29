@@ -1,296 +1,296 @@
 <div class="container">
-  <section>
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>
-          <h1>Registro de cliente</h1>
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-vertical-stepper [linear]="true">
-          <mat-step [stepControl]="clientForm">
-            <ng-template matStepLabel>Datos personales</ng-template>
-            <form [formGroup]="clientForm">
-              <div class="form-element">
-                <mat-form-field>
-                  <mat-label>Identificación</mat-label>
-                  <input type="tex" matInput placeholder="Ejemplo: 14234353" formControlName="id" required>
-                  <mat-hint>Digite su identificación</mat-hint>
-                  <mat-error *ngIf="controls['id'].hasError('required')">Identificación requerida</mat-error>
-                  <mat-error *ngIf="controls['id'].hasError('notNumeric')">Digite solo carácteres númericos</mat-error>
-                  <mat-error *ngIf="controls['id'].hasError('minlength')">La identificación debe tener mínimo 8 carácteres</mat-error>
-                  <mat-error *ngIf="controls['id'].hasError('maxlength')">La identificación debe tener máximo 10 carácteres</mat-error>
-                  <mat-error *ngIf="controls['id'].hasError('clientExists')">La identidicación digitada ya está registrada</mat-error>
-                </mat-form-field>
-              </div>
-              <div class="form-element">
-                <table cellspacing="0">
-                  <tr>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Primer nombre</mat-label>
-                        <input type="text" matInput placeholder="Digite su primer nombre" formControlName="firstName">
-                        <mat-hint>Digite su primer nombre</mat-hint>
-                        <mat-error *ngIf="controls['firstName'].hasError('required')">Su primer nombre es requerido</mat-error>
-                        <mat-error *ngIf="controls['firstName'].hasError('minlength')">Digite por lo menos 3 carácteres</mat-error>
-                        <mat-error *ngIf="controls['firstName'].hasError('maxlength')">Digite máximo 20 caracteres</mat-error>
-                        <mat-error *ngIf="controls['firstName'].hasError('notAlphabetic') && !controls['firstName'].hasError('maxlength') && !controls['firstName'].hasError('minlength')">Digite carácteres alfabeticos</mat-error>
-                      </mat-form-field>
-                    </td>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Segundo nombre</mat-label>
-                        <input type="text" matInput placeholder="Digite su segundo nombre" formControlName="secondName">
-                        <mat-hint>Digite su segundo nombre</mat-hint>
-                        <mat-error *ngIf="controls['secondName'].hasError('minlength')">Digite por lo menos 3 carácteres</mat-error>
-                        <mat-error *ngIf="controls['secondName'].hasError('maxlength')">Digite máximo 20 caracteres</mat-error>
-                        <mat-error *ngIf="controls['secondName'].hasError('notAlphabetic') && !controls['secondName'].hasError('maxlength') && !controls['secondName'].hasError('minlength')">Digite carácteres alfabeticos</mat-error>
-                      </mat-form-field>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <div class="form-element">
-                <table cellspacing="0">
-                  <tr>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Primer apellido</mat-label>
-                        <input type="text" matInput placeholder="Digite su primer apellido" formControlName="lastName">
-                        <mat-hint>Digite su primer apellido</mat-hint>
-                        <mat-error *ngIf="controls['lastName'].hasError('required')">Su primer apellido es requerido</mat-error>
-                        <mat-error *ngIf="controls['lastName'].hasError('minlength')">Digite por lo menos 3 carácteres</mat-error>
-                        <mat-error *ngIf="controls['lastName'].hasError('maxlength')">Digite máximo 20 caracteres</mat-error>
-                        <mat-error *ngIf="controls['lastName'].hasError('notAlphabetic') && !controls['lastName'].hasError('maxlength') && !controls['lastName'].hasError('minlength')">Digite carácteres alfabeticos</mat-error>
-                      </mat-form-field>
-                    </td>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Segundo apellido</mat-label>
-                        <input type="text" matInput placeholder="Digite su segundo apellido" formControlName="secondLastname">
-                        <mat-hint>Digite su segundo apellido</mat-hint>
-                        <mat-error *ngIf="controls['secondLastname'].hasError('minlength')">Digite por lo menos 3 carácteres</mat-error>
-                        <mat-error *ngIf="controls['secondLastname'].hasError('maxlength')">Digite máximo 20 caracteres</mat-error>
-                        <mat-error *ngIf="controls['secondLastname'].hasError('notAlphabetic') && !controls['secondLastname'].hasError('maxlength') && !controls['secondLastname'].hasError('minlength')">Digite carácteres alfabeticos</mat-error>
-                      </mat-form-field>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <div class="form-element form-select">
-                <mat-form-field>
-                  <mat-label>Tipo de cliente</mat-label>
-                  <mat-select required formControlName="clientType">
-                    <mat-option [value]="'NaturalPerson'">Persona natural</mat-option>
-                    <mat-option [value]="'JuridicPerson'">Persona juridica</mat-option>
-                    <mat-error *ngIf="controls['clientType'].hasError('required')">Campo requerido</mat-error>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div>
-                <button mat-raised-button matStepperNext class="royal_azure">Continuar</button>
-              </div>
-            </form>
-          </mat-step>
-          <mat-step *ngIf="controls['clientType'].value == 'JuridicPerson'">
-            <ng-template matStepLabel>Datos empresariales</ng-template>
-            <form [formGroup]="legalPersonForm">
-              <div class="form-element">
-                <mat-form-field>
-                  <mat-label>NIT</mat-label>
-                  <input matInput placeholder="Ejemplo: 423424" formControlName="NIT">
-                  <mat-hint>Digite el NIT de su empresa</mat-hint>
-                  <mat-error *ngIf="legal_controls['NIT'].hasError('required')">El NIT de su empresa es requerido</mat-error>
-                  <mat-error *ngIf="legal_controls['NIT'].hasError('minlength')">Digite por lo menos 5 carácteres</mat-error>
-                  <mat-error *ngIf="legal_controls['NIT'].hasError('maxlength')">Digite máximo 30 caracteres</mat-error>
-                  <mat-error *ngIf="legal_controls['NIT'].hasError('notNumber') && !controls['NIT'].hasError('maxlength') && !controls['NIT'].hasError('minlength')">Digite carácteres numéricos</mat-error>
-                </mat-form-field>
-              </div>
-              <div class="form-element">
-                <mat-form-field>
-                  <mat-label>Nombre comercial</mat-label>
-                  <input matInput placeholder="Ejemplo: Manolo S.A.S" formControlName="tradeName">
-                  <mat-hint>Digite el nombre comercial de la empresa</mat-hint>
-                  <mat-error *ngIf="legal_controls['tradeName'].hasError('required')">Su nombre comercial es requerido</mat-error>
-                  <mat-error *ngIf="legal_controls['tradeName'].hasError('minlength')">Digite por lo menos 5 carácteres</mat-error>
-                  <mat-error *ngIf="legal_controls['tradeName'].hasError('maxlength')">Digite máximo 30 caracteres</mat-error>
-                </mat-form-field>
-              </div>
-              <div class="form-element">
-                <mat-form-field>
-                  <mat-label>Razón social</mat-label>
-                  <input matInput placeholder="Ejemplo: Manolo S.A.S" formControlName="businessName">
-                  <mat-hint>Digite la razón social de la empresa</mat-hint>
-                  <mat-error *ngIf="legal_controls['businessName'].hasError('required')">Su razón social es requerida</mat-error>
-                  <mat-error *ngIf="legal_controls['businessName'].hasError('minlength')">Digite por lo menos 5 carácteres</mat-error>
-                  <mat-error *ngIf="legal_controls['businessName'].hasError('maxlength')">Digite máximo 30 caracteres</mat-error>
-                </mat-form-field>
-              </div>
-              <div>
-                <button mat-raised-button matStepperPrevious>Regresar</button>
-                <button mat-raised-button matStepperNext class="royal_azure">Continuar</button>
-              </div>
-            </form>
-          </mat-step>
-          <mat-step>
-            <ng-template matStepLabel>Datos de contacto</ng-template>
-            <form [formGroup]="contactPersonForm">
-              <div class="form-element">
-                <table cellspacing="0">
-                  <tr>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Primer número de telefono</mat-label>
-                        <input type="tel" matInput placeholder="Digite su número de teléfono" formControlName="firstPhonenumber">
-                        <mat-hint>Digite su primer número de teléfono</mat-hint>
-                        <mat-error *ngIf="contact_controls['firstPhonenumber'].hasError('required')">Su número de teléfono es requerido</mat-error>
-                        <mat-error *ngIf="contact_controls['firstPhonenumber'].hasError('minlength')">Digite por lo menos 10 carácteres</mat-error>
-                        <mat-error *ngIf="contact_controls['firstPhonenumber'].hasError('maxlength')">Digite máximo 10 caracteres</mat-error>
-                        <mat-error *ngIf="contact_controls['firstPhonenumber'].hasError('notNumber') && !controls['firstPhonenumber'].hasError('maxlength') && !controls['firstPhonenumber'].hasError('minlength')">Digite carácteres numéricos</mat-error>
-                      </mat-form-field>
-                    </td>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Segundo número de telefono</mat-label>
-                        <input type="text" matInput placeholder="Digite su número de teléfono" formControlName="secondPhonenumber">
-                        <mat-hint>Digite su segundo número de teléfono</mat-hint>
-                        <mat-error *ngIf="contact_controls['secondPhonenumber'].hasError('minlength')">Digite por lo menos 10 carácteres</mat-error>
-                        <mat-error *ngIf="contact_controls['secondPhonenumber'].hasError('maxlength')">Digite máximo 10 caracteres</mat-error>
-                        <mat-error *ngIf="contact_controls['secondPhonenumber'].hasError('notNumber') && !controls['secondPhonenumber'].hasError('maxlength') && !controls['secondPhonenumber'].hasError('minlength')">Digite carácteres numéricos</mat-error>
-                      </mat-form-field>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <div class="form-element">
-                <table cellspacing="0">
-                  <tr>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Primer número fijo</mat-label>
-                        <input type="tel" matInput placeholder="Digite su número fijo" formControlName="firstLandline">
-                        <mat-hint>Digite su primer número fijo</mat-hint>
-                        <mat-error *ngIf="contact_controls['firstLandline'].hasError('minlength')">Digite por lo menos 10 carácteres</mat-error>
-                        <mat-error *ngIf="contact_controls['firstLandline'].hasError('maxlength')">Digite máximo 10 caracteres</mat-error>
-                        <mat-error *ngIf="contact_controls['firstLandline'].hasError('notNumber') && !controls['firstLandline'].hasError('maxlength') && !controls['firstLandline'].hasError('minlength')">Digite carácteres numéricos</mat-error>
-                      </mat-form-field>
-                    </td>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Segundo número fijo</mat-label>
-                        <input type="text" matInput placeholder="Digite su número fijo" formControlName="secondLandline">
-                        <mat-hint>Digite su segundo número fijo</mat-hint>
-                        <mat-error *ngIf="contact_controls['secondLandline'].hasError('minlength')">Digite por lo menos 10 carácteres</mat-error>
-                        <mat-error *ngIf="contact_controls['secondLandline'].hasError('maxlength')">Digite máximo 10 caracteres</mat-error>
-                        <mat-error *ngIf="contact_controls['secondLandline'].hasError('notNumber') && !controls['secondLandline'].hasError('maxlength') && !controls['secondLandline'].hasError('minlength')">Digite carácteres numéricos</mat-error>
-                      </mat-form-field>
-                    </td>
-                  </tr>
-                </table>
-                <div class="form-element">
-                  <mat-form-field>
-                    <mat-label>Dirección de email</mat-label>
-                    <input type="email" matInput formControlName="email">
-                    <mat-hint>Digite su dirección de email</mat-hint>
-                    <mat-error *ngIf="contact_controls['email'].hasError('required')">Su email es requerido</mat-error>
-                    <mat-error *ngIf="contact_controls['email'].hasError('email')">Digite un email valido</mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
-              <div>
-                <button mat-raised-button matStepperPrevious>Regresar</button>
-                <button mat-raised-button matStepperNext class="royal_azure">Continuar</button>
-              </div>
-            </form>
-          </mat-step>
-          <mat-step>
-            <ng-template matStepLabel>Personas de contacto</ng-template>
-            <form [formGroup]="contactPeopleForm">
-              <div class="form-element">
-                <table cellspacing="0">
-                  <tr>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Nombre 1ra persona de contacto</mat-label>
-                        <input type="text" matInput placeholder="Ejemplo: Juan Carlos" formControlName="person_name_1">
-                      </mat-form-field>
-                    </td>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Número de telefono 1ra persona de contacto</mat-label>
-                        <input type="text" matInput placeholder="Digite u número de teléfono" formControlName="person_phonenumber_1">
-                        </mat-form-field>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <div class="form-element">
-                <table cellspacing="0">
-                  <tr>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Nombre 2da persona de contacto</mat-label>
-                        <input type="text" matInput placeholder="Ejemplo: Carlos Juan" formControlName="person_name_2">
-                      </mat-form-field>
-                    </td>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Número de telefono 2da persona de contacto</mat-label>
-                        <input type="text" matInput placeholder="Digite u número de teléfono" formControlName="person_phonenumber_2">
-                        </mat-form-field>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <div>
-                <button mat-raised-button matStepperPrevious>Regresar</button>
-                <button mat-raised-button matStepperNext class="royal_azure">Continuar</button>
-              </div>
-            </form>
-          </mat-step>
-          <mat-step>
-            <ng-template matStepLabel>Datos de ubicación</ng-template>
-            <form [formGroup]="ubicationForm">
-              <div class="form-element">
-                <table cellspacing="0">
-                  <tr>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Ciudad</mat-label>
-                        <input type="tel" matInput placeholder="Digite su ciudad" formControlName="city">
-                        <mat-hint>Digite su ciudad</mat-hint>
-                        <mat-error *ngIf="ubication_controls['city'].hasError('required')">Su ciudad es requerida</mat-error>
-                      </mat-form-field>
-                    </td>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Barrio</mat-label>
-                        <input type="text" matInput placeholder="Digite su barrio" formControlName="neighborhood">
-                        <mat-hint>Digite su barrio</mat-hint>
-                        <mat-error *ngIf="ubication_controls['neighborhood'].hasError('required')">Su barrio es requerido</mat-error>
-                      </mat-form-field>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-              <mat-form-field>
-                <mat-label>Calle</mat-label>
-                <input matInput placeholder="Digite su calle" formControlName="street">
-                <mat-hint>Digite su calle</mat-hint>
-                <mat-error *ngIf="ubication_controls['street'].hasError('required')">Su calle es requerida</mat-error>
-              </mat-form-field>
-              <div>
-                <button mat-raised-button matStepperPrevious>Regresar</button>
-                <button mat-raised-button matStepperNext class="royal_azure">Continuar</button>
-              </div>
-            </form>
-          </mat-step>
-          <mat-step>
-            <ng-template matStepLabel>Datos de ingreso</ng-template>
-            <app-user-register (user)="onSubmit($event)"></app-user-register>
-          </mat-step>
-        </mat-vertical-stepper>
-      </mat-card-content>
-    </mat-card>
-  </section>
+    <section>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
+                    <h1>Registro de cliente</h1>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-vertical-stepper [linear]="true">
+                    <mat-step [stepControl]="clientForm">
+                        <ng-template matStepLabel>Datos personales</ng-template>
+                        <form [formGroup]="clientForm">
+                            <div class="form-element">
+                                <mat-form-field>
+                                    <mat-label>Identificación</mat-label>
+                                    <input type="tex" matInput placeholder="Ejemplo: 14234353" formControlName="id" required>
+                                    <mat-hint>Digite su identificación</mat-hint>
+                                    <mat-error *ngIf="controls['id'].hasError('required')">Identificación requerida</mat-error>
+                                    <mat-error *ngIf="controls['id'].hasError('notNumeric')">Digite solo carácteres númericos</mat-error>
+                                    <mat-error *ngIf="controls['id'].hasError('minlength')">La identificación debe tener mínimo 8 carácteres</mat-error>
+                                    <mat-error *ngIf="controls['id'].hasError('maxlength')">La identificación debe tener máximo 10 carácteres</mat-error>
+                                    <mat-error *ngIf="controls['id'].hasError('clientExists')">La identidicación digitada ya está registrada</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-element">
+                                <table cellspacing="0">
+                                    <tr>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Primer nombre</mat-label>
+                                                <input type="text" matInput placeholder="Digite su primer nombre" formControlName="firstName">
+                                                <mat-hint>Digite su primer nombre</mat-hint>
+                                                <mat-error *ngIf="controls['firstName'].hasError('required')">Su primer nombre es requerido</mat-error>
+                                                <mat-error *ngIf="controls['firstName'].hasError('minlength')">Digite por lo menos 3 carácteres</mat-error>
+                                                <mat-error *ngIf="controls['firstName'].hasError('maxlength')">Digite máximo 20 caracteres</mat-error>
+                                                <mat-error *ngIf="controls['firstName'].hasError('notAlphabetic') && !controls['firstName'].hasError('maxlength') && !controls['firstName'].hasError('minlength')">Digite carácteres alfabeticos</mat-error>
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Segundo nombre</mat-label>
+                                                <input type="text" matInput placeholder="Digite su segundo nombre" formControlName="secondName">
+                                                <mat-hint>Digite su segundo nombre</mat-hint>
+                                                <mat-error *ngIf="controls['secondName'].hasError('minlength')">Digite por lo menos 3 carácteres</mat-error>
+                                                <mat-error *ngIf="controls['secondName'].hasError('maxlength')">Digite máximo 20 caracteres</mat-error>
+                                                <mat-error *ngIf="controls['secondName'].hasError('notAlphabetic') && !controls['secondName'].hasError('maxlength') && !controls['secondName'].hasError('minlength')">Digite carácteres alfabeticos</mat-error>
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="form-element">
+                                <table cellspacing="0">
+                                    <tr>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Primer apellido</mat-label>
+                                                <input type="text" matInput placeholder="Digite su primer apellido" formControlName="lastName">
+                                                <mat-hint>Digite su primer apellido</mat-hint>
+                                                <mat-error *ngIf="controls['lastName'].hasError('required')">Su primer apellido es requerido</mat-error>
+                                                <mat-error *ngIf="controls['lastName'].hasError('minlength')">Digite por lo menos 3 carácteres</mat-error>
+                                                <mat-error *ngIf="controls['lastName'].hasError('maxlength')">Digite máximo 20 caracteres</mat-error>
+                                                <mat-error *ngIf="controls['lastName'].hasError('notAlphabetic') && !controls['lastName'].hasError('maxlength') && !controls['lastName'].hasError('minlength')">Digite carácteres alfabeticos</mat-error>
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Segundo apellido</mat-label>
+                                                <input type="text" matInput placeholder="Digite su segundo apellido" formControlName="secondLastname">
+                                                <mat-hint>Digite su segundo apellido</mat-hint>
+                                                <mat-error *ngIf="controls['secondLastname'].hasError('minlength')">Digite por lo menos 3 carácteres</mat-error>
+                                                <mat-error *ngIf="controls['secondLastname'].hasError('maxlength')">Digite máximo 20 caracteres</mat-error>
+                                                <mat-error *ngIf="controls['secondLastname'].hasError('notAlphabetic') && !controls['secondLastname'].hasError('maxlength') && !controls['secondLastname'].hasError('minlength')">Digite carácteres alfabeticos</mat-error>
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="form-element form-select">
+                                <mat-form-field>
+                                    <mat-label>Tipo de cliente</mat-label>
+                                    <mat-select required formControlName="clientType">
+                                        <mat-option [value]="'NaturalPerson'">Persona natural</mat-option>
+                                        <mat-option [value]="'JuridicPerson'">Persona juridica</mat-option>
+                                        <mat-error *ngIf="controls['clientType'].hasError('required')">Campo requerido</mat-error>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div>
+                                <button mat-raised-button matStepperNext class="royal_azure">Continuar</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step *ngIf="controls['clientType'].value == 'JuridicPerson'">
+                        <ng-template matStepLabel>Datos empresariales</ng-template>
+                        <form [formGroup]="legalPersonForm">
+                            <div class="form-element">
+                                <mat-form-field>
+                                    <mat-label>NIT</mat-label>
+                                    <input matInput placeholder="Ejemplo: 423424" formControlName="NIT">
+                                    <mat-hint>Digite el NIT de su empresa</mat-hint>
+                                    <mat-error *ngIf="legal_controls['NIT'].hasError('required')">El NIT de su empresa es requerido</mat-error>
+                                    <mat-error *ngIf="legal_controls['NIT'].hasError('minlength')">Digite por lo menos 5 carácteres</mat-error>
+                                    <mat-error *ngIf="legal_controls['NIT'].hasError('maxlength')">Digite máximo 30 caracteres</mat-error>
+                                    <mat-error *ngIf="legal_controls['NIT'].hasError('notNumber') && !controls['NIT'].hasError('maxlength') && !controls['NIT'].hasError('minlength')">Digite carácteres numéricos</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-element">
+                                <mat-form-field>
+                                    <mat-label>Nombre comercial</mat-label>
+                                    <input matInput placeholder="Ejemplo: Manolo S.A.S" formControlName="tradeName">
+                                    <mat-hint>Digite el nombre comercial de la empresa</mat-hint>
+                                    <mat-error *ngIf="legal_controls['tradeName'].hasError('required')">Su nombre comercial es requerido</mat-error>
+                                    <mat-error *ngIf="legal_controls['tradeName'].hasError('minlength')">Digite por lo menos 5 carácteres</mat-error>
+                                    <mat-error *ngIf="legal_controls['tradeName'].hasError('maxlength')">Digite máximo 30 caracteres</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-element">
+                                <mat-form-field>
+                                    <mat-label>Razón social</mat-label>
+                                    <input matInput placeholder="Ejemplo: Manolo S.A.S" formControlName="businessName">
+                                    <mat-hint>Digite la razón social de la empresa</mat-hint>
+                                    <mat-error *ngIf="legal_controls['businessName'].hasError('required')">Su razón social es requerida</mat-error>
+                                    <mat-error *ngIf="legal_controls['businessName'].hasError('minlength')">Digite por lo menos 5 carácteres</mat-error>
+                                    <mat-error *ngIf="legal_controls['businessName'].hasError('maxlength')">Digite máximo 30 caracteres</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div>
+                                <button mat-raised-button matStepperPrevious>Regresar</button>
+                                <button mat-raised-button matStepperNext class="royal_azure">Continuar</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step>
+                        <ng-template matStepLabel>Datos de contacto</ng-template>
+                        <form [formGroup]="contactPersonForm">
+                            <div class="form-element">
+                                <table cellspacing="0">
+                                    <tr>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Primer número de telefono</mat-label>
+                                                <input type="tel" matInput placeholder="Digite su número de teléfono" formControlName="firstPhonenumber">
+                                                <mat-hint>Digite su primer número de teléfono</mat-hint>
+                                                <mat-error *ngIf="contact_controls['firstPhonenumber'].hasError('required')">Su número de teléfono es requerido</mat-error>
+                                                <mat-error *ngIf="contact_controls['firstPhonenumber'].hasError('minlength')">Digite por lo menos 10 carácteres</mat-error>
+                                                <mat-error *ngIf="contact_controls['firstPhonenumber'].hasError('maxlength')">Digite máximo 10 caracteres</mat-error>
+                                                <mat-error *ngIf="contact_controls['firstPhonenumber'].hasError('notNumber') && !controls['firstPhonenumber'].hasError('maxlength') && !controls['firstPhonenumber'].hasError('minlength')">Digite carácteres numéricos</mat-error>
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Segundo número de telefono</mat-label>
+                                                <input type="text" matInput placeholder="Digite su número de teléfono" formControlName="secondPhonenumber">
+                                                <mat-hint>Digite su segundo número de teléfono</mat-hint>
+                                                <mat-error *ngIf="contact_controls['secondPhonenumber'].hasError('minlength')">Digite por lo menos 10 carácteres</mat-error>
+                                                <mat-error *ngIf="contact_controls['secondPhonenumber'].hasError('maxlength')">Digite máximo 10 caracteres</mat-error>
+                                                <mat-error *ngIf="contact_controls['secondPhonenumber'].hasError('notNumber') && !controls['secondPhonenumber'].hasError('maxlength') && !controls['secondPhonenumber'].hasError('minlength')">Digite carácteres numéricos</mat-error>
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="form-element">
+                                <table cellspacing="0">
+                                    <tr>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Primer número fijo</mat-label>
+                                                <input type="tel" matInput placeholder="Digite su número fijo" formControlName="firstLandline">
+                                                <mat-hint>Digite su primer número fijo</mat-hint>
+                                                <mat-error *ngIf="contact_controls['firstLandline'].hasError('minlength')">Digite por lo menos 10 carácteres</mat-error>
+                                                <mat-error *ngIf="contact_controls['firstLandline'].hasError('maxlength')">Digite máximo 10 caracteres</mat-error>
+                                                <mat-error *ngIf="contact_controls['firstLandline'].hasError('notNumber') && !controls['firstLandline'].hasError('maxlength') && !controls['firstLandline'].hasError('minlength')">Digite carácteres numéricos</mat-error>
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Segundo número fijo</mat-label>
+                                                <input type="text" matInput placeholder="Digite su número fijo" formControlName="secondLandline">
+                                                <mat-hint>Digite su segundo número fijo</mat-hint>
+                                                <mat-error *ngIf="contact_controls['secondLandline'].hasError('minlength')">Digite por lo menos 10 carácteres</mat-error>
+                                                <mat-error *ngIf="contact_controls['secondLandline'].hasError('maxlength')">Digite máximo 10 caracteres</mat-error>
+                                                <mat-error *ngIf="contact_controls['secondLandline'].hasError('notNumber') && !controls['secondLandline'].hasError('maxlength') && !controls['secondLandline'].hasError('minlength')">Digite carácteres numéricos</mat-error>
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div class="form-element">
+                                    <mat-form-field>
+                                        <mat-label>Dirección de email</mat-label>
+                                        <input type="email" matInput formControlName="email">
+                                        <mat-hint>Digite su dirección de email</mat-hint>
+                                        <mat-error *ngIf="contact_controls['email'].hasError('required')">Su email es requerido</mat-error>
+                                        <mat-error *ngIf="contact_controls['email'].hasError('email')">Digite un email valido</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div>
+                                <button mat-raised-button matStepperPrevious>Regresar</button>
+                                <button mat-raised-button matStepperNext class="royal_azure">Continuar</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step>
+                        <ng-template matStepLabel>Personas de contacto</ng-template>
+                        <form [formGroup]="contactPeopleForm">
+                            <div class="form-element">
+                                <table cellspacing="0">
+                                    <tr>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Nombre 1ra persona de contacto</mat-label>
+                                                <input type="text" matInput placeholder="Ejemplo: Juan Carlos" formControlName="person_name_1">
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Número de telefono 1ra persona de contacto</mat-label>
+                                                <input type="text" matInput placeholder="Digite u número de teléfono" formControlName="person_phonenumber_1">
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="form-element">
+                                <table cellspacing="0">
+                                    <tr>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Nombre 2da persona de contacto</mat-label>
+                                                <input type="text" matInput placeholder="Ejemplo: Carlos Juan" formControlName="person_name_2">
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Número de telefono 2da persona de contacto</mat-label>
+                                                <input type="text" matInput placeholder="Digite u número de teléfono" formControlName="person_phonenumber_2">
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div>
+                                <button mat-raised-button matStepperPrevious>Regresar</button>
+                                <button mat-raised-button matStepperNext class="royal_azure">Continuar</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step>
+                        <ng-template matStepLabel>Datos de ubicación</ng-template>
+                        <form [formGroup]="ubicationForm">
+                            <div class="form-element">
+                                <table cellspacing="0">
+                                    <tr>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Ciudad</mat-label>
+                                                <input type="tel" matInput placeholder="Digite su ciudad" formControlName="city">
+                                                <mat-hint>Digite su ciudad</mat-hint>
+                                                <mat-error *ngIf="ubication_controls['city'].hasError('required')">Su ciudad es requerida</mat-error>
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Barrio</mat-label>
+                                                <input type="text" matInput placeholder="Digite su barrio" formControlName="neighborhood">
+                                                <mat-hint>Digite su barrio</mat-hint>
+                                                <mat-error *ngIf="ubication_controls['neighborhood'].hasError('required')">Su barrio es requerido</mat-error>
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <mat-form-field>
+                                <mat-label>Calle</mat-label>
+                                <input matInput placeholder="Digite su calle" formControlName="street">
+                                <mat-hint>Digite su calle</mat-hint>
+                                <mat-error *ngIf="ubication_controls['street'].hasError('required')">Su calle es requerida</mat-error>
+                            </mat-form-field>
+                            <div>
+                                <button mat-raised-button matStepperPrevious>Regresar</button>
+                                <button mat-raised-button matStepperNext class="royal_azure">Continuar</button>
+                            </div>
+                        </form>
+                    </mat-step>
+                    <mat-step>
+                        <ng-template matStepLabel>Datos de ingreso</ng-template>
+                        <app-user-register (user)="onSubmit($event)"></app-user-register>
+                    </mat-step>
+                </mat-vertical-stepper>
+            </mat-card-content>
+        </mat-card>
+    </section>
 </div>
