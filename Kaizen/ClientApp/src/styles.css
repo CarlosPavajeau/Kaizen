@@ -147,3 +147,7 @@ mat-card {
   min-height: 270px;
   margin-bottom: 15px;
 }
+
+table {
+  width: 100%;
+}
