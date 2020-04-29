@@ -1,3 +1,4 @@
+using AutoMapper;
 using Kaizen.Domain.Data;
 using Kaizen.Domain.Data.Configuration;
 using Kaizen.Domain.Entities;
@@ -46,6 +47,8 @@ namespace Kaizen
 
             services.AddJwtAuthentication(Configuration);
             services.AddSwagger();
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
