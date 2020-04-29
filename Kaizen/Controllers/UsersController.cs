@@ -39,7 +39,6 @@ namespace Kaizen.Controllers
         public async Task<ActionResult<ApplicationUserViewModel>> GetUser(string id)
         {
             ApplicationUser user = await _userRepository.FindByIdAsync(id);
-
             if (user == null)
                 return NotFound();
             return _mapper.Map<ApplicationUserViewModel>(user);
