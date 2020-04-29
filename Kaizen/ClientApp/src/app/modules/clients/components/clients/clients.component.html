@@ -1,1 +1,28 @@
-<p>clients works!</p>
+<section class="container">
+  <div class="center-text">
+    <h1>Clientes registrados</h1>
+  </div>
+  <div class="center-block-content">
+    <div class="form-element">
+      <mat-form-field style="height: 35px;" class="filter-input">
+        <mat-label>Buscar cliente</mat-label>
+        <input matInput #search type="text" placeholder="Buscar un cliente" (keyup)="applyFilter($event.target.value)">
+      </mat-form-field>
+    </div>
+    <div>
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z6">
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Identificación</mat-header-cell>
+          <mat-cell *matCellDef="let client">{{client.id}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef>Nombre completo</mat-header-cell>
+          <mat-cell *matCellDef="let client">{{client.firstName}} {{client.secondName}} {{client.lastName}} {{client.secondLastName}}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </table>
+      <mat-paginator [pageSizeOptions]="[2, 3, 10]" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+</section>
