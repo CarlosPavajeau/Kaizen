@@ -1,14 +1,11 @@
-﻿using Kaizen.Domain.Entities;
-using Kaizen.InputModels;
+﻿using Kaizen.InputModels;
 
 namespace Kaizen.ViewModels
 {
     public class ContactPersonViewModel : ContactPersonInputModel
     {
-        public ContactPersonViewModel(ContactPerson contactPerson)
+        public ContactPersonViewModel()
         {
-            Name = contactPerson.Name;
-            Phonenumber = contactPerson.PhoneNumber;
         }
     }
 }

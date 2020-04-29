@@ -1,15 +1,11 @@
-﻿using Kaizen.Domain.Entities;
-using Kaizen.InputModels;
+﻿using Kaizen.InputModels;
 
 namespace Kaizen.ViewModels
 {
     public class ClientAddressViewModel : ClientAddressInputModel
     {
-        public ClientAddressViewModel(ClientAddress clientAddress)
+        public ClientAddressViewModel()
         {
-            City = clientAddress.City;
-            Neighborhood = clientAddress.Neighborhood;
-            Street = clientAddress.Street;
         }
     }
 }
