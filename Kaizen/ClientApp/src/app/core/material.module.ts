@@ -20,6 +20,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatSortModule } from "@angular/material/sort";
 
 const MaterialModules = [
   MatButtonModule,
@@ -42,7 +43,8 @@ const MaterialModules = [
   MatProgressSpinnerModule,
   MatSelectModule,
   MatStepperModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatSortModule
 ];
 
 @NgModule({
