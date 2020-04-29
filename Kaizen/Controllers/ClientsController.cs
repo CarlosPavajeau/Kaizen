@@ -1,4 +1,5 @@
-﻿using Kaizen.Domain.Entities;
+﻿using AutoMapper;
+using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.EditModels;
 using Kaizen.InputModels;
@@ -17,73 +18,83 @@ namespace Kaizen.Controllers
     [ApiController]
     public class ClientsController : ControllerBase
     {
-        private readonly IClientsRepository _repository;
+        private readonly IClientsRepository _clientsRepository;
         private readonly IUnitWork _unitWork;
+        private readonly IMapper _mapper;
 
-        public ClientsController(IClientsRepository clientsRepository, IUnitWork unitWork)
+        public ClientsController(IClientsRepository clientsRepository, IUnitWork unitWork, IMapper mapper)
         {
-            _repository = clientsRepository;
+            _clientsRepository = clientsRepository;
             _unitWork = unitWork;
+            _mapper = mapper;
         }
 
         // GET: api/Clients
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ClientViewModel>>> GetClients()
         {
-            return await _repository.GetAll().Select(c => new ClientViewModel(c)).ToListAsync();
+            return await _clientsRepository.GetAll().Select(c => _mapper.Map<ClientViewModel>(c)).ToListAsync();
         }
 
         // GET: api/Clients/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ClientViewModel>> GetClient(string id)
         {
-            Client client = await _repository.FindByIdAsync(id);
-
+            Client client = await _clientsRepository.FindByIdAsync(id);
             if (client == null)
             {
                 return NotFound();
             }
 
-            return new ClientViewModel(client);
+            ClientViewModel clientViewModel = _mapper.Map<ClientViewModel>(client);
+            return clientViewModel;
+        }
+
+        [HttpGet("[action]/{id}")]
+        public async Task<ActionResult<ClientAddressViewModel>> ClientAddress(string id)
+        {
+            ClientAddress clientAddress = await _clientsRepository.GetClientAddressAsync(id);
+            if (clientAddress is null)
+            {
+                return NotFound();
+            }
+
+            return _mapper.Map<ClientAddressViewModel>(clientAddress);
+        }
+
+        [HttpGet("[action]/{id}")]
+        public async Task<ActionResult<IEnumerable<ContactPersonViewModel>>> ClientContactPeople(string id)
+        {
+            var contactPeople = await _clientsRepository.GetClientContactPeopleAsync(id);
+
+            return contactPeople.Select(c => _mapper.Map<ContactPersonViewModel>(c)).ToList();
         }
 
         [HttpGet("[action]/{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<bool>> CheckClientExists(string id)
         {
-            return await _repository.GetAll().AnyAsync(c => c.Id == id);
+            return await _clientsRepository.GetAll().AnyAsync(c => c.Id == id);
         }
 
         // PUT: api/Clients/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutClient(string id, ClientEditModel clientModel)
+        public async Task<ActionResult<ClientViewModel>> PutClient(string id, ClientEditModel clientModel)
         {
-            Client client = _repository.FindById(id);
-
+            Client client = _clientsRepository.FindById(id);
             if (client is null)
             {
                 return BadRequest();
             }
 
-            client.FirstName = clientModel.FirstName;
-            client.SecondName = clientModel.SecondName;
-            client.LastName = clientModel.LastName;
-            client.SecondLastName = clientModel.SecondLastName;
-            client.ClientType = clientModel.ClientType;
-            client.BusninessName = clientModel.BusninessName;
-            client.TradeName = clientModel.TradeName;
-            client.FirstPhoneNumber = clientModel.FirstPhoneNumber;
-            client.SecondPhoneNumber = clientModel.SecondPhoneNumber;
-            client.FirstLandLine = clientModel.FirstLandLine;
-            client.SecondLandLine = clientModel.SecondLandLine;
-
-            _repository.Update(client);
+            _mapper.Map(clientModel, client);
+            _clientsRepository.Update(client);
 
             try
             {
-                await _unitWork.Save();
+                await _unitWork.SaveAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -97,7 +108,38 @@ namespace Kaizen.Controllers
                 }
             }
 
-            return NoContent();
+            return _mapper.Map<ClientViewModel>(client);
+        }
+
+        [HttpPut("ClientAddress/{id}")]
+        public async Task<ActionResult<ClientAddressViewModel>> PutClientAddress(string id, ClientAddressEditModel clientAddressEdit)
+        {
+            ClientAddress clientAddress = await _clientsRepository.GetClientAddressAsync(id);
+            if (clientAddress is null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(clientAddressEdit, clientAddress);
+            _clientsRepository.UpdateClientAddress(clientAddress);
+
+            try
+            {
+                await _unitWork.SaveAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ClientExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return _mapper.Map<ClientAddressViewModel>(clientAddress);
         }
 
         // POST: api/Clients
@@ -113,42 +155,13 @@ namespace Kaizen.Controllers
                 return BadRequest();
             }
 
-            Client client = new Client
-            {
-                Id = clientInput.Id,
-                FirstName = clientInput.FirstName,
-                SecondName = clientInput.SecondName,
-                LastName = clientInput.LastName,
-                SecondLastName = clientInput.SecondLastName,
-                ClientType = clientInput.ClientType,
-                NIT = clientInput.NIT,
-                BusninessName = clientInput.BusninessName,
-                TradeName = clientInput.TradeName,
-                FirstPhoneNumber = clientInput.FirstPhoneNumber,
-                SecondPhoneNumber = clientInput.SecondPhoneNumber,
-                FirstLandLine = clientInput.FirstLandLine,
-                SecondLandLine = clientInput.SecondLandLine,
-                ClientAddress = new ClientAddress
-                {
-                    City = clientInput.ClientAddress.City,
-                    Neighborhood = clientInput.ClientAddress.Neighborhood,
-                    Street = clientInput.ClientAddress.Street,
-                    ClientId = clientInput.Id
-                },
-                ContactPeople = clientInput.ContactPeople.Select(c => new ContactPerson
-                {
-                    Name = c.Name,
-                    PhoneNumber = c.Phonenumber,
-                    ClientId = clientInput.Id
-                }).ToList(),
-                User = user
-            };
-
-            _repository.Insert(client);
+            Client client = _mapper.Map<Client>(clientInput);
+            client.User = user;
+            _clientsRepository.Insert(client);
 
             try
             {
-                await _unitWork.Save();
+                await _unitWork.SaveAsync();
             }
             catch (DbUpdateException)
             {
@@ -162,20 +175,20 @@ namespace Kaizen.Controllers
                 }
             }
 
-            return new ClientViewModel(client);
+            return _mapper.Map<ClientViewModel>(client);
         }
 
         // DELETE: api/Clients/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<ClientViewModel>> DeleteClient(string id)
         {
-            Client client = await _repository.FindByIdAsync(id);
-            return new ClientViewModel(client);
+            Client client = await _clientsRepository.FindByIdAsync(id);
+            return _mapper.Map<ClientViewModel>(client);
         }
 
         private bool ClientExists(string id)
         {
-            return _repository.GetAll().Any(c => c.Id == id);
+            return _clientsRepository.GetAll().Any(c => c.Id == id);
         }
     }
 }
