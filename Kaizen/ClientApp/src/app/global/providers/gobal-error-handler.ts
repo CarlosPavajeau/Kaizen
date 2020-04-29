@@ -15,8 +15,11 @@ export class GlobalErrorHandler implements ErrorHandler {
   handleError(error: Error | HttpErrorResponse): void {
     console.log(error);
     if (error instanceof HttpErrorResponse) {
-      if (error.status == 401 || error.status == 400) {
-        this.notificationsService.showNotification("Error: usted no tiene autorizacion", "Ok", true);
+      if (error.error?.ErrorMessage) {
+        this.notificationsService.showNotification(error.error.ErrorMessage[0], "Ok", true);
+      }
+      else {
+        this.notificationsService.showNotification(error.error, "Ok", true);
       }
     }
   }
