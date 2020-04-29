@@ -8,10 +8,10 @@ export class ClientsFilterPipe implements PipeTransform {
 
   transform(clients: Client[], filter: string): Client[] {
     if (filter) {
-      return clients.filter(p => p.lastName.toLowerCase().includes(filter.toLowerCase()) ||
-        p.id.includes(filter));
+      return clients.filter(p => p.lastName.toLowerCase().indexOf(filter.toLowerCase()) !== -1 ||
+                            p.id.indexOf(filter) !== -1);
     }
-    return null;
+    return clients;
   }
 
 }

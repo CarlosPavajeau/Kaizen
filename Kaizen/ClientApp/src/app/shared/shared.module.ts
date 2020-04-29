@@ -41,7 +41,8 @@ import { ClientsFilterPipe } from './pipes/clients-filter.pipe';
     ContactComponent,
     AboutComponent,
     UniqueClientDirective,
-    UniqueUserDirective
+    UniqueUserDirective,
+    ClientsFilterPipe
   ],
   providers: [
     NotificationsService,
