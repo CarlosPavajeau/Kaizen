@@ -21,10 +21,14 @@ namespace Kaizen.Domain.Data
             builder.ApplyConfiguration(new IdentityUserTokenConfiguration());
             builder.ApplyConfiguration(new IdentityRoleConfiguration());
             builder.ApplyConfiguration(new ClientConfiguration());
+            builder.ApplyConfiguration(new EmployeeChargeConfiguration());
         }
 
         public DbSet<Client> Clients { get; set; }
         public DbSet<ContactPerson> ContactPeople { get; set; }
         public DbSet<ClientAddress> ClientAddresses { get; set; }
+
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<EmployeeCharge> EmployeeCharges { get; set; }
     }
 }
