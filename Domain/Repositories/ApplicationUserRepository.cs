@@ -12,7 +12,7 @@ namespace Kaizen.Domain.Repositories
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         public ApplicationUserRepository(
-            ApplicationDbContext dbContext, 
+            ApplicationDbContext dbContext,
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager
             ) : base(dbContext)
@@ -23,14 +23,14 @@ namespace Kaizen.Domain.Repositories
 
         public async override void Insert(ApplicationUser entity)
         {
-            var result = await _userManager.CreateAsync(entity);
+            IdentityResult result = await _userManager.CreateAsync(entity);
             if (!result.Succeeded)
                 throw new UserNotCreate();
         }
 
         public async override void Update(ApplicationUser entity)
         {
-            var result = await _userManager.UpdateAsync(entity);
+            IdentityResult result = await _userManager.UpdateAsync(entity);
             if (!result.Succeeded)
                 throw new UserNotUpdate();
         }
