@@ -14,10 +14,26 @@ namespace Kaizen.Domain.Data.Configuration.EntityTypeConfigurations
 
             builder.HasData(new IdentityRole[]
             {
-                new IdentityRole("Administrator"),
-                new IdentityRole("OfficeEmployee"),
-                new IdentityRole("TechnicalEmployee"),
-                new IdentityRole("Client")
+                new IdentityRole
+                {
+                    Name = "Administrator",
+                    NormalizedName = "ADMINISTRATOR"
+                },
+                new IdentityRole
+                {
+                    Name = "OfficeEmployee",
+                    NormalizedName = "OFFICEEMPLOYEE"
+                },
+                new IdentityRole
+                {
+                    Name = "TechnicalEmployee",
+                    NormalizedName = "TECHNICALEMPLOYEE"
+                },
+                new IdentityRole
+                {
+                    Name = "Client",
+                    NormalizedName = "CLIENT"
+                }
             });
         }
     }
