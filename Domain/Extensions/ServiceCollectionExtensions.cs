@@ -47,6 +47,7 @@ namespace Kaizen.Domain.Extensions
             services.AddScoped<IUnitWork, UnitWork>();
             services.AddScoped<IClientsRepository, ClientsRepository>();
             services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+            services.AddScoped<IEmployeesRepository, EmployeesRepository>();
         }
     }
 }
