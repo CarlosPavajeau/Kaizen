@@ -1,11 +1,7 @@
 ﻿namespace Kaizen.EditModels
 {
-    public class ClientEditModel
+    public class ClientEditModel : PersonEditModel
     {
-        public string FirstName { get; set; }
-        public string SecondName { get; set; }
-        public string LastName { get; set; }
-        public string SecondLastName { get; set; }
         public string ClientType { get; set; }
         public string NIT { get; set; }
         public string BusninessName { get; set; }
