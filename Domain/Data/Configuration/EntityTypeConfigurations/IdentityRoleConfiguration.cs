@@ -10,7 +10,7 @@ namespace Kaizen.Domain.Data.Configuration.EntityTypeConfigurations
         {
             builder.Property(p => p.Name).HasMaxLength(191);
             builder.Property(p => p.NormalizedName).HasMaxLength(191);
-            builder.Property(p => p.Id).HasMaxLength(30);
+            builder.Property(p => p.Id).HasMaxLength(50);
 
             builder.HasData(new IdentityRole[]
             {
