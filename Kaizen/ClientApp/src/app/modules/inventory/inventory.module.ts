@@ -3,12 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { InventoryRoutingModule } from './inventory-routing.module';
 
-
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    InventoryRoutingModule
-  ]
+	declarations: [],
+	imports: [ CommonModule, InventoryRoutingModule ]
 })
-export class InventoryModule { }
+export class InventoryModule {}
