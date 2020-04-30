@@ -7,19 +7,20 @@ import { AuthGuard } from 'src/app/core/guards/auth.guard';
 import { NoAuthGuard } from 'src/app/core/guards/no-auth.guard';
 
 const routes: Routes = [
-  { path: '', children: [
-    { path: 'login', component: UserLoginComponent, canActivate: [NoAuthGuard]},
-    { path: 'register', component: UserRegisterComponent },
-    { path: 'profile', component: UserProfileComponent, canActivate: [AuthGuard] },
-    { path: '', redirectTo: 'profile', pathMatch: 'full'}
-  ] }
+	{
+		path: '',
+		children: [
+			{ path: 'login', component: UserLoginComponent, canActivate: [ NoAuthGuard ] },
+			{ path: 'register', component: UserRegisterComponent },
+			{ path: 'profile', component: UserProfileComponent, canActivate: [ AuthGuard ] },
+			{ path: '', redirectTo: 'profile', pathMatch: 'full' }
+		]
+	}
 ];
 
 @NgModule({
-  declarations: [],
-  imports: [
-    RouterModule.forChild(routes)
-  ],
-  exports: [RouterModule]
+	declarations: [],
+	imports: [ RouterModule.forChild(routes) ],
+	exports: [ RouterModule ]
 })
-export class UserRoutinModule { }
+export class UserRoutinModule {}

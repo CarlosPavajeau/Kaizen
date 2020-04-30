@@ -21,7 +21,8 @@ mat-toolbar.royal_azure a.active {
   cursor: pointer;
 }
 
-mat-toolbar a, mat-toolbar button {
+mat-toolbar a,
+mat-toolbar button {
   color: white !important;
 }
 

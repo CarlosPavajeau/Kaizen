@@ -4,23 +4,12 @@ import { UserRegisterComponent } from './components/user-register/user-register.
 import { UserLoginComponent } from './components/user-login/user-login.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from "../../shared/shared.module";
+import { SharedModule } from '../../shared/shared.module';
 import { UserRoutinModule } from './user-routing.module';
 
 @NgModule({
-  declarations: [
-    UserRegisterComponent,
-    UserLoginComponent,
-    UserProfileComponent
-  ],
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    SharedModule,
-    UserRoutinModule
-  ],
-  exports: [
-    UserRegisterComponent
-  ]
+	declarations: [ UserRegisterComponent, UserLoginComponent, UserProfileComponent ],
+	imports: [ FormsModule, ReactiveFormsModule, SharedModule, UserRoutinModule ],
+	exports: [ UserRegisterComponent ]
 })
-export class UserModule { }
+export class UserModule {}

@@ -4,15 +4,12 @@ import { Observable } from 'rxjs';
 import { Endpoints } from '@global/endpoints';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class CheckClientExistsService {
+	constructor(private http: HttpClient) {}
 
-  constructor(
-    private http: HttpClient
-  ) { }
-
-  checkClientExists(id: string): Observable<boolean> {
-    return this.http.get<boolean>(`${Endpoints.ClientsUrl}/CheckClientExists/${id}`);
-  }
+	checkClientExists(id: string): Observable<boolean> {
+		return this.http.get<boolean>(`${Endpoints.ClientsUrl}/CheckClientExists/${id}`);
+	}
 }

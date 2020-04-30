@@ -5,27 +5,24 @@ import { Observable } from 'rxjs';
 import { Endpoints } from '@global/endpoints';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class ClientService {
+	constructor(private http: HttpClient) {}
 
-  constructor(
-    private http: HttpClient
-  ) { }
+	getClients(): Observable<Client[]> {
+		return this.http.get<Client[]>(Endpoints.ClientsUrl);
+	}
 
-  getClients(): Observable<Client[]> {
-    return this.http.get<Client[]>(Endpoints.ClientsUrl);
-  }
+	getClient(id: string): Observable<Client> {
+		return this.http.get<Client>(`${Endpoints.ClientsUrl}/${id}`);
+	}
 
-  getClient(id: string): Observable<Client> {
-    return this.http.get<Client>(`${Endpoints.ClientsUrl}/${id}`);
-  }
+	saveClient(client: Client): Observable<Client> {
+		return this.http.post<Client>(Endpoints.ClientsUrl, client);
+	}
 
-  saveClient(client: Client): Observable<Client> {
-    return this.http.post<Client>(Endpoints.ClientsUrl, client);
-  }
-
-  updateClient(client: Client): Observable<Client> {
-    return this.http.put<Client>(`${Endpoints.ClientsUrl}/${client.id}`, client);
-  }
+	updateClient(client: Client): Observable<Client> {
+		return this.http.put<Client>(`${Endpoints.ClientsUrl}/${client.id}`, client);
+	}
 }

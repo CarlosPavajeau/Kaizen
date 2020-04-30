@@ -15,38 +15,31 @@ import { HttpErrorHandlerService } from '@shared/services/http-error-handler.ser
 import { ClientsFilterPipe } from './pipes/clients-filter.pipe';
 
 @NgModule({
-  declarations: [
-    Page404Component,
-    HeaderComponent,
-    FooterComponent,
-    NavMenuComponent,
-    ContactComponent,
-    AboutComponent,
-    UniqueClientDirective,
-    UniqueUserDirective,
-    ClientsFilterPipe
-  ],
-  imports: [
-    CommonModule,
-    MaterialModule,
-    RouterModule
-  ],
-  exports: [
-    MaterialModule,
-    CommonModule,
-    Page404Component,
-    HeaderComponent,
-    FooterComponent,
-    NavMenuComponent,
-    ContactComponent,
-    AboutComponent,
-    UniqueClientDirective,
-    UniqueUserDirective,
-    ClientsFilterPipe
-  ],
-  providers: [
-    NotificationsService,
-    HttpErrorHandlerService
-  ]
+	declarations: [
+		Page404Component,
+		HeaderComponent,
+		FooterComponent,
+		NavMenuComponent,
+		ContactComponent,
+		AboutComponent,
+		UniqueClientDirective,
+		UniqueUserDirective,
+		ClientsFilterPipe
+	],
+	imports: [ CommonModule, MaterialModule, RouterModule ],
+	exports: [
+		MaterialModule,
+		CommonModule,
+		Page404Component,
+		HeaderComponent,
+		FooterComponent,
+		NavMenuComponent,
+		ContactComponent,
+		AboutComponent,
+		UniqueClientDirective,
+		UniqueUserDirective,
+		ClientsFilterPipe
+	],
+	providers: [ NotificationsService, HttpErrorHandlerService ]
 })
-export class SharedModule { }
+export class SharedModule {}

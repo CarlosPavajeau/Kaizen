@@ -3,18 +3,14 @@ import { CommonModule } from '@angular/common';
 import { GlobalErrorHandler } from '@global/providers/gobal-error-handler';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule
-  ]
+	declarations: [],
+	imports: [ CommonModule ]
 })
 export class GlobalModule {
-  static forRoot(): ModuleWithProviders<GlobalModule> {
-    return {
-      ngModule: GlobalModule,
-      providers: [
-        { provide: ErrorHandler, useClass: GlobalErrorHandler },
-      ]
-    };
-  }
+	static forRoot(): ModuleWithProviders<GlobalModule> {
+		return {
+			ngModule: GlobalModule,
+			providers: [ { provide: ErrorHandler, useClass: GlobalErrorHandler } ]
+		};
+	}
 }

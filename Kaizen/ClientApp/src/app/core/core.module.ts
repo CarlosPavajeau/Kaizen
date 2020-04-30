@@ -12,38 +12,44 @@ import { AuthInterceptor } from '@core/interceptors/auth.interceptor';
 import { HttpErrorInterceptor } from '@core/interceptors/http-error.interceptor';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    CommonModule,
-    HttpClientModule,
-    BrowserAnimationsModule
-  ],
-  providers: [
-    ApiPrefixInterceptor,
-    AuthInterceptor,
-    HttpErrorInterceptor,
-    AuthenticationService,
-    CheckClientExistsService,
-    CheckUserExistsService,
-    CookieService
-  ]
+	declarations: [],
+	imports: [
+		BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+		CommonModule,
+		HttpClientModule,
+		BrowserAnimationsModule
+	],
+	providers: [
+		ApiPrefixInterceptor,
+		AuthInterceptor,
+		HttpErrorInterceptor,
+		AuthenticationService,
+		CheckClientExistsService,
+		CheckUserExistsService,
+		CookieService
+	]
 })
 export class CoreModule {
-  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
-    if (parentModule) {
-      throw new Error('CoreModule has already been loaded. You should only import Core modules in the AppModule only.');
-    }
-  }
+	constructor(
+		@Optional()
+		@SkipSelf()
+		parentModule: CoreModule
+	) {
+		if (parentModule) {
+			throw new Error(
+				'CoreModule has already been loaded. You should only import Core modules in the AppModule only.'
+			);
+		}
+	}
 
-  static forRoot(): ModuleWithProviders<CoreModule> {
-    return {
-      ngModule: CoreModule,
-      providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-        { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
-      ]
-    };
-  }
- }
+	static forRoot(): ModuleWithProviders<CoreModule> {
+		return {
+			ngModule: CoreModule,
+			providers: [
+				{ provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, multi: true },
+				{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+				{ provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
+			]
+		};
+	}
+}

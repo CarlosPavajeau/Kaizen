@@ -7,18 +7,8 @@ import { ClientsComponent } from './components/clients/clients.component';
 import { SharedModule } from '@shared/shared.module';
 import { UserModule } from '@modules/users/user.module';
 
-
 @NgModule({
-  declarations: [
-    ClientRegisterComponent,
-    ClientsComponent
-  ],
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    SharedModule,
-    ClientRoutingModule,
-    UserModule
-  ]
+	declarations: [ ClientRegisterComponent, ClientsComponent ],
+	imports: [ FormsModule, ReactiveFormsModule, SharedModule, ClientRoutingModule, UserModule ]
 })
-export class ClientModule { }
+export class ClientModule {}

@@ -2,7 +2,12 @@
   <div class="form-element">
     <mat-form-field>
       <mat-label>Nombre de usuario</mat-label>
-      <input type="text" matInput placeholder="Ejemplo: manolo13" formControlName="username">
+      <input
+        type="text"
+        matInput
+        placeholder="Ejemplo: manolo13"
+        formControlName="username"
+      />
       <mat-hint>Por favor digite su nombre de usuario</mat-hint>
       <mat-error *ngIf="controls['username'].hasError('required')">
         Su nombre de usuario es requerido
@@ -21,7 +26,12 @@
   <div class="form-element">
     <mat-form-field>
       <mat-label>Contraseña</mat-label>
-      <input type="password" matInput placeholder="Digite su contraseña de acceso" formControlName="password">
+      <input
+        type="password"
+        matInput
+        placeholder="Digite su contraseña de acceso"
+        formControlName="password"
+      />
       <mat-hint>Por favor digite su contraseña</mat-hint>
       <mat-error *ngIf="controls['password'].hasError('required')">
         Contraseña requerida
@@ -35,7 +45,9 @@
     </mat-form-field>
     <div class="text-center" style="margin-top: 10px;">
       <div style="display: block; margin-bottom: 5px;">
-        <button type="submit" mat-raised-button class="royal_azure">Registrarme</button>
+        <button type="submit" mat-raised-button class="royal_azure">
+          Registrarme
+        </button>
       </div>
       <a routerLink="/user/login">¿Ya tienes una cuenta?</a>
     </div>

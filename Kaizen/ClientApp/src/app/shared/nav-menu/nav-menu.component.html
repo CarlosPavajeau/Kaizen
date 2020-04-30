@@ -1,23 +1,55 @@
 <mat-toolbar class="royal_azure mat-elevation-z6">
   <div class="nav-main-content">
     <div class="nav-main-header" routerLink="/">
-      <img src="../../../assets/images/ecolplag_bird.png" alt="bird" width="60" height="55">
+      <img
+        src="../../../assets/images/ecolplag_bird.png"
+        alt="bird"
+        width="60"
+        height="55"
+      />
       <h2>Ecolplag</h2>
     </div>
-    <a mat-button routerLink="/"
+    <a
+      mat-button
+      routerLink="/"
       routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }">
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
       Inicio
     </a>
-    <a mat-button routerLink="/ourservices" routerLinkActive="active">Nuestros servicios</a>
-    <a mat-button routerLink="/about" routerLinkActive="active">¿Quiénes somos?</a>
-    <a mat-button routerLink="/contact" routerLinkActive="active">Contáctanos</a>
+    <a mat-button routerLink="/ourservices" routerLinkActive="active"
+      >Nuestros servicios</a
+    >
+    <a mat-button routerLink="/about" routerLinkActive="active"
+      >¿Quiénes somos?</a
+    >
+    <a mat-button routerLink="/contact" routerLinkActive="active"
+      >Contáctanos</a
+    >
   </div>
   <div class="spacer"></div>
   <div class="nav-secondary-content">
-    <a mat-button routerLink="/client/register" routerLinkActive="active" *ngIf="!isLogged">Registrarme</a>
-    <a mat-button routerLink="/user/login" routerLinkActive="active" *ngIf="!isLogged">Iniciar sesión</a>
-    <a mat-button routerLink="/user/profile" routerLinkActive="active" *ngIf="isLogged">Perfil</a>
+    <a
+      mat-button
+      routerLink="/client/register"
+      routerLinkActive="active"
+      *ngIf="!isLogged"
+      >Registrarme</a
+    >
+    <a
+      mat-button
+      routerLink="/user/login"
+      routerLinkActive="active"
+      *ngIf="!isLogged"
+      >Iniciar sesión</a
+    >
+    <a
+      mat-button
+      routerLink="/user/profile"
+      routerLinkActive="active"
+      *ngIf="isLogged"
+      >Perfil</a
+    >
     <a mat-button (click)="onLogout()" *ngIf="isLogged">Cerrar sesión</a>
   </div>
 </mat-toolbar>

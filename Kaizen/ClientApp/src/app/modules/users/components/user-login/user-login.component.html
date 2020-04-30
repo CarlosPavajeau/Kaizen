@@ -10,15 +10,24 @@
         <div class="form-element">
           <mat-form-field>
             <mat-label>Nombre de usuario/Email</mat-label>
-            <input type="text" matInput placeholder="Ejemplo: manolo" formControlName="usernameOrEmail">
+            <input
+              type="text"
+              matInput
+              placeholder="Ejemplo: manolo"
+              formControlName="usernameOrEmail"
+            />
             <mat-hint>Por favor digite su nombre de usuario o email</mat-hint>
             <mat-error *ngIf="controls['usernameOrEmail'].hasError('required')">
               Su nombre de usuario o email son requeridos
             </mat-error>
-            <mat-error *ngIf="controls['usernameOrEmail'].hasError('minlength')">
+            <mat-error
+              *ngIf="controls['usernameOrEmail'].hasError('minlength')"
+            >
               Su nombre de usuario o email deben tener al menos 5 carácteres
             </mat-error>
-            <mat-error *ngIf="controls['usernameOrEmail'].hasError('maxlength')">
+            <mat-error
+              *ngIf="controls['usernameOrEmail'].hasError('maxlength')"
+            >
               Username must not exceed 15 characters
             </mat-error>
           </mat-form-field>
@@ -26,7 +35,12 @@
         <div class="form-element">
           <mat-form-field>
             <mat-label>Contraseña</mat-label>
-            <input type="password" matInput placeholder="Digite su contraseña de acceso" formControlName="password">
+            <input
+              type="password"
+              matInput
+              placeholder="Digite su contraseña de acceso"
+              formControlName="password"
+            />
             <mat-hint>Por favor digite su contraseña de acceso</mat-hint>
             <mat-error *ngIf="controls['password'].hasError('required')">
               Su contraseña es requerida
@@ -41,7 +55,9 @@
         </div>
         <div class="text-center" style="margin-top: 10px;">
           <div style="display: block; margin-bottom: 5px;">
-            <button type="submit" mat-raised-button class="royal_azure">Iniciar sesión</button>
+            <button type="submit" mat-raised-button class="royal_azure">
+              Iniciar sesión
+            </button>
           </div>
           <a routerLink="/user/register">¿No estás registrado?</a>
         </div>

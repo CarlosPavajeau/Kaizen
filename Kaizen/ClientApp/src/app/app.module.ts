@@ -8,17 +8,9 @@ import { GlobalModule } from '@global/global.module';
 import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomeComponent
-  ],
-  imports: [
-    CoreModule.forRoot(),
-    GlobalModule.forRoot(),
-    AppRoutingModule,
-    SharedModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+	declarations: [ AppComponent, HomeComponent ],
+	imports: [ CoreModule.forRoot(), GlobalModule.forRoot(), AppRoutingModule, SharedModule ],
+	providers: [],
+	bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {}

@@ -2,30 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 
 @Component({
-  selector: 'app-nav-menu',
-  templateUrl: './nav-menu.component.html',
-  styleUrls: ['./nav-menu.component.css']
+	selector: 'app-nav-menu',
+	templateUrl: './nav-menu.component.html',
+	styleUrls: [ './nav-menu.component.css' ]
 })
 export class NavMenuComponent implements OnInit {
+	isLogged: boolean = false;
 
-  isLogged: boolean = false;
+	constructor(private authService: AuthenticationService) {}
 
-  constructor(private authService: AuthenticationService) { }
+	ngOnInit(): void {
+		this.onCheckUser();
+	}
 
-  ngOnInit(): void {
-    this.onCheckUser();
-  }
+	onCheckUser(): void {
+		if (this.authService.userLoggedIn()) {
+			this.isLogged = true;
+		}
+	}
 
-  onCheckUser(): void {
-    if (this.authService.userLoggedIn()) {
-      this.isLogged = true;
-    }
-  }
-
-  onLogout(): void {
-    this.authService.logoutUser();
-    window.location.reload();
-  }
-
-
+	onLogout(): void {
+		this.authService.logoutUser();
+		window.location.reload();
+	}
 }

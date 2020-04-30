@@ -4,24 +4,20 @@ import { Observable } from 'rxjs';
 import { AuthenticationService } from '../authentication/authentication.service';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class NoAuthGuard implements CanActivate {
+	constructor(private authService: AuthenticationService, private router: Router) {}
 
-  constructor(
-    private authService: AuthenticationService,
-    private router: Router
-  ) { }
-
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (!this.authService.userLoggedIn()) {
-      return true;
-    } else {
-      this.router.navigateByUrl('/user/profile');
-      return false;
-    }
-  }
-
+	canActivate(
+		next: ActivatedRouteSnapshot,
+		state: RouterStateSnapshot
+	): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+		if (!this.authService.userLoggedIn()) {
+			return true;
+		} else {
+			this.router.navigateByUrl('/user/profile');
+			return false;
+		}
+	}
 }

@@ -4,15 +4,12 @@ import { Observable } from 'rxjs';
 import { Endpoints } from '@global/endpoints';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class CheckUserExistsService {
+	constructor(private http: HttpClient) {}
 
-  constructor(
-    private http: HttpClient
-  ) { }
-
-  checkUserExists(username: string): Observable<boolean> {
-    return this.http.get<boolean>(`${Endpoints.AuthUrl}/CheckUserExists/${username}`);
-  }
+	checkUserExists(username: string): Observable<boolean> {
+		return this.http.get<boolean>(`${Endpoints.AuthUrl}/CheckUserExists/${username}`);
+	}
 }

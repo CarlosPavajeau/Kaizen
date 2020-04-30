@@ -19,37 +19,37 @@ import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { MatSortModule } from "@angular/material/sort";
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSortModule } from '@angular/material/sort';
 
 const MaterialModules = [
-  MatButtonModule,
-  MatInputModule,
-  MatRadioModule,
-  MatCardModule,
-  MatToolbarModule,
-  MatMenuModule,
-  MatIconModule,
-  MatExpansionModule,
-  MatTableModule,
-  MatGridListModule,
-  MatDialogModule,
-  MatCheckboxModule,
-  MatChipsModule,
-  MatPaginatorModule,
-  MatTooltipModule,
-  MatSidenavModule,
-  MatListModule,
-  MatProgressSpinnerModule,
-  MatSelectModule,
-  MatStepperModule,
-  MatSnackBarModule,
-  MatSortModule
+	MatButtonModule,
+	MatInputModule,
+	MatRadioModule,
+	MatCardModule,
+	MatToolbarModule,
+	MatMenuModule,
+	MatIconModule,
+	MatExpansionModule,
+	MatTableModule,
+	MatGridListModule,
+	MatDialogModule,
+	MatCheckboxModule,
+	MatChipsModule,
+	MatPaginatorModule,
+	MatTooltipModule,
+	MatSidenavModule,
+	MatListModule,
+	MatProgressSpinnerModule,
+	MatSelectModule,
+	MatStepperModule,
+	MatSnackBarModule,
+	MatSortModule
 ];
 
 @NgModule({
-  declarations: [],
-  imports: [MaterialModules],
-  exports: [MaterialModules]
+	declarations: [],
+	imports: [ MaterialModules ],
+	exports: [ MaterialModules ]
 })
-export class MaterialModule { }
+export class MaterialModule {}
