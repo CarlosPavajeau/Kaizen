@@ -20,6 +20,12 @@ namespace Kaizen.Mappers
             CreateMap<ContactPersonInputModel, ContactPerson>();
 
             CreateMap<ClientEditModel, Client>();
+
+            CreateMap<Employee, EmployeeViewModel>();
+            CreateMap<EmployeeCharge, EmployeeChargeViewModel>();
+
+            CreateMap<EmployeeInputModel, Employee>();
+            CreateMap<EmployeeEditModel, Employee>();
         }
     }
 }
