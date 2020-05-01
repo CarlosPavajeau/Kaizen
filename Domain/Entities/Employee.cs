@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kaizen.Domain.Entities
 {
     public class Employee : Person
     {
-        [ForeignKey("EmployeeChargeId")]
+		public string ChargeId { get; set; }
+
+		[ForeignKey("ChargeId")]
         public EmployeeCharge EmployeeCharge { get; set; }
     }
 }
