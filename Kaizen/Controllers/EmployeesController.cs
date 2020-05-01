@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
+using Kaizen.EditModels;
 using Kaizen.InputModels;
 using Kaizen.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -53,13 +54,16 @@ namespace Kaizen.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(string id, Employee employee)
+        public async Task<IActionResult> PutEmployee(string id, EmployeeEditModel employeeModel)
         {
-            if (id != employee.Id)
+            Employee employee = await _employeesRepository.FindByIdAsync(id);
+
+            if (employee is null)
             {
                 return BadRequest();
             }
 
+            _mapper.Map(employeeModel, employee);
             _employeesRepository.Update(employee);
 
             try
@@ -111,7 +115,7 @@ namespace Kaizen.Controllers
 
         // DELETE: api/Employees/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Employee>> DeleteEmployee(string id)
+        public async Task<ActionResult<EmployeeViewModel>> DeleteEmployee(string id)
         {
             Employee employee = await _employeesRepository.FindByIdAsync(id);
             if (employee == null)
@@ -121,7 +125,7 @@ namespace Kaizen.Controllers
 
             await _unitWork.SaveAsync();
 
-            return employee;
+            return _mapper.Map<EmployeeViewModel>(employee);
         }
 
         private bool EmployeeExists(string id)
