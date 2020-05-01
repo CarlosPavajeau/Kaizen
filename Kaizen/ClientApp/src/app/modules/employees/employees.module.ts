@@ -4,9 +4,12 @@ import { CommonModule } from '@angular/common';
 import { EmployeesRoutingModule } from './employees-routing.module';
 import { EmployeeRegisterComponent } from './components/employee-register/employee-register.component';
 import { EmployeesComponent } from './components/employees/employees.component';
+import { SharedModule } from '@shared/shared.module';
+import { UserModule } from '@modules/users/user.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
 	declarations: [ EmployeeRegisterComponent, EmployeesComponent ],
-	imports: [ CommonModule, EmployeesRoutingModule ]
+	imports: [ CommonModule, EmployeesRoutingModule, SharedModule, UserModule, FormsModule, ReactiveFormsModule ]
 })
 export class EmployeesModule {}
