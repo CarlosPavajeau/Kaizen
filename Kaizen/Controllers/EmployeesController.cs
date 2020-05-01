@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.EditModels;
@@ -35,6 +35,13 @@ namespace Kaizen.Controllers
         {
             return await _employeesRepository.GetAll().Select(p => _mapper.Map<EmployeeViewModel>(p)).ToListAsync();
         }
+
+		[HttpGet("[action]")]
+		[AllowAnonymous]
+		public async Task<ActionResult<IEnumerable<EmployeeChargeViewModel>>> EmployeeCharges()
+		{
+			return await _employeesRepository.GetAllEmployeeCharges().Select(p => _mapper.Map<EmployeeChargeViewModel>(p)).ToListAsync();
+		}
 
         // GET: api/Employees/5
         [HttpGet("{id}")]
