@@ -1,12 +1,11 @@
+using System;
 using AutoMapper;
 using Kaizen.Domain.Data;
 using Kaizen.Domain.Data.Configuration;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Extensions;
-using Kaizen.Domain.Repositories;
 using Kaizen.Filters;
 using Kaizen.Infrastructure.Extensions;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -14,9 +13,6 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Text;
 
 namespace Kaizen
 {
@@ -50,7 +46,7 @@ namespace Kaizen
             services.AddSwagger();
 
             services.AddAutoMapper(typeof(Startup));
-			services.AddScoped<ModelStateFilterAttribute>();
+            services.AddScoped<ModelStateFilterAttribute>();
 
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
