@@ -4,6 +4,7 @@ using Kaizen.Domain.Data.Configuration;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Extensions;
 using Kaizen.Domain.Repositories;
+using Kaizen.Filters;
 using Kaizen.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -49,6 +50,7 @@ namespace Kaizen
             services.AddSwagger();
 
             services.AddAutoMapper(typeof(Startup));
+			services.AddScoped<ModelStateFilterAttribute>();
 
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
