@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Page404Component } from '@shared/components/page404/page404.component';
 import { HeaderComponent } from '@shared/components/header/header.component';
 import { FooterComponent } from '@shared/components/footer/footer.component';
-import { NavMenuComponent } from '@shared/nav-menu/nav-menu.component';
+import { NavMenuComponent } from '@shared/components/nav-menu/nav-menu.component';
 import { MaterialModule } from '@core/material.module';
 import { RouterModule } from '@angular/router';
 import { ContactComponent } from '@shared/components/contact/contact.component';
@@ -14,9 +14,11 @@ import { NotificationsService } from '@shared/services/notifications.service';
 import { HttpErrorHandlerService } from '@shared/services/http-error-handler.service';
 import { ClientsFilterPipe } from './pipes/clients-filter.pipe';
 import { UniqueEmployeeDirective } from './directives/unique-employee.directive';
+import { HomeComponent } from '@shared/components/home/home.component';
 
 @NgModule({
 	declarations: [
+		HomeComponent,
 		Page404Component,
 		HeaderComponent,
 		FooterComponent,
@@ -32,6 +34,7 @@ import { UniqueEmployeeDirective } from './directives/unique-employee.directive'
 	exports: [
 		MaterialModule,
 		CommonModule,
+		HomeComponent,
 		Page404Component,
 		HeaderComponent,
 		FooterComponent,
