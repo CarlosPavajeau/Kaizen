@@ -1,4 +1,4 @@
-﻿using Kaizen.Domain.Data.Configuration.EntityTypeConfigurations;
+using Kaizen.Domain.Data.Configuration.EntityTypeConfigurations;
 using Kaizen.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -30,5 +30,8 @@ namespace Kaizen.Domain.Data
 
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeCharge> EmployeeCharges { get; set; }
-    }
+
+		public DbSet<Equipment> Equipments { get; set; }
+		public DbSet<Product> Products { get; set; }
+	}
 }
