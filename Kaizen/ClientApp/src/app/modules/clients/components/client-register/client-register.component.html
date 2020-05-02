@@ -202,7 +202,10 @@
               </div>
             </form>
           </mat-step>
-          <mat-step *ngIf="controls['clientType'].value == 'JuridicPerson'">
+          <mat-step
+            *ngIf="controls['clientType'].value == 'JuridicPerson'"
+            [stepControl]="legalPersonForm"
+          >
             <ng-template matStepLabel>Datos empresariales</ng-template>
             <form [formGroup]="legalPersonForm">
               <div class="form-element">
@@ -287,7 +290,7 @@
               </div>
             </form>
           </mat-step>
-          <mat-step>
+          <mat-step [stepControl]="contactPersonForm">
             <ng-template matStepLabel>Datos de contacto</ng-template>
             <form [formGroup]="contactPersonForm">
               <div class="form-element">
@@ -491,7 +494,7 @@
               </div>
             </form>
           </mat-step>
-          <mat-step>
+          <mat-step [stepControl]="contactPersonForm">
             <ng-template matStepLabel>Personas de contacto</ng-template>
             <form [formGroup]="contactPeopleForm">
               <div class="form-element">
@@ -562,7 +565,7 @@
               </div>
             </form>
           </mat-step>
-          <mat-step>
+          <mat-step [stepControl]="ubicationForm">
             <ng-template matStepLabel>Datos de ubicación</ng-template>
             <form [formGroup]="ubicationForm">
               <div class="form-element">
