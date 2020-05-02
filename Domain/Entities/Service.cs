@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kaizen.Domain.Entities
@@ -9,7 +9,8 @@ namespace Kaizen.Domain.Entities
         public string Code { get; set; }
         [MaxLength(40)]
         public string Name { get; set; }
-        [ForeignKey("ServiceType")]
+        public int ServiceTypeId { get; set; }
+        [ForeignKey("ServiceTypeId")]
         public ServiceType ServiceType { get; set; }
         public decimal Cost { get; set; }
     }
