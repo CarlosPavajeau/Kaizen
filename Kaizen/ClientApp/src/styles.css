@@ -88,6 +88,14 @@ mat-form-field {
   margin-right: 10px;
 }
 
+.mat-stepper-horizontal {
+  margin-top: 8px;
+}
+
+.mat-form-field {
+  margin-top: 16px;
+}
+
 html,
 body {
   height: 100%;
