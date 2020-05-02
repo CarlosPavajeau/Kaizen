@@ -1,25 +1,6 @@
-export class Endpoints {
-	public static get AuthUrl(): string {
-		return 'api/Users';
-	}
-
-	public static get ClientsUrl(): string {
-		return 'api/Clients';
-	}
-
-	public static get EmployeesUrl(): string {
-		return 'api/Employees';
-	}
-
-	public static get ServicesUrl(): string {
-		return 'api/Services';
-	}
-
-	public static get ProductsUrl(): string {
-		return 'api/Products';
-	}
-
-	public static get EquipmentsUrl(): string {
-		return 'api/Equipments';
-	}
-}
+export const AUTH_API_URL = 'api/Users';
+export const CLIENTS_API_URL = 'api/Clients';
+export const EMPLOYEES_API_URL = 'api/Employees';
+export const SERVICES_API_URL = 'api/Services';
+export const PRODUCTS_API_URL = 'api/Products';
+export const EQUIPMENTS_API_URL = 'api/Equipments';

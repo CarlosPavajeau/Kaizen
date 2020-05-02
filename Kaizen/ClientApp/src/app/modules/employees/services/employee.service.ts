@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { Endpoints } from '@global/endpoints';
+import { EMPLOYEES_API_URL } from '@global/endpoints';
 import { Employee } from '@modules/employees/models/employee';
 import { EmployeeCharge } from '@modules/employees/models/employee-charge';
 
@@ -13,22 +13,22 @@ export class EmployeeService {
 	constructor(private http: HttpClient) {}
 
 	getEmployees(): Observable<Employee[]> {
-		return this.http.get<Employee[]>(Endpoints.EmployeesUrl);
+		return this.http.get<Employee[]>(EMPLOYEES_API_URL);
 	}
 
 	getEmployeeCharges(): Observable<EmployeeCharge[]> {
-		return this.http.get<EmployeeCharge[]>(`${Endpoints.EmployeesUrl}/EmployeeCharges`);
+		return this.http.get<EmployeeCharge[]>(`${EMPLOYEES_API_URL}/EmployeeCharges`);
 	}
 
 	getEmployee(id: string): Observable<Employee> {
-		return this.http.get<Employee>(`${Endpoints.EmployeesUrl}/${id}`);
+		return this.http.get<Employee>(`${EMPLOYEES_API_URL}/${id}`);
 	}
 
 	saveEmployee(employee: Employee): Observable<Employee> {
-		return this.http.post<Employee>(Endpoints.EmployeesUrl, employee);
+		return this.http.post<Employee>(EMPLOYEES_API_URL, employee);
 	}
 
 	updateEmployee(employee: Employee): Observable<Employee> {
-		return this.http.put<Employee>(`${Endpoints.EmployeesUrl}/${employee.id}`, employee);
+		return this.http.put<Employee>(`${EMPLOYEES_API_URL}/${employee.id}`, employee);
 	}
 }

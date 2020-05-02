@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { isNullOrUndefined } from 'util';
 import { CookieService } from 'ngx-cookie-service';
 
-import { Endpoints } from '@global/endpoints';
+import { AUTH_API_URL } from '@global/endpoints';
 import { LoginRequest } from '@core/models/login-request';
 import { User } from '@core/models/user';
 
@@ -17,11 +17,11 @@ export class AuthenticationService {
 	constructor(private http: HttpClient, private cookieService: CookieService) {}
 
 	registerUser(user: User): Observable<User> {
-		return this.http.post<User>(Endpoints.AuthUrl, user);
+		return this.http.post<User>(AUTH_API_URL, user);
 	}
 
 	loginUser(user: LoginRequest): Observable<User> {
-		return this.http.post<User>(`${Endpoints.AuthUrl}/Login`, user);
+		return this.http.post<User>(`${AUTH_API_URL}/Login`, user);
 	}
 
 	logoutUser(): void {
