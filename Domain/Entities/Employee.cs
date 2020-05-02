@@ -4,7 +4,7 @@ namespace Kaizen.Domain.Entities
 {
     public class Employee : Person
     {
-		public string ChargeId { get; set; }
+		public int ChargeId { get; set; }
 
 		[ForeignKey("ChargeId")]
         public EmployeeCharge EmployeeCharge { get; set; }
