@@ -10,6 +10,6 @@ export class CheckEmployeeExistsService {
 	constructor(private http: HttpClient) {}
 
 	checkEmployeeExists(id: string): Observable<boolean> {
-		return this.http.get<boolean>(`${Endpoints.ClientsUrl}/CheckEmployeeExists/${id}`);
+		return this.http.get<boolean>(`${Endpoints.EmployeesUrl}/CheckEmployeeExists/${id}`);
 	}
 }
