@@ -10,6 +10,7 @@ import { CheckUserExistsService } from '@core/services/check-user-exists.service
 import { CookieService } from 'ngx-cookie-service';
 import { AuthInterceptor } from '@core/interceptors/auth.interceptor';
 import { HttpErrorInterceptor } from '@core/interceptors/http-error.interceptor';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 
 @NgModule({
 	declarations: [],
@@ -48,7 +49,8 @@ export class CoreModule {
 			providers: [
 				{ provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, multi: true },
 				{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-				{ provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
+				{ provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
+				{ provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } }
 			]
 		};
 	}
