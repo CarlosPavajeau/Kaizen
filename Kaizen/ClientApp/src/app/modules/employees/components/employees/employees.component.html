@@ -1,1 +1,49 @@
-<p>employees works!</p>
+<section class="container">
+  <div class="text-center">
+    <h1>Empleados de la Empresa</h1>
+  </div>
+  <div class="center-block-content">
+    <div class="form-element">
+      <mat-form-field style="height: 35px;" class="filter-input">
+        <mat-label>Buscar empleado</mat-label>
+        <input
+          matInput
+          #search
+          type="text"
+          placeholder="Buscar un empleado"
+          (keyup)="applyFilter($event.target.value)"
+        />
+      </mat-form-field>
+    </div>
+    <div>
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        class="mat-elevation-z6"
+      >
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef mat-sort-header
+            >Identificación</mat-header-cell
+          >
+          <mat-cell *matCellDef="let employee">{{ employee.id }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header
+            >Nombre completo</mat-header-cell
+          >
+          <mat-cell *matCellDef="let employee"
+            >{{ employee.firstName }} {{ employee.secondName }}
+            {{ employee.lastName }} {{ employee.secondLastName }}</mat-cell
+          >
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </table>
+      <mat-paginator
+        [pageSizeOptions]="[2, 3, 10]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</section>
