@@ -17,10 +17,15 @@ import { EmployeeCharge } from '@modules/employees/models/employee-charge';
 })
 export class EmployeeRegisterComponent implements OnInit, IForm {
 	employeeForm: FormGroup;
+	contactForm: FormGroup;
 	employeeCharges: EmployeeCharge[];
 
 	public get controls(): { [key: string]: AbstractControl } {
 		return this.employeeForm.controls;
+	}
+
+	public get contact_controls(): { [key: string]: AbstractControl } {
+		return this.contactForm.controls;
 	}
 
 	constructor(
@@ -43,6 +48,11 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
 	}
 
 	initForm(): void {
+		this.initEmployeeForm();
+		this.initContactForm();
+	}
+
+	private initEmployeeForm() {
 		this.employeeForm = this.formBuilder.group({
 			id: [
 				'',
@@ -83,7 +93,12 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
 				'',
 				[ Validators.minLength(2), Validators.maxLength(20), CharactersValidators.alphabeticCharacters ]
 			],
-			employeeCharge: [ '', [ Validators.required ] ],
+			employeeCharge: [ '', [ Validators.required ] ]
+		});
+	}
+
+	private initContactForm() {
+		this.contactForm = this.formBuilder.group({
 			email: [ '', [ Validators.required, Validators.email ] ],
 			phonenumber: [
 				'',
@@ -99,8 +114,8 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
 
 	onSubmit(user: User): void {
 		if (user && this.employeeForm.valid) {
-			user.email = this.controls['email'].value;
-			user.phonenumber = this.controls['phonenumber'].value;
+			user.email = this.contact_controls['email'].value;
+			user.phonenumber = this.contact_controls['phonenumber'].value;
 
 			this.authService.registerUser(user).subscribe((userRegister) => {
 				const employee: Employee = this.mapEmployee(userRegister.id);
@@ -124,7 +139,7 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
 			secondName: this.controls['secondName'].value,
 			lastName: this.controls['lastName'].value,
 			secondLastName: this.controls['secondLastname'].value,
-			employeeCharge: this.controls['employeeCharge'].value,
+			chargeId: +this.controls['employeeCharge'].value,
 			userId: userId
 		};
 		return employee;
