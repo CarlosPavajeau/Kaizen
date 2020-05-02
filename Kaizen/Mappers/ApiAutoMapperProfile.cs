@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Kaizen.Domain.Entities;
 using Kaizen.EditModels;
 using Kaizen.InputModels;
@@ -26,6 +26,14 @@ namespace Kaizen.Mappers
 
             CreateMap<EmployeeInputModel, Employee>();
             CreateMap<EmployeeEditModel, Employee>();
+
+            CreateMap<Equipment, EquipmentViewModel>();
+            CreateMap<EquipmentEditModel, Equipment>();
+            CreateMap<EquipmentInputModel, Equipment>();
+
+            CreateMap<Product, ProductViewModel>();
+            CreateMap<ProductEditModel, Product>();
+            CreateMap<ProductInputModel, Product>();
         }
     }
 }
