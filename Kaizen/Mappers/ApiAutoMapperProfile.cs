@@ -13,7 +13,9 @@ namespace Kaizen.Mappers
             CreateMap<Client, ClientViewModel>();
             CreateMap<ClientAddress, ClientAddressViewModel>();
             CreateMap<ContactPerson, ContactPersonViewModel>();
+
             CreateMap<ApplicationUser, ApplicationUserViewModel>();
+            CreateMap<ApplicationUserInputModel, ApplicationUser>();
 
             CreateMap<ClientInputModel, Client>();
             CreateMap<ClientAddressInputModel, ClientAddress>();
