@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+using System.Threading.Tasks;
+using AutoMapper;
+using Kaizen.Core.Exceptions;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.EditModels;
@@ -9,7 +11,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System.Threading.Tasks;
 
 namespace Kaizen.Controllers
 {
@@ -40,7 +41,7 @@ namespace Kaizen.Controllers
         {
             ApplicationUser user = await _userRepository.FindByIdAsync(id);
             if (user == null)
-                return NotFound();
+                throw new UserDoesNotExists();
             return _mapper.Map<ApplicationUserViewModel>(user);
         }
 
@@ -55,76 +56,43 @@ namespace Kaizen.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(string id, [FromQuery] string token, [FromBody] ApplicationUserEditModel editModel)
         {
-            if (ModelState.IsValid)
-            {
-                ApplicationUser user = await _userRepository.FindByIdAsync(id);
+            ApplicationUser user = await _userRepository.FindByIdAsync(id);
 
-                if (user != null)
-                {
-                    return Ok();
-                }
-                else
-                {
-                    return NotFound();
-                }
+            if (user != null)
+            {
+                return Ok();
             }
             else
             {
-                return BadRequest(ModelState);
+                return NotFound();
             }
         }
 
         // POST: api/Users
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<ApplicationUserViewModel>> PostUser([FromBody]ApplicationUserInputModel inputModel)
+        public async Task<ActionResult<ApplicationUserViewModel>> PostUser([FromBody]ApplicationUserInputModel applicationUserModel)
         {
-            if (ModelState.IsValid)
-            {
-                ApplicationUser user = new ApplicationUser()
-                {
-                    UserName = inputModel.Username,
-                    Email = inputModel.Email,
-                    PhoneNumber = inputModel.PhoneNumber
-                };
+            ApplicationUser user = _mapper.Map<ApplicationUser>(applicationUserModel);
 
-                IdentityResult result = await _userRepository.CreateAsync(user, inputModel.Password);
-                if (result.Succeeded)
-                    return GenerateAuthenticateUser(user);
-                else
-                    return BadRequest();
-            }
+            IdentityResult result = await _userRepository.CreateAsync(user, applicationUserModel.Password);
+            if (result.Succeeded)
+                return GenerateAuthenticateUser(user);
             else
-                return BadRequest();
+                throw new UserNotCreate();
         }
 
         [AllowAnonymous]
         [HttpPost("[action]")]
         public async Task<ActionResult<ApplicationUserViewModel>> Login([FromBody] LoginRequest login)
         {
-            if (ModelState.IsValid)
-            {
-                ApplicationUser user = await _userRepository.FindByNameAsync(login.UsernameOrEmail);
-                if (user is null)
-                {
-                    user = await _userRepository.FindByEmailAsync(login.UsernameOrEmail);
-                    if (user is null)
-                        return NotFound();
-                }
+            ApplicationUser user = await _userRepository.FindByNameOrEmailAsync(login.UsernameOrEmail);
+            if (user is null)
+                throw new UserDoesNotExists();
 
-                Microsoft.AspNetCore.Identity.SignInResult result = await _userRepository.Login(user, login.Password);
-                if (result.Succeeded)
-                    return GenerateAuthenticateUser(user);
-                else
-                {
-                    ModelState.AddModelError("ErrorMessage", "Invalid login attempt.");
-                    return BadRequest(ModelState);
-                }
-            }
-            else
-            {
-                return BadRequest(ModelState);
-            }
+            Microsoft.AspNetCore.Identity.SignInResult result = await _userRepository.Login(user, login.Password);
+
+            return (result.Succeeded) ? GenerateAuthenticateUser(user) : throw new IncorrectPassword();
         }
 
         private ActionResult<ApplicationUserViewModel> GenerateAuthenticateUser(ApplicationUser user)
