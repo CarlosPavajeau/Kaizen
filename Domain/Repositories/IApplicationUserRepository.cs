@@ -1,7 +1,7 @@
-﻿using Kaizen.Core.Domain;
+using System.Threading.Tasks;
+using Kaizen.Core.Domain;
 using Kaizen.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
 
 namespace Kaizen.Domain.Repositories
 {
@@ -11,5 +11,6 @@ namespace Kaizen.Domain.Repositories
         Task<SignInResult> Login(ApplicationUser user, string password);
         Task<ApplicationUser> FindByNameAsync(string username);
         Task<ApplicationUser> FindByEmailAsync(string email);
+        Task<ApplicationUser> FindByNameOrEmailAsync(string usernameOrEmail);
     }
 }

@@ -1,8 +1,8 @@
-﻿using Kaizen.Core.Exceptions;
+using System.Threading.Tasks;
+using Kaizen.Core.Exceptions;
 using Kaizen.Domain.Data;
 using Kaizen.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
-using System.Threading.Tasks;
 
 namespace Kaizen.Domain.Repositories
 {
@@ -53,6 +53,16 @@ namespace Kaizen.Domain.Repositories
         public async Task<IdentityResult> CreateAsync(ApplicationUser user, string password)
         {
             return await _userManager.CreateAsync(user, password);
+        }
+
+        public async Task<ApplicationUser> FindByNameOrEmailAsync(string usernameOrEmail)
+        {
+            ApplicationUser user = await FindByNameAsync(usernameOrEmail);
+
+            if (user is null)
+                user = await FindByEmailAsync(usernameOrEmail);
+
+            return user;
         }
     }
 }
