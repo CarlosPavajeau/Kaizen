@@ -11,10 +11,9 @@ export class GlobalErrorHandler implements ErrorHandler {
 	handleError(error: Error | HttpErrorResponse): void {
 		console.log(error);
 		if (error instanceof HttpErrorResponse) {
-			if (error.error.ErrorMessage) {
-				this.notificationsService.showNotification(error.error.ErrorMessage[0], 'Ok', true);
-			} else {
-				this.notificationsService.showNotification(error.error, 'Ok', true);
+			console.log(error.error.Message);
+			if (error.error.Message) {
+				this.notificationsService.add(error.error.Message, 'Ok');
 			}
 		}
 	}
