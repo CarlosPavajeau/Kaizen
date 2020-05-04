@@ -1,3 +1,3 @@
-export const ADMINISTRATOR = 'Administrator';
-export const CLIENT = 'Client';
-export const EMPLOYEE = 'Employee';
+export const ADMINISTRATOR_ROLE = 'Administrator';
+export const CLIENT_ROLE = 'Client';
+export const EMPLOYEE_ROLE = 'TechnicalEmployee';
