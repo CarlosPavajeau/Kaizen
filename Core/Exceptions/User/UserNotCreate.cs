@@ -1,6 +1,4 @@
-using System;
-
-namespace Kaizen.Core.Exceptions
+namespace Kaizen.Core.Exceptions.User
 {
     public class UserNotCreate : HttpException
     {

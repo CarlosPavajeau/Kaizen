@@ -1,4 +1,4 @@
-namespace Kaizen.Core.Exceptions
+namespace Kaizen.Core.Exceptions.User
 {
     public class UserDoesNotExists : HttpException
     {
