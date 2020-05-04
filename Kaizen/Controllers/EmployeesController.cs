@@ -10,7 +10,6 @@ using Kaizen.EditModels;
 using Kaizen.InputModels;
 using Kaizen.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -108,10 +107,6 @@ namespace Kaizen.Controllers
             ApplicationUser applicationUser = await _unitWork.ApplicationUsers.FindByIdAsync(employeeModel.UserId);
             if (applicationUser is null)
                 throw new UserDoesNotExists();
-
-            IdentityResult identityResult = await _unitWork.ApplicationUsers.AddToRoleAsync(applicationUser, "TechnicalEmployee");
-            if (!identityResult.Succeeded)
-                throw new UserNotCreate();
 
             EmployeeCharge employeeCharge = await _employeesRepository.GetAllEmployeeCharges().Where(c => c.Id == employeeModel.ChargeId).FirstOrDefaultAsync();
             if (employeeCharge is null)
