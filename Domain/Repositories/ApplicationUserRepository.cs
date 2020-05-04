@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Kaizen.Core.Exceptions;
+using Kaizen.Core.Exceptions.User;
 using Kaizen.Domain.Data;
 using Kaizen.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
