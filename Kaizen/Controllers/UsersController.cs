@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using AutoMapper;
-using Kaizen.Core.Exceptions;
+using Kaizen.Core.Exceptions.User;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.EditModels;
