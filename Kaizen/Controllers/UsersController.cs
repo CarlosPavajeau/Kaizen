@@ -75,11 +75,15 @@ namespace Kaizen.Controllers
         {
             ApplicationUser user = _mapper.Map<ApplicationUser>(applicationUserModel);
 
-            IdentityResult result = await _userRepository.CreateAsync(user, applicationUserModel.Password);
-            if (result.Succeeded)
-                return await GenerateAuthenticateUser(user);
-            else
+            IdentityResult createResult = await _userRepository.CreateAsync(user, applicationUserModel.Password);
+            if (!createResult.Succeeded)
                 throw new UserNotCreate();
+
+            IdentityResult roleResult = await _userRepository.AddToRoleAsync(user, applicationUserModel.Role);
+            if (!roleResult.Succeeded)
+                throw new UserNotCreate();
+
+            return await GenerateAuthenticateUser(user);
         }
 
         [AllowAnonymous]
