@@ -9,6 +9,7 @@ import { ClientExistsValidator } from '@shared/validators/client-exists-validato
 import { Client } from '@modules/clients/models/client';
 import { NotificationsService } from '@shared/services/notifications.service';
 import { HttpErrorHandlerService } from '@shared/services/http-error-handler.service';
+import { CLIENT_ROLE } from '@global/roles';
 
 @Component({
 	selector: 'app-client-register',
@@ -184,16 +185,13 @@ export class ClientRegisterComponent implements OnInit, IForm {
 		if (user && this.allFormsValid()) {
 			user.email = this.contact_controls['email'].value;
 			user.phonenumber = this.contact_controls['firstPhonenumber'].value;
+			user.role = CLIENT_ROLE;
 
 			this.authService.registerUser(user).subscribe((userRegister) => {
 				const client: Client = this.mapClient(userRegister.id);
 
 				this.clientService.saveClient(client).subscribe((clientRegister) => {
-					this.notificationsService.showNotification(
-						`Cliente ${clientRegister.firstName} registrado con éxito`,
-						'OK',
-						false
-					);
+					this.notificationsService.add(`Cliente ${clientRegister.firstName} registrado con éxito`, 'OK');
 					this.authService.setCurrentUser(userRegister);
 					window.location.reload();
 				});
