@@ -14,7 +14,7 @@ import { MatSort } from '@angular/material/sort';
 export class ClientsComponent implements OnInit, AfterViewInit {
 	clients: Client[];
 	dataSource: MatTableDataSource<Client> = new MatTableDataSource<Client>(this.clients);
-	displayedColumns: string[] = [ 'id', 'name' ];
+	displayedColumns: string[] = [ 'id', 'name', 'clientType', 'phonenumber' ];
 	@ViewChild(MatPaginator, { static: true })
 	paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;

@@ -35,6 +35,22 @@
             {{ client.lastName }} {{ client.secondLastName }}</mat-cell
           >
         </ng-container>
+        <ng-container matColumnDef="clientType">
+          <mat-header-cell *matHeaderCellDef>Tipo de cliente</mat-header-cell>
+          <mat-cell *matCellDef="let client">{{
+            client.clientType == "JuridicPerson"
+              ? "Persona jurídica"
+              : "Persona natural"
+          }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="phonenumber">
+          <mat-header-cell *matHeaderCellDef
+            >Número de teléfono</mat-header-cell
+          >
+          <mat-cell *matCellDef="let client">
+            {{ client.firstPhoneNumber }}
+          </mat-cell>
+        </ng-container>
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
       </table>
