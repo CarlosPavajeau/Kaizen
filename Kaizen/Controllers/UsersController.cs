@@ -77,7 +77,7 @@ namespace Kaizen.Controllers
 
             IdentityResult result = await _userRepository.CreateAsync(user, applicationUserModel.Password);
             if (result.Succeeded)
-                return GenerateAuthenticateUser(user);
+                return await GenerateAuthenticateUser(user);
             else
                 throw new UserNotCreate();
         }
@@ -92,14 +92,15 @@ namespace Kaizen.Controllers
 
             Microsoft.AspNetCore.Identity.SignInResult result = await _userRepository.Login(user, login.Password);
 
-            return (result.Succeeded) ? GenerateAuthenticateUser(user) : throw new IncorrectPassword();
+            return (result.Succeeded) ? await GenerateAuthenticateUser(user) : throw new IncorrectPassword();
         }
 
-        private ActionResult<ApplicationUserViewModel> GenerateAuthenticateUser(ApplicationUser user)
+        private async Task<ActionResult<ApplicationUserViewModel>> GenerateAuthenticateUser(ApplicationUser user)
         {
             ApplicationUserViewModel userView = _mapper.Map<ApplicationUserViewModel>(user);
+            string role = await _userRepository.GetUserRoleAsync(user);
 
-            userView.Token = JwtSecurityTokenGenerator.GenerateSecurityToken(Configuration, userView.Username);
+            userView.Token = JwtSecurityTokenGenerator.GenerateSecurityToken(Configuration, userView.Username, role);
 
             return userView;
         }
