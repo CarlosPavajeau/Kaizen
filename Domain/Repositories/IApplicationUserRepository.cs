@@ -12,5 +12,8 @@ namespace Kaizen.Domain.Repositories
         Task<ApplicationUser> FindByNameAsync(string username);
         Task<ApplicationUser> FindByEmailAsync(string email);
         Task<ApplicationUser> FindByNameOrEmailAsync(string usernameOrEmail);
+
+        Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role);
+        Task<string> GetUserRoleAsync(ApplicationUser user);
     }
 }

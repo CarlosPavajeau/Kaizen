@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Kaizen.Core.Exceptions.User;
 using Kaizen.Domain.Data;
@@ -63,6 +64,17 @@ namespace Kaizen.Domain.Repositories
                 user = await FindByEmailAsync(usernameOrEmail);
 
             return user;
+        }
+
+        public async Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role)
+        {
+            return await _userManager.AddToRoleAsync(user, role);
+        }
+
+        public async Task<string> GetUserRoleAsync(ApplicationUser user)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            return roles.FirstOrDefault();
         }
     }
 }

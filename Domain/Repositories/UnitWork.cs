@@ -1,5 +1,5 @@
-﻿using Kaizen.Domain.Data;
 using System.Threading.Tasks;
+using Kaizen.Domain.Data;
 
 namespace Kaizen.Domain.Repositories
 {
