@@ -54,6 +54,11 @@ export class AuthenticationService {
 		}
 	}
 
+	getUserRole(): string {
+		var payload = JSON.parse(window.atob(this.getToken().split('.')[1]));
+		return payload.role;
+	}
+
 	userLoggedIn(): boolean {
 		return this.getCurrentUser() != null;
 	}
