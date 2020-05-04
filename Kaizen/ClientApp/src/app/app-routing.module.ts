@@ -8,10 +8,13 @@ import { AboutComponent } from '@shared/components/about/about.component';
 const routes: Routes = [
 	{ path: '', component: HomeComponent },
 	{ path: 'user', loadChildren: () => import('./modules/users/user.module').then((m) => m.UserModule) },
-	{ path: 'client', loadChildren: () => import('./modules/clients/client.module').then((m) => m.ClientModule) },
-	{ path: 'service', loadChildren: () => import('./modules/services/services.module').then((m) => m.ServicesModule) },
+	{ path: 'clients', loadChildren: () => import('./modules/clients/client.module').then((m) => m.ClientModule) },
 	{
-		path: 'employee',
+		path: 'services',
+		loadChildren: () => import('./modules/services/services.module').then((m) => m.ServicesModule)
+	},
+	{
+		path: 'employees',
 		loadChildren: () => import('./modules/employees/employees.module').then((m) => m.EmployeesModule)
 	},
 	{

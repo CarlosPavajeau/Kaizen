@@ -11,7 +11,6 @@ const routes: Routes = [
 		path: '',
 		children: [
 			{ path: 'login', component: UserLoginComponent, canActivate: [ NoAuthGuard ] },
-			{ path: 'register', component: UserRegisterComponent },
 			{ path: 'profile', component: UserProfileComponent, canActivate: [ AuthGuard ] },
 			{ path: '', redirectTo: 'profile', pathMatch: 'full' }
 		]

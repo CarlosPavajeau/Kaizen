@@ -8,10 +8,10 @@ import { AdminGuard } from '@core/guards/admin.guard';
 const routes: Routes = [
 	{
 		path: '',
+		canActivate: [ AuthGuard, AdminGuard ],
 		children: [
-			{ path: 'register', component: EmployeeRegisterComponent, canActivate: [ AuthGuard, AdminGuard ] },
-			{ path: 'employees', component: EmployeesComponent, canActivate: [ AuthGuard, AdminGuard ] },
-			{ path: '', redirectTo: 'employees', pathMatch: 'full' }
+			{ path: '', component: EmployeesComponent },
+			{ path: 'register', component: EmployeeRegisterComponent }
 		]
 	}
 ];
