@@ -121,11 +121,7 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
 				const employee: Employee = this.mapEmployee(userRegister.id);
 
 				this.employeeService.saveEmployee(employee).subscribe((employeeRegister) => {
-					this.notificationsService.showNotification(
-						`Empleado ${employeeRegister.firstName} registrado con exito`,
-						'Ok',
-						false
-					);
+					this.notificationsService.add(`Empleado ${employeeRegister.firstName} registrado con exito`, 'Ok');
 					this.onReset();
 				});
 			});
