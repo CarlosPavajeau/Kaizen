@@ -1,4 +1,9 @@
-﻿using AutoMapper;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
+using Kaizen.Core.Exceptions.Client;
+using Kaizen.Core.Exceptions.User;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.EditModels;
@@ -7,9 +12,6 @@ using Kaizen.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Kaizen.Controllers
 {
@@ -42,9 +44,7 @@ namespace Kaizen.Controllers
         {
             Client client = await _clientsRepository.FindByIdAsync(id);
             if (client == null)
-            {
-                return NotFound();
-            }
+                throw new ClientNotRegister();
 
             ClientViewModel clientViewModel = _mapper.Map<ClientViewModel>(client);
             return clientViewModel;
@@ -55,9 +55,7 @@ namespace Kaizen.Controllers
         {
             ClientAddress clientAddress = await _clientsRepository.GetClientAddressAsync(id);
             if (clientAddress is null)
-            {
-                return NotFound();
-            }
+                throw new ClientNotRegister();
 
             return _mapper.Map<ClientAddressViewModel>(clientAddress);
         }
@@ -85,9 +83,7 @@ namespace Kaizen.Controllers
         {
             Client client = _clientsRepository.FindById(id);
             if (client is null)
-            {
-                return BadRequest();
-            }
+                throw new ClientNotRegister();
 
             _mapper.Map(clientModel, client);
             _clientsRepository.Update(client);
@@ -116,9 +112,7 @@ namespace Kaizen.Controllers
         {
             ClientAddress clientAddress = await _clientsRepository.GetClientAddressAsync(id);
             if (clientAddress is null)
-            {
-                return NotFound();
-            }
+                throw new ClientNotRegister();
 
             _mapper.Map(clientAddressEdit, clientAddress);
             _clientsRepository.UpdateClientAddress(clientAddress);
@@ -151,9 +145,7 @@ namespace Kaizen.Controllers
         {
             ApplicationUser user = _unitWork.ApplicationUsers.FindById(clientInput.UserId);
             if (user is null)
-            {
-                return BadRequest();
-            }
+                throw new UserDoesNotExists();
 
             Client client = _mapper.Map<Client>(clientInput);
             client.User = user;
@@ -167,11 +159,11 @@ namespace Kaizen.Controllers
             {
                 if (ClientExists(clientInput.Id))
                 {
-                    return Conflict();
+                    throw new ClientAlreadyRegistered(client.Id);
                 }
                 else
                 {
-                    throw;
+                    throw new ClientNotRegister();
                 }
             }
 
