@@ -53,13 +53,33 @@
             </mat-error>
           </mat-form-field>
         </div>
+        <div class="form-element left">
+          <mat-slide-toggle [color]="'primary'"
+            ><small>Mantener sesión iniciada</small></mat-slide-toggle
+          >
+        </div>
         <div class="text-center" style="margin-top: 10px;">
           <div style="display: block; margin-bottom: 5px;">
-            <button type="submit" mat-raised-button class="royal_azure">
+            <button
+              type="submit"
+              mat-raised-button
+              class="royal_azure"
+              [disabled]="loading"
+            >
               Iniciar sesión
+              <mat-icon *ngIf="loading"
+                ><mat-spinner color="primary" diameter="20"> </mat-spinner
+              ></mat-icon>
             </button>
           </div>
-          <a routerLink="/client/register">¿No estás registrado?</a>
+          <div class="text-center">
+            <a routerLink="/clients/register" class="samll-text"
+              ><small>¿Has olvidado tu contraseña?</small></a
+            >
+          </div>
+          <a routerLink="/clients/register"
+            ><small>¿No estás registrado?</small></a
+          >
         </div>
       </form>
     </mat-card>

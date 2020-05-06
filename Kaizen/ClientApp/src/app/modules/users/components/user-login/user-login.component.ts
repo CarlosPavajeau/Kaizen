@@ -14,6 +14,7 @@ export class UserLoginComponent implements OnInit, IForm {
 	invalidUserOrEmail: boolean = false;
 	invalidPassword: boolean = false;
 	invalidForm: boolean = false;
+	loading: boolean = false;
 
 	public get controls() {
 		return this.loginForm.controls;
@@ -34,19 +35,26 @@ export class UserLoginComponent implements OnInit, IForm {
 
 	onSubmit(): void {
 		if (this.loginForm.valid) {
+			this.loading = true;
 			let loginRequest: LoginRequest = {
 				usernameOrEmail: this.controls['usernameOrEmail'].value,
 				password: this.controls['password'].value
 			};
 
-			this.authService.loginUser(loginRequest).subscribe((user) => {
-				if (user) {
-					this.authService.setCurrentUser(user);
-					window.location.reload();
-				} else {
-					this.invalidUserOrEmail = true;
+			this.authService.loginUser(loginRequest).subscribe(
+				(user) => {
+					if (user) {
+						this.authService.setCurrentUser(user);
+						window.location.reload();
+					} else {
+						this.invalidUserOrEmail = true;
+					}
+				},
+				(error) => {
+					this.loading = false;
+					throw error;
 				}
-			});
+			);
 		} else {
 			this.invalidForm = true;
 		}
