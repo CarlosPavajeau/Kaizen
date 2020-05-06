@@ -13,7 +13,7 @@ export class UniqueEmployeeDirective implements AsyncValidator {
 
 	validate(control: AbstractControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
 		const id = control.value;
-		return this.checkEmployeeExists.checkEmployeeExists(id).pipe(
+		return this.checkEmployeeExists.checkEntityExists(id).pipe(
 			map((result) => {
 				if (result) {
 					return { employeeExists: true };

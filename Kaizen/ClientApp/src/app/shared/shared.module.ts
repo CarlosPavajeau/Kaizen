@@ -15,6 +15,8 @@ import { HttpErrorHandlerService } from '@shared/services/http-error-handler.ser
 import { ClientsFilterPipe } from './pipes/clients-filter.pipe';
 import { UniqueEmployeeDirective } from './directives/unique-employee.directive';
 import { HomeComponent } from '@shared/components/home/home.component';
+import { UniqueEquipmentDirective } from './directives/unique-equipment.directive';
+import { UniqueProductDirective } from './directives/unique-product.directive';
 
 @NgModule({
 	declarations: [
@@ -28,7 +30,9 @@ import { HomeComponent } from '@shared/components/home/home.component';
 		UniqueClientDirective,
 		UniqueUserDirective,
 		ClientsFilterPipe,
-		UniqueEmployeeDirective
+		UniqueEmployeeDirective,
+		UniqueEquipmentDirective,
+		UniqueProductDirective
 	],
 	imports: [ CommonModule, MaterialModule, RouterModule ],
 	exports: [
@@ -44,6 +48,8 @@ import { HomeComponent } from '@shared/components/home/home.component';
 		UniqueClientDirective,
 		UniqueUserDirective,
 		UniqueEmployeeDirective,
+		UniqueEquipmentDirective,
+		UniqueProductDirective,
 		ClientsFilterPipe
 	],
 	providers: [ NotificationsService, HttpErrorHandlerService ]

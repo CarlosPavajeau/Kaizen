@@ -13,7 +13,7 @@ export class UniqueClientDirective implements AsyncValidator {
 
 	validate(control: AbstractControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
 		const id = control.value;
-		return this.checkClientService.checkClientExists(id).pipe(
+		return this.checkClientService.checkEntityExists(id).pipe(
 			map((result) => {
 				if (result) {
 					return { clientExists: true };

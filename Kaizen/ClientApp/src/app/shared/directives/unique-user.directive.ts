@@ -13,7 +13,7 @@ export class UniqueUserDirective implements AsyncValidator {
 
 	validate(control: AbstractControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
 		const username = control.value;
-		return this.checkUserService.checkUserExists(username).pipe(
+		return this.checkUserService.checkEntityExists(username).pipe(
 			map((result) => {
 				if (result) {
 					return { userExists: true };
