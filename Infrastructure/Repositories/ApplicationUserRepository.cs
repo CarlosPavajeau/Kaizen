@@ -1,11 +1,13 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Kaizen.Core.Exceptions.User;
 using Kaizen.Domain.Data;
 using Kaizen.Domain.Entities;
+using Kaizen.Domain.Repositories;
 using Microsoft.AspNetCore.Identity;
 
-namespace Kaizen.Domain.Repositories
+namespace Kaizen.Infrastructure.Repositories
 {
     public class ApplicationUserRepository : RepositoryBase<ApplicationUser, string>, IApplicationUserRepository
     {
@@ -73,7 +75,7 @@ namespace Kaizen.Domain.Repositories
 
         public async Task<string> GetUserRoleAsync(ApplicationUser user)
         {
-            var roles = await _userManager.GetRolesAsync(user);
+            IList<string> roles = await _userManager.GetRolesAsync(user);
             return roles.FirstOrDefault();
         }
     }

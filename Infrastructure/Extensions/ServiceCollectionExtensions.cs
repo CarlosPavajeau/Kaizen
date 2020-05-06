@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System;
+using System.Text;
+using Kaizen.Domain.Repositories;
+using Kaizen.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Text;
 
 namespace Kaizen.Infrastructure.Extensions
 {
@@ -58,6 +60,17 @@ namespace Kaizen.Infrastructure.Extensions
                 };
             });
             return services;
+        }
+
+        public static void ConfigureRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<IUnitWork, UnitWork>();
+            services.AddScoped<IClientsRepository, ClientsRepository>();
+            services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
+            services.AddScoped<IEmployeesRepository, EmployeesRepository>();
+            services.AddScoped<IProductsRepository, ProductsRepository>();
+            services.AddScoped<IEquipmentsRepository, EquipmentsRepository>();
+            services.AddScoped<IServicesRepository, ServicesRepository>();
         }
     }
 }

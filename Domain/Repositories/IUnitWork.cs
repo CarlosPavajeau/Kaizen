@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 
 namespace Kaizen.Domain.Repositories
@@ -7,6 +7,10 @@ namespace Kaizen.Domain.Repositories
     {
         IClientsRepository Clients { get; }
         IApplicationUserRepository ApplicationUsers { get; }
+        IEmployeesRepository Employees { get; }
+        IEquipmentsRepository Equipments { get; }
+        IProductsRepository Products { get; }
+        IServicesRepository Services { get; }
         Task SaveAsync();
     }
 }

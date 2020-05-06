@@ -1,8 +1,9 @@
 using System.Linq;
 using Kaizen.Domain.Data;
 using Kaizen.Domain.Entities;
+using Kaizen.Domain.Repositories;
 
-namespace Kaizen.Domain.Repositories
+namespace Kaizen.Infrastructure.Repositories
 {
     public class ServicesRepository : RepositoryBase<Service, string>, IServicesRepository
     {

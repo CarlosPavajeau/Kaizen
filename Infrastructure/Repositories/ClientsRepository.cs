@@ -1,11 +1,12 @@
-﻿using Kaizen.Domain.Data;
-using Kaizen.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Kaizen.Domain.Data;
+using Kaizen.Domain.Entities;
+using Kaizen.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
-namespace Kaizen.Domain.Repositories
+namespace Kaizen.Infrastructure.Repositories
 {
     public class ClientsRepository : RepositoryBase<Client, string>, IClientsRepository
     {
