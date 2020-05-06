@@ -1,1 +1,79 @@
-<p>equipment-register works!</p>
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h1>Registro de equipo</h1>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="equipmentForm" (ngSubmit)="onSubmit()">
+        <div class="form-element">
+          <mat-form-field>
+            <mat-label>Código</mat-label>
+            <input
+              type="text"
+              matInput
+              placeholder="Ejemplo: 22A3"
+              formControlName="code"
+            />
+            <mat-hint>Digite el código del equipo</mat-hint>
+            <mat-error *ngIf="controls['code'].hasError('required')"
+              >El código del equipo es requerido</mat-error
+            >
+            <mat-error *ngIf="controls['code'].hasError('minlength')"
+              >Debe digitar mínimo 3 caracteres</mat-error
+            >
+            <mat-error *ngIf="controls['code'].hasError('maxlength')"
+              >Debe digitar máximo 20 caracteres</mat-error
+            >
+            <mat-error *ngIf="controls['code'].hasError('equipmentExists')"
+              >Código de equimamiento ya registrado</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <div class="form-element">
+          <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input
+              type="text"
+              matInput
+              placeholder="Ejemplo: Rociador"
+              formControlName="name"
+            />
+            <mat-hint>Digite el nombre del equipo</mat-hint>
+            <mat-error *ngIf="controls['name'].hasError('required')"
+              >El nombre del equipo es requerido</mat-error
+            >
+            <mat-error *ngIf="controls['name'].hasError('minlength')"
+              >Debe digitar mínimo 5 caracteres</mat-error
+            >
+            <mat-error *ngIf="controls['name'].hasError('maxlength')"
+              >Debe digitar máximo 50 caracteres</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <div class="form-element form-select">
+          <mat-form-field>
+            <mat-label>Elija una fecha</mat-label>
+            <input
+              matInput
+              [matDatepicker]="datePicker"
+              formControlName="maintenanceDate"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="datePicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #datePicker></mat-datepicker>
+            <mat-hint>Seleccione la fecha del último mantenimiento</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="center-block-content">
+          <button type="submit" mat-raised-button class="royal_azure">
+            Registrar equipo
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
