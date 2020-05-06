@@ -22,6 +22,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 const MaterialModules = [
 	MatButtonModule,
@@ -46,7 +48,9 @@ const MaterialModules = [
 	MatStepperModule,
 	MatSnackBarModule,
 	MatSortModule,
-	MatSlideToggleModule
+	MatSlideToggleModule,
+	MatDatepickerModule,
+	MatNativeDateModule
 ];
 
 @NgModule({
