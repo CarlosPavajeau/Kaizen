@@ -70,7 +70,7 @@ namespace Kaizen.Controllers
 
         [HttpGet("[action]/{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<bool>> CheckClientExists(string id)
+        public async Task<ActionResult<bool>> CheckExists(string id)
         {
             return await _clientsRepository.GetAll().AnyAsync(c => c.Id == id);
         }

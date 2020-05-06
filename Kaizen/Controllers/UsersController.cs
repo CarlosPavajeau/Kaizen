@@ -47,7 +47,7 @@ namespace Kaizen.Controllers
 
         [HttpGet("[action]/{username}")]
         [AllowAnonymous]
-        public async Task<ActionResult<bool>> CheckUserExists(string username)
+        public async Task<ActionResult<bool>> CheckExists(string username)
         {
             return (await _userRepository.FindByNameAsync(username)) != null;
         }
