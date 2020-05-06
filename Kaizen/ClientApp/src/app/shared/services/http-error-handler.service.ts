@@ -13,7 +13,7 @@ export class HttpErrorHandlerService {
 		return (error: HttpErrorResponse): Observable<T> => {
 			console.log(error.url);
 			console.log(error);
-			this.notificationService.showNotification(`Error en: ${operation}`, 'Ok', true);
+			this.notificationService.add(`Error en: ${operation}`, 'Ok');
 			return of(result as T);
 		};
 	}
