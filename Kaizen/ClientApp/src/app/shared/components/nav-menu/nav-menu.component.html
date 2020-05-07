@@ -1,24 +1,13 @@
 <mat-toolbar class="royal_azure mat-elevation-z6">
-  <div class="nav-main-content">
-    <div class="nav-main-header" routerLink="/">
-      <img
-        src="assets/images/ecolplag_bird.png"
-        alt="bird"
-        width="60"
-        height="55"
-      />
-      <h2>Ecolplag</h2>
-    </div>
-    <a
-      mat-button
-      routerLink="/"
-      routerLinkActive="active"
-      [routerLinkActiveOptions]="{ exact: true }"
-    >
+    <div class="nav-main-content">
+        <div class="nav-main-header" routerLink="/">
+            <img src="assets/images/ecolplag_bird.png" alt="bird" width="60" height="55" />
+            <h2>Ecolplag</h2>
+        </div>
+        <a mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
       Inicio
     </a>
-    <a mat-button routerLink="/ourservices" routerLinkActive="active"
-      >Nuestros servicios</a
+        <a mat-button routerLink="/ourservices" routerLinkActive="active">Nuestros servicios</a
     >
     <a mat-button routerLink="/about" routerLinkActive="active"
       >¿Quiénes somos?</a
@@ -51,5 +40,5 @@
       >Perfil</a
     >
     <a mat-button (click)="onLogout()" *ngIf="isLogged">Cerrar sesión</a>
-  </div>
+    </div>
 </mat-toolbar>
