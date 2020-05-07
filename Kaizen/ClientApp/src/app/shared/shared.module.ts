@@ -17,6 +17,7 @@ import { UniqueEmployeeDirective } from './directives/unique-employee.directive'
 import { HomeComponent } from '@shared/components/home/home.component';
 import { UniqueEquipmentDirective } from './directives/unique-equipment.directive';
 import { UniqueProductDirective } from './directives/unique-product.directive';
+import { OurservicesComponent } from './components/ourservices/ourservices.component';
 
 @NgModule({
 	declarations: [
@@ -32,7 +33,8 @@ import { UniqueProductDirective } from './directives/unique-product.directive';
 		ClientsFilterPipe,
 		UniqueEmployeeDirective,
 		UniqueEquipmentDirective,
-		UniqueProductDirective
+		UniqueProductDirective,
+		OurservicesComponent
 	],
 	imports: [ CommonModule, MaterialModule, RouterModule ],
 	exports: [
@@ -50,7 +52,8 @@ import { UniqueProductDirective } from './directives/unique-product.directive';
 		UniqueEmployeeDirective,
 		UniqueEquipmentDirective,
 		UniqueProductDirective,
-		ClientsFilterPipe
+		ClientsFilterPipe,
+		OurservicesComponent
 	],
 	providers: [ NotificationsService, HttpErrorHandlerService ]
 })

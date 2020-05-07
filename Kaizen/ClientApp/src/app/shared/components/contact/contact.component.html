@@ -1,5 +1,114 @@
 <div class="container">
-  <div class="text-center center-block-content">
-    <h1>Contáctanos</h1>
-  </div>
+    <section>
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
+                    <h1>Contáctanos</h1>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <mat-vertical-stepper [linear]="true">
+                    <mat-step>
+                        <ng-template matStepLabel>Llene todos los campos para comunicarse con nosotros</ng-template>
+                        <form class="form">
+                            <div class="form-element">
+                                <table cellspacing="0">
+                                    <tr>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Nombre</mat-label>
+                                                <input type="text" matInput placeholder="Digite su nombre" formControlName="firstName" />
+                                                <mat-hint>Digite su nombre</mat-hint>
+                                                <!-- <mat-error *ngIf="controls['firstName'].hasError('required')">Su nombre es requerido</mat-error>
+                                                <mat-error *ngIf="controls['firstName'].hasError('minlength')">Digite por lo menos 3 carácteres</mat-error>
+                                                <mat-error *ngIf="controls['firstName'].hasError('maxlength')">Digite máximo 20 caracteres</mat-error>
+                                                <mat-error *ngIf="
+                            controls['firstName'].hasError('notAlphabetic') &&
+                            !controls['firstName'].hasError('maxlength') &&
+                            !controls['firstName'].hasError('minlength')
+                          ">Digite carácteres alfabeticos</mat-error> -->
+                                            </mat-form-field>
+                                        </td>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Apellido</mat-label>
+                                                <input type="text" matInput placeholder="Digite su apellido" formControlName="lastName" />
+                                                <mat-hint>Digite su apellido</mat-hint>
+                                                <!-- <mat-error *ngIf="controls['secondName'].hasError('minlength')">Digite por lo menos 3 carácteres</mat-error>
+                                                <mat-error *ngIf="controls['secondName'].hasError('maxlength')">Digite máximo 20 caracteres</mat-error>
+                                                <mat-error *ngIf="
+                            controls['secondName'].hasError('notAlphabetic') &&
+                            !controls['secondName'].hasError('maxlength') &&
+                            !controls['secondName'].hasError('minlength')
+                          ">Digite carácteres alfabeticos</mat-error> -->
+                                            </mat-form-field>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="form-element">
+                                <table cellspacing="0">
+                                    <tr>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Número de telefono</mat-label>
+                                                <input type="tel" matInput placeholder="Digite su número de teléfono" formControlName="firstPhonenumber" />
+                                                <mat-hint>Digite su número de teléfono</mat-hint>
+                                                <!-- <mat-error *ngIf="
+                          contact_controls['firstPhonenumber'].hasError(
+                            'required'
+                          )
+                        ">Su número de teléfono es requerido</mat-error>
+                                                <mat-error *ngIf="
+                          contact_controls['firstPhonenumber'].hasError(
+                            'minlength'
+                          )
+                        ">Digite por lo menos 10 carácteres</mat-error>
+                                                <mat-error *ngIf="
+                          contact_controls['firstPhonenumber'].hasError(
+                            'maxlength'
+                          )
+                        ">Digite máximo 10 caracteres</mat-error>
+                                                <mat-error *ngIf="
+                          contact_controls['firstPhonenumber'].hasError(
+                            'notNumber'
+                          ) &&
+                          !controls['firstPhonenumber'].hasError(
+                            'maxlength'
+                          ) &&
+                          !controls['firstPhonenumber'].hasError('minlength')
+                        ">Digite carácteres numéricos</mat-error> -->
+                                            </mat-form-field>
+                                        </td>
+                                        <mat-form-field>
+                                            <mat-label>Dirección de email</mat-label>
+                                            <input type="email" matInput formControlName="email" />
+                                            <mat-hint>Digite su dirección de email</mat-hint>
+                                            <!-- <mat-error *ngIf="contact_controls['email'].hasError('required')">Su email es requerido</mat-error>
+                                            <mat-error *ngIf="contact_controls['email'].hasError('email')">Digite un email valido</mat-error> -->
+                                        </mat-form-field>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="form-element">
+                                <table cellspacing="0">
+                                    <tr>
+                                        <td>
+                                            <mat-form-field>
+                                                <mat-label>Escriba su mensaje</mat-label>
+                                                <input type="text" matInput placeholder="¿Qué nos quiere decir?" />
+                                            </mat-form-field>
+                                            <button mat-raised-button matStepperNext class="royal_azure">
+                                              Enviar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </form>
+                    </mat-step>
+                </mat-vertical-stepper>
+            </mat-card-content>
+        </mat-card>
+    </section>
 </div>
