@@ -6,7 +6,7 @@ namespace Kaizen.Domain.Entities
     {
         [Key]
         public int Id { get; set; }
-        [MaxLength(30)]
+        [MaxLength(70)]
         public string Name { get; set; }
     }
 }
