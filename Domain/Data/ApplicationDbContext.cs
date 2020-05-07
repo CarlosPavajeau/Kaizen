@@ -22,6 +22,7 @@ namespace Kaizen.Domain.Data
             builder.ApplyConfiguration(new IdentityRoleConfiguration());
             builder.ApplyConfiguration(new ClientConfiguration());
             builder.ApplyConfiguration(new EmployeeChargeConfiguration());
+            builder.ApplyConfiguration(new ServiceTypesConfiguration());
         }
 
         public DbSet<Client> Clients { get; set; }
@@ -31,8 +32,8 @@ namespace Kaizen.Domain.Data
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeCharge> EmployeeCharges { get; set; }
 
-		public DbSet<Equipment> Equipments { get; set; }
-		public DbSet<Product> Products { get; set; }
+        public DbSet<Equipment> Equipments { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         public DbSet<Service> Services { get; set; }
         public DbSet<ServiceType> ServiceTypes { get; set; }
