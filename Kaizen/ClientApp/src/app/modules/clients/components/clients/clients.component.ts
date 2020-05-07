@@ -21,11 +21,6 @@ export class ClientsComponent implements OnInit, AfterViewInit {
 
 	constructor(private clientService: ClientService) {}
 
-	ngAfterViewInit(): void {
-		this.dataSource.paginator = this.paginator;
-		this.dataSource.sort = this.sort;
-	}
-
 	ngOnInit(): void {
 		this.loadClients();
 	}
@@ -33,8 +28,13 @@ export class ClientsComponent implements OnInit, AfterViewInit {
 	loadClients(): void {
 		this.clientService.getClients().subscribe((clients) => {
 			this.clients = clients;
-			this.dataSource = new MatTableDataSource<Client>(clients);
+			this.dataSource.data = this.clients;
 		});
+	}
+
+	ngAfterViewInit(): void {
+		this.dataSource.paginator = this.paginator;
+		this.dataSource.sort = this.sort;
 	}
 
 	applyFilter(filterValue: string) {
