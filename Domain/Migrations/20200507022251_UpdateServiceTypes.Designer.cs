@@ -3,14 +3,16 @@ using System;
 using Kaizen.Domain.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Kaizen.Domain.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200507022251_UpdateServiceTypes")]
+    partial class UpdateServiceTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -475,28 +477,28 @@ namespace Kaizen.Domain.Migrations
                         new
                         {
                             Id = "3bb4b79d-85a4-4a94-b55e-5619c9acf4a2",
-                            ConcurrencyStamp = "1ed77447-fe5c-42c2-9711-3f91cc103255",
+                            ConcurrencyStamp = "25e12472-bfa1-4879-899e-2bfce28fba48",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "e88f6181-e86a-49e1-a2da-c79c71914624",
-                            ConcurrencyStamp = "177cda8b-1541-411e-8891-62f58b0e45fa",
+                            ConcurrencyStamp = "2a1b8e1f-5f62-42a2-ae2b-7040a0aaf997",
                             Name = "OfficeEmployee",
                             NormalizedName = "OFFICEEMPLOYEE"
                         },
                         new
                         {
                             Id = "e6728857-7423-443f-8228-2c8dd22f3aab",
-                            ConcurrencyStamp = "501614ae-a5ad-4ee3-ba6f-17c28ab1cd5d",
+                            ConcurrencyStamp = "41a5d7b1-5f21-42e1-9c56-d749f4849975",
                             Name = "TechnicalEmployee",
                             NormalizedName = "TECHNICALEMPLOYEE"
                         },
                         new
                         {
                             Id = "a988a9ea-c7a5-4329-aceb-3da5016c6a43",
-                            ConcurrencyStamp = "fba45aab-42d7-4e12-9dc0-44a2f68badf1",
+                            ConcurrencyStamp = "de5866dc-4b6d-4cd3-a8c4-5c94f6adedee",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         });
