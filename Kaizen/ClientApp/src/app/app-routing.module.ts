@@ -4,7 +4,7 @@ import { HomeComponent } from '@shared/components/home/home.component';
 import { Page404Component } from '@shared/components/page404/page404.component';
 import { ContactComponent } from '@shared/components/contact/contact.component';
 import { AboutComponent } from '@shared/components/about/about.component';
-import { OurservicesComponent } from '@shared/components/ourservices/ourservices.component'; 
+import { OurservicesComponent } from '@shared/components/ourservices/ourservices.component';
 
 const routes: Routes = [
 	{ path: '', component: HomeComponent },
@@ -38,8 +38,8 @@ const routes: Routes = [
 
 	{ path: 'contact', component: ContactComponent },
 	{ path: 'about', component: AboutComponent },
-	{ path: '**', component: Page404Component },
-	{ path: 'ourservices', component: OurservicesComponent }
+	{ path: 'ourservices', component: OurservicesComponent },
+	{ path: '**', component: Page404Component }
 ];
 
 @NgModule({
