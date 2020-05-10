@@ -1,1 +1,94 @@
-<p>product-register works!</p>
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        <h1>Registro de producto</h1>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-horizontal-stepper>
+        <mat-step [stepControl]="productForm">
+          <ng-template matStepLabel>Datos del producto</ng-template>
+          <form [formGroup]="productForm">
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Código</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  placeholder="Ejemplo: 22RT5"
+                  formControlName="code"
+                  class="text-uppercase"
+                />
+                <mat-hint>Digite el código del producto</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Registro sanitario</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  placeholder="Ejemplo: 44B13MMMA"
+                  formControlName="healthRegister"
+                  class="text-uppercase"
+                />
+                <mat-hint>Digite el registro sanitario del producto</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Cantidad</mat-label>
+                <input
+                  type="number"
+                  matInput
+                  placeholder="Ejemplo: 55"
+                  formControlName="amount"
+                />
+                <mat-hint>Digite la cantidad existente del producto</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-chip-list #chipList aria-label="Meses de aplicación">
+                  <mat-chip
+                    *ngFor="let applicationMonth of applicationMonthsArray"
+                    [selectable]="selectable"
+                    [removable]="removable"
+                    (removed)="removeMonth(applicationMonth)"
+                  >
+                    {{ applicationMonth }}
+                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                  </mat-chip>
+                  <input
+                    placeholder="Meses de aplicación"
+                    #monthInput
+                    formControlName="applicationMonths"
+                    [matAutocomplete]="auto"
+                    [matChipInputFor]="chipList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    (matChipInputTokenEnd)="addMonth($event)"
+                  />
+                </mat-chip-list>
+                <mat-autocomplete
+                  #auto="matAutocomplete"
+                  (optionSelected)="selectedMonth($event)"
+                >
+                  <mat-option
+                    *ngFor="let applicationMonth of filteredMonths | async"
+                    [value]="applicationMonth"
+                  >
+                    {{ applicationMonth }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Ficha técnica</ng-template>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </mat-card-content>
+  </mat-card>
+</div>
