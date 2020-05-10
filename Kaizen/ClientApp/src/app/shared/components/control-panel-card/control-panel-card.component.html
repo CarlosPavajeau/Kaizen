@@ -1,0 +1,18 @@
+<div *ngIf="controlCard" class="control-card">
+  <a [routerLink]="controlCard.url">
+    <mat-card class="mat-elevation-z3">
+      <div class="control-card-img">
+        <img
+          mat-card-image
+          src="{{ controlCard.imgUrl }}"
+          alt="{{ controlCard.title }}"
+        />
+      </div>
+      <mat-card-content>
+        <div class="control-card-title">
+          <h4>{{ controlCard.title }}</h4>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </a>
+</div>

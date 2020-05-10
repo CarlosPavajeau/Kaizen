@@ -1,0 +1,22 @@
+.control-card {
+  max-width: 250px;
+  max-height: 200px;
+  align-items: center;
+  text-align: center;
+  transition: all 300ms;
+}
+
+.control-card:hover {
+  transform: scale(1.02);
+}
+
+.control-card-img {
+  max-height: 100px;
+  max-width: 100px;
+  margin: 0 auto;
+}
+
+.control-card-title {
+  font-size: 18px;
+  font-weight: 300;
+}
