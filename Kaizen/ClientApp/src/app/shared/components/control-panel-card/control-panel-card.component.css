@@ -3,11 +3,13 @@
   max-height: 200px;
   align-items: center;
   text-align: center;
+  margin: 0 auto;
+  margin-bottom: 15px;
   transition: all 300ms;
 }
 
 .control-card:hover {
-  transform: scale(1.02);
+  transform: scale(1.01);
 }
 
 .control-card-img {
