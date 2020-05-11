@@ -1,6 +1,6 @@
-import { ControlPanelCard } from '@app/core/models/control-panel-card';
+import { DashboardCard } from '@core/models/dashboard-card';
 
-export const CONTROL_PANEL_CARDS: { [role: string]: ControlPanelCard[] } = {
+export const DASHBOARS_CARDS: { [role: string]: DashboardCard[] } = {
 	Client: [
 		{ title: 'Datos de acceso', imgUrl: 'assets/images/ecolplag_bird.png', url: '/services' },
 		{ title: 'Mis facturas', imgUrl: 'assets/images/ecolplag_bird.png', url: '/services' },

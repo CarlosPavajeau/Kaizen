@@ -1,16 +1,16 @@
-<div *ngIf="controlCard" class="control-card">
-  <a [routerLink]="controlCard.url">
+<div *ngIf="dashboardCard" class="control-card">
+  <a [routerLink]="dashboardCard.url">
     <mat-card class="mat-elevation-z3">
       <div class="control-card-img">
         <img
           mat-card-image
-          src="{{ controlCard.imgUrl }}"
-          alt="{{ controlCard.title }}"
+          src="{{ dashboardCard.imgUrl }}"
+          alt="{{ dashboardCard.title }}"
         />
       </div>
       <mat-card-content>
         <div class="control-card-title">
-          <h4>{{ controlCard.title }}</h4>
+          <h4>{{ dashboardCard.title }}</h4>
         </div>
       </mat-card-content>
     </mat-card>

@@ -6,10 +6,10 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { UserRoutinModule } from './user-routing.module';
-import { ControlPanelComponent } from './components/control-panel/control-panel.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 @NgModule({
-	declarations: [ UserRegisterComponent, UserLoginComponent, UserProfileComponent, ControlPanelComponent ],
+	declarations: [ UserRegisterComponent, UserLoginComponent, UserProfileComponent, DashboardComponent ],
 	imports: [ FormsModule, ReactiveFormsModule, SharedModule, UserRoutinModule ],
 	exports: [ UserRegisterComponent ]
 })

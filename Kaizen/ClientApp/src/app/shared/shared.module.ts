@@ -18,7 +18,7 @@ import { HomeComponent } from '@shared/components/home/home.component';
 import { UniqueEquipmentDirective } from './directives/unique-equipment.directive';
 import { UniqueProductDirective } from './directives/unique-product.directive';
 import { OurservicesComponent } from './components/ourservices/ourservices.component';
-import { ControlPanelCardComponent } from './components/control-panel-card/control-panel-card.component';
+import { DashboardCardComponent } from './components/dashboard-card/dashboard-card.component';
 
 @NgModule({
 	declarations: [
@@ -36,7 +36,7 @@ import { ControlPanelCardComponent } from './components/control-panel-card/contr
 		UniqueEquipmentDirective,
 		UniqueProductDirective,
 		OurservicesComponent,
-		ControlPanelCardComponent
+		DashboardCardComponent
 	],
 	imports: [ CommonModule, MaterialModule, RouterModule ],
 	exports: [
@@ -56,7 +56,7 @@ import { ControlPanelCardComponent } from './components/control-panel-card/contr
 		UniqueProductDirective,
 		ClientsFilterPipe,
 		OurservicesComponent,
-		ControlPanelCardComponent
+		DashboardCardComponent
 	],
 	providers: [ NotificationsService, HttpErrorHandlerService ]
 })
