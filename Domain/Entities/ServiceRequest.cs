@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,15 +7,15 @@ namespace Kaizen.Domain.Entities
 {
     public class ServiceRequest
     {
-        [Key, MaxLength(15)]
-        public string Code { get; set; }
+        [Key]
+        public int Code { get; set; }
         public DateTime Date { get; set; }
+        public RequestState State { get; set; }
 
-        
+
         [ForeignKey("ClientId"), Editable(false)]
         public Client Client { get; set; }
 
-        [ForeignKey("ServiceCode")]
-        public Service Service { get; set; }
+        public List<Service> Services { get; set; }
     }
 }
