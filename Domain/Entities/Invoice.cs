@@ -1,15 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kaizen.Domain.Entities
 {
-    public enum InvoiceState
-    {
-        Generated,
-        Regenerated,
-        Paid,
-        Expired
-    }
     public class Invoice
     {
         [Key]
