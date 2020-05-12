@@ -1,7 +1,7 @@
 import { Injectable, NgZone, OnInit, OnDestroy } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
-import { Subject, Subscription } from 'rxjs';
-import { SnackBarMessage } from '../models/snackbar-message';
+import { Subscription } from 'rxjs';
+import { SnackBarMessage } from '@shared/models/snackbar-message';
 
 @Injectable({
 	providedIn: 'root'

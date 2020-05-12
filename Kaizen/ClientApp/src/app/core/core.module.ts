@@ -1,7 +1,7 @@
 import { NgModule, Optional, SkipSelf, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ApiPrefixInterceptor } from './interceptors/api-prefix.interceptor';
+import { ApiPrefixInterceptor } from '@core/interceptors/api-prefix.interceptor';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
 import { AuthenticationService } from '@core/authentication/authentication.service';

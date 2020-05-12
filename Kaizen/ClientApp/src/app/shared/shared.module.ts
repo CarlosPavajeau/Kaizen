@@ -12,13 +12,13 @@ import { UniqueClientDirective } from '@shared/directives/unique-client.directiv
 import { UniqueUserDirective } from '@shared/directives/unique-user.directive';
 import { NotificationsService } from '@shared/services/notifications.service';
 import { HttpErrorHandlerService } from '@shared/services/http-error-handler.service';
-import { ClientsFilterPipe } from './pipes/clients-filter.pipe';
-import { UniqueEmployeeDirective } from './directives/unique-employee.directive';
+import { ClientsFilterPipe } from '@shared/pipes/clients-filter.pipe';
+import { UniqueEmployeeDirective } from '@shared/directives/unique-employee.directive';
 import { HomeComponent } from '@shared/components/home/home.component';
-import { UniqueEquipmentDirective } from './directives/unique-equipment.directive';
-import { UniqueProductDirective } from './directives/unique-product.directive';
-import { OurservicesComponent } from './components/ourservices/ourservices.component';
-import { DashboardCardComponent } from './components/dashboard-card/dashboard-card.component';
+import { UniqueEquipmentDirective } from '@shared/directives/unique-equipment.directive';
+import { UniqueProductDirective } from '@shared/directives/unique-product.directive';
+import { OurservicesComponent } from '@shared/components/ourservices/ourservices.component';
+import { DashboardCardComponent } from '@shared/components/dashboard-card/dashboard-card.component';
 
 @NgModule({
 	declarations: [

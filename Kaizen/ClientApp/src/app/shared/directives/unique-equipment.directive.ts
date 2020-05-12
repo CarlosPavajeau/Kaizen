@@ -1,7 +1,7 @@
 import { Directive } from '@angular/core';
 import { NG_ASYNC_VALIDATORS, AsyncValidator, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { CheckEquipmentExistsService } from '@app/core/services/check-equipment-exists.service';
+import { CheckEquipmentExistsService } from '@core/services/check-equipment-exists.service';
 import { map } from 'rxjs/operators';
 
 @Directive({

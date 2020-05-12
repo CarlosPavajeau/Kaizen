@@ -12,28 +12,28 @@ const routes: Routes = [
 	{ path: 'clients', loadChildren: () => import('./modules/clients/client.module').then((m) => m.ClientModule) },
 	{
 		path: 'services',
-		loadChildren: () => import('./modules/services/services.module').then((m) => m.ServicesModule)
+		loadChildren: () => import('@modules/services/services.module').then((m) => m.ServicesModule)
 	},
 	{
 		path: 'employees',
-		loadChildren: () => import('./modules/employees/employees.module').then((m) => m.EmployeesModule)
+		loadChildren: () => import('@modules/employees/employees.module').then((m) => m.EmployeesModule)
 	},
 	{
 		path: 'inventory',
-		loadChildren: () => import('./modules/inventory/inventory.module').then((m) => m.InventoryModule)
+		loadChildren: () => import('@modules/inventory/inventory.module').then((m) => m.InventoryModule)
 	},
 	{
 		path: 'calendar',
 		loadChildren: () =>
-			import('./modules/activity-schedule/activity-schedule.module').then((m) => m.ActivityScheduleModule)
+			import('@modules/activity-schedule/activity-schedule.module').then((m) => m.ActivityScheduleModule)
 	},
 	{
 		path: 'payments',
-		loadChildren: () => import('./modules/payments/payments.module').then((m) => m.PaymentsModule)
+		loadChildren: () => import('@modules/payments/payments.module').then((m) => m.PaymentsModule)
 	},
 	{
 		path: 'work-order',
-		loadChildren: () => import('./modules/work-orders/work-orders.module').then((m) => m.WorkOrdersModule)
+		loadChildren: () => import('@modules/work-orders/work-orders.module').then((m) => m.WorkOrdersModule)
 	},
 
 	{ path: 'contact', component: ContactComponent },
