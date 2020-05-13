@@ -17,10 +17,13 @@ namespace Kaizen.Domain.Entities
 
         public List<EquipmentService> EquipmentsServices { get; set; }
         public List<ProductService> ProductsServices { get; set; }
+        public List<EmployeeService> EmployeesServices { get; set; }
 
         [NotMapped]
         public List<Equipment> Equipments { get; set; }
         [NotMapped]
         public List<Product> Products { get; set; }
+        [NotMapped]
+        public List<Employee> Employees { get; set; }
     }
 }

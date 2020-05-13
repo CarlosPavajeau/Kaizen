@@ -11,9 +11,12 @@ namespace Kaizen.Domain.Entities
         public EmployeeCharge EmployeeCharge { get; set; }
 
         public List<ActivityEmployee> EmployeesActivities { get; set; }
+        public List<EmployeeService> EmployeesServices { get; set; }
 
         [NotMapped]
         public List<Activity> Activities { get; set; }
+        [NotMapped]
+        public List<Service> Services { get; set; }
 
     }
 }
