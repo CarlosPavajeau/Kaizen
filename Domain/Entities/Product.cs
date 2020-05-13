@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Kaizen.Domain.Entities
 {
@@ -15,5 +16,7 @@ namespace Kaizen.Domain.Entities
         public DataSheet DataSheet { get; set; }
         public SafetySheet SafetySheet { get; set; }
         public EmergencyCard EmergencyCard { get; set; }
+
+        public List<ProductService> ProductsServices { get; set; }
     }
 }

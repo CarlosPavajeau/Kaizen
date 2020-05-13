@@ -16,8 +16,11 @@ namespace Kaizen.Domain.Entities
         public decimal Cost { get; set; }
 
         public List<EquipmentService> EquipmentsServices { get; set; }
+        public List<ProductService> ProductsServices { get; set; }
 
         [NotMapped]
         public List<Equipment> Equipments { get; set; }
+        [NotMapped]
+        public List<Product> Products { get; set; }
     }
 }
