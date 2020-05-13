@@ -54,7 +54,8 @@ namespace Kaizen.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<ServiceTypeViewModel>>> ServiceTypes()
         {
-            return await _servicesRepository.GetServiceTypes().Select(s => _mapper.Map<ServiceTypeViewModel>(s)).ToListAsync();
+            IEnumerable<ServiceType> serviceTypes = await _servicesRepository.GetServiceTypesAsync();
+            return Ok(_mapper.Map<IEnumerable<ServiceTypeViewModel>>(serviceTypes));
         }
 
         [HttpGet("[action]/{id}")]
