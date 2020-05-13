@@ -36,6 +36,8 @@ namespace Kaizen.Mappers
             CreateMap<Product, ProductViewModel>();
             CreateMap<ProductEditModel, Product>();
             CreateMap<ProductInputModel, Product>();
+
+            CreateMap<ServiceType, ServiceTypeViewModel>();
         }
     }
 }
