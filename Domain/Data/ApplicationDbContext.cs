@@ -23,6 +23,7 @@ namespace Kaizen.Domain.Data
             builder.ApplyConfiguration(new ClientConfiguration());
             builder.ApplyConfiguration(new EmployeeChargeConfiguration());
             builder.ApplyConfiguration(new ServiceTypesConfiguration());
+            builder.ApplyConfiguration(new ProductServiceConfig());
         }
 
         public DbSet<Client> Clients { get; set; }
@@ -37,5 +38,6 @@ namespace Kaizen.Domain.Data
 
         public DbSet<Service> Services { get; set; }
         public DbSet<ServiceType> ServiceTypes { get; set; }
+        public DbSet<ProductService> ProductsServices { get; set; }
     }
 }
