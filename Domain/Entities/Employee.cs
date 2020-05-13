@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kaizen.Domain.Entities
@@ -8,5 +9,11 @@ namespace Kaizen.Domain.Entities
 
         [ForeignKey("ChargeId")]
         public EmployeeCharge EmployeeCharge { get; set; }
+
+        public List<ActivityEmployee> EmployeesActivities { get; set; }
+
+        [NotMapped]
+        public List<Activity> Activities { get; set; }
+
     }
 }
