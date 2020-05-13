@@ -3,15 +3,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kaizen.Domain.Entities
 {
-    public class ActivitiesEmployees
+    public class EmployeeService
     {
-        [Required]
-        public int ActivityCode { get; set; }
-        [MaxLength(10), Required]
+        [MaxLength(10)]
         public string EmployeeId { get; set; }
+        [MaxLength(15)]
+        public string ServiceCode { get; set; }
 
-        [ForeignKey("ActivityCode")]
-        public Activity Activity { get; set; }
+        [ForeignKey("ServiceCode")]
+        public Service Service { get; set; }
         [ForeignKey("EmployeeId")]
         public Employee Employee { get; set; }
     }

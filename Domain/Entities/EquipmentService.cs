@@ -1,18 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kaizen.Domain.Entities
 {
-    public class ProductsServices
+    public class EquipmentService
     {
-        [MaxLength(15)]
-        public string ProductCode { get; set; }
+        [MaxLength(20)]
+        public string EquipmentCode { get; set; }
         [MaxLength(15)]
         public string ServiceCode { get; set; }
 
         [ForeignKey("ServiceCode")]
         public Service Service { get; set; }
-        [ForeignKey("ProductCode")]
-        public Product Product { get; set; }
+        [ForeignKey("EquipmentCode")]
+        public Equipment Equipment { get; set; }
     }
 }

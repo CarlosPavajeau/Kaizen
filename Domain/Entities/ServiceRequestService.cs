@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kaizen.Domain.Entities
 {
-    public class ServiceRequestsServices
+    public class ServiceRequestService
     {
         [Required]
         public int ServiceRequestCode { get; set; }
-        [Required]
+        [Required, MaxLength(15)]
         public string ServiceCode { get; set; }
 
         [ForeignKey("ServiceCode")]
