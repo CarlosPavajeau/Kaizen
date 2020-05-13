@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,5 +14,10 @@ namespace Kaizen.Domain.Entities
         [ForeignKey("ServiceTypeId")]
         public ServiceType ServiceType { get; set; }
         public decimal Cost { get; set; }
+
+        public List<EquipmentService> EquipmentsServices { get; set; }
+
+        [NotMapped]
+        public List<Equipment> Equipments { get; set; }
     }
 }
