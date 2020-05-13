@@ -16,6 +16,9 @@ namespace Kaizen.Domain.Entities
         [ForeignKey("ClientId"), Editable(false)]
         public Client Client { get; set; }
 
+        public List<ServiceRequestService> ServiceRequestsServices { get; set; }
+
+        [NotMapped]
         public List<Service> Services { get; set; }
     }
 }

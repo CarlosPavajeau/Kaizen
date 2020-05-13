@@ -18,6 +18,7 @@ namespace Kaizen.Domain.Entities
         public List<EquipmentService> EquipmentsServices { get; set; }
         public List<ProductService> ProductsServices { get; set; }
         public List<EmployeeService> EmployeesServices { get; set; }
+        public List<ServiceRequestService> ServiceRequestsServices { get; set; }
 
         [NotMapped]
         public List<Equipment> Equipments { get; set; }
