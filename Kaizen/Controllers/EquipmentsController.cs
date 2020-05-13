@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Kaizen.Core.Exceptions.Equipments;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.EditModels;
@@ -43,9 +44,7 @@ namespace Kaizen.Controllers
             Equipment equipment = await _equipmentsRepository.FindByIdAsync(id);
 
             if (equipment == null)
-            {
-                return NotFound();
-            }
+                throw new EquipmentDoesNotExists();
 
             return _mapper.Map<EquipmentViewModel>(equipment);
         }
@@ -65,10 +64,9 @@ namespace Kaizen.Controllers
         {
             Equipment equipment = await _equipmentsRepository.FindByIdAsync(id);
             if (equipment is null)
-            {
-                return BadRequest();
-            }
+                throw new EquipmentDoesNotExists();
 
+            _mapper.Map(equipmentModel, equipment);
             _equipmentsRepository.Update(equipment);
 
             try
@@ -79,7 +77,7 @@ namespace Kaizen.Controllers
             {
                 if (!EquipmentExists(id))
                 {
-                    return NotFound();
+                    throw new EquipmentDoesNotExists();
                 }
                 else
                 {
@@ -107,11 +105,11 @@ namespace Kaizen.Controllers
             {
                 if (EquipmentExists(equipment.Code))
                 {
-                    return Conflict();
+                    throw new EquipmentAlreadyRegistered();
                 }
                 else
                 {
-                    throw;
+                    throw new EquipmentNotRegister();
                 }
             }
 
