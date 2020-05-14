@@ -28,6 +28,8 @@ namespace Kaizen.Domain.Data
             builder.ApplyConfiguration(new EquipmentServiceConfig());
             builder.ApplyConfiguration(new ServiceRequestConfig());
             builder.ApplyConfiguration(new ServiceRequestServiceConfig());
+            builder.ApplyConfiguration(new ActivityConfig());
+            builder.ApplyConfiguration(new ActivityEmployeeConfig());
         }
 
         public DbSet<Client> Clients { get; set; }
@@ -48,5 +50,8 @@ namespace Kaizen.Domain.Data
 
         public DbSet<ServiceRequest> ServiceRequests { get; set; }
         public DbSet<ServiceRequestService> ServiceRequestsServices { get; set; }
+
+        public DbSet<Activity> Activities { get; set; }
+        public DbSet<ActivityEmployee> ActivitiesEmployees { get; set; }
     }
 }
