@@ -12,8 +12,9 @@ namespace Kaizen.Domain.Entities
         public DateTime Date { get; set; }
         public RequestState State { get; set; }
 
-
-        [ForeignKey("ClientId"), Editable(false)]
+        [Required, MaxLength(10)]
+        public string ClientId { get; set; }
+        [ForeignKey("ClientId")]
         public Client Client { get; set; }
 
         public List<ServiceRequestService> ServiceRequestsServices { get; set; }
