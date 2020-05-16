@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -14,6 +14,6 @@ namespace Kaizen.Core.Domain
         T FindById(TKey id);
         Task<T> FindByIdAsync(TKey id);
         void Update(T entity);
-
+        void Delete(T entity);
     }
 }

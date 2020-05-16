@@ -1,10 +1,10 @@
-﻿using Kaizen.Core.Domain;
-using Kaizen.Domain.Data;
 using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Kaizen.Core.Domain;
+using Kaizen.Domain.Data;
 
 namespace Kaizen.Domain.Repositories
 {
@@ -45,6 +45,11 @@ namespace Kaizen.Domain.Repositories
         public virtual async Task<T> FindByIdAsync(TKey id)
         {
             return await ApplicationDbContext.Set<T>().FindAsync(id);
+        }
+
+        public void Delete(T entity)
+        {
+            ApplicationDbContext.Set<T>().Remove(entity);
         }
     }
 }
