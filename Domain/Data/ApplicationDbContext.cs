@@ -31,6 +31,7 @@ namespace Kaizen.Domain.Data
             builder.ApplyConfiguration(new ActivityConfig());
             builder.ApplyConfiguration(new ActivityEmployeeConfig());
             builder.ApplyConfiguration(new ActivityServiceConfig());
+            builder.ApplyConfiguration(new WorkOrderConfig());
         }
 
         public DbSet<Client> Clients { get; set; }
@@ -55,5 +56,7 @@ namespace Kaizen.Domain.Data
         public DbSet<Activity> Activities { get; set; }
         public DbSet<ActivityEmployee> ActivitiesEmployees { get; set; }
         public DbSet<ActivityService> ActivitiesServices { get; set; }
+
+        public DbSet<WorkOrder> WorkOrders { get; set; }
     }
 }
