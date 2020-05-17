@@ -10,6 +10,7 @@ namespace Kaizen.Domain.Data.Configuration.EntityTypeConfigurations
         {
             builder.ToTable("WorkOrders");
             builder.Property(p => p.WorkOrderState).HasDefaultValue(WorkOrderState.Generated);
+            builder.HasAlternateKey(p => p.ActivityCode);
         }
     }
 }
