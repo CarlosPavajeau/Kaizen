@@ -1,8 +1,11 @@
 using AutoMapper;
 using Kaizen.Domain.Entities;
-using Kaizen.EditModels;
-using Kaizen.InputModels;
-using Kaizen.ViewModels;
+using Kaizen.Models.ApplicationUser;
+using Kaizen.Models.Client;
+using Kaizen.Models.Employee;
+using Kaizen.Models.Equipment;
+using Kaizen.Models.Product;
+using Kaizen.Models.Service;
 
 namespace Kaizen.Mappers
 {

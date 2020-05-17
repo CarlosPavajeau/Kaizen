@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Kaizen.EditModels;
 
 namespace Kaizen.Models.ApplicationUser
 {

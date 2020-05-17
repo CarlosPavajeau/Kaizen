@@ -2,7 +2,7 @@ using System;
 using System.Net;
 using System.Threading.Tasks;
 using Kaizen.Core.Exceptions;
-using Kaizen.ViewModels;
+using Kaizen.Models.Error;
 using Microsoft.AspNetCore.Http;
 
 namespace Kaizen.Middleware
