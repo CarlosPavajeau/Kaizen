@@ -165,6 +165,7 @@ mat-card {
 
 .container {
   margin-top: 40px;
+  min-height: 405px;
 }
 
 .separator {
