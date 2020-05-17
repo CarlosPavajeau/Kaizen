@@ -71,6 +71,9 @@ namespace Kaizen.Infrastructure.Extensions
             services.AddScoped<IProductsRepository, ProductsRepository>();
             services.AddScoped<IEquipmentsRepository, EquipmentsRepository>();
             services.AddScoped<IServicesRepository, ServicesRepository>();
+            services.AddScoped<IActivitiesRepository, ActivitiesRepository>();
+            services.AddScoped<IServiceRequestsRepository, ServiceRequestsRepository>();
+            services.AddScoped<IWorkOrdersRepository, WorkOrdersRepository>();
         }
     }
 }
