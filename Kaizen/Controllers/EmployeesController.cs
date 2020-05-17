@@ -108,7 +108,9 @@ namespace Kaizen.Controllers
             if (applicationUser is null)
                 throw new UserDoesNotExists();
 
-            EmployeeCharge employeeCharge = await _employeesRepository.GetAllEmployeeCharges().Where(c => c.Id == employeeModel.ChargeId).FirstOrDefaultAsync();
+            EmployeeCharge employeeCharge = await _employeesRepository.GetAllEmployeeCharges()
+                .Where(c => c.Id == employeeModel.ChargeId)
+                .FirstOrDefaultAsync();
             if (employeeCharge is null)
                 throw new EmployeeChargeDoesNotExists();
 
@@ -117,7 +119,6 @@ namespace Kaizen.Controllers
             employee.EmployeeCharge = employeeCharge;
 
             _employeesRepository.Insert(employee);
-
 
             try
             {
