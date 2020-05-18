@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using AutoMapper;
 using Kaizen.Domain.Entities;
 using Kaizen.Models.ApplicationUser;
@@ -6,6 +7,7 @@ using Kaizen.Models.Employee;
 using Kaizen.Models.Equipment;
 using Kaizen.Models.Product;
 using Kaizen.Models.Service;
+using Kaizen.Models.ServiceRequest;
 
 namespace Kaizen.Mappers
 {
@@ -41,6 +43,24 @@ namespace Kaizen.Mappers
             CreateMap<ProductInputModel, Product>();
 
             CreateMap<ServiceType, ServiceTypeViewModel>();
+            CreateMap<ServiceEditModel, Service>();
+            CreateMap<ServiceInputModel, Service>();
+            CreateMap<Service, ServiceViewModel>();
+
+            CreateMap<ServiceRequestEditModel, ServiceRequest>();
+            CreateMap<ServiceRequestInputModel, ServiceRequest>().AfterMap((serviceRequestModel, serviceRequest) =>
+            {
+                serviceRequest.ServiceRequestsServices = new List<ServiceRequestService>();
+                foreach (var serviceCode in serviceRequestModel.ServiceCodes)
+                {
+                    serviceRequest.ServiceRequestsServices.Add(new ServiceRequestService
+                    {
+                        ServiceCode = serviceCode,
+                        ServiceRequest = serviceRequest
+                    });
+                }
+            });
+            CreateMap<ServiceRequest, ServiceRequestViewModel>();
         }
     }
 }
