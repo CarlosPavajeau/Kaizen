@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using AutoMapper;
 using Kaizen.Domain.Entities;
+using Kaizen.Models.Activity;
 using Kaizen.Models.ApplicationUser;
 using Kaizen.Models.Client;
 using Kaizen.Models.Employee;
@@ -61,6 +62,10 @@ namespace Kaizen.Mappers
                 }
             });
             CreateMap<ServiceRequest, ServiceRequestViewModel>();
+
+            CreateMap<ActivityEditModel, Activity>();
+            CreateMap<ActivityInputModel, Activity>();
+            CreateMap<Activity, ActivityViewModel>();
         }
     }
 }
