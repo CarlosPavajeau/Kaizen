@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
+using Kaizen.Models.ServiceRequest;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,37 +27,40 @@ namespace Kaizen.Controllers
 
         // GET: api/ServiceRequests
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ServiceRequest>>> GetServiceRequests()
+        public async Task<ActionResult<IEnumerable<ServiceRequestViewModel>>> GetServiceRequests()
         {
-            return await _serviceRequestsRepository.GetAll().ToListAsync();
+            List<ServiceRequest> serviceRequests = await _serviceRequestsRepository.GetAll().ToListAsync();
+            return Ok(_mapper.Map<IEnumerable<ServiceRequestViewModel>>(serviceRequests));
         }
 
         // GET: api/ServiceRequests/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ServiceRequest>> GetServiceRequest(int id)
+        public async Task<ActionResult<ServiceRequestViewModel>> GetServiceRequest(int id)
         {
-            var serviceRequest = await _serviceRequestsRepository.FindByIdAsync(id);
+            ServiceRequest serviceRequest = await _serviceRequestsRepository.FindByIdAsync(id);
 
             if (serviceRequest == null)
             {
                 return NotFound();
             }
 
-            return serviceRequest;
+            return _mapper.Map<ServiceRequestViewModel>(serviceRequest);
         }
 
         // PUT: api/ServiceRequests/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutServiceRequest(int id, ServiceRequest serviceRequest)
+        public async Task<IActionResult> PutServiceRequest(int id, ServiceRequestEditModel serviceRequestModel)
         {
-            if (id != serviceRequest.Code)
+            ServiceRequest serviceRequest = await _serviceRequestsRepository.FindByIdAsync(id);
+            if (serviceRequest is null)
             {
                 return BadRequest();
             }
 
-            //_context.Entry(serviceRequest).State = EntityState.Modified;
+            _mapper.Map(serviceRequestModel, serviceRequest);
+            _serviceRequestsRepository.Update(serviceRequest);
 
             try
             {
@@ -81,19 +85,28 @@ namespace Kaizen.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<ServiceRequest>> PostServiceRequest(ServiceRequest serviceRequest)
+        public async Task<ActionResult<ServiceRequestViewModel>> PostServiceRequest([FromBody]ServiceRequestInputModel serviceRequestModel)
         {
+            ServiceRequest serviceRequest = _mapper.Map<ServiceRequest>(serviceRequestModel);
             _serviceRequestsRepository.Insert(serviceRequest);
-            await _unitWork.SaveAsync();
 
-            return CreatedAtAction("GetServiceRequest", new { id = serviceRequest.Code }, serviceRequest);
+            try
+            {
+                await _unitWork.SaveAsync();
+            }
+            catch (DbUpdateException)
+            {
+                throw;
+            }
+
+            return _mapper.Map<ServiceRequestViewModel>(serviceRequest);
         }
 
         // DELETE: api/ServiceRequests/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<ServiceRequest>> DeleteServiceRequest(int id)
+        public async Task<ActionResult<ServiceRequestViewModel>> DeleteServiceRequest(int id)
         {
-            var serviceRequest = await _serviceRequestsRepository.FindByIdAsync(id);
+            ServiceRequest serviceRequest = await _serviceRequestsRepository.FindByIdAsync(id);
             if (serviceRequest == null)
             {
                 return NotFound();
@@ -102,7 +115,7 @@ namespace Kaizen.Controllers
             _serviceRequestsRepository.Delete(serviceRequest);
             await _unitWork.SaveAsync();
 
-            return serviceRequest;
+            return _mapper.Map<ServiceRequestViewModel>(serviceRequest);
         }
 
         private bool ServiceRequestExists(int id)
