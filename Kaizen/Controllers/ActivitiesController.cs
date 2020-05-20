@@ -27,7 +27,7 @@ namespace Kaizen.Controllers
 
         // GET: api/Activities
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Activity>>> GetActivities()
+        public async Task<ActionResult<IEnumerable<ActivityViewModel>>> GetActivities()
         {
             List<Activity> activities = await _activitiesRepository.GetAll().ToListAsync();
             return Ok(_mapper.Map<IEnumerable<ActivityViewModel>>(activities));
