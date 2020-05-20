@@ -9,7 +9,7 @@ import { CharactersValidators } from '@shared/validators/characters-validators';
 import { User } from '@core/models/user';
 import { Employee } from '@modules/employees/models/employee';
 import { EmployeeCharge } from '@modules/employees/models/employee-charge';
-import { EMPLOYEE_ROLE } from '@global/roles';
+import { OFFICE_EMPLOYEE_ROLE, TECHNICAL_EMPLOYEE_ROLE, ADMINISTRATOR_ROLE, EMPLOYEE_ROLE } from '@global/roles';
 
 @Component({
 	selector: 'app-employee-register',
@@ -117,7 +117,19 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
 		if (user && this.employeeForm.valid) {
 			user.email = this.contact_controls['email'].value;
 			user.phonenumber = this.contact_controls['phonenumber'].value;
-			user.role = EMPLOYEE_ROLE;
+
+			const employeeChargeId = +this.controls['employeeCharge'].value;
+			let role: string;
+			if (employeeChargeId == 1 || employeeChargeId == 2) {
+				role = ADMINISTRATOR_ROLE;
+			} else if (employeeChargeId == 5) {
+				role = OFFICE_EMPLOYEE_ROLE;
+			} else if (employeeChargeId == 7) {
+				role = TECHNICAL_EMPLOYEE_ROLE;
+			} else {
+				role = EMPLOYEE_ROLE;
+			}
+			user.role = role;
 
 			this.authService.registerUser(user).subscribe((userRegister) => {
 				const employee: Employee = this.mapEmployee(userRegister.id);
