@@ -282,6 +282,67 @@
               </div>
             </form>
           </mat-step>
+          <mat-step [stepControl]="contractForm">
+            <form [formGroup]="contractForm">
+              <ng-template matStepLabel>Datos de contrato</ng-template>
+              <div class="form-element">
+                <mat-form-field>
+                  <mat-label>Código de contrato</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    formControlName="contractCode"
+                    placeholder="Ejemplo: 3242AAR4"
+                  />
+                  <mat-hint>Digite el código de contrato del empleado</mat-hint>
+                </mat-form-field>
+              </div>
+              <div class="form-element form-select">
+                <mat-form-field>
+                  <mat-label>Fecha de inicio del contrato</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="startDate"
+                    formControlName="startDate"
+                  />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="startDate"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #startDate></mat-datepicker>
+                  <mat-hint
+                    >Seleccione la fecha de inicio del contrato</mat-hint
+                  >
+                </mat-form-field>
+              </div>
+              <div class="form-element form-select">
+                <mat-form-field>
+                  <mat-label>Fecha de finalización del contrato</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="endDate"
+                    formControlName="endDate"
+                  />
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="endDate"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #endDate></mat-datepicker>
+                  <mat-hint
+                    >Seleccione la fecha de finalización del contrato</mat-hint
+                  >
+                </mat-form-field>
+              </div>
+            </form>
+            <div>
+              <button mat-raised-button matStepperPrevious>
+                Regresar
+              </button>
+              <button mat-raised-button matStepperNext class="royal_azure">
+                Continuar
+              </button>
+            </div>
+          </mat-step>
           <mat-step>
             <app-user-register (user)="onSubmit($event)">
               <ng-template matStepLabel>Datos de ingreso</ng-template>

@@ -10,6 +10,7 @@ import { User } from '@core/models/user';
 import { Employee } from '@modules/employees/models/employee';
 import { EmployeeCharge } from '@modules/employees/models/employee-charge';
 import { OFFICE_EMPLOYEE_ROLE, TECHNICAL_EMPLOYEE_ROLE, ADMINISTRATOR_ROLE, EMPLOYEE_ROLE } from '@global/roles';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-employee-register',
@@ -19,6 +20,7 @@ import { OFFICE_EMPLOYEE_ROLE, TECHNICAL_EMPLOYEE_ROLE, ADMINISTRATOR_ROLE, EMPL
 export class EmployeeRegisterComponent implements OnInit, IForm {
 	employeeForm: FormGroup;
 	contactForm: FormGroup;
+	contractForm: FormGroup;
 	employeeCharges: EmployeeCharge[];
 
 	public get controls(): { [key: string]: AbstractControl } {
@@ -29,12 +31,17 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
 		return this.contactForm.controls;
 	}
 
+	public get contract_controls(): { [key: string]: AbstractControl } {
+		return this.contractForm.controls;
+	}
+
 	constructor(
 		private employeeService: EmployeeService,
 		private formBuilder: FormBuilder,
 		private authService: AuthenticationService,
 		private employeeValidator: EmployeeExistsValidator,
-		private notificationsService: NotificationsService
+		private notificationsService: NotificationsService,
+		private router: Router
 	) {}
 
 	ngOnInit(): void {
@@ -51,6 +58,7 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
 	initForm(): void {
 		this.initEmployeeForm();
 		this.initContactForm();
+		this.initContractForm();
 	}
 
 	private initEmployeeForm() {
@@ -113,8 +121,16 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
 		});
 	}
 
+	private initContractForm() {
+		this.contractForm = this.formBuilder.group({
+			contractCode: [ '', [ Validators.required, Validators.maxLength(30), Validators.minLength(3) ] ],
+			startDate: [ '', [ Validators.required ] ],
+			endDate: [ '', [ Validators.required ] ]
+		});
+	}
+
 	onSubmit(user: User): void {
-		if (user && this.employeeForm.valid) {
+		if (user && this.employeeForm.valid && this.contactForm.valid && this.contractForm.valid) {
 			user.email = this.contact_controls['email'].value;
 			user.phonenumber = this.contact_controls['phonenumber'].value;
 
@@ -137,22 +153,28 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
 				this.employeeService.saveEmployee(employee).subscribe((employeeRegister) => {
 					this.notificationsService.add(`Empleado ${employeeRegister.firstName} registrado con exito`, 'Ok');
 					this.onReset();
+					this.router.navigateByUrl('/employees');
 				});
 			});
 		}
 	}
 
-	mapEmployee(userId: string) {
-		const employee: Employee = {
+	mapEmployee(userId: string): Employee {
+		return {
 			id: this.controls['id'].value,
 			firstName: this.controls['firstName'].value,
 			secondName: this.controls['secondName'].value,
 			lastName: this.controls['lastName'].value,
 			secondLastName: this.controls['secondLastname'].value,
 			chargeId: +this.controls['employeeCharge'].value,
+			contractCode: this.contract_controls['contractCode'].value,
+			employeeContract: {
+				contractCode: this.contract_controls['contractCode'].value,
+				startDate: this.contract_controls['startDate'].value,
+				endDate: this.contract_controls['endDate'].value
+			},
 			userId: userId
 		};
-		return employee;
 	}
 
 	onReset(): void {
