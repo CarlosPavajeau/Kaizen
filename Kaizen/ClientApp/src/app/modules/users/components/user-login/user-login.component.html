@@ -36,11 +36,22 @@
           <mat-form-field>
             <mat-label>Contraseña</mat-label>
             <input
-              type="password"
+              [type]="hide ? 'password' : 'text'"
               matInput
               placeholder="Digite su contraseña de acceso"
               formControlName="password"
             />
+            <button
+              mat-icon-button
+              matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide"
+            >
+              <mat-icon>
+                {{ hide ? "visibility_off" : "visibility_off" }}
+              </mat-icon>
+            </button>
             <mat-hint>Por favor digite su contraseña de acceso</mat-hint>
             <mat-error *ngIf="controls['password'].hasError('required')">
               Su contraseña es requerida

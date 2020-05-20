@@ -15,6 +15,7 @@ export class UserLoginComponent implements OnInit, IForm {
 	invalidPassword: boolean = false;
 	invalidForm: boolean = false;
 	loading: boolean = false;
+	hide: boolean = true;
 
 	public get controls() {
 		return this.loginForm.controls;
