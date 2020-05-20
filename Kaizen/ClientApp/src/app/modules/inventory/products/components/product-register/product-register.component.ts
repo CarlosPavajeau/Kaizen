@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { startWith, map } from 'rxjs/operators';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { MONTHS_NAMES } from '@app/global/months';
 
 @Component({
 	selector: 'app-product-register',
@@ -15,21 +16,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 	styleUrls: [ './product-register.component.css' ]
 })
 export class ProductRegisterComponent implements OnInit, IForm {
-	allMonths: string[] = [
-		'Enero',
-		'Febrero',
-		'Marzo',
-		'Abril',
-		'Mayo',
-		'Junio',
-		'Julio',
-		'Agosto',
-		'Septiembre',
-		'Octubre',
-		'Noviembre',
-		'Diciembre'
-	];
-
+	allMonths: string[];
 	visible = true;
 	selectable = true;
 	removable = true;
@@ -53,6 +40,7 @@ export class ProductRegisterComponent implements OnInit, IForm {
 	ngOnInit(): void {
 		this.initForm();
 
+		this.allMonths = MONTHS_NAMES;
 		this.filteredMonths = this.controls['applicationMonths'].valueChanges.pipe(
 			startWith(null),
 			map(
