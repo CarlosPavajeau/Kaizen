@@ -13,6 +13,9 @@ namespace Kaizen.Mappers
 
             CreateMap<EmployeeCharge, EmployeeChargeViewModel>();
             CreateMap<Employee, EmployeeViewModel>();
+
+            CreateMap<EmployeeContract, EmployeeContractModel>();
+            CreateMap<EmployeeContractModel, EmployeeContract>();
         }
     }
 }
