@@ -15,6 +15,8 @@ namespace Kaizen.Domain.Entities
         [ForeignKey("ContractCode")]
         public EmployeeContract EmployeeContract { get; set; }
 
+        public EmployeeState State { get; set; }
+
         public List<ActivityEmployee> EmployeesActivities { get; set; }
         public List<EmployeeService> EmployeesServices { get; set; }
 

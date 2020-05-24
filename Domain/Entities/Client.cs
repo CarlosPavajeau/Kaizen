@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Kaizen.Domain.Entities
@@ -24,5 +24,7 @@ namespace Kaizen.Domain.Entities
 
         public ClientAddress ClientAddress { get; set; }
         public List<ContactPerson> ContactPeople { get; set; }
+
+        public ClientState State { get; set; }
     }
 }
