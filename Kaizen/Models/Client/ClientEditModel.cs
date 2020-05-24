@@ -1,3 +1,5 @@
+using Kaizen.Domain.Entities;
+
 namespace Kaizen.Models.Client
 {
     public class ClientEditModel : PersonEditModel
@@ -10,5 +12,6 @@ namespace Kaizen.Models.Client
         public string SecondPhoneNumber { get; set; }
         public string FirstLandLine { get; set; }
         public string SecondLandLine { get; set; }
+        public ClientState State { get; set; }
     }
 }
