@@ -11,6 +11,10 @@ namespace Kaizen.Domain.Entities
         [MaxLength(50)]
         public string Name { get; set; }
         public DateTime MaintenanceDate { get; set; }
+        [MaxLength(500)]
+        public string Description { get; set; }
+        public int Amount { get; set; }
+        public decimal Price { get; set; }
 
         public List<EquipmentService> EquipmentsServices { get; set; }
     }
