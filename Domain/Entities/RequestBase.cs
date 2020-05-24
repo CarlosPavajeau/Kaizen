@@ -15,5 +15,7 @@ namespace Kaizen.Domain.Entities
         public string ClientId { get; set; }
         [ForeignKey("ClientId")]
         public Client Client { get; set; }
+
+        public PeriodicityType Periodicity { get; set; }
     }
 }
