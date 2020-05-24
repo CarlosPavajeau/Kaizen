@@ -6,74 +6,140 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <form [formGroup]="equipmentForm" (ngSubmit)="onSubmit()">
-        <div class="form-element">
-          <mat-form-field>
-            <mat-label>Código</mat-label>
-            <input
-              type="text"
-              matInput
-              placeholder="Ejemplo: 22A3"
-              formControlName="code"
-            />
-            <mat-hint>Digite el código del equipo</mat-hint>
-            <mat-error *ngIf="controls['code'].hasError('required')"
-              >El código del equipo es requerido</mat-error
-            >
-            <mat-error *ngIf="controls['code'].hasError('minlength')"
-              >Debe digitar mínimo 3 caracteres</mat-error
-            >
-            <mat-error *ngIf="controls['code'].hasError('maxlength')"
-              >Debe digitar máximo 20 caracteres</mat-error
-            >
-            <mat-error *ngIf="controls['code'].hasError('equipmentExists')"
-              >Código de equimamiento ya registrado</mat-error
-            >
-          </mat-form-field>
-        </div>
-        <div class="form-element">
-          <mat-form-field>
-            <mat-label>Nombre</mat-label>
-            <input
-              type="text"
-              matInput
-              placeholder="Ejemplo: Rociador"
-              formControlName="name"
-            />
-            <mat-hint>Digite el nombre del equipo</mat-hint>
-            <mat-error *ngIf="controls['name'].hasError('required')"
-              >El nombre del equipo es requerido</mat-error
-            >
-            <mat-error *ngIf="controls['name'].hasError('minlength')"
-              >Debe digitar mínimo 5 caracteres</mat-error
-            >
-            <mat-error *ngIf="controls['name'].hasError('maxlength')"
-              >Debe digitar máximo 50 caracteres</mat-error
-            >
-          </mat-form-field>
-        </div>
-        <div class="form-element form-select">
-          <mat-form-field>
-            <mat-label>Elija una fecha</mat-label>
-            <input
-              matInput
-              [matDatepicker]="datePicker"
-              formControlName="maintenanceDate"
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="datePicker"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #datePicker></mat-datepicker>
-            <mat-hint>Seleccione la fecha del último mantenimiento</mat-hint>
-          </mat-form-field>
-        </div>
-        <div class="center-block-content">
-          <button type="submit" mat-raised-button class="royal_azure">
-            Registrar equipo
-          </button>
-        </div>
-      </form>
+      <mat-horizontal-stepper [linear]="true">
+        <mat-step [stepControl]="equipmentForm">
+          <form [formGroup]="equipmentForm" (ngSubmit)="onSubmit()">
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Código</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  placeholder="Ejemplo: 22A3"
+                  formControlName="code"
+                />
+                <mat-hint>Digite el código del equipo</mat-hint>
+                <mat-error *ngIf="controls['code'].hasError('required')"
+                  >El código del equipo es requerido</mat-error
+                >
+                <mat-error *ngIf="controls['code'].hasError('minlength')"
+                  >Debe digitar mínimo 3 caracteres</mat-error
+                >
+                <mat-error *ngIf="controls['code'].hasError('maxlength')"
+                  >Debe digitar máximo 20 caracteres</mat-error
+                >
+                <mat-error *ngIf="controls['code'].hasError('equipmentExists')"
+                  >Código de equimamiento ya registrado</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Nombre</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  placeholder="Ejemplo: Rociador"
+                  formControlName="name"
+                />
+                <mat-hint>Digite el nombre del equipo</mat-hint>
+                <mat-error *ngIf="controls['name'].hasError('required')"
+                  >El nombre del equipo es requerido</mat-error
+                >
+                <mat-error *ngIf="controls['name'].hasError('minlength')"
+                  >Debe digitar mínimo 5 caracteres</mat-error
+                >
+                <mat-error *ngIf="controls['name'].hasError('maxlength')"
+                  >Debe digitar máximo 50 caracteres</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="form-element form-select">
+              <mat-form-field>
+                <mat-label>Elija una fecha</mat-label>
+                <input
+                  matInput
+                  [matDatepicker]="datePicker"
+                  formControlName="maintenanceDate"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="datePicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #datePicker></mat-datepicker>
+                <mat-hint
+                  >Seleccione la fecha del último mantenimiento o la fecha de
+                  compra del equipo</mat-hint
+                >
+                <mat-error
+                  *ngIf="controls['maintenanceDate'].hasError('required')"
+                  >Fecha requerida</mat-error
+                >
+              </mat-form-field>
+            </div>
+          </form>
+          <div>
+            <button matStepperNext mat-raised-button class="royal_azure">
+              Siguiente
+            </button>
+          </div>
+        </mat-step>
+        <mat-step [stepControl]="equipmentBuyForm">
+          <form [formGroup]="equipmentBuyForm">
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Cantidad</mat-label>
+                <input
+                  type="number"
+                  matInput
+                  placeholder="Ejemplo: 22"
+                  formControlName="amount"
+                />
+                <mat-hint>Digite la cantidad de equipos disponibles</mat-hint>
+                <mat-error *ngIf="buy_controls['amount'].hasError('required')"
+                  >La cantidad de equipos es requerida</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Precio</mat-label>
+                <input
+                  type="number"
+                  matInput
+                  placeholder="Ejemplo: 30000$"
+                  formControlName="price"
+                />
+                <mat-hint>Digite el precio de compra del equipo</mat-hint>
+                <mat-error *ngIf="buy_controls['price'].hasError('required')"
+                  >El precio de compra es requerido</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Descripción</mat-label>
+                <textarea
+                  matInput
+                  placeholder="Descripción del equipo"
+                  formControlName="description"
+                ></textarea>
+                <mat-hint>Digite una breve descripción del equipo</mat-hint>
+                <mat-error
+                  *ngIf="buy_controls['description'].hasError('required')"
+                  >La descripción del equipo es requerida</mat-error
+                >
+              </mat-form-field>
+            </div>
+          </form>
+          <div>
+            <button matStepperPrevious mat-raised-button>Regresar</button>
+            <button (click)="onSubmit()" mat-raised-button class="royal_azure">
+              Registrar
+            </button>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
     </mat-card-content>
   </mat-card>
 </div>

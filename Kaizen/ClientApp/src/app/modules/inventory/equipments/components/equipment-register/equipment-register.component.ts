@@ -13,9 +13,14 @@ import { EquipmentExistsValidator } from '@app/shared/validators/equipment-exist
 })
 export class EquipmentRegisterComponent implements OnInit, IForm {
 	equipmentForm: FormGroup;
+	equipmentBuyForm: FormGroup;
 
 	public get controls(): { [key: string]: AbstractControl } {
 		return this.equipmentForm.controls;
+	}
+
+	public get buy_controls(): { [key: string]: AbstractControl } {
+		return this.equipmentBuyForm.controls;
 	}
 
 	constructor(
@@ -27,6 +32,7 @@ export class EquipmentRegisterComponent implements OnInit, IForm {
 
 	ngOnInit(): void {
 		this.initForm();
+		this.initEquipmentBuyForm();
 	}
 
 	initForm(): void {
@@ -44,17 +50,32 @@ export class EquipmentRegisterComponent implements OnInit, IForm {
 		});
 	}
 
+	private initEquipmentBuyForm(): void {
+		this.equipmentBuyForm = this.formBuilder.group({
+			amount: [ '', [ Validators.required ] ],
+			price: [ '', [ Validators.required ] ],
+			description: [ '', [ Validators.required ] ]
+		});
+	}
+
 	onSubmit() {
-		if (this.equipmentForm.valid) {
-			const equipment: Equipment = {
-				code: this.controls['code'].value,
-				name: this.controls['name'].value,
-				maintenanceDate: this.controls['maintenanceDate'].value
-			};
+		if (this.equipmentForm.valid && this.equipmentBuyForm.valid) {
+			const equipment: Equipment = this.mapEquipment();
 
 			this.equipmentService.saveEquipment(equipment).subscribe((equipmentSave) => {
 				this.notificationService.add(`El equipo ${equipmentSave.name} ha sido registrado`, 'OK');
 			});
 		}
+	}
+
+	private mapEquipment(): Equipment {
+		return {
+			code: this.controls['code'].value,
+			name: this.controls['name'].value,
+			maintenanceDate: this.controls['maintenanceDate'].value,
+			amount: this.buy_controls['amount'].value,
+			price: this.buy_controls['price'].value,
+			description: this.buy_controls['description'].value
+		};
 	}
 }
