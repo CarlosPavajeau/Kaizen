@@ -9,6 +9,7 @@ namespace Kaizen.Domain.Data.Configuration.EntityTypeConfigurations
         public void Configure(EntityTypeBuilder<Employee> builder)
         {
             builder.HasAlternateKey(e => e.ContractCode);
+            builder.Property(e => e.State).HasDefaultValue(EmployeeState.Active);
         }
     }
 }

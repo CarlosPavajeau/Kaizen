@@ -1,4 +1,4 @@
-﻿using Kaizen.Domain.Entities;
+using Kaizen.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,6 +11,7 @@ namespace Kaizen.Domain.Data.Configuration.EntityTypeConfigurations
             builder.HasIndex(i => i.NIT)
                     .IsUnique();
             builder.Property("UserId").HasMaxLength(191);
+            builder.Property(c => c.State).HasDefaultValue(ClientState.Pending);
         }
     }
 }
