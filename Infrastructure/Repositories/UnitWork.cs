@@ -15,7 +15,10 @@ namespace Kaizen.Infrastructure.Repositories
             IEmployeesRepository employeesRepository,
             IEquipmentsRepository equipmentsRepository,
             IProductsRepository productsRepository,
-            IServicesRepository servicesRepository
+            IServicesRepository servicesRepository,
+            IActivitiesRepository activitiesRepository,
+            IServiceRequestsRepository serviceRequestsRepository,
+            IWorkOrdersRepository workOrdersRepository
             )
         {
             _dbContext = applicationDbContext;
@@ -25,6 +28,9 @@ namespace Kaizen.Infrastructure.Repositories
             Equipments = equipmentsRepository;
             Products = productsRepository;
             Services = servicesRepository;
+            Activities = activitiesRepository;
+            ServiceRequests = serviceRequestsRepository;
+            WorkOrders = workOrdersRepository;
         }
         public IClientsRepository Clients { get; }
 
@@ -37,6 +43,12 @@ namespace Kaizen.Infrastructure.Repositories
         public IProductsRepository Products { get; }
 
         public IServicesRepository Services { get; }
+
+        public IActivitiesRepository Activities { get; }
+
+        public IServiceRequestsRepository ServiceRequests { get; }
+
+        public IWorkOrdersRepository WorkOrders { get; }
 
         public void Dispose()
         {
