@@ -19,6 +19,7 @@ import { UniqueEquipmentDirective } from '@shared/directives/unique-equipment.di
 import { UniqueProductDirective } from '@shared/directives/unique-product.directive';
 import { OurservicesComponent } from '@shared/components/ourservices/ourservices.component';
 import { DashboardCardComponent } from '@shared/components/dashboard-card/dashboard-card.component';
+import { MaterialFileInputModule } from 'ngx-material-file-input';
 
 @NgModule({
 	declarations: [
@@ -41,6 +42,7 @@ import { DashboardCardComponent } from '@shared/components/dashboard-card/dashbo
 	imports: [ CommonModule, MaterialModule, RouterModule ],
 	exports: [
 		MaterialModule,
+		MaterialFileInputModule,
 		CommonModule,
 		HomeComponent,
 		Page404Component,
