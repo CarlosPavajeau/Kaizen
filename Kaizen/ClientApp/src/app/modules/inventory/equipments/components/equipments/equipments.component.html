@@ -1,1 +1,46 @@
-<p>equipments works!</p>
+<section class="container">
+  <div class="text-center">
+    <h1>Equipos registrados</h1>
+  </div>
+  <div class="center-block-content">
+    <div class="form-element"></div>
+    <div>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z6">
+        <ng-container matColumnDef="code">
+          <mat-header-cell *matHeaderCellDef>Código</mat-header-cell>
+          <mat-cell *matCellDef="let equipment">{{ equipment.code }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+          <mat-cell *matCellDef="let equipment">{{ equipment.name }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="maintenanceDate">
+          <mat-header-cell *matHeaderCellDef
+            >Fecha de compra/mantenimiento</mat-header-cell
+          >
+          <mat-cell *matCellDef="let equipment">{{
+            equipment.maintenanceDate | date: "dd/MM/yyyy"
+          }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+          <mat-header-cell *matHeaderCellDef>Cantidad</mat-header-cell>
+          <mat-cell *matCellDef="let equipment">{{
+            equipment.amount
+          }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="price">
+          <mat-header-cell *matHeaderCellDef>Precio</mat-header-cell>
+          <mat-cell *matCellDef="let equipment">{{
+            equipment.price | currency: "COP":"symbol-narrow"
+          }}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </table>
+      <mat-paginator
+        [pageSizeOptions]="[2, 3, 10]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</section>
