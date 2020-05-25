@@ -5,6 +5,7 @@ import { IForm } from '@core/models/form';
 import { Equipment } from '@modules/inventory/equipments/models/equipment';
 import { NotificationsService } from '@app/shared/services/notifications.service';
 import { EquipmentExistsValidator } from '@app/shared/validators/equipment-exists-validator';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-equipment-register',
@@ -27,7 +28,8 @@ export class EquipmentRegisterComponent implements OnInit, IForm {
 		private equipmentService: EquipmentService,
 		private formBuilder: FormBuilder,
 		private equipmentValidator: EquipmentExistsValidator,
-		private notificationService: NotificationsService
+		private notificationService: NotificationsService,
+		private router: Router
 	) {}
 
 	ngOnInit(): void {
@@ -64,6 +66,9 @@ export class EquipmentRegisterComponent implements OnInit, IForm {
 
 			this.equipmentService.saveEquipment(equipment).subscribe((equipmentSave) => {
 				this.notificationService.add(`El equipo ${equipmentSave.name} ha sido registrado`, 'OK');
+				setTimeout(() => {
+					this.router.navigateByUrl('/inventory/equipments');
+				}, 2000);
 			});
 		}
 	}

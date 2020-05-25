@@ -8,6 +8,7 @@
     <mat-card-content>
       <mat-horizontal-stepper [linear]="true">
         <mat-step [stepControl]="equipmentForm">
+          <ng-template matStepLabel>Datos básicos</ng-template>
           <form [formGroup]="equipmentForm" (ngSubmit)="onSubmit()">
             <div class="form-element">
               <mat-form-field>
@@ -85,6 +86,7 @@
           </div>
         </mat-step>
         <mat-step [stepControl]="equipmentBuyForm">
+          <ng-template matStepLabel>Datos de inventario</ng-template>
           <form [formGroup]="equipmentBuyForm">
             <div class="form-element">
               <mat-form-field>
