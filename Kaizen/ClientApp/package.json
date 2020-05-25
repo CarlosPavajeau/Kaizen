@@ -29,6 +29,7 @@
     "core-js": "^3.3.3",
     "jquery": "3.4.1",
     "ngx-cookie-service": "^3.0.4",
+    "ngx-material-file-input": "^2.1.1",
     "oidc-client": "^1.9.1",
     "popper.js": "^1.16.0",
     "rxjs": "^6.5.3",
