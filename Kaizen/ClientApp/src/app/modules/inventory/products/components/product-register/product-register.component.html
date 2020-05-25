@@ -6,9 +6,9 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <mat-horizontal-stepper>
+      <mat-horizontal-stepper [linear]="false">
         <mat-step [stepControl]="productForm">
-          <ng-template matStepLabel>Datos del producto</ng-template>
+          <ng-template matStepLabel>Datos básicos del producto</ng-template>
           <form [formGroup]="productForm">
             <div class="form-element">
               <mat-form-field>
@@ -24,28 +24,47 @@
               </mat-form-field>
             </div>
             <div class="form-element">
-              <mat-form-field>
-                <mat-label>Registro sanitario</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  placeholder="Ejemplo: 44B13MMMA"
-                  formControlName="healthRegister"
-                  class="text-uppercase"
-                />
-                <mat-hint>Digite el registro sanitario del producto</mat-hint>
-              </mat-form-field>
+              <table>
+                <tr>
+                  <td>
+                    <mat-form-field>
+                      <mat-label>Cantidad</mat-label>
+                      <input
+                        type="number"
+                        matInput
+                        placeholder="Ejemplo: 55"
+                        formControlName="amount"
+                      />
+                      <mat-hint
+                        >Digite la cantidad existente del producto</mat-hint
+                      >
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field>
+                      <mat-label>Presentación</mat-label>
+                      <input
+                        type="text"
+                        matInput
+                        placeholder="Ejemplo: 1 Litro"
+                        formControlName="presentation"
+                      />
+                      <mat-hint>Digite la presentación del producto</mat-hint>
+                    </mat-form-field>
+                  </td>
+                </tr>
+              </table>
             </div>
             <div class="form-element">
               <mat-form-field>
-                <mat-label>Cantidad</mat-label>
+                <mat-label>Precio</mat-label>
                 <input
                   type="number"
                   matInput
-                  placeholder="Ejemplo: 55"
-                  formControlName="amount"
+                  placeholder="Ejemplo: 50000"
+                  formControlName="price"
                 />
-                <mat-hint>Digite la cantidad existente del producto</mat-hint>
+                <mat-hint>Digite el precio de compra del producto</mat-hint>
               </mat-form-field>
             </div>
             <div class="form-element">
@@ -84,9 +103,100 @@
               </mat-form-field>
             </div>
           </form>
+          <div>
+            <button matStepperNext mat-raised-button class="royal_azure">
+              Siguiente
+            </button>
+          </div>
         </mat-step>
         <mat-step>
-          <ng-template matStepLabel>Ficha técnica</ng-template>
+          <ng-template matStepLabel>Documentos del producto</ng-template>
+          <form [formGroup]="productDocumentsForm">
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Ficha técnica</mat-label>
+                <ngx-mat-file-input
+                  formControlName="dataSheet"
+                  placeholder="Ficha técnica del producto"
+                  required
+                  [accept]="'.pdf'"
+                ></ngx-mat-file-input>
+                <mat-icon matSuffix>folder</mat-icon>
+                <mat-hint>Seleccione la ficha técnica del producto</mat-hint>
+                <mat-error
+                  *ngIf="documents_controls['dataSheet'].hasError('required')"
+                  >Este archivo es necesario</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Registro sanitario</mat-label>
+                <ngx-mat-file-input
+                  formControlName="healthRegister"
+                  placeholder="Registro sanitario del producto"
+                  required
+                  [accept]="'.pdf'"
+                ></ngx-mat-file-input>
+                <mat-icon matSuffix>folder</mat-icon>
+                <mat-hint
+                  >Seleccione el registro sanitario del producto</mat-hint
+                >
+                <mat-error
+                  *ngIf="
+                    documents_controls['healthRegister'].hasError('required')
+                  "
+                  >Este archivo es necesario</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Tarjeta de seguridad</mat-label>
+                <ngx-mat-file-input
+                  formControlName="safetySheet"
+                  placeholder="Tarjeta de seguridad del producto"
+                  required
+                  [accept]="'.pdf'"
+                ></ngx-mat-file-input>
+                <mat-icon matSuffix>folder</mat-icon>
+                <mat-hint
+                  >Seleccione tarjeta de seguridad del producto</mat-hint
+                >
+                <mat-error
+                  *ngIf="documents_controls['safetySheet'].hasError('required')"
+                  >Este archivo es necesario</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Tarjeta de emergencia</mat-label>
+                <ngx-mat-file-input
+                  formControlName="emergencyCard"
+                  placeholder="Tarjeta de emergencia del producto"
+                  required
+                  [accept]="'.pdf'"
+                ></ngx-mat-file-input>
+                <mat-icon matSuffix>folder</mat-icon>
+                <mat-hint
+                  >Seleccione tarjeta de emergencia del producto</mat-hint
+                >
+                <mat-error
+                  *ngIf="
+                    documents_controls['emergencyCard'].hasError('required')
+                  "
+                  >Este archivo es necesario</mat-error
+                >
+              </mat-form-field>
+            </div>
+          </form>
+          <div>
+            <button mat-raised-button matStepperPrevious>Regresar</button>
+            <button mat-raised-button class="royal_azure" (click)="onSubmit()">
+              Registrar producto
+            </button>
+          </div>
         </mat-step>
       </mat-horizontal-stepper>
     </mat-card-content>

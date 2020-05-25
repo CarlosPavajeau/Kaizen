@@ -2,13 +2,13 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { IForm } from '@core/models/form';
 import { AbstractControl, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { ProductService } from '../../services/product.service';
-import { ProductExistsValidator } from '@app/shared/validators/product-exists-validator';
+import { ProductService } from '@modules/inventory/products/services/product.service';
+import { ProductExistsValidator } from '@shared/validators/product-exists-validator';
 import { Observable } from 'rxjs';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { startWith, map } from 'rxjs/operators';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { MONTHS_NAMES } from '@app/global/months';
+import { MONTHS_NAMES } from '@global/months';
 
 @Component({
 	selector: 'app-product-register',
@@ -26,9 +26,14 @@ export class ProductRegisterComponent implements OnInit, IForm {
 	@ViewChild('monthInput') monthInput: ElementRef<HTMLInputElement>;
 	@ViewChild('auto') matAutocomplete: MatAutocomplete;
 	productForm: FormGroup;
+	productDocumentsForm: FormGroup;
 
 	public get controls(): { [key: string]: AbstractControl } {
 		return this.productForm.controls;
+	}
+
+	public get documents_controls(): { [key: string]: AbstractControl } {
+		return this.productDocumentsForm.controls;
 	}
 
 	constructor(
@@ -39,6 +44,7 @@ export class ProductRegisterComponent implements OnInit, IForm {
 
 	ngOnInit(): void {
 		this.initForm();
+		this.initProductDocumentsForm();
 
 		this.allMonths = MONTHS_NAMES;
 		this.filteredMonths = this.controls['applicationMonths'].valueChanges.pipe(
@@ -61,9 +67,19 @@ export class ProductRegisterComponent implements OnInit, IForm {
 					asyncValidators: [ this.productExistsValidator.validate.bind(this.productExistsValidator) ]
 				}
 			],
-			healthRegister: [ '', [ Validators.required ] ],
 			amount: [ '', [ Validators.required ] ],
+			presentation: [ '', [ Validators.required ] ],
+			price: [ '', [ Validators.required ] ],
 			applicationMonths: [ '', [ Validators.required ] ]
+		});
+	}
+
+	private initProductDocumentsForm(): void {
+		this.productDocumentsForm = this.formBuilder.group({
+			dataSheet: [ '', [ Validators.required ] ],
+			healthRegister: [ '', [ Validators.required ] ],
+			safetySheet: [ '', [ Validators.required ] ],
+			emergencyCard: [ '', [ Validators.required ] ]
 		});
 	}
 
