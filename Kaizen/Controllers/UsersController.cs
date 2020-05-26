@@ -1,14 +1,13 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Kaizen.Core.Exceptions.User;
+using Kaizen.Core.Security;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
-using Kaizen.Infrastructure.Security;
 using Kaizen.Models.ApplicationUser;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 
 namespace Kaizen.Controllers
 {
@@ -19,19 +18,14 @@ namespace Kaizen.Controllers
     {
         private readonly IApplicationUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly ITokenGenerator _tokenGenerator;
 
-        public UsersController(
-            IApplicationUserRepository userRepository,
-            IConfiguration configuration,
-            IMapper mapper
-            )
+        public UsersController(IApplicationUserRepository userRepository, IMapper mapper, ITokenGenerator tokenGenerator)
         {
             _userRepository = userRepository;
-            Configuration = configuration;
             _mapper = mapper;
+            _tokenGenerator = tokenGenerator;
         }
-
-        private IConfiguration Configuration { get; }
 
         // GET: api/Users/{id}
         [HttpGet("{id}")]
@@ -69,7 +63,7 @@ namespace Kaizen.Controllers
         // POST: api/Users
         [AllowAnonymous]
         [HttpPost]
-        public async Task<ActionResult<ApplicationUserViewModel>> PostUser([FromBody]ApplicationUserInputModel applicationUserModel)
+        public async Task<ActionResult<ApplicationUserViewModel>> PostUser([FromBody] ApplicationUserInputModel applicationUserModel)
         {
             ApplicationUser user = _mapper.Map<ApplicationUser>(applicationUserModel);
 
@@ -102,7 +96,7 @@ namespace Kaizen.Controllers
             ApplicationUserViewModel userView = _mapper.Map<ApplicationUserViewModel>(user);
             string role = await _userRepository.GetUserRoleAsync(user);
 
-            userView.Token = JwtSecurityTokenGenerator.GenerateSecurityToken(Configuration, userView.Username, role);
+            userView.Token = _tokenGenerator.GenerateToken(user.UserName, role);
 
             return userView;
         }
