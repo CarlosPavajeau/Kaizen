@@ -37,6 +37,7 @@ namespace Kaizen
 
             services.AddEntityFramework(Configuration);
             services.ConfigureRepositories();
+            services.ConfigureTokenGenerator();
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
