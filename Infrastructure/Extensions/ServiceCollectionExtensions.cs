@@ -1,7 +1,9 @@
 using System;
 using System.Text;
+using Kaizen.Core.Security;
 using Kaizen.Domain.Repositories;
 using Kaizen.Infrastructure.Repositories;
+using Kaizen.Infrastructure.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -74,6 +76,11 @@ namespace Kaizen.Infrastructure.Extensions
             services.AddScoped<IActivitiesRepository, ActivitiesRepository>();
             services.AddScoped<IServiceRequestsRepository, ServiceRequestsRepository>();
             services.AddScoped<IWorkOrdersRepository, WorkOrdersRepository>();
+        }
+
+        public static void ConfigureTokenGenerator(this IServiceCollection services)
+        {
+            services.AddScoped<ITokenGenerator, TokenGenerator>();
         }
     }
 }
