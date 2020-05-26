@@ -8,14 +8,19 @@ namespace Kaizen.Domain.Entities
         [Key]
         [MaxLength(15)]
         public string Code { get; set; }
-        [MaxLength(30)]
-        public string HealthRegister { get; set; }
+        [MaxLength(40)]
+        public string Name { get; set; }
         public int Amount { get; set; }
         public int ApplicationMonths { get; set; }
 
-        public DataSheet DataSheet { get; set; }
-        public SafetySheet SafetySheet { get; set; }
-        public EmergencyCard EmergencyCard { get; set; }
+        [MaxLength(50)]
+        public string HealthRegister { get; set; }
+        [MaxLength(50)]
+        public string DataSheet { get; set; }
+        [MaxLength(50)]
+        public string SafetySheet { get; set; }
+        [MaxLength(50)]
+        public string EmergencyCard { get; set; }
 
         public List<ProductService> ProductsServices { get; set; }
     }
