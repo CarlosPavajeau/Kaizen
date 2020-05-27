@@ -7,11 +7,17 @@ export class ApiPrefixInterceptor implements HttpInterceptor {
 	constructor() {}
 
 	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-		request = request.clone({
-			setHeaders: {
-				'Content-Type': 'application/json'
-			}
-		});
+		if (!this.isFormData(request.body)) {
+			request = request.clone({
+				setHeaders: {
+					'Content-Type': 'application/json'
+				}
+			});
+		}
 		return next.handle(request);
+	}
+
+	private isFormData(body: any) {
+		return body instanceof FormData;
 	}
 }
