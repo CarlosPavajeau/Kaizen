@@ -25,6 +25,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 const MaterialModules = [
 	MatButtonModule,
@@ -52,7 +53,8 @@ const MaterialModules = [
 	MatSlideToggleModule,
 	MatDatepickerModule,
 	MatNativeDateModule,
-	MatAutocompleteModule
+	MatAutocompleteModule,
+	MatProgressBarModule
 ];
 
 @NgModule({
