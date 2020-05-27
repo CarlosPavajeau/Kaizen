@@ -33,6 +33,8 @@ namespace Kaizen
                 c.Provider = (DataProvider)Enum.Parse(typeof(DataProvider), Configuration.GetSection("Data")["Provider"]);
             });
 
+            services.AddCors();
+
             services.Configure<ConnectionStrings>(Configuration.GetSection("ConnectionStrings"));
 
             services.AddEntityFramework(Configuration);
@@ -79,6 +81,11 @@ namespace Kaizen
             {
                 app.UseSpaStaticFiles();
             }
+
+            app.UseCors(c =>
+            {
+                c.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+            });
 
             app.UseRouting();
             app.UseAuthentication();
