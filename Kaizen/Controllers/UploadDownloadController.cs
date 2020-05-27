@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Kaizen.Models.Response;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
@@ -22,7 +23,7 @@ namespace Kaizen.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> Upload(IFormFile file)
+        public async Task<ActionResult<FileResponseModel>> Upload(IFormFile file)
         {
             string upload = Path.Combine(_hostEnvironment.ContentRootPath, UPLOADS_FOLDER);
             if (!Directory.Exists(upload))
@@ -36,7 +37,7 @@ namespace Kaizen.Controllers
                 using FileStream fileStream = new FileStream(filePath, FileMode.Create);
                 await file.CopyToAsync(fileStream);
 
-                return Ok(fileName);
+                return Ok(new FileResponseModel { FileName = fileName });
             }
             else
             {
