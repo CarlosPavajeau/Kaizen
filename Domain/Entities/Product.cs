@@ -12,6 +12,8 @@ namespace Kaizen.Domain.Entities
         public string Name { get; set; }
         public int Amount { get; set; }
         public int ApplicationMonths { get; set; }
+        [MaxLength(350)]
+        public string Description { get; set; }
 
         [MaxLength(50)]
         public string HealthRegister { get; set; }
