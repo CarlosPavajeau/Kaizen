@@ -10,10 +10,12 @@ import { FileResponse } from '../models/file-response';
 export class UploadDownloadService {
 	constructor(private http: HttpClient) {}
 
-	uploadFile(file: File) {
+	uploadFiles(files: File[]) {
 		const formData: FormData = new FormData();
-		formData.append('file', file, file.name);
-		return this.http.post<FileResponse>(UPLOAD_DOWNLOAD_API_URL, formData, {
+		Array.from(files).map((file, index) => {
+			return formData.append('file' + index, file, file.name);
+		});
+		return this.http.post<FileResponse[]>(UPLOAD_DOWNLOAD_API_URL, formData, {
 			reportProgress: true,
 			observe: 'events'
 		});
