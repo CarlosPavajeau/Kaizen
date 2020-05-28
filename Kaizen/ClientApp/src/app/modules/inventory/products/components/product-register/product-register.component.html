@@ -24,6 +24,29 @@
               </mat-form-field>
             </div>
             <div class="form-element">
+              <mat-form-field>
+                <mat-label>Nombre</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  placeholder="Ejemplo: Pesticida"
+                  formControlName="name"
+                />
+                <mat-hint>Digite el nombre del producto</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Descripción</mat-label>
+                <textarea
+                  matInput
+                  placeholder="Descripción del producto"
+                  formControlName="description"
+                ></textarea>
+                <mat-hint>Digite la descripción del producto</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="form-element">
               <table>
                 <tr>
                   <td>
@@ -191,6 +214,16 @@
               </mat-form-field>
             </div>
           </form>
+          <div
+            class="center-block-content form-element"
+            style="margin-bottom: 15px;"
+          >
+            <mat-progress-bar
+              *ngIf="uploading"
+              mode="determinate"
+              [value]="uploadP"
+            ></mat-progress-bar>
+          </div>
           <div>
             <button mat-raised-button matStepperPrevious>Regresar</button>
             <button mat-raised-button class="royal_azure" (click)="onSubmit()">

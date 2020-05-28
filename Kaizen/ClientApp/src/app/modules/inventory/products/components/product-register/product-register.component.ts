@@ -4,11 +4,17 @@ import { AbstractControl, FormGroup, FormBuilder, Validators, FormControl } from
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { ProductService } from '@modules/inventory/products/services/product.service';
 import { ProductExistsValidator } from '@shared/validators/product-exists-validator';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { startWith, map } from 'rxjs/operators';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MONTHS_NAMES } from '@global/months';
+import { UploadDownloadService } from '@app/core/services/upload-download.service';
+import { HttpEventType, HttpEvent } from '@angular/common/http';
+import { FileResponse } from '@app/core/models/file-response';
+import { Product } from '../../models/product';
+import { Router } from '@angular/router';
+import { NotificationsService } from '@app/shared/services/notifications.service';
 
 @Component({
 	selector: 'app-product-register',
@@ -27,6 +33,8 @@ export class ProductRegisterComponent implements OnInit, IForm {
 	@ViewChild('auto') matAutocomplete: MatAutocomplete;
 	productForm: FormGroup;
 	productDocumentsForm: FormGroup;
+	uploading: boolean = false;
+	uploadP: number;
 
 	public get controls(): { [key: string]: AbstractControl } {
 		return this.productForm.controls;
@@ -38,8 +46,11 @@ export class ProductRegisterComponent implements OnInit, IForm {
 
 	constructor(
 		private productService: ProductService,
+		private uploadDownloadService: UploadDownloadService,
 		private formBuilder: FormBuilder,
-		private productExistsValidator: ProductExistsValidator
+		private productExistsValidator: ProductExistsValidator,
+		private notificationService: NotificationsService,
+		private router: Router
 	) {}
 
 	ngOnInit(): void {
@@ -67,10 +78,12 @@ export class ProductRegisterComponent implements OnInit, IForm {
 					asyncValidators: [ this.productExistsValidator.validate.bind(this.productExistsValidator) ]
 				}
 			],
+			name: [ '', [ Validators.required, Validators.maxLength(40) ] ],
+			description: [ '', [ Validators.required, Validators.maxLength(300) ] ],
 			amount: [ '', [ Validators.required ] ],
 			presentation: [ '', [ Validators.required ] ],
 			price: [ '', [ Validators.required ] ],
-			applicationMonths: [ '', [ Validators.required ] ]
+			applicationMonths: [ '' ]
 		});
 	}
 
@@ -83,7 +96,53 @@ export class ProductRegisterComponent implements OnInit, IForm {
 		});
 	}
 
-	onSubmit() {}
+	onSubmit() {
+		if (this.productForm.valid && this.productDocumentsForm.valid) {
+			this.uploadDocuments().subscribe((result) => {
+				if (result.type == HttpEventType.UploadProgress) {
+					this.uploadP = Math.round(100 * (result.loaded / result.total));
+				} else if (result.type == HttpEventType.Response) {
+					const fileNames = result.body;
+					this.uploading = false;
+					const product = this.mapProduct(fileNames);
+
+					this.productService.saveProduct(product).subscribe((productSave) => {
+						this.notificationService.add(`Producto ${productSave.name} registrado`, 'Ok');
+						setTimeout(() => {
+							this.router.navigateByUrl('/inventory/products');
+						}, 2000);
+					});
+				}
+			});
+		}
+	}
+
+	private mapProduct(fileNames: FileResponse[]): Product {
+		return {
+			code: this.controls['code'].value,
+			name: this.controls['name'].value,
+			amount: +this.controls['amount'].value,
+			presentation: this.controls['presentation'].value,
+			price: +this.controls['price'].value,
+			description: this.controls['description'].value,
+			dataSheet: fileNames[0].fileName,
+			healthRegister: fileNames[1].fileName,
+			safetySheet: fileNames[2].fileName,
+			emergencyCard: fileNames[3].fileName
+		};
+	}
+
+	private uploadDocuments() {
+		const dataSheet = <File>this.documents_controls['dataSheet'].value.files[0];
+		const healtRegister = <File>this.documents_controls['healthRegister'].value.files[0];
+		const safetySheet = <File>this.documents_controls['safetySheet'].value.files[0];
+		const emergencyCard = <File>this.documents_controls['emergencyCard'].value.files[0];
+
+		const files = [ dataSheet, healtRegister, safetySheet, emergencyCard ];
+		this.uploading = true;
+
+		return this.uploadDownloadService.uploadFiles(files);
+	}
 
 	addMonth(event: MatChipInputEvent): void {
 		const input = event.input;
