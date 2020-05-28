@@ -1,1 +1,43 @@
-<p>products works!</p>
+<section class="container">
+  <div class="text-center">
+    <h1>Productos registrados</h1>
+  </div>
+  <div class="center-block-content">
+    <div>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z6">
+        <ng-container matColumnDef="code">
+          <mat-header-cell *matHeaderCellDef>Código</mat-header-cell>
+          <mat-cell *matCellDef="let product">{{
+            product.code | uppercase
+          }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+          <mat-cell *matCellDef="let product">{{ product.name }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+          <mat-header-cell *matHeaderCellDef>Cantidad</mat-header-cell>
+          <mat-cell *matCellDef="let product">{{ product.amount }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="presentation">
+          <mat-header-cell *matHeaderCellDef>Presentación</mat-header-cell>
+          <mat-cell *matCellDef="let product">{{
+            product.presentation
+          }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="price">
+          <mat-header-cell *matHeaderCellDef>Precio</mat-header-cell>
+          <mat-cell *matCellDef="let product">{{
+            product.price | currency: "COP":"symbol-narrow"
+          }}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </table>
+      <mat-paginator
+        [pageSizeOptions]="[2, 3, 10]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</section>
