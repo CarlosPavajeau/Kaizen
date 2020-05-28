@@ -268,3 +268,7 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# Project Uploads
+Uploads/
+/Uploads/
