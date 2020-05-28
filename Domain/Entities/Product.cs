@@ -16,6 +16,10 @@ namespace Kaizen.Domain.Entities
         public string Description { get; set; }
 
         [MaxLength(50)]
+        public string Presentation { get; set; }
+        public decimal Price { get; set; }
+
+        [MaxLength(50)]
         public string HealthRegister { get; set; }
         [MaxLength(50)]
         public string DataSheet { get; set; }
