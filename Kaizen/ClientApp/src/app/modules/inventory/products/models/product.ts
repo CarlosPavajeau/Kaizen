@@ -1,12 +1,13 @@
 export interface Product {
 	code: string;
+	name: string;
 	amount: number;
 	presentation: string;
 	price: number;
 	description: string;
 	applicationMoths?: number;
-	dataSheet?: File;
-	healthRegister?: File;
-	safetySheet?: File;
-	emergencyCard?: File;
+	dataSheet?: string;
+	healthRegister?: string;
+	safetySheet?: string;
+	emergencyCard?: string;
 }
