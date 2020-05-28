@@ -1,8 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Kaizen.Models.Response;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.Extensions.Hosting;
@@ -23,26 +23,33 @@ namespace Kaizen.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<FileResponseModel>> Upload(IFormFile file)
+        public async Task<ActionResult<IEnumerable<FileResponseModel>>> Upload()
         {
+            var files = Request.Form.Files;
             string upload = Path.Combine(_hostEnvironment.ContentRootPath, UPLOADS_FOLDER);
             if (!Directory.Exists(upload))
                 Directory.CreateDirectory(upload);
 
-            if (file.Length > 0)
+            var fileNames = new List<FileResponseModel>();
+            foreach (var file in files)
             {
-                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                string filePath = Path.Combine(upload, fileName);
+                if (file.Length > 0)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string filePath = Path.Combine(upload, fileName);
 
-                using FileStream fileStream = new FileStream(filePath, FileMode.Create);
-                await file.CopyToAsync(fileStream);
+                    using FileStream fileStream = new FileStream(filePath, FileMode.Create);
+                    await file.CopyToAsync(fileStream);
 
-                return Ok(new FileResponseModel { FileName = fileName });
+                    fileNames.Add(new FileResponseModel { FileName = fileName });
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
-            {
-                return BadRequest();
-            }
+            return fileNames;
+
         }
 
         [HttpGet]
