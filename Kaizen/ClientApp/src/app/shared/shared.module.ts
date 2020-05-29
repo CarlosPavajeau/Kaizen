@@ -20,6 +20,7 @@ import { UniqueProductDirective } from '@shared/directives/unique-product.direct
 import { OurservicesComponent } from '@shared/components/ourservices/ourservices.component';
 import { DashboardCardComponent } from '@shared/components/dashboard-card/dashboard-card.component';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { MonthBitPipe } from './pipes/month-bit.pipe';
 
 @NgModule({
 	declarations: [
@@ -37,7 +38,8 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
 		UniqueEquipmentDirective,
 		UniqueProductDirective,
 		OurservicesComponent,
-		DashboardCardComponent
+		DashboardCardComponent,
+		MonthBitPipe
 	],
 	imports: [ CommonModule, MaterialModule, RouterModule ],
 	exports: [
@@ -57,6 +59,7 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
 		UniqueEquipmentDirective,
 		UniqueProductDirective,
 		ClientsFilterPipe,
+		MonthBitPipe,
 		OurservicesComponent,
 		DashboardCardComponent
 	],
