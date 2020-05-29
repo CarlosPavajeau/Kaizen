@@ -15,6 +15,7 @@ import { FileResponse } from '@app/core/models/file-response';
 import { Product } from '../../models/product';
 import { Router } from '@angular/router';
 import { NotificationsService } from '@app/shared/services/notifications.service';
+import { MonthBit, MONTHS } from '@app/core/models/months';
 
 @Component({
 	selector: 'app-product-register',
@@ -22,13 +23,14 @@ import { NotificationsService } from '@app/shared/services/notifications.service
 	styleUrls: [ './product-register.component.css' ]
 })
 export class ProductRegisterComponent implements OnInit, IForm {
-	allMonths: string[];
+	allMonths: MonthBit[];
 	visible = true;
 	selectable = true;
 	removable = true;
 	separatorKeysCodes: number[] = [ ENTER, COMMA ];
-	filteredMonths: Observable<string[]>;
-	applicationMonthsArray: string[] = [];
+	filteredMonths: Observable<MonthBit[]>;
+	applicationMonths: number;
+	selectedMonths: MonthBit[] = [];
 	@ViewChild('monthInput') monthInput: ElementRef<HTMLInputElement>;
 	@ViewChild('auto') matAutocomplete: MatAutocomplete;
 	productForm: FormGroup;
@@ -57,7 +59,7 @@ export class ProductRegisterComponent implements OnInit, IForm {
 		this.initForm();
 		this.initProductDocumentsForm();
 
-		this.allMonths = MONTHS_NAMES;
+		this.allMonths = MONTHS;
 		this.filteredMonths = this.controls['applicationMonths'].valueChanges.pipe(
 			startWith(null),
 			map(
@@ -83,7 +85,7 @@ export class ProductRegisterComponent implements OnInit, IForm {
 			amount: [ '', [ Validators.required ] ],
 			presentation: [ '', [ Validators.required ] ],
 			price: [ '', [ Validators.required ] ],
-			applicationMonths: [ '' ]
+			applicationMonths: [ '', [ Validators.required ] ]
 		});
 	}
 
@@ -128,7 +130,8 @@ export class ProductRegisterComponent implements OnInit, IForm {
 			dataSheet: fileNames[0].fileName,
 			healthRegister: fileNames[1].fileName,
 			safetySheet: fileNames[2].fileName,
-			emergencyCard: fileNames[3].fileName
+			emergencyCard: fileNames[3].fileName,
+			applicationMonths: this.controls['applicationMonths'].value
 		};
 	}
 
@@ -148,33 +151,44 @@ export class ProductRegisterComponent implements OnInit, IForm {
 		const input = event.input;
 		const value = event.value;
 
-		if ((value || '').trim()) {
-			this.applicationMonthsArray.push(value.trim());
-		}
+		const month = this.allMonths.find((m) => m.name == value);
 
-		if (input) {
-			input.value = '';
-		}
+		if (month) {
+			this.applicationMonths |= +month.value;
+			this.selectedMonths.push(month);
+			this.allMonths = this.allMonths.filter((m) => m.value != month.value);
 
-		this.controls['applicationMonths'].setValue(null);
+			if (input) {
+				input.value = '';
+				this.controls['applicationMonths'].setValue(this.applicationMonths);
+			}
+		}
 	}
 
-	removeMonth(month: string) {
-		const index = this.applicationMonthsArray.indexOf(month);
-		if (index >= 0) {
-			this.applicationMonthsArray.splice(index, 1);
-		}
+	removeMonth(month: MonthBit) {
+		this.applicationMonths -= month.value;
+		this.selectedMonths = this.selectedMonths.filter((m) => m.value != month.value);
+		this.allMonths.push(month);
+		this.controls['applicationMonths'].setValue(this.applicationMonths);
 	}
 
 	selectedMonth(event: MatAutocompleteSelectedEvent): void {
-		this.applicationMonthsArray.push(event.option.viewValue);
+		const value = event.option.value;
+		const viewValue = event.option.viewValue;
+		this.applicationMonths |= +value.value;
+		this.selectedMonths.push(value);
+		this.allMonths = this.allMonths.filter((m) => m.value != value.value);
 		this.monthInput.nativeElement.value = '';
-		this.controls['applicationMonths'].setValue(null);
+		this.controls['applicationMonths'].setValue(this.applicationMonths);
 	}
 
-	private _filter(value: string): string[] {
-		const filterValue = value.toLowerCase();
+	private _filter(value: string): MonthBit[] {
+		if (typeof value == 'string') {
+			const filterValue = value.toLowerCase();
 
-		return this.allMonths.filter((month) => month.toLowerCase().indexOf(filterValue) === 0);
+			return this.allMonths.filter((month) => month.name.toLowerCase().indexOf(filterValue) === 0);
+		} else {
+			return this.allMonths.slice();
+		}
 	}
 }
