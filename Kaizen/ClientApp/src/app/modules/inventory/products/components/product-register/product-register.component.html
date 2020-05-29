@@ -6,7 +6,7 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <mat-horizontal-stepper [linear]="false">
+      <mat-horizontal-stepper [linear]="true">
         <mat-step [stepControl]="productForm">
           <ng-template matStepLabel>Datos básicos del producto</ng-template>
           <form [formGroup]="productForm">
