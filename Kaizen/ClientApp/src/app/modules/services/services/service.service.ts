@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SERVICES_API_URL } from '@global/endpoints';
 import { Service } from '@modules/services/models/service';
+import { ServiceType } from '../models/service-type';
 
 @Injectable({
 	providedIn: 'root'
@@ -16,6 +17,10 @@ export class ServiceService {
 
 	getService(id: string): Observable<Service> {
 		return this.http.get<Service>(`${SERVICES_API_URL}/${id}`);
+	}
+
+	getServiceTypes(): Observable<ServiceType[]> {
+		return this.http.get<ServiceType[]>(`${SERVICES_API_URL}/ServiceTypes`);
 	}
 
 	saveService(service: Service): Observable<Service> {
