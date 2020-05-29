@@ -5,7 +5,7 @@ export interface Product {
 	presentation: string;
 	price: number;
 	description: string;
-	applicationMoths?: number;
+	applicationMonths: number;
 	dataSheet?: string;
 	healthRegister?: string;
 	safetySheet?: string;
