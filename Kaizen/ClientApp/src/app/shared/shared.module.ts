@@ -21,6 +21,7 @@ import { OurservicesComponent } from '@shared/components/ourservices/ourservices
 import { DashboardCardComponent } from '@shared/components/dashboard-card/dashboard-card.component';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { MonthBitPipe } from './pipes/month-bit.pipe';
+import { MatAutocompleteChipListInputComponent } from './components/mat-autocomplete-chip-list-input/mat-autocomplete-chip-list-input.component';
 
 @NgModule({
 	declarations: [
@@ -39,7 +40,8 @@ import { MonthBitPipe } from './pipes/month-bit.pipe';
 		UniqueProductDirective,
 		OurservicesComponent,
 		DashboardCardComponent,
-		MonthBitPipe
+		MonthBitPipe,
+		MatAutocompleteChipListInputComponent
 	],
 	imports: [ CommonModule, MaterialModule, RouterModule ],
 	exports: [
@@ -61,7 +63,8 @@ import { MonthBitPipe } from './pipes/month-bit.pipe';
 		ClientsFilterPipe,
 		MonthBitPipe,
 		OurservicesComponent,
-		DashboardCardComponent
+		DashboardCardComponent,
+		MatAutocompleteChipListInputComponent
 	],
 	providers: [ NotificationsService, HttpErrorHandlerService ]
 })

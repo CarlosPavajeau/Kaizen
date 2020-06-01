@@ -1,0 +1,30 @@
+<div class="form-element">
+  <mat-form-field>
+    <mat-chip-list #chipList>
+      <mat-chip
+        [selectable]="true"
+        [removable]="true"
+        (removed)="removeData(selectData)"
+        *ngFor="let selectData of selectedData"
+      >
+        {{ dataStr(selectData) }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+    </mat-chip-list>
+    <input
+      #autoInput
+      [matAutocomplete]="autoComplete"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="addData($event)"
+    />
+    <mat-autocomplete
+      #autoComplete="matAutocomplete"
+      (optionSelected)="selectData($event)"
+    >
+      <mat-option *ngFor="let data of initialData" [value]="data">
+        {{ dataStr(data) }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>
