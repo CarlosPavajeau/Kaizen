@@ -1,14 +1,9 @@
-using System;
 using AutoMapper;
-using Kaizen.Domain.Data;
-using Kaizen.Domain.Data.Configuration;
-using Kaizen.Domain.Entities;
 using Kaizen.Domain.Extensions;
 using Kaizen.Extensions;
 using Kaizen.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,28 +23,20 @@ namespace Kaizen
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<Data>(c =>
-            {
-                c.Provider = (DataProvider)Enum.Parse(typeof(DataProvider), Configuration.GetSection("Data")["Provider"]);
-            });
-
-            services.AddCors();
-
-            services.Configure<ConnectionStrings>(Configuration.GetSection("ConnectionStrings"));
+            services.LoadDbSettings(Configuration);
 
             services.AddEntityFramework(Configuration);
             services.ConfigureRepositories();
-            services.ConfigureTokenGenerator();
-
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            services.AddIdentityConfig();
 
             services.AddJwtAuthentication(Configuration);
+            services.ConfigureTokenGenerator();
             services.AddSwagger();
 
             services.AddAutoMapper(typeof(Startup));
             services.ConfigureGlobalFilters();
+
+            services.AddCors();
 
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
@@ -82,10 +69,7 @@ namespace Kaizen
                 app.UseSpaStaticFiles();
             }
 
-            app.UseCors(c =>
-            {
-                c.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-            });
+            app.ConfigureCors();
 
             app.UseRouting();
             app.UseAuthentication();
