@@ -1,1 +1,274 @@
-<p>service-register works!</p>
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title><h1>Registro de equipo</h1></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-horizontal-stepper [linear]="false">
+        <mat-step [stepControl]="serviceForm">
+          <ng-template matStepLabel>Datos básicos del servicio</ng-template>
+          <form [formGroup]="serviceForm">
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Código</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  placeholder="Ejemplo: 22at"
+                  formControlName="code"
+                />
+                <mat-hint>Digite el código del servicio</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Nombre</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  placeholder="Ejemplo: Control de roedores"
+                  formControlName="name"
+                />
+                <mat-hint>Digite el nombre del servicio</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="form-element form-select">
+              <mat-form-field>
+                <mat-label>Tipo de servicio</mat-label>
+                <mat-select required formControlName="serviceType">
+                  <mat-option
+                    *ngFor="let serviceType of serviceTypes"
+                    [value]="serviceType.id"
+                  >
+                    {{ serviceType.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Costo</mat-label>
+                <input
+                  type="number"
+                  matInput
+                  placeholder="Ejemplo: 30000$"
+                  formControlName="cost"
+                />
+                <mat-hint>Digite el costo del servicio</mat-hint>
+              </mat-form-field>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Productos utilizados</ng-template>
+          <form [formGroup]="serviceProductsForm">
+            <div class="form-element">
+              <mat-form-field>
+                <mat-chip-list #productChips>
+                  <mat-chip
+                    *ngFor="let product of selectedProducts"
+                    [selectable]="true"
+                    [removable]="true"
+                    (removed)="deleteProduct(product)"
+                  >
+                    {{ product.code }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+                  <input
+                    placeholder="Código/Nombre producto"
+                    formControlName="productCodes"
+                    #productInput
+                    [matAutocomplete]="autoProducts"
+                    [matChipInputFor]="productChips"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    (matChipInputTokenEnd)="addProduct($event)"
+                  />
+                </mat-chip-list>
+                <mat-autocomplete
+                  #autoProducts="matAutocomplete"
+                  (optionSelected)="selectProduct($event)"
+                >
+                  <mat-option
+                    *ngFor="let product of filteredProducts | async"
+                    [value]="product"
+                  >
+                    {{ product.code }} - {{ product.name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+          </form>
+          <div>
+            <button matStepperPrevious mat-raised-button>Regresar</button>
+            <button matStepperNext mat-raised-button class="royal_azure">
+              Siguiente
+            </button>
+          </div>
+          <div>
+            <mat-list>
+              <h3 mat-subheader>Productos seleccionados</h3>
+              <mat-list-item
+                *ngFor="let product of selectedProducts; last as last"
+              >
+                <button
+                  mat-icon-button
+                  [matTooltip]="'Eliminar producto de la lista'"
+                  [matTooltipPosition]="'above'"
+                  [matTooltipShowDelay]="300"
+                  (click)="deleteProduct(product)"
+                >
+                  <mat-icon mat-list-icon>delete</mat-icon>
+                </button>
+                <h4 mat-line>{{ product.code }} - {{ product.name }}</h4>
+                <mat-divider *ngIf="!last"></mat-divider>
+              </mat-list-item>
+            </mat-list>
+          </div>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Equipos necesarios</ng-template>
+          <form [formGroup]="serviceEquipmentsForm">
+            <div class="form-element">
+              <mat-form-field>
+                <mat-chip-list #equipmentChips>
+                  <mat-chip
+                    *ngFor="let equipment of selectedEquipments"
+                    [selectable]="true"
+                    [removable]="true"
+                    (removed)="deleteEquipment(equipment)"
+                  >
+                    {{ equipment.code }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+                </mat-chip-list>
+                <input
+                  placeholder="Código/Nombre equipo"
+                  formControlName="equipmentCodes"
+                  #equipmentInput
+                  [matAutocomplete]="autoEquipments"
+                  [matChipInputFor]="equipmentChips"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  (matChipInputTokenEnd)="addEquipment($event)"
+                />
+                <mat-autocomplete
+                  #autoEquipments="matAutocomplete"
+                  (optionSelected)="selectedEquipment($event)"
+                >
+                  <mat-option
+                    *ngFor="let equipment of filteredEquipments | async"
+                    [value]="equipment"
+                  >
+                    {{ equipment.code }} - {{ equipment.name }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+          </form>
+          <div>
+            <button matStepperPrevious mat-raised-button>Regresar</button>
+            <button matStepperNext mat-raised-button class="royal_azure">
+              Siguiente
+            </button>
+          </div>
+          <div>
+            <mat-list>
+              <h3 mat-subheader>Equipos seleccionados</h3>
+              <mat-list-item
+                *ngFor="let equipment of selectedEquipments; last as last"
+              >
+                <button
+                  mat-icon-button
+                  [matTooltip]="'Eliminar equipo de la lista'"
+                  [matTooltipPosition]="'above'"
+                  [matTooltipShowDelay]="300"
+                  (click)="deleteEquipment(equipment)"
+                >
+                  <mat-icon mat-list-icon>delete</mat-icon>
+                </button>
+                <h4 mat-line>{{ equipment.code }} - {{ equipment.name }}</h4>
+                <mat-divider *ngIf="!last"></mat-divider>
+              </mat-list-item>
+            </mat-list>
+          </div>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Empleados aptos</ng-template>
+          <form [formGroup]="serviceEmployeesForm">
+            <div class="form-element">
+              <mat-form-field>
+                <mat-chip-list #employeeChips>
+                  <mat-chip
+                    *ngFor="let employee of selectedEmployees"
+                    [selectable]="true"
+                    [removable]="true"
+                    (removed)="deleteEmployee(employee)"
+                  >
+                    {{ employee.id }}
+                    <mat-icon matChipRemove>cancel</mat-icon>
+                  </mat-chip>
+                </mat-chip-list>
+                <input
+                  placeholder="Código/Nombre empleado"
+                  formControlName="employeeCodes"
+                  #employeeInput
+                  [matAutocomplete]="autoEmployees"
+                  [matChipInputFor]="employeeChips"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  (matChipInputTokenEnd)="addEmployee($event)"
+                />
+                <mat-autocomplete
+                  #autoEmployees="matAutocomplete"
+                  (optionSelected)="selectedEmployee($event)"
+                >
+                  <mat-option
+                    *ngFor="let employee of filteredEmployees | async"
+                    [value]="employee"
+                  >
+                    {{ employee.id }} - {{ employee.firstName }}
+                    {{ employee.lastName }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </div>
+            <mat-autocomplete-chip-list-input
+              #productAuto
+              formControlName="employeeCodes2"
+              [filterFunction]="filterProductData"
+              [dataStrFunction]="productStr"
+              [initialData]="products"
+            ></mat-autocomplete-chip-list-input>
+          </form>
+          <div>
+            <button matStepperPrevious mat-raised-button>Regresar</button>
+            <button matStepperNext mat-raised-button class="royal_azure">
+              Siguiente
+            </button>
+          </div>
+          <div>
+            <mat-list>
+              <h3 mat-subheader>Empleados seleccionados</h3>
+              <mat-list-item
+                *ngFor="let employee of selectedEmployees; last as last"
+              >
+                <button
+                  mat-icon-button
+                  [matTooltip]="'Eliminar equipo de la lista'"
+                  [matTooltipPosition]="'above'"
+                  [matTooltipShowDelay]="300"
+                  (click)="deleteEmployee(employee)"
+                >
+                  <mat-icon mat-list-icon>delete</mat-icon>
+                </button>
+                <h4 mat-line>
+                  {{ employee.id }} - {{ employee.firstName }}
+                  {{ employee.lastName }}
+                </h4>
+                <mat-divider *ngIf="!last"></mat-divider>
+              </mat-list-item>
+            </mat-list>
+          </div>
+        </mat-step>
+      </mat-horizontal-stepper>
+    </mat-card-content>
+  </mat-card>
+</div>
