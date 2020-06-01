@@ -22,6 +22,7 @@ import { DashboardCardComponent } from '@shared/components/dashboard-card/dashbo
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { MonthBitPipe } from './pipes/month-bit.pipe';
 import { MatAutocompleteChipListInputComponent } from './components/mat-autocomplete-chip-list-input/mat-autocomplete-chip-list-input.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
 	declarations: [
@@ -43,7 +44,7 @@ import { MatAutocompleteChipListInputComponent } from './components/mat-autocomp
 		MonthBitPipe,
 		MatAutocompleteChipListInputComponent
 	],
-	imports: [ CommonModule, MaterialModule, RouterModule ],
+	imports: [ CommonModule, MaterialModule, RouterModule, FormsModule, ReactiveFormsModule ],
 	exports: [
 		MaterialModule,
 		MaterialFileInputModule,
