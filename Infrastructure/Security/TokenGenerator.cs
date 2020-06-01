@@ -10,6 +10,7 @@ namespace Kaizen.Infrastructure.Security
 {
     public class TokenGenerator : ITokenGenerator
     {
+        const int TOKEN_DURATION_DAYS = 7;
         public TokenGenerator(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,7 +30,7 @@ namespace Kaizen.Infrastructure.Security
                     new Claim(ClaimTypes.Name, username),
                     new Claim(ClaimTypes.Role, role)
                 }),
-                Expires = DateTime.Now.AddDays(7),
+                Expires = DateTime.Now.AddDays(TOKEN_DURATION_DAYS),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
