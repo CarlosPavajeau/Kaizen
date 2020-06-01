@@ -1,10 +1,14 @@
 using System;
 using System.Text;
 using Kaizen.Core.Security;
+using Kaizen.Domain.Data;
+using Kaizen.Domain.Data.Configuration;
+using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.Infrastructure.Repositories;
 using Kaizen.Infrastructure.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -14,6 +18,36 @@ namespace Kaizen.Infrastructure.Extensions
 {
     public static class ServiceCollectionExtensions
     {
+        public static void AddIdentityConfig(this IServiceCollection services)
+        {
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+        }
+
+        public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            byte[] key = Encoding.ASCII.GetBytes(configuration["AppSettings:Key"]);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).
+            AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+            return services;
+        }
+
         public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
             services.AddSwaggerGen(s =>
@@ -41,29 +75,6 @@ namespace Kaizen.Infrastructure.Extensions
             return services;
         }
 
-        public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
-        {
-            byte[] key = Encoding.ASCII.GetBytes(configuration.GetSection("AppSettings")["Key"]);
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).
-            AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
-            return services;
-        }
-
         public static void ConfigureRepositories(this IServiceCollection services)
         {
             services.AddScoped<IUnitWork, UnitWork>();
@@ -81,6 +92,15 @@ namespace Kaizen.Infrastructure.Extensions
         public static void ConfigureTokenGenerator(this IServiceCollection services)
         {
             services.AddScoped<ITokenGenerator, TokenGenerator>();
+        }
+
+        public static void LoadDbSettings(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<Data>(c =>
+            {
+                c.Provider = (DataProvider)Enum.Parse(typeof(DataProvider), configuration["Data:Provider"]);
+            });
+            services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
         }
     }
 }
