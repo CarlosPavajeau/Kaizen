@@ -178,6 +178,26 @@
                   </tr>
                 </table>
               </div>
+              <div class="form-element">
+                <mat-form-field>
+                  <mat-label>Nombre comercial</mat-label>
+                  <input
+                    matInput
+                    placeholder="Ejemplo: Manolo S.A.S"
+                    formControlName="tradeName"
+                  />
+                  <mat-hint>Digite el nombre comercial de la empresa</mat-hint>
+                  <mat-error *ngIf="controls['tradeName'].hasError('required')"
+                    >Su nombre comercial es requerido</mat-error
+                  >
+                  <mat-error *ngIf="controls['tradeName'].hasError('minlength')"
+                    >Digite por lo menos 5 carácteres</mat-error
+                  >
+                  <mat-error *ngIf="controls['tradeName'].hasError('maxlength')"
+                    >Digite máximo 30 caracteres</mat-error
+                  >
+                </mat-form-field>
+              </div>
               <div class="form-element form-select">
                 <mat-form-field>
                   <mat-label>Tipo de cliente</mat-label>
@@ -233,29 +253,6 @@
                       !controls['NIT'].hasError('minlength')
                     "
                     >Digite carácteres numéricos</mat-error
-                  >
-                </mat-form-field>
-              </div>
-              <div class="form-element">
-                <mat-form-field>
-                  <mat-label>Nombre comercial</mat-label>
-                  <input
-                    matInput
-                    placeholder="Ejemplo: Manolo S.A.S"
-                    formControlName="tradeName"
-                  />
-                  <mat-hint>Digite el nombre comercial de la empresa</mat-hint>
-                  <mat-error
-                    *ngIf="legal_controls['tradeName'].hasError('required')"
-                    >Su nombre comercial es requerido</mat-error
-                  >
-                  <mat-error
-                    *ngIf="legal_controls['tradeName'].hasError('minlength')"
-                    >Digite por lo menos 5 carácteres</mat-error
-                  >
-                  <mat-error
-                    *ngIf="legal_controls['tradeName'].hasError('maxlength')"
-                    >Digite máximo 30 caracteres</mat-error
                   >
                 </mat-form-field>
               </div>

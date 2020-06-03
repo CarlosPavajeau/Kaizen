@@ -131,7 +131,6 @@ export class ClientRegisterComponent implements OnInit, IForm {
 					CharactersValidators.numericCharacters
 				]
 			],
-			tradeName: [ '', [ Validators.required, Validators.minLength(5), Validators.maxLength(50) ] ],
 			businessName: [ '', [ Validators.required, Validators.minLength(5), Validators.maxLength(50) ] ]
 		});
 	}
@@ -177,6 +176,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
 				'',
 				[ Validators.minLength(2), Validators.maxLength(20), CharactersValidators.alphabeticCharacters ]
 			],
+			tradeName: [ '', [ Validators.required, Validators.minLength(5), Validators.maxLength(50) ] ],
 			clientType: [ '', [ Validators.required ] ]
 		});
 	}
@@ -217,6 +217,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
 			secondName: this.controls['secondName'].value,
 			lastName: this.controls['lastName'].value,
 			secondLastName: this.controls['secondLastname'].value,
+			tradeName: this.controls['tradeName'].value,
 			clientType: this.controls['clientType'].value,
 			firstPhoneNumber: this.contact_controls['firstPhonenumber'].value,
 			secondPhoneNumber: this.contact_controls['secondPhonenumber'].value,
@@ -243,7 +244,6 @@ export class ClientRegisterComponent implements OnInit, IForm {
 		if (client.clientType == 'JuridicPerson') {
 			client.NIT = this.legal_controls['NIT'].value;
 			client.busninessName = this.legal_controls['businessName'].value;
-			client.tradeName = this.legal_controls['tradeName'].value;
 		}
 
 		return client;
