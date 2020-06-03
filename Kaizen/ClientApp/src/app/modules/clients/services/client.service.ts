@@ -18,6 +18,10 @@ export class ClientService {
 		return this.http.get<Client>(`${CLIENTS_API_URL}/${id}`);
 	}
 
+	getClientRequests(): Observable<Client[]> {
+		return this.http.get<Client[]>(`${CLIENTS_API_URL}/Requests`);
+	}
+
 	saveClient(client: Client): Observable<Client> {
 		return this.http.post<Client>(CLIENTS_API_URL, client);
 	}
