@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Kaizen.Domain.Entities;
 
 namespace Kaizen.Models.Client
@@ -12,6 +13,8 @@ namespace Kaizen.Models.Client
         public string SecondPhoneNumber { get; set; }
         public string FirstLandLine { get; set; }
         public string SecondLandLine { get; set; }
+        public ClientAddressModel ClientAddress { get; set; }
+        public List<ContactPersonModel> ContactPeople { get; set; }
         public ClientState State { get; set; }
     }
 }

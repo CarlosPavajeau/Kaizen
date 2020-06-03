@@ -1,6 +1,6 @@
 namespace Kaizen.Models.Client
 {
-    public class ClientAddressEditModel
+    public class ClientAddressModel
     {
         public string City { get; set; }
         public string Neighborhood { get; set; }

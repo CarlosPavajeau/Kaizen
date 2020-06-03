@@ -1,6 +1,6 @@
 namespace Kaizen.Models.Client
 {
-    public class ContactPersonEditModel
+    public class ContactPersonModel
     {
         public string Name { get; set; }
         public string Phonenumber { get; set; }
