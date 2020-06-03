@@ -272,3 +272,7 @@ Thumbs.db
 # Project Uploads
 Uploads/
 /Uploads/
+
+# Config files
+/.config/
+.config/
