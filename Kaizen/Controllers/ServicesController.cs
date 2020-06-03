@@ -31,7 +31,8 @@ namespace Kaizen.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ServiceViewModel>>> GetServices()
         {
-            return await _servicesRepository.GetAll().Select(s => _mapper.Map<ServiceViewModel>(s)).ToListAsync();
+            List<Service> services = await _servicesRepository.GetAll().Include(s => s.ServiceType).ToListAsync();
+            return Ok(_mapper.Map<IEnumerable<ServiceViewModel>>(services));
         }
 
         // GET: api/Services/5
@@ -101,7 +102,7 @@ namespace Kaizen.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<ServiceViewModel>> PostService([FromBody]ServiceInputModel serviceModel)
+        public async Task<ActionResult<ServiceViewModel>> PostService([FromBody] ServiceInputModel serviceModel)
         {
             Service service = _mapper.Map<Service>(serviceModel);
             _servicesRepository.Insert(service);
