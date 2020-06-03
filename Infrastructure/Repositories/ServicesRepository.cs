@@ -14,6 +14,13 @@ namespace Kaizen.Infrastructure.Repositories
         {
         }
 
+        public override async Task<Service> FindByIdAsync(string id)
+        {
+            return await ApplicationDbContext.Services.Include(s => s.ServiceType)
+                .Where(s => s.Code == id)
+                .FirstOrDefaultAsync();
+        }
+
         public IQueryable<ServiceType> GetServiceTypes()
         {
             return ApplicationDbContext.ServiceTypes;
