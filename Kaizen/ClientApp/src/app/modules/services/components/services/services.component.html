@@ -1,1 +1,38 @@
-<p>services works!</p>
+<section class="container">
+  <div class="text-center">
+    <h1>Servicios de la empresa</h1>
+  </div>
+  <div class="center-block-content">
+    <div></div>
+    <div>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z6">
+        <ng-container matColumnDef="code">
+          <mat-header-cell *matHeaderCellDef>Código</mat-header-cell>
+          <mat-cell *matCellDef="let service">{{ service.code }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+          <mat-cell *matCellDef="let service">{{ service.name }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="type">
+          <mat-header-cell *matHeaderCellDef>Tipo</mat-header-cell>
+          <mat-cell *matCellDef="let service">{{
+            service?.serviceType?.name
+          }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="cost">
+          <mat-header-cell *matHeaderCellDef>Costo</mat-header-cell>
+          <mat-cell *matCellDef="let service">{{
+            service.cost | currency: "COP":"symbol-narrow"
+          }}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </table>
+      <mat-paginator
+        [pageSizeOptions]="[2, 3, 10]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</section>
