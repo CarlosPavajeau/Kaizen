@@ -15,14 +15,16 @@ namespace Kaizen.Infrastructure.Repositories
 
         }
 
-        public async Task<ClientAddress> GetClientAddressAsync(string clientId)
+        public override async Task<Client> FindByIdAsync(string id)
         {
-            return await ApplicationDbContext.ClientAddresses.Where(c => c.ClientId == clientId).FirstOrDefaultAsync();
+            return await ApplicationDbContext.Clients.Include(c => c.ClientAddress)
+                .Include(c => c.ContactPeople).Where(c => c.Id == id)
+                .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<ContactPerson>> GetClientContactPeopleAsync(string clientId)
+        public async Task<IEnumerable<Client>> GetClientRequestsAsync()
         {
-            return await ApplicationDbContext.ContactPeople.Where(p => p.ClientId == clientId).ToListAsync();
+            return await ApplicationDbContext.Clients.Where(c => c.State == ClientState.Pending).ToListAsync();
         }
 
         public void UpdateClientAddress(ClientAddress clientAddress)
