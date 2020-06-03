@@ -36,6 +36,14 @@ namespace Kaizen.Controllers
             return await _clientsRepository.GetAll().Select(c => _mapper.Map<ClientViewModel>(c)).ToListAsync();
         }
 
+        // GET: api/Clients/Requests
+        [HttpGet("[action]")]
+        public async Task<ActionResult<IEnumerable<ClientViewModel>>> Requests()
+        {
+            var clients = await _clientsRepository.GetClientRequestsAsync();
+            return Ok(_mapper.Map<IEnumerable<ClientViewModel>>(clients));
+        }
+
         // GET: api/Clients/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ClientViewModel>> GetClient(string id)
@@ -46,24 +54,6 @@ namespace Kaizen.Controllers
 
             ClientViewModel clientViewModel = _mapper.Map<ClientViewModel>(client);
             return clientViewModel;
-        }
-
-        [HttpGet("[action]/{id}")]
-        public async Task<ActionResult<ClientAddressViewModel>> ClientAddress(string id)
-        {
-            ClientAddress clientAddress = await _clientsRepository.GetClientAddressAsync(id);
-            if (clientAddress is null)
-                throw new ClientNotRegister();
-
-            return _mapper.Map<ClientAddressViewModel>(clientAddress);
-        }
-
-        [HttpGet("[action]/{id}")]
-        public async Task<ActionResult<IEnumerable<ContactPersonViewModel>>> ClientContactPeople(string id)
-        {
-            var contactPeople = await _clientsRepository.GetClientContactPeopleAsync(id);
-
-            return contactPeople.Select(c => _mapper.Map<ContactPersonViewModel>(c)).ToList();
         }
 
         [HttpGet("[action]/{id}")]
@@ -79,7 +69,7 @@ namespace Kaizen.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<ClientViewModel>> PutClient(string id, ClientEditModel clientModel)
         {
-            Client client = _clientsRepository.FindById(id);
+            Client client = await _clientsRepository.FindByIdAsync(id);
             if (client is null)
                 throw new ClientNotRegister();
 
@@ -103,35 +93,6 @@ namespace Kaizen.Controllers
             }
 
             return _mapper.Map<ClientViewModel>(client);
-        }
-
-        [HttpPut("ClientAddress/{id}")]
-        public async Task<ActionResult<ClientAddressViewModel>> PutClientAddress(string id, ClientAddressEditModel clientAddressEdit)
-        {
-            ClientAddress clientAddress = await _clientsRepository.GetClientAddressAsync(id);
-            if (clientAddress is null)
-                throw new ClientNotRegister();
-
-            _mapper.Map(clientAddressEdit, clientAddress);
-            _clientsRepository.UpdateClientAddress(clientAddress);
-
-            try
-            {
-                await _unitWork.SaveAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ClientExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return _mapper.Map<ClientAddressViewModel>(clientAddress);
         }
 
         // POST: api/Clients
