@@ -1,6 +1,9 @@
 ## Kaizen ##
 This web application is build for Ecolplag S.A.S. 
 
+## Build status ##
+[![Build Status](https://travis-ci.com/cantte/Kaizen.svg?token=RpZFsXFEkpo2xpysxYCu&branch=master)](https://travis-ci.com/github/cantte/Kaizen)
+
 # Application Modules #
  - Users
  - Clients
