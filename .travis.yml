@@ -4,7 +4,5 @@ solution: Kaizen.sln
 mono: none
 dotnet: 3.1.101
 script:
-  - name: Install dependencies
-    run: dotnet restore
-  - name: Build
-    run: dotnet build --configuration Release --no-restore
+  - dotnet restore
+  - dotnet build --configuration Release --no-restore
