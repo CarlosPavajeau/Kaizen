@@ -11,12 +11,12 @@ namespace Kaizen.Mappers
             CreateMap<ClientEditModel, Client>();
             CreateMap<ClientInputModel, Client>();
 
-            CreateMap<ClientAddressInputModel, ClientAddress>();
-            CreateMap<ContactPersonInputModel, ContactPerson>();
+            CreateMap<ClientAddressModel, ClientAddress>();
+            CreateMap<ContactPersonModel, ContactPerson>();
 
             CreateMap<Client, ClientViewModel>();
-            CreateMap<ClientAddress, ClientAddressViewModel>();
-            CreateMap<ContactPerson, ContactPersonViewModel>();
+            CreateMap<ClientAddress, ClientAddressModel>();
+            CreateMap<ContactPerson, ContactPersonModel>();
         }
     }
 }
