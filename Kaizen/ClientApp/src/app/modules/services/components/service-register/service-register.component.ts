@@ -1,16 +1,18 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ProductService } from '@modules/inventory/products/services/product.service';
-import { EquipmentService } from '@modules/inventory/equipments/services/equipment.service';
-import { ServiceService } from '@modules/services/services/service.service';
-import { Product } from '@modules/inventory/products/models/product';
-import { Equipment } from '@modules/inventory/equipments/models/equipment';
-import { FormBuilder, AbstractControl, FormGroup, Validators } from '@angular/forms';
-import { IForm } from '@core/models/form';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Employee } from '@modules/employees/models/employee';
 import { EmployeeService } from '@modules/employees/services/employee.service';
-import { ServiceType } from '@modules/services/models/service-type';
-import { ENTER, COMMA } from '@angular/cdk/keycodes';
+import { Equipment } from '@modules/inventory/equipments/models/equipment';
+import { EquipmentService } from '@modules/inventory/equipments/services/equipment.service';
+import { IForm } from '@core/models/form';
 import { MatAutocompleteChipListInputComponent } from '@shared/components/mat-autocomplete-chip-list-input/mat-autocomplete-chip-list-input.component';
+import { NotificationsService } from '@shared/services/notifications.service';
+import { Product } from '@modules/inventory/products/models/product';
+import { ProductService } from '@modules/inventory/products/services/product.service';
+import { Service } from '@modules/services/models/service';
+import { ServiceService } from '@modules/services/services/service.service';
+import { ServiceType } from '@modules/services/models/service-type';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-service-register',
@@ -41,7 +43,9 @@ export class ServiceRegisterComponent implements OnInit, IForm {
 		private equipmentService: EquipmentService,
 		private employeeService: EmployeeService,
 		private serviceService: ServiceService,
-		private formBuilder: FormBuilder
+		private formBuilder: FormBuilder,
+		private notificationService: NotificationsService,
+		private router: Router
 	) {}
 
 	ngOnInit(): void {
@@ -144,5 +148,27 @@ export class ServiceRegisterComponent implements OnInit, IForm {
 		this.serviceEmployeesForm = this.formBuilder.group({
 			employeeCodes: [ '', [ Validators.required ] ]
 		});
+	}
+
+	onSubmit(): void {
+		if (this.serviceForm.valid) {
+			const service = this.mapService();
+			this.serviceService.saveService(service).subscribe((serviceSave) => {
+				this.notificationService.add(`El servicio ${serviceSave.name} ha sido registrado`, 'Ok');
+				this.router.navigateByUrl('/services');
+			});
+		}
+	}
+
+	private mapService(): Service {
+		return {
+			code: this.controls['code'].value,
+			name: this.controls['name'].value,
+			serviceTypeId: +this.controls['serviceType'].value,
+			cost: +this.controls['cost'].value,
+			productCodes: this.productAuto.value.map((p) => p.code),
+			equipmentCodes: this.equipmentAuto.value.map((e) => e.code),
+			employeeCodes: this.employeeAuto.value.map((em) => em.id)
+		};
 	}
 }
