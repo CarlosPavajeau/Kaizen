@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import { ClientService } from '@modules/clients/services/client.service';
-import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
-import { IForm } from '@core/models/form';
-import { CharactersValidators } from '@shared/validators/characters-validators';
-import { User } from '@core/models/user';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '@core/authentication/authentication.service';
-import { ClientExistsValidator } from '@shared/validators/client-exists-validator';
+import { CharactersValidators } from '@shared/validators/characters-validators';
 import { Client } from '@modules/clients/models/client';
-import { NotificationsService } from '@shared/services/notifications.service';
-import { HttpErrorHandlerService } from '@shared/services/http-error-handler.service';
 import { CLIENT_ROLE } from '@global/roles';
+import { ClientExistsValidator } from '@shared/validators/client-exists-validator';
+import { ClientService } from '@modules/clients/services/client.service';
+import { ClientState } from '@modules/clients/models/client-state';
+import { Component, OnInit } from '@angular/core';
+import { HttpErrorHandlerService } from '@shared/services/http-error-handler.service';
+import { IForm } from '@core/models/form';
+import { NotificationsService } from '@shared/services/notifications.service';
+import { User } from '@core/models/user';
 
 @Component({
 	selector: 'app-client-register',
@@ -221,8 +222,8 @@ export class ClientRegisterComponent implements OnInit, IForm {
 			clientType: this.controls['clientType'].value,
 			firstPhoneNumber: this.contact_controls['firstPhonenumber'].value,
 			secondPhoneNumber: this.contact_controls['secondPhonenumber'].value,
-			firstLandline: this.contact_controls['firstLandline'].value,
-			secondLandline: this.contact_controls['secondLandline'].value,
+			firstLandLine: this.contact_controls['firstLandline'].value,
+			secondLandLine: this.contact_controls['secondLandline'].value,
 			contactPeople: [
 				{
 					name: this.contact_people_controls['person_name_1'].value,
@@ -238,11 +239,12 @@ export class ClientRegisterComponent implements OnInit, IForm {
 				neighborhood: this.ubication_controls['neighborhood'].value,
 				street: this.ubication_controls['street'].value
 			},
-			userId: user_id
+			userId: user_id,
+			state: ClientState.Pending
 		};
 
 		if (client.clientType == 'JuridicPerson') {
-			client.NIT = this.legal_controls['NIT'].value;
+			client.nit = this.legal_controls['NIT'].value;
 			client.busninessName = this.legal_controls['businessName'].value;
 		}
 

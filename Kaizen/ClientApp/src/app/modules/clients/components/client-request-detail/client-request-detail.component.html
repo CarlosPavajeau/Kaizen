@@ -1,0 +1,67 @@
+<section class="container">
+  <div *ngIf="clientRequest">
+    <h1 class="text-center">
+      Solicitud del cliente {{ clientRequest.firstName }}
+      {{ clientRequest.lastName }}
+    </h1>
+    <hr />
+    <p>
+      El cliente
+      <strong
+        >{{ clientRequest.firstName }} {{ clientRequest.secondName }}
+        {{ clientRequest.lastName }}
+        {{ clientRequest.secondLastName }}</strong
+      >
+      identificado con C.C. <strong>{{ clientRequest.id }}</strong
+      >. Con números de teléfono móvil:
+      <strong>{{ clientRequest.firstPhoneNumber }}</strong>
+      <strong *ngIf="clientRequest.secondPhoneNumber"
+        >, {{ clientRequest.secondPhoneNumber }}</strong
+      >
+      .
+      <span *ngIf="clientRequest.firstLandLine"
+        >Con números de teléfonos fijos:
+        <strong>{{ clientRequest.firstLandLine }}</strong>
+        <strong *ngIf="clientRequest.secondLandLine"
+          >, {{ clientRequest.secondLandLine }}</strong
+        >.
+      </span>
+      <br />
+      Con nombre comercial {{ clientRequest.tradeName }}, siendo este una
+      <span>{{
+        clientRequest.clientType == "JuridicPerson"
+          ? "Persona jurídica"
+          : "Persona natural"
+      }}</span>
+      <span *ngIf="clientRequest.clientType == 'JuridicPerson'">
+        , con NIT <strong>{{ clientRequest.nit }}</strong> y razón social
+        <strong>{{ clientRequest.busninessName }}</strong>
+      </span>
+      . <br />
+      <span *ngIf="clientRequest.clientAddress">
+        Úbicado en la ciudad de
+        <strong>{{ clientRequest.clientAddress.city }}</strong> en el barrio
+        <strong>{{ clientRequest.clientAddress.neighborhood }}</strong>
+        en la calle <strong>{{ clientRequest.clientAddress.street }}</strong
+        >.
+      </span>
+      <span *ngIf="clientRequest.contactPeople">
+        Con las siguientes personas de contacto: <br />
+        <span *ngFor="let contactPerson of clientRequest.contactPeople">
+          Nombre: {{ contactPerson.name }}, Teléfono:
+          {{ contactPerson.phonenumber }} <br /> </span
+        >.
+      </span>
+      <br />
+      Tiene una solicitud pendiente para ser cliente.
+    </p>
+    <div class="center-block-content">
+      <button mat-button color="primary" (click)="acceptClient()">
+        Aceptar
+      </button>
+      <button mat-button color="warn" (click)="rejectClient()">
+        Rechazar
+      </button>
+    </div>
+  </div>
+</section>
