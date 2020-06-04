@@ -10,6 +10,7 @@ This web application is build for Ecolplag S.A.S.
  - Employees
  - Inventory
  - Services
+ - Service Requests
  - Payments
  - Activity Schedule
  - Work Order
