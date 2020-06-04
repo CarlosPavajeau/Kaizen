@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ServiceRequestComponent } from './service-request.component';
+import { ServiceRequestsComponent } from './service-requests.component';
 
-describe('ServiceRequestComponent', () => {
-  let component: ServiceRequestComponent;
-  let fixture: ComponentFixture<ServiceRequestComponent>;
+describe('ServiceRequestsComponent', () => {
+  let component: ServiceRequestsComponent;
+  let fixture: ComponentFixture<ServiceRequestsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ServiceRequestComponent ]
+      declarations: [ ServiceRequestsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ServiceRequestComponent);
+    fixture = TestBed.createComponent(ServiceRequestsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

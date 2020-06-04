@@ -23,6 +23,11 @@ const routes: Routes = [
 		loadChildren: () => import('@modules/inventory/inventory.module').then((m) => m.InventoryModule)
 	},
 	{
+		path: 'service_requests',
+		loadChildren: () =>
+			import('@modules/service-requests/service-requests.module').then((m) => m.ServiceRequestsModule)
+	},
+	{
 		path: 'calendar',
 		loadChildren: () =>
 			import('@modules/activity-schedule/activity-schedule.module').then((m) => m.ActivityScheduleModule)
