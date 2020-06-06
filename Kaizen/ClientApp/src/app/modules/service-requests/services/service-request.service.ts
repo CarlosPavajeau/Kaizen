@@ -24,6 +24,6 @@ export class ServiceRequestService {
 	}
 
 	updateServiceRequest(serviceRequest: ServiceRequest): Observable<ServiceRequest> {
-		return this.http.put<ServiceRequest>(`${SERVICE_REQUESTS_API_URL}/${serviceRequest.id}`, serviceRequest);
+		return this.http.put<ServiceRequest>(`${SERVICE_REQUESTS_API_URL}/${serviceRequest.code}`, serviceRequest);
 	}
 }
