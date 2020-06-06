@@ -29,9 +29,11 @@ namespace Kaizen.Controllers
 
         // GET: api/Services
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<ServiceViewModel>>> GetServices()
         {
-            List<Service> services = await _servicesRepository.GetAll().Include(s => s.ServiceType).ToListAsync();
+            List<Service> services = await _servicesRepository.GetAll()
+                .Include(s => s.ServiceType).ToListAsync();
             return Ok(_mapper.Map<IEnumerable<ServiceViewModel>>(services));
         }
 
@@ -67,6 +69,7 @@ namespace Kaizen.Controllers
         // PUT: api/Services/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutService(string id, ServiceEditModel serviceModel)
         {
@@ -101,6 +104,7 @@ namespace Kaizen.Controllers
         // POST: api/Services
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<ActionResult<ServiceViewModel>> PostService([FromBody] ServiceInputModel serviceModel)
         {
@@ -126,6 +130,7 @@ namespace Kaizen.Controllers
         }
 
         // DELETE: api/Services/5
+        [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceViewModel>> DeleteService(string id)
         {
