@@ -1,1 +1,65 @@
-<p>service-request-register works!</p>
+<div class="container">
+  <section>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <div>
+            <h1 class="text-center">Formilario de solicitud de servicio</h1>
+          </div></mat-card-title
+        >
+      </mat-card-header>
+      <mat-card-content>
+        <div>
+          <form [formGroup]="serviceRequestForm">
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Fecha de aplicación</mat-label>
+                <input matInput [matDatepicker]="datePicker" />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="datePicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #datePicker></mat-datepicker>
+                <mat-hint
+                  >Elija la fecha en la que quiere la aplicación del
+                  servicio</mat-hint
+                >
+              </mat-form-field>
+            </div>
+            <div class="form-element form-select">
+              <mat-form-field>
+                <mat-label>Servicios a aplicar</mat-label>
+                <mat-select formControlName="serviceCodes" multiple>
+                  <mat-option
+                    *ngFor="let service of services"
+                    [value]="service.code"
+                  >
+                    {{ service.name }} : ${{ service.cost }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="form-element form-select">
+              <mat-form-field>
+                <mat-label>Periodicidad</mat-label>
+                <mat-select formControlName="periodicity">
+                  <mat-option
+                    *ngFor="let periodicity of periodicities"
+                    [value]="periodicity.type"
+                  >
+                    {{ periodicity.name }}
+                  </mat-option>
+                </mat-select>
+                <mat-icon
+                  matSuffix
+                  [matTooltip]="'Como quieres recibir nuestras visitas'"
+                  >info_outline</mat-icon
+                >
+              </mat-form-field>
+            </div>
+          </form>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </section>
+</div>
