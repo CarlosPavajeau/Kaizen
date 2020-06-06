@@ -82,6 +82,8 @@ namespace Kaizen
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
+            app.ConfigureSupportedCultures();
+
             app.UseSwaggerApiDocumentation();
 
             app.UseSpa(spa =>
