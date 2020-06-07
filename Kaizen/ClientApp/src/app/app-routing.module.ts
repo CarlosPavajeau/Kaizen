@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from '@shared/components/home/home.component';
 import { Page404Component } from '@shared/components/page404/page404.component';
-import { ContactComponent } from '@shared/components/contact/contact.component';
 import { AboutComponent } from '@shared/components/about/about.component';
 import { OurservicesComponent } from '@shared/components/ourservices/ourservices.component';
 
@@ -41,7 +40,6 @@ const routes: Routes = [
 		loadChildren: () => import('@modules/work-orders/work-orders.module').then((m) => m.WorkOrdersModule)
 	},
 
-	{ path: 'contact', component: ContactComponent },
 	{ path: 'about', component: AboutComponent },
 	{ path: 'ourservices', component: OurservicesComponent },
 	{ path: '**', component: Page404Component }

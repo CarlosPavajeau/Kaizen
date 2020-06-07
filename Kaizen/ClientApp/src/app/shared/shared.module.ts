@@ -1,28 +1,27 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Page404Component } from '@shared/components/page404/page404.component';
-import { HeaderComponent } from '@shared/components/header/header.component';
-import { FooterComponent } from '@shared/components/footer/footer.component';
-import { NavMenuComponent } from '@shared/components/nav-menu/nav-menu.component';
-import { MaterialModule } from '@core/material.module';
-import { RouterModule } from '@angular/router';
-import { ContactComponent } from '@shared/components/contact/contact.component';
 import { AboutComponent } from '@shared/components/about/about.component';
-import { UniqueClientDirective } from '@shared/directives/unique-client.directive';
-import { UniqueUserDirective } from '@shared/directives/unique-user.directive';
-import { NotificationsService } from '@shared/services/notifications.service';
-import { HttpErrorHandlerService } from '@shared/services/http-error-handler.service';
 import { ClientsFilterPipe } from '@shared/pipes/clients-filter.pipe';
-import { UniqueEmployeeDirective } from '@shared/directives/unique-employee.directive';
+import { CommonModule } from '@angular/common';
+import { DashboardCardComponent } from '@shared/components/dashboard-card/dashboard-card.component';
+import { FooterComponent } from '@shared/components/footer/footer.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HeaderComponent } from '@shared/components/header/header.component';
 import { HomeComponent } from '@shared/components/home/home.component';
+import { HttpErrorHandlerService } from '@shared/services/http-error-handler.service';
+import { MatAutocompleteChipListInputComponent } from './components/mat-autocomplete-chip-list-input/mat-autocomplete-chip-list-input.component';
+import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { MaterialModule } from '@core/material.module';
+import { MonthBitPipe } from '@shared/pipes/month-bit.pipe';
+import { NavMenuComponent } from '@shared/components/nav-menu/nav-menu.component';
+import { NgModule } from '@angular/core';
+import { NotificationsService } from '@shared/services/notifications.service';
+import { OurservicesComponent } from '@shared/components/ourservices/ourservices.component';
+import { Page404Component } from '@shared/components/page404/page404.component';
+import { RouterModule } from '@angular/router';
+import { UniqueClientDirective } from '@shared/directives/unique-client.directive';
+import { UniqueEmployeeDirective } from '@shared/directives/unique-employee.directive';
 import { UniqueEquipmentDirective } from '@shared/directives/unique-equipment.directive';
 import { UniqueProductDirective } from '@shared/directives/unique-product.directive';
-import { OurservicesComponent } from '@shared/components/ourservices/ourservices.component';
-import { DashboardCardComponent } from '@shared/components/dashboard-card/dashboard-card.component';
-import { MaterialFileInputModule } from 'ngx-material-file-input';
-import { MonthBitPipe } from './pipes/month-bit.pipe';
-import { MatAutocompleteChipListInputComponent } from './components/mat-autocomplete-chip-list-input/mat-autocomplete-chip-list-input.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UniqueUserDirective } from '@shared/directives/unique-user.directive';
 
 @NgModule({
 	declarations: [
@@ -31,7 +30,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 		HeaderComponent,
 		FooterComponent,
 		NavMenuComponent,
-		ContactComponent,
 		AboutComponent,
 		UniqueClientDirective,
 		UniqueUserDirective,
@@ -54,7 +52,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 		HeaderComponent,
 		FooterComponent,
 		NavMenuComponent,
-		ContactComponent,
 		AboutComponent,
 		UniqueClientDirective,
 		UniqueUserDirective,
