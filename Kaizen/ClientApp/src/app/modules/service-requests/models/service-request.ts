@@ -9,7 +9,7 @@ export interface ServiceRequest {
 	clientId: string;
 	serviceCodes: string[];
 
-	requestState: RequestState;
+	state: RequestState;
 	periodicity: PeriodicityType;
 
 	client?: Client;
