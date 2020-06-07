@@ -1,1 +1,51 @@
-<p>service-requests works!</p>
+<section class="container">
+  <div>
+    <h1 class="text-center">Solicitudes de servicio</h1>
+    <br />
+    <h3>
+      Están pendientes {{ serviceRequests.length }} solicitudes de servicio
+    </h3>
+  </div>
+  <hr class="separator" />
+  <div>
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let serviceRequest of serviceRequests">
+        <mat-expansion-panel-header>
+          <mat-panel-title
+            >Solicitud de servicio N° {{ serviceRequest.code }}</mat-panel-title
+          >
+          <mat-panel-description
+            >Está solicitud fue hecha para el dia y hora
+            {{ serviceRequest.date | date: "yyyy/MM/dd HH:mm" }}
+            <mat-icon
+              color="warn"
+              [matTooltip]="'Click para ver más información'"
+              [matTooltipShowDelay]="300"
+              [matTooltipPosition]="'above'"
+              >info</mat-icon
+            >
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <h4>
+          Solicitude N° {{ serviceRequest.code }} hecha por el cliente
+          identificado con C.C. <strong>{{ serviceRequest.clientId }}</strong>
+        </h4>
+        <mat-action-row>
+          <button
+            mat-button
+            color="warn"
+            (click)="rejectServiceRequest(serviceRequest)"
+          >
+            Rechazar
+          </button>
+          <a
+            mat-button
+            class="royal_azure"
+            routerLink="/service_requests/{{ serviceRequest.code }}"
+            >Revisar solicitud</a
+          >
+        </mat-action-row>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</section>
