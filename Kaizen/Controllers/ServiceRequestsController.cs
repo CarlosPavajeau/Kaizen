@@ -29,7 +29,8 @@ namespace Kaizen.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ServiceRequestViewModel>>> GetServiceRequests()
         {
-            List<ServiceRequest> serviceRequests = await _serviceRequestsRepository.GetAll().ToListAsync();
+            List<ServiceRequest> serviceRequests = await _serviceRequestsRepository.GetAll()
+                .Where(s => s.State == RequestState.Pending).ToListAsync();
             return Ok(_mapper.Map<IEnumerable<ServiceRequestViewModel>>(serviceRequests));
         }
 
@@ -51,7 +52,7 @@ namespace Kaizen.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutServiceRequest(int id, ServiceRequestEditModel serviceRequestModel)
+        public async Task<ActionResult<ServiceRequestViewModel>> PutServiceRequest(int id, ServiceRequestEditModel serviceRequestModel)
         {
             ServiceRequest serviceRequest = await _serviceRequestsRepository.FindByIdAsync(id);
             if (serviceRequest is null)
@@ -78,7 +79,7 @@ namespace Kaizen.Controllers
                 }
             }
 
-            return NoContent();
+            return _mapper.Map<ServiceRequestViewModel>(serviceRequest);
         }
 
         // POST: api/ServiceRequests
