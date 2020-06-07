@@ -12,19 +12,44 @@
         <div>
           <form [formGroup]="serviceRequestForm">
             <div class="form-element">
-              <mat-form-field>
-                <mat-label>Fecha de aplicación</mat-label>
-                <input matInput [matDatepicker]="datePicker" />
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="datePicker"
-                ></mat-datepicker-toggle>
-                <mat-datepicker #datePicker></mat-datepicker>
-                <mat-hint
-                  >Elija la fecha en la que quiere la aplicación del
-                  servicio</mat-hint
-                >
-              </mat-form-field>
+              <table>
+                <tr>
+                  <td>
+                    <mat-form-field>
+                      <mat-label>Fecha de aplicación</mat-label>
+                      <input
+                        matInput
+                        [matDatepicker]="datePicker"
+                        formControlName="date"
+                      />
+                      <mat-datepicker-toggle
+                        matSuffix
+                        [for]="datePicker"
+                      ></mat-datepicker-toggle>
+                      <mat-datepicker #datePicker></mat-datepicker>
+                      <mat-hint
+                        >Elija la fecha en la que quiere la aplicación del
+                        servicio</mat-hint
+                      >
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field>
+                      <mat-label>Hora de aplicación</mat-label>
+                      <input
+                        type="time"
+                        matInput
+                        placeholder="Ejemplo 2:00PM"
+                        formControlName="time"
+                      />
+                      <mat-hint
+                        >Elija la hora en la quie quiere la aplicación del
+                        servicio</mat-hint
+                      >
+                    </mat-form-field>
+                  </td>
+                </tr>
+              </table>
             </div>
             <div class="form-element form-select">
               <mat-form-field>
@@ -60,6 +85,11 @@
           </form>
         </div>
       </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button class="royal_azure" (click)="onSubmit()">
+          Enviar solicitud de servicio
+        </button>
+      </mat-card-actions>
     </mat-card>
   </section>
 </div>

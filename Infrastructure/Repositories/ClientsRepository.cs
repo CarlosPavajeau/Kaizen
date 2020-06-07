@@ -18,8 +18,14 @@ namespace Kaizen.Infrastructure.Repositories
         public override async Task<Client> FindByIdAsync(string id)
         {
             return await ApplicationDbContext.Clients.Include(c => c.ClientAddress)
-                .Include(c => c.ContactPeople).Where(c => c.Id == id)
+                .Include(c => c.ContactPeople).Where(c => c.Id == id || c.UserId == id)
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<string> GetClientId(string userId)
+        {
+            return await ApplicationDbContext.Clients.Where(c => c.UserId == userId)
+                .Select(c => c.Id).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Client>> GetClientRequestsAsync()

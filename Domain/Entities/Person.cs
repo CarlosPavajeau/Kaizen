@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kaizen.Domain.Entities
@@ -15,6 +15,8 @@ namespace Kaizen.Domain.Entities
         public string LastName { get; set; }
         [MaxLength(20)]
         public string SecondLastName { get; set; }
+
+        public string UserId { get; set; }
 
         [ForeignKey("UserId"), Required]
         public ApplicationUser User { get; set; }

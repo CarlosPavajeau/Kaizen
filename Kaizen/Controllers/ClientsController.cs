@@ -56,6 +56,14 @@ namespace Kaizen.Controllers
             return clientViewModel;
         }
 
+        // GET: api/Clients/ClientId/{userId}
+        [HttpGet("[action]/{userId}")]
+        public async Task<ActionResult<string>> ClientId(string userId)
+        {
+            return await _clientsRepository.GetClientId(userId);
+        }
+
+        // GET: api/Clients/CheckExists/5
         [HttpGet("[action]/{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<bool>> CheckExists(string id)

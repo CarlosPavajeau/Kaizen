@@ -10,5 +10,7 @@ namespace Kaizen.Domain.Repositories
         void UpdateClientAddress(ClientAddress clientAddress);
 
         Task<IEnumerable<Client>> GetClientRequestsAsync();
+
+        Task<string> GetClientId(string userId);
     }
 }

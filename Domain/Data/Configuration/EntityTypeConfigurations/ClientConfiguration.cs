@@ -11,6 +11,7 @@ namespace Kaizen.Domain.Data.Configuration.EntityTypeConfigurations
             builder.HasIndex(i => i.NIT)
                     .IsUnique();
             builder.Property("UserId").HasMaxLength(191);
+            builder.HasAlternateKey(p => p.UserId);
             builder.Property(c => c.State).HasDefaultValue(ClientState.Pending);
         }
     }
