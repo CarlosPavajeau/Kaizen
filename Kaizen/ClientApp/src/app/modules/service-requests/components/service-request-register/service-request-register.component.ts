@@ -86,7 +86,7 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
 			clientId: this.clientId,
 			serviceCodes: this.controls['serviceCodes'].value,
 			date: this.controls['date'].value,
-			requestState: RequestState.Pending,
+			state: RequestState.Pending,
 			periodicity: this.controls['periodicity'].value
 		};
 		const time = this.controls['time'].value;
