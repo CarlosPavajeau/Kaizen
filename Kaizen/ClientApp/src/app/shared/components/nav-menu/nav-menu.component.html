@@ -1,14 +1,8 @@
 <mat-toolbar class="royal_azure mat-elevation-z6">
-  <div class="nav-main-content">
-    <div class="nav-main-header" routerLink="/">
-      <img
-        src="assets/images/ecolplag_bird.png"
-        alt="bird"
-        width="60"
-        height="55"
-      />
-      <h2>Ecolplag</h2>
-    </div>
+  <div class="nav-main-header" routerLink="/">
+    <h2 class="mat-title">Ecolplag</h2>
+  </div>
+  <div class="nav-main-content" fxShow="true" fxHide.xs>
     <a
       mat-button
       routerLink="/"
@@ -45,8 +39,31 @@
       routerLink="/user/profile"
       routerLinkActive="active"
       *ngIf="isLogged"
+      fxShow="true"
+      fxHide.xs
       >Perfil</a
     >
-    <a mat-button (click)="onLogout()" *ngIf="isLogged">Cerrar sesión</a>
+    <a mat-button (click)="onLogout()" *ngIf="isLogged" fxShow="true" fxHide.xs
+      >Cerrar sesión</a
+    >
+    <button
+      *ngIf="isLogged"
+      mat-icon-button
+      [matMenuTriggerFor]="menu"
+      fxHide
+      fxShow.xs
+    >
+      <mat-icon>apps</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <a *ngIf="isLogged" mat-menu-item routerLink="/user/profile">
+        <mat-icon>account_circle</mat-icon>
+        <span>Perfil de usuario</span>
+      </a>
+      <button *ngIf="isLogged" mat-menu-item (click)="onLogout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Cerrar sesión</span>
+      </button>
+    </mat-menu>
   </div>
 </mat-toolbar>

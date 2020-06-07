@@ -22,6 +22,7 @@ import { UniqueEmployeeDirective } from '@shared/directives/unique-employee.dire
 import { UniqueEquipmentDirective } from '@shared/directives/unique-equipment.directive';
 import { UniqueProductDirective } from '@shared/directives/unique-product.directive';
 import { UniqueUserDirective } from '@shared/directives/unique-user.directive';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
 	declarations: [
@@ -42,10 +43,11 @@ import { UniqueUserDirective } from '@shared/directives/unique-user.directive';
 		MonthBitPipe,
 		MatAutocompleteChipListInputComponent
 	],
-	imports: [ CommonModule, MaterialModule, RouterModule, FormsModule, ReactiveFormsModule ],
+	imports: [ CommonModule, FlexLayoutModule, MaterialModule, RouterModule, FormsModule, ReactiveFormsModule ],
 	exports: [
 		MaterialModule,
 		MaterialFileInputModule,
+		FlexLayoutModule,
 		CommonModule,
 		HomeComponent,
 		Page404Component,

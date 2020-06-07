@@ -28,6 +28,7 @@ mat-toolbar button {
 
 .nav-main-header {
   display: inline-block;
+  margin-right: 16px;
 }
 
 .nav-main-header h2 {
