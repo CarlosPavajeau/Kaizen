@@ -13,7 +13,7 @@ const routes: Routes = [
 		children: [
 			{ path: '', component: ServiceRequestsComponent, canActivate: [ AuthGuard, AdminGuard ] },
 			{ path: 'register', component: ServiceRequestRegisterComponent, canActivate: [ AuthGuard, ClientGuard ] },
-			{ path: '/:id', component: ServiceRequestDetailComponent, canActivate: [ AuthGuard, AdminGuard ] }
+			{ path: ':code', component: ServiceRequestDetailComponent, canActivate: [ AuthGuard, AdminGuard ] }
 		]
 	}
 ];
