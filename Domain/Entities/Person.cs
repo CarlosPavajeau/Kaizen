@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kaizen.Domain.Entities
 {
-    public class Person
+    public class Person : Entity
     {
         [Key, MaxLength(10)]
         public string Id { get; set; }
