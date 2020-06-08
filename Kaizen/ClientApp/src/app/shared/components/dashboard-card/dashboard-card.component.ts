@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ViewChildren, Directive, Input } from '@angular/core';
-import { DashboardCard } from '@app/core/models/dashboard-card';
+import { Component, Input, OnInit } from '@angular/core';
+import { DashboardCard } from '@core/models/dashboard-card';
 
 @Component({
 	selector: 'app-dashboard-card',

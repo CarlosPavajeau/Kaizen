@@ -1,18 +1,28 @@
-<div *ngIf="dashboardCard" class="control-card">
-  <a [routerLink]="dashboardCard.url">
-    <mat-card class="mat-elevation-z3">
-      <div class="control-card-img">
-        <img
-          mat-card-image
-          src="{{ dashboardCard.imgUrl }}"
-          alt="{{ dashboardCard.title }}"
-        />
-      </div>
-      <mat-card-content>
-        <div class="control-card-title">
-          <h4>{{ dashboardCard.title }}</h4>
-        </div>
-      </mat-card-content>
-    </mat-card>
+<a
+  *ngIf="dashboardCard && !dashboardCard.isMenu"
+  [routerLink]="dashboardCard.url"
+  mat-button
+  class="control-card"
+>
+  <mat-icon>{{ dashboardCard.iconName }}</mat-icon>
+  <span>{{ dashboardCard.title }}</span>
+</a>
+<mat-menu #cardMenu="matMenu" class="cardMenu">
+  <a
+    *ngFor="let subMenu of dashboardCard.subMenu"
+    mat-menu-item
+    routerLink="{{ subMenu.url }}"
+  >
+    <mat-icon>{{ subMenu.iconName }}</mat-icon>
+    <span>{{ subMenu.title }}</span>
   </a>
-</div>
+</mat-menu>
+<button
+  *ngIf="dashboardCard && dashboardCard.isMenu"
+  mat-button
+  class="control-card"
+  [matMenuTriggerFor]="cardMenu"
+>
+  <mat-icon>{{ dashboardCard.iconName }}</mat-icon>
+  <span>{{ dashboardCard.title }}</span>
+</button>
