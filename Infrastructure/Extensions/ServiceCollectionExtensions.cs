@@ -1,12 +1,14 @@
 using System;
 using System.Text;
 using Kaizen.Core.Security;
+using Kaizen.Core.Services;
 using Kaizen.Domain.Data;
 using Kaizen.Domain.Data.Configuration;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.Infrastructure.Repositories;
 using Kaizen.Infrastructure.Security;
+using Kaizen.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -73,6 +75,11 @@ namespace Kaizen.Infrastructure.Extensions
             });
 
             return services;
+        }
+
+        public static void ConfigureApplicationServices(this IServiceCollection services)
+        {
+            services.AddScoped<IMailService, MailService>();
         }
 
         public static void ConfigureRepositories(this IServiceCollection services)
