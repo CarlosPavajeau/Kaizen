@@ -5,6 +5,7 @@ using AutoMapper;
 using Kaizen.Core.Exceptions.Client;
 using Kaizen.Core.Exceptions.User;
 using Kaizen.Domain.Entities;
+using Kaizen.Domain.Events;
 using Kaizen.Domain.Repositories;
 using Kaizen.Models.Client;
 using Microsoft.AspNetCore.Authorization;
@@ -116,6 +117,7 @@ namespace Kaizen.Controllers
 
             Client client = _mapper.Map<Client>(clientInput);
             client.User = user;
+            client.PublishEvent(new SavedPerson(client));
             _clientsRepository.Insert(client);
 
             try
