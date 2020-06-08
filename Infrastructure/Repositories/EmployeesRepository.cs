@@ -13,6 +13,12 @@ namespace Kaizen.Infrastructure.Repositories
         {
         }
 
+        public override async Task<Employee> FindByIdAsync(string id)
+        {
+            return await ApplicationDbContext.Employees
+                .Where(e => e.Id == id || e.UserId == id).FirstOrDefaultAsync();
+        }
+
         public IQueryable<EmployeeCharge> GetAllEmployeeCharges()
         {
             return ApplicationDbContext.EmployeeCharges;
@@ -20,7 +26,8 @@ namespace Kaizen.Infrastructure.Repositories
 
         public async Task<Employee> GetEmployeeWithCharge(string id)
         {
-            return await ApplicationDbContext.Employees.Include(e => e.EmployeeCharge).Where(e => e.Id == id).FirstOrDefaultAsync();
+            return await ApplicationDbContext.Employees.Include(e => e.EmployeeCharge)
+                .Where(e => e.Id == id).FirstOrDefaultAsync();
         }
     }
 }
