@@ -9,4 +9,9 @@
     <PackageReference Include="Autofac" Version="5.1.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Exceptions\Services\" />
+    <Folder Include="Exceptions\Product\" />
+  </ItemGroup>
+
 </Project>
