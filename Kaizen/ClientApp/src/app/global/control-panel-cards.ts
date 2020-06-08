@@ -2,28 +2,87 @@ import { DashboardCard } from '@core/models/dashboard-card';
 
 export const DASHBOARS_CARDS: { [role: string]: DashboardCard[] } = {
 	Client: [
-		{ title: 'Datos de acceso', imgUrl: 'assets/images/ecolplag_bird.png', url: '/services' },
-		{ title: 'Mis facturas', imgUrl: 'assets/images/ecolplag_bird.png', url: '/services' },
-		{ title: 'Solicitar un servicio', imgUrl: 'assets/images/ecolplag_bird.png', url: '/services' },
-		{ title: 'Gestionar visitas', imgUrl: 'assets/images/ecolplag_bird.png', url: '/services' },
-		{ title: 'Gestionar visitas', imgUrl: 'assets/images/ecolplag_bird.png', url: '/services' }
+		{ title: 'Datos de acceso', iconName: 'settings' },
+		{ title: 'Mis facturas', iconName: 'attach_money', url: '/services' },
+		{ title: 'Solicitar un servicio', iconName: 'add_circle', url: '/service_request/register' },
+		{ title: 'Gestionar visitas', iconName: 'info' },
+		{ title: 'Evaluar servicios', iconName: 'stars' }
 	],
 	Administrator: [
-		{ title: 'Datos de acceso', imgUrl: 'assets/images/ecolplag_bird.png', url: '/services' },
-		{ title: 'Mis facturas', imgUrl: 'assets/images/ecolplag_bird.png', url: '/services' },
+		{ title: 'Datos de acceso', iconName: 'settings' },
+		{ title: 'Facturas', iconName: 'attach_money', url: '/services' },
 		{
-			title: 'Gestionar productos',
-			imgUrl: 'assets/images/ecolplag_bird.png',
-			url: '/inventory/products/register'
+			title: 'Gestión de productos',
+			iconName: 'label',
+			isMenu: true,
+			subMenu: [
+				{ title: 'Registrar producto', url: '/inventory/products/register', iconName: 'add_circle' },
+				{ title: 'Ver productos', url: '/inventory/products', iconName: 'view_list' }
+			]
 		},
 		{
-			title: 'Gestionar equipos',
-			imgUrl: 'assets/images/ecolplag_bird.png',
-			url: '/inventory/equipments/register'
+			title: 'Gestión de equipos',
+			iconName: 'construction',
+			isMenu: true,
+			subMenu: [
+				{ title: 'Registrar equipo', url: '/inventory/equiments/register', iconName: 'add_circle' },
+				{ title: 'Ver equipos', url: '/inventory/equipments', iconName: 'view_list' }
+			]
 		},
-		{ title: 'Gestionar clientes', imgUrl: 'assets/images/ecolplag_bird.png', url: '/clients' },
-		{ title: 'Gestionar empleados', imgUrl: 'assets/images/ecolplag_bird.png', url: '/employees' }
+		{
+			title: 'Gestión de clientes',
+			iconName: 'people',
+			isMenu: true,
+			subMenu: [
+				{ title: 'Registrar cliente', url: '/clients/register', iconName: 'person_add' },
+				{ title: 'Ver clientes', url: '/clients', iconName: 'people' },
+				{ title: 'Ver solicitudes de clientes', url: '/clients/requests', iconName: 'pending' }
+			]
+		},
+		{
+			title: 'Gestión de empleados',
+			iconName: 'plumbing',
+			isMenu: true,
+			subMenu: [
+				{ title: 'Registrar empleado', url: '/employees/register', iconName: 'person_add' },
+				{ title: 'Ver empleados', url: '/employees', iconName: 'people' }
+			]
+		},
+		{
+			title: 'Gestión de servicios',
+			iconName: 'batch_prediction',
+			isMenu: true,
+			subMenu: [
+				{ title: 'Registrar servicio', url: '/services/register', iconName: 'add_circle' },
+				{ title: 'Ver servicios', url: '/services', iconName: 'view_list' }
+			]
+		},
+		{
+			title: 'Calendario',
+			iconName: 'event',
+			isMenu: true,
+			subMenu: [
+				{ title: 'Ver actividades', url: '/services/register', iconName: 'explore' },
+				{ title: 'Solicitudes de servicio', url: '/service_requests/', iconName: 'pending' }
+			]
+		}
 	],
-	TechnicalEmployee: [],
-	OfficeEmployee: []
+	TechnicalEmployee: [
+		{ title: 'Datos de acceso', iconName: 'settings' },
+		{ title: 'Horario de trabajo', iconName: 'calendar_today' }
+	],
+	OfficeEmployee: [
+		{ title: 'Datos de acceso', iconName: 'settings' },
+		{
+			title: 'Gestión de clientes',
+			iconName: 'people',
+			isMenu: true,
+			subMenu: [
+				{ title: 'Registrar cliente', url: '/clients/register', iconName: 'person_add' },
+				{ title: 'Ver clientes', url: '/clients', iconName: 'people' }
+			]
+		},
+		{ title: 'Solicitudes de clientes', iconName: 'pending', url: '/clients/requests' },
+		{ title: 'Solicitudes de servicio', iconName: 'pending', url: '/service_requests' }
+	]
 };
