@@ -3,7 +3,13 @@
     <h1>Perfil de usuario</h1>
   </div>
   <div class="user-info">
-    <h3>Bienvenido, Carlos</h3>
+    <h3>
+      Bienvenido,
+      <span *ngIf="person"
+        >{{ person.firstName }} {{ person.secondName }} {{ person.lastName }}
+        {{ person.secondLastName }}</span
+      >
+    </h3>
   </div>
   <hr class="separator" />
   <div class="control-panel">
