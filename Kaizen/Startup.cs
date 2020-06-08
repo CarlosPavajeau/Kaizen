@@ -2,6 +2,7 @@ using AutoMapper;
 using Kaizen.Domain.Extensions;
 using Kaizen.Extensions;
 using Kaizen.Infrastructure.Extensions;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -34,7 +35,10 @@ namespace Kaizen
             services.AddSwagger();
 
             services.AddAutoMapper(typeof(Startup));
+            services.AddMediatR(typeof(Startup));
+            services.ConfigureDomainEventDispatcher();
             services.ConfigureGlobalFilters();
+            services.ConfigureApplicationServices();
 
             services.AddCors();
 
