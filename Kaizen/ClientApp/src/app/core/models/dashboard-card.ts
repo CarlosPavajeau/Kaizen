@@ -1,5 +1,7 @@
 export interface DashboardCard {
 	title: string;
-	imgUrl: string;
-	url: string;
+	iconName: string;
+	url?: string;
+	isMenu?: boolean;
+	subMenu?: DashboardCard[];
 }
