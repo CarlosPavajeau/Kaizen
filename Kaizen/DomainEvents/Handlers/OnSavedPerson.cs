@@ -21,7 +21,7 @@ namespace Kaizen.DomainEvents.Handlers
             {
                 SavedPerson domainEvent = notification.DomainEvent;
 
-                await _mailService.SendEmailAsync(domainEvent.Email, "Cliente Registrado", $"Hola, {domainEvent.FullName}");
+                await _mailService.SendEmailAsync(domainEvent.Email, "Cliente Registrado", $"Hola, {domainEvent.FullName} acabas de registrarte en nuestra empresa.");
             }
         }
     }
