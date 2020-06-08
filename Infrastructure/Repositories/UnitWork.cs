@@ -1,4 +1,6 @@
+using System.Linq;
 using System.Threading.Tasks;
+using Kaizen.Core.Domain;
 using Kaizen.Domain.Data;
 using Kaizen.Domain.Repositories;
 
@@ -7,9 +9,11 @@ namespace Kaizen.Infrastructure.Repositories
     public class UnitWork : IUnitWork
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly IDomainEventDispatcher _eventDispatcher;
 
         public UnitWork(
             ApplicationDbContext applicationDbContext,
+            IDomainEventDispatcher eventDispatcher,
             IApplicationUserRepository userRepository,
             IClientsRepository clientsRepository,
             IEmployeesRepository employeesRepository,
@@ -22,6 +26,7 @@ namespace Kaizen.Infrastructure.Repositories
             )
         {
             _dbContext = applicationDbContext;
+            _eventDispatcher = eventDispatcher;
             ApplicationUsers = userRepository;
             Clients = clientsRepository;
             Employees = employeesRepository;
@@ -58,6 +63,21 @@ namespace Kaizen.Infrastructure.Repositories
         public async Task SaveAsync()
         {
             await _dbContext.SaveChangesAsync();
+            await DispatchDomainEvents();
+        }
+
+        private async Task DispatchDomainEvents()
+        {
+            var domainEventEntities = _dbContext.ChangeTracker.Entries<IEntity>()
+                .Select(p => p.Entity)
+                .Where(p => p.DomainEvents.Any())
+                .ToArray();
+
+            foreach (var entity in domainEventEntities)
+            {
+                while (entity.DomainEvents.TryTake(out IDomainEvent @event))
+                    await _eventDispatcher.Dispatch(@event);
+            }
         }
     }
 }
