@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Text;
 using Kaizen.Core.Security;
 using Kaizen.Core.Services;
@@ -9,6 +10,7 @@ using Kaizen.Domain.Repositories;
 using Kaizen.Infrastructure.Repositories;
 using Kaizen.Infrastructure.Security;
 using Kaizen.Infrastructure.Services;
+using Kaizen.Infrastructure.Services.Configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -108,6 +110,22 @@ namespace Kaizen.Infrastructure.Extensions
                 c.Provider = (DataProvider)Enum.Parse(typeof(DataProvider), configuration["Data:Provider"]);
             });
             services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
+        }
+
+        public static void LoadMailSettings(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<MailSettings>(m =>
+            {
+                m.Host = configuration["Mail:Host"];
+                m.Port = int.Parse(configuration["Mail:Port"]);
+                m.EnableSsl = true;
+                m.UseDefaultCredentials = true;
+
+                string username = configuration["Mail:User"];
+                string password = configuration["Mail:Password"];
+
+                m.Credential = new NetworkCredential(username, password);
+            });
         }
     }
 }
