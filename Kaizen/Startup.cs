@@ -42,6 +42,7 @@ namespace Kaizen
             services.ConfigureApplicationServices();
 
             services.AddCors();
+            services.AddSignalR();
 
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
@@ -74,9 +75,8 @@ namespace Kaizen
                 app.UseSpaStaticFiles();
             }
 
-            app.ConfigureCors();
-
             app.UseRouting();
+            app.UseSwaggerApiDocumentation();
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -85,11 +85,9 @@ namespace Kaizen
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.ConfigureHubMaps();
             });
-
-            app.ConfigureSupportedCultures();
-
-            app.UseSwaggerApiDocumentation();
+            app.ConfigureCors();
 
             app.UseSpa(spa =>
             {
