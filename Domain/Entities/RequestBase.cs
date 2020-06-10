@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kaizen.Domain.Entities
 {
-    public class RequestBase
+    public class RequestBase : Entity
     {
         [Key]
         public int Code { get; set; }
