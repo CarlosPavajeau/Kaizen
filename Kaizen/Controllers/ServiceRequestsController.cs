@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Kaizen.Domain.Entities;
+using Kaizen.Domain.Events;
 using Kaizen.Domain.Repositories;
 using Kaizen.Models.ServiceRequest;
 using Microsoft.AspNetCore.Mvc;
@@ -90,6 +91,7 @@ namespace Kaizen.Controllers
         {
             ServiceRequest serviceRequest = _mapper.Map<ServiceRequest>(serviceRequestModel);
             _serviceRequestsRepository.Insert(serviceRequest);
+            serviceRequest.PublishEvent(new SavedServiceRequest(serviceRequest));
 
             try
             {
