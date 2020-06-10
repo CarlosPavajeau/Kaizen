@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NewServiceRequestSignalrService } from '@modules/service-requests/services/new-service-request-signalr.service';
 import { RequestState } from '@modules/service-requests/models/request-state';
 import { ServiceRequest } from '@modules/service-requests/models/service-request';
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
@@ -9,12 +10,20 @@ import { ServiceRequestService } from '@modules/service-requests/services/servic
 	styleUrls: [ './service-requests.component.css' ]
 })
 export class ServiceRequestsComponent implements OnInit {
-	serviceRequests: ServiceRequest[];
+	serviceRequests: ServiceRequest[] = [];
 
-	constructor(private serviceRequestService: ServiceRequestService) {}
+	constructor(
+		private serviceRequestService: ServiceRequestService,
+		private newServiceRequestSignalR: NewServiceRequestSignalrService
+	) {}
 
 	ngOnInit(): void {
 		this.loadServiceRequests();
+		this.newServiceRequestSignalR.signalReceived.subscribe((data: ServiceRequest) => {
+			if (data) {
+				this.serviceRequests.push(data);
+			}
+		});
 	}
 
 	private loadServiceRequests(): void {
