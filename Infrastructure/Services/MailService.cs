@@ -34,14 +34,14 @@ namespace Kaizen.Infrastructure.Services
             await _client.SendMailAsync(MailMessage);
         }
 
-        private void ConfigEmail(string email, string subject, string message)
+        private void ConfigEmail(string email, string subject, string message, bool isHtml = false)
         {
             MailMessage = new MailMessage
             {
                 From = new MailAddress(_mailSettings.Credential.UserName),
                 Subject = subject,
                 Body = message,
-                IsBodyHtml = false,
+                IsBodyHtml = isHtml,
                 Priority = MailPriority.High
             };
 
