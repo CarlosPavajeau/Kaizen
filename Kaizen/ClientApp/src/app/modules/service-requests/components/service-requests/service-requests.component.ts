@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NewServiceRequestSignalrService } from '@modules/service-requests/services/new-service-request-signalr.service';
+import { NotificationsService } from '@shared/services/notifications.service';
 import { RequestState } from '@modules/service-requests/models/request-state';
 import { ServiceRequest } from '@modules/service-requests/models/service-request';
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
@@ -14,13 +15,15 @@ export class ServiceRequestsComponent implements OnInit {
 
 	constructor(
 		private serviceRequestService: ServiceRequestService,
-		private newServiceRequestSignalR: NewServiceRequestSignalrService
+		private newServiceRequestSignalR: NewServiceRequestSignalrService,
+		private notificationsService: NotificationsService
 	) {}
 
 	ngOnInit(): void {
 		this.loadServiceRequests();
 		this.newServiceRequestSignalR.signalReceived.subscribe((data: ServiceRequest) => {
 			if (data) {
+				this.notificationsService.add(`Se ha hecho una nueva solicitud de servicio`, 'Ok');
 				this.serviceRequests.push(data);
 			}
 		});
