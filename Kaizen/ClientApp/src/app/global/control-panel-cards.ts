@@ -4,7 +4,7 @@ export const DASHBOARS_CARDS: { [role: string]: DashboardCard[] } = {
 	Client: [
 		{ title: 'Datos de acceso', iconName: 'settings' },
 		{ title: 'Mis facturas', iconName: 'attach_money', url: '/services' },
-		{ title: 'Solicitar un servicio', iconName: 'add_circle', url: '/service_request/register' },
+		{ title: 'Solicitar un servicio', iconName: 'add_circle', url: '/service_requests/register' },
 		{ title: 'Gestionar visitas', iconName: 'info' },
 		{ title: 'Evaluar servicios', iconName: 'stars' }
 	],
