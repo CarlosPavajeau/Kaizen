@@ -8,7 +8,7 @@ namespace Kaizen.Domain.Data.Configuration.EntityTypeConfigurations
     {
         public void Configure(EntityTypeBuilder<Activity> builder)
         {
-            builder.ToTable("Activity");
+            builder.ToTable("Activities");
             builder.Property(a => a.Periodicity).HasDefaultValue(PeriodicityType.Casual);
         }
     }
