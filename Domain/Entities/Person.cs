@@ -18,7 +18,7 @@ namespace Kaizen.Domain.Entities
 
         public string UserId { get; set; }
 
-        [ForeignKey("UserId"), Required]
+        [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }
     }
 }
