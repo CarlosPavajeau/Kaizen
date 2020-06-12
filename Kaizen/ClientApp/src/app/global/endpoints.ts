@@ -6,3 +6,5 @@ export const SERVICE_REQUESTS_API_URL = 'api/ServiceRequests';
 export const PRODUCTS_API_URL = 'api/Products';
 export const EQUIPMENTS_API_URL = 'api/Equipments';
 export const UPLOAD_DOWNLOAD_API_URL = 'api/UploadDownload';
+export const ACTIVITIES_API_URL = 'api/Activities';
+export const WORK_ORDERS_API_URL = 'api/WorkOrders';
