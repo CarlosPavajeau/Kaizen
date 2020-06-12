@@ -3,14 +3,14 @@ import { DashboardCard } from '@core/models/dashboard-card';
 export const DASHBOARS_CARDS: { [role: string]: DashboardCard[] } = {
 	Client: [
 		{ title: 'Datos de acceso', iconName: 'settings' },
-		{ title: 'Mis facturas', iconName: 'attach_money', url: '/services' },
+		{ title: 'Mis facturas', iconName: 'attach_money' },
 		{ title: 'Solicitar un servicio', iconName: 'add_circle', url: '/service_requests/register' },
 		{ title: 'Gestionar visitas', iconName: 'info' },
 		{ title: 'Evaluar servicios', iconName: 'stars' }
 	],
 	Administrator: [
 		{ title: 'Datos de acceso', iconName: 'settings' },
-		{ title: 'Facturas', iconName: 'attach_money', url: '/services' },
+		{ title: 'Facturas', iconName: 'attach_money' },
 		{
 			title: 'Gestión de productos',
 			iconName: 'label',
@@ -25,7 +25,7 @@ export const DASHBOARS_CARDS: { [role: string]: DashboardCard[] } = {
 			iconName: 'construction',
 			isMenu: true,
 			subMenu: [
-				{ title: 'Registrar equipo', url: '/inventory/equiments/register', iconName: 'add_circle' },
+				{ title: 'Registrar equipo', url: '/inventory/equipments/register', iconName: 'add_circle' },
 				{ title: 'Ver equipos', url: '/inventory/equipments', iconName: 'view_list' }
 			]
 		},
@@ -62,7 +62,7 @@ export const DASHBOARS_CARDS: { [role: string]: DashboardCard[] } = {
 			iconName: 'event',
 			isMenu: true,
 			subMenu: [
-				{ title: 'Ver actividades', url: '/services/register', iconName: 'explore' },
+				{ title: 'Ver actividades', iconName: 'explore' },
 				{ title: 'Solicitudes de servicio', url: '/service_requests/', iconName: 'pending' }
 			]
 		}
