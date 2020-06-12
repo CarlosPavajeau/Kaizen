@@ -1,7 +1,12 @@
-import { Injectable, NgZone, OnInit, OnDestroy } from '@angular/core';
-import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
-import { Subscription } from 'rxjs';
+import { Injectable, NgZone, OnDestroy } from '@angular/core';
+import {
+	MatSnackBar,
+	MatSnackBarHorizontalPosition,
+	MatSnackBarRef,
+	SimpleSnackBar
+} from '@angular/material/snack-bar';
 import { SnackBarMessage } from '@shared/models/snackbar-message';
+import { Subscription } from 'rxjs';
 
 @Injectable({
 	providedIn: 'root'
@@ -18,10 +23,14 @@ export class NotificationsService implements OnDestroy {
 		this.subscription.unsubscribe();
 	}
 
-	add(message: string, action?: string) {
+	addMessage(message: string, action?: string, horizontalPosition?: MatSnackBarHorizontalPosition) {
 		const snack_message: SnackBarMessage = {
 			message: message,
-			action: action
+			action: action || 'Ok',
+			config: {
+				horizontalPosition: horizontalPosition || 'center',
+				verticalPosition: 'bottom'
+			}
 		};
 		this.messageQueue.push(snack_message);
 
@@ -38,7 +47,7 @@ export class NotificationsService implements OnDestroy {
 		const message = this.messageQueue.shift();
 		this.isInstanceVisible = true;
 
-		this.snackBarRef = this.showNotification(message.message, message.action, false);
+		this.snackBarRef = this.showNotification(message);
 
 		this.snackBarRef.afterDismissed().subscribe(() => {
 			this.isInstanceVisible = false;
@@ -46,9 +55,9 @@ export class NotificationsService implements OnDestroy {
 		});
 	}
 
-	private showNotification(message: string, action: string, error: boolean) {
+	private showNotification(message: SnackBarMessage) {
 		return this.zone.run(() => {
-			return this.snackBar.open(message, action);
+			return this.snackBar.open(message.message, message.action, message.config);
 		});
 	}
 }
