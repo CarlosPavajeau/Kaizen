@@ -9,6 +9,8 @@ namespace Kaizen.Domain.Data.Configuration.EntityTypeConfigurations
         public void Configure(EntityTypeBuilder<Employee> builder)
         {
             builder.HasAlternateKey(e => e.ContractCode);
+            builder.Property("UserId").HasMaxLength(191);
+            builder.HasIndex(p => p.UserId).IsUnique();
             builder.Property(e => e.State).HasDefaultValue(EmployeeState.Active);
         }
     }
