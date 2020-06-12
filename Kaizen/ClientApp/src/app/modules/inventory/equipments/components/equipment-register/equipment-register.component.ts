@@ -65,7 +65,7 @@ export class EquipmentRegisterComponent implements OnInit, IForm {
 			const equipment: Equipment = this.mapEquipment();
 
 			this.equipmentService.saveEquipment(equipment).subscribe((equipmentSave) => {
-				this.notificationService.add(`El equipo ${equipmentSave.name} ha sido registrado`, 'OK');
+				this.notificationService.addMessage(`El equipo ${equipmentSave.name} ha sido registrado`, 'OK');
 				setTimeout(() => {
 					this.router.navigateByUrl('/inventory/equipments');
 				}, 2000);

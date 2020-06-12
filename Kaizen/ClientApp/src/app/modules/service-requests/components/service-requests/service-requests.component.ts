@@ -23,7 +23,7 @@ export class ServiceRequestsComponent implements OnInit {
 		this.loadServiceRequests();
 		this.newServiceRequestSignalR.signalReceived.subscribe((data: ServiceRequest) => {
 			if (data) {
-				this.notificationsService.add(`Se ha hecho una nueva solicitud de servicio`, 'Ok');
+				this.notificationsService.addMessage(`Se ha hecho una nueva solicitud de servicio`, 'Ok', 'left');
 				this.serviceRequests.push(data);
 			}
 		});

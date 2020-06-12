@@ -109,7 +109,7 @@ export class ProductRegisterComponent implements OnInit, IForm {
 					const product = this.mapProduct(fileNames);
 
 					this.productService.saveProduct(product).subscribe((productSave) => {
-						this.notificationService.add(`Producto ${productSave.name} registrado`, 'Ok');
+						this.notificationService.addMessage(`Producto ${productSave.name} registrado`, 'Ok');
 						setTimeout(() => {
 							this.router.navigateByUrl('/inventory/products');
 						}, 2000);

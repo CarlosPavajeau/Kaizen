@@ -192,7 +192,10 @@ export class ClientRegisterComponent implements OnInit, IForm {
 				const client: Client = this.mapClient(userRegister.id);
 
 				this.clientService.saveClient(client).subscribe((clientRegister) => {
-					this.notificationsService.add(`Cliente ${clientRegister.firstName} registrado con éxito`, 'OK');
+					this.notificationsService.addMessage(
+						`Cliente ${clientRegister.firstName} registrado con éxito`,
+						'OK'
+					);
 					this.authService.setCurrentUser(userRegister);
 					window.location.reload();
 				});

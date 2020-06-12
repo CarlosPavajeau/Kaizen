@@ -154,7 +154,7 @@ export class ServiceRegisterComponent implements OnInit, IForm {
 		if (this.serviceForm.valid) {
 			const service = this.mapService();
 			this.serviceService.saveService(service).subscribe((serviceSave) => {
-				this.notificationService.add(`El servicio ${serviceSave.name} ha sido registrado`, 'Ok');
+				this.notificationService.addMessage(`El servicio ${serviceSave.name} ha sido registrado`, 'Ok');
 				this.router.navigateByUrl('/services');
 			});
 		}

@@ -69,7 +69,7 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
 			const serviceRequest = this.mapServiceRequest();
 			this.serviceRequestService.saveServiceRequest(serviceRequest).subscribe((serviceRequestSave) => {
 				if (serviceRequestSave) {
-					this.notificationService.add(
+					this.notificationService.addMessage(
 						`Solicitud de servicio N° ${serviceRequestSave.code} registrada`,
 						'Ok'
 					);
