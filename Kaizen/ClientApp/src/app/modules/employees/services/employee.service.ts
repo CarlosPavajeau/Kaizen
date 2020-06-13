@@ -24,6 +24,10 @@ export class EmployeeService {
 		return this.http.get<Employee>(`${EMPLOYEES_API_URL}/${id}`);
 	}
 
+	getTechniciansAvailable(date: Date): Observable<Employee[]> {
+		return this.http.get<Employee[]>(`${EMPLOYEES_API_URL}/TechniciansAvailable?date=${date}`);
+	}
+
 	saveEmployee(employee: Employee): Observable<Employee> {
 		return this.http.post<Employee>(EMPLOYEES_API_URL, employee);
 	}
