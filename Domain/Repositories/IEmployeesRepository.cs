@@ -11,6 +11,6 @@ namespace Kaizen.Domain.Repositories
     {
         IQueryable<EmployeeCharge> GetAllEmployeeCharges();
         Task<Employee> GetEmployeeWithCharge(string id);
-        Task<IEnumerable<Employee>> GetTechniciansAvailable(DateTime date);
+        Task<IEnumerable<Employee>> GetTechniciansAvailable(DateTime date, string[] serviceCodes);
     }
 }

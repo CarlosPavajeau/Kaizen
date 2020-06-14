@@ -33,14 +33,14 @@ namespace Kaizen.Infrastructure.Repositories
                 .Where(e => e.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Employee>> GetTechniciansAvailable(DateTime date)
+        public async Task<IEnumerable<Employee>> GetTechniciansAvailable(DateTime date, string[] serviceCodes)
         {
-            var activities = await ApplicationDbContext.Activities
+            List<IEnumerable<Employee>> activities = await ApplicationDbContext.Activities
                 .Where(a => a.Date == date && a.State == RequestState.Pending)
                 .Include(a => a.ActivitiesEmployees).ThenInclude(ac => ac.Employee)
                 .Select(a => a.ActivitiesEmployees.Select(ac => ac.Employee)).ToListAsync();
 
-            var employeesCodes = new HashSet<string>();
+            HashSet<string> employeesCodes = new HashSet<string>();
 
             activities.ForEach(ac =>
             {
@@ -50,9 +50,11 @@ namespace Kaizen.Infrastructure.Repositories
                 });
             });
 
-            var techniciansAvailable = await GetAll().Include(e => e.EmployeeCharge)
+            List<Employee> techniciansAvailable = await GetAll().Include(e => e.EmployeeCharge).Include(e => e.EmployeesServices)
                 .Where(e => !employeesCodes.Contains(e.Id) &&
-                (TECHNICAL_EMPLOYEE_JOB_CODES.Contains(e.EmployeeCharge.Id)))
+                       TECHNICAL_EMPLOYEE_JOB_CODES.Contains(e.EmployeeCharge.Id) &&
+                       e.EmployeesServices.Any(es => serviceCodes.Contains(es.ServiceCode))
+                       )
                 .ToListAsync();
 
             return techniciansAvailable;
