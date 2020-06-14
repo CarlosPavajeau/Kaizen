@@ -140,7 +140,7 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
 				role = ADMINISTRATOR_ROLE;
 			} else if (employeeChargeId == 5) {
 				role = OFFICE_EMPLOYEE_ROLE;
-			} else if (employeeChargeId == 7) {
+			} else if ([ 6, 7, 8 ].includes(employeeChargeId)) {
 				role = TECHNICAL_EMPLOYEE_ROLE;
 			} else {
 				role = EMPLOYEE_ROLE;
