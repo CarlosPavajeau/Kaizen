@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Kaizen.Domain.Entities;
+using Kaizen.Domain.Events;
 using Kaizen.Domain.Repositories;
 using Kaizen.Models.Activity;
 using Microsoft.AspNetCore.Mvc;
@@ -85,10 +86,12 @@ namespace Kaizen.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<ActivityViewModel>> PostActivity([FromBody]ActivityInputModel activityModel)
+        public async Task<ActionResult<ActivityViewModel>> PostActivity([FromBody] ActivityInputModel activityModel)
         {
             Activity activity = _mapper.Map<Activity>(activityModel);
             _activitiesRepository.Insert(activity);
+            activity.PublishEvent(new SavedActivity(activity));
+
             await _unitWork.SaveAsync();
 
             return _mapper.Map<ActivityViewModel>(activity);
