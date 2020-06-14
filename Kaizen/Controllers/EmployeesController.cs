@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -34,14 +35,24 @@ namespace Kaizen.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<IEnumerable<EmployeeViewModel>>> GetEmployees()
         {
-            return await _employeesRepository.GetAll().Include(p => p.EmployeeCharge).Select(p => _mapper.Map<EmployeeViewModel>(p)).ToListAsync();
+            List<Employee> employees = await _employeesRepository.GetAll()
+                .Include(e => e.EmployeeCharge).ToListAsync();
+            return Ok(_mapper.Map<IEnumerable<EmployeeViewModel>>(employees));
+        }
+
+        [HttpGet("[action]")]
+        public async Task<ActionResult<IEnumerable<EmployeeViewModel>>> TechniciansAvailable([FromQuery] DateTime date)
+        {
+            IEnumerable<Employee> techniciansAvailable = await _employeesRepository.GetTechniciansAvailable(date);
+            return Ok(_mapper.Map<IEnumerable<EmployeeViewModel>>(techniciansAvailable));
         }
 
         [HttpGet("[action]")]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<EmployeeChargeViewModel>>> EmployeeCharges()
         {
-            return await _employeesRepository.GetAllEmployeeCharges().Select(p => _mapper.Map<EmployeeChargeViewModel>(p)).ToListAsync();
+            List<EmployeeCharge> employeeCharges = await _employeesRepository.GetAllEmployeeCharges().ToListAsync();
+            return Ok(_mapper.Map<IEnumerable<EmployeeChargeViewModel>>(employeeCharges));
         }
 
         // GET: api/Employees/5
@@ -109,6 +120,7 @@ namespace Kaizen.Controllers
             EmployeeCharge employeeCharge = await _employeesRepository.GetAllEmployeeCharges()
                 .Where(c => c.Id == employeeModel.ChargeId)
                 .FirstOrDefaultAsync();
+
             if (employeeCharge is null)
                 throw new EmployeeChargeDoesNotExists();
 
