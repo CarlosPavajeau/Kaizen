@@ -11,8 +11,8 @@ export interface Activity {
 	clientId: string;
 	periodicity: PeriodicityType;
 
-	employeeCodes: string;
-	serviceCodes: string;
+	employeeCodes: string[];
+	serviceCodes: string[];
 
 	employees?: Employee[];
 	services?: Service[];
