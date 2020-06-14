@@ -27,7 +27,7 @@ const routes: Routes = [
 			import('@modules/service-requests/service-requests.module').then((m) => m.ServiceRequestsModule)
 	},
 	{
-		path: 'calendar',
+		path: 'activity_schedule',
 		loadChildren: () =>
 			import('@modules/activity-schedule/activity-schedule.module').then((m) => m.ActivityScheduleModule)
 	},
