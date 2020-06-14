@@ -37,9 +37,8 @@
         <a
           mat-raised-button
           class="royal_azure mr-5"
-          routerLink="/activity_schedule/register?serviceRequest={{
-            serviceRequest.code
-          }}"
+          routerLink="/activity_schedule/register"
+          [queryParams]="{ serviceRequest: serviceRequest.code }"
         >
           Proceder a reservar actividad
         </a>
