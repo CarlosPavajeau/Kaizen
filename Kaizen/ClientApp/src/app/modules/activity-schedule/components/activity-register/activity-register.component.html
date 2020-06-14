@@ -1,1 +1,86 @@
-<p>activity-register works!</p>
+<div class="container">
+  <section>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <div>
+            <h1 class="text-center">Formulario de agendación de visitas</h1>
+          </div>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="serviceRequest">
+          <h1 clasS="text-center">Solicitud N° {{ serviceRequest.code }}</h1>
+          <h3>
+            Solicitud del servicio hecha por el cliente
+            {{ serviceRequest.client.firstName }}
+            {{ serviceRequest.client.secondName }}
+            {{ serviceRequest.client.lastName }}
+            {{ serviceRequest.client.secondLastName }}.
+          </h3>
+          <hr class="separator" />
+          <span
+            >La solicitud fue hecha para aplicar los siguientes servicios:</span
+          >
+          <div>
+            <mat-list>
+              <mat-list-item *ngFor="let service of serviceRequest.services">
+                <mat-icon style="margin-right: 7px;">label</mat-icon>
+                {{ service.code }} - {{ service.name }} :
+                {{ service.cost | currency }}
+              </mat-list-item>
+            </mat-list>
+          </div>
+          <span
+            >En la fecha
+            {{ serviceRequest.date | date: "MMMM d, y, h:mm a" }}.</span
+          >
+        </div>
+        <hr class="separator" />
+        <div>
+          <form [formGroup]="activityForm">
+            <h1>Asignación de empleados</h1>
+            <div class="form-element form-select">
+              <mat-form-field>
+                <mat-label>Técnicos a asignar</mat-label>
+                <mat-select formControlName="employeeCodes" multiple>
+                  <mat-option
+                    *ngFor="let employee of techniciansAvailable"
+                    [value]="employee.id"
+                  >
+                    {{ employee.id }} - {{ employee.firstName }}
+                    {{ employee.lastName }}
+                  </mat-option>
+                </mat-select>
+                <mat-hint
+                  >Selecciones los empleados que aplicaran los servicios
+                  solicitados</mat-hint
+                >
+              </mat-form-field>
+            </div>
+          </form>
+        </div>
+        <div>
+          <button
+            mat-raised-button
+            class="royal_azure mr-5"
+            (click)="onSubmit()"
+          >
+            Agendar actividad
+          </button>
+          <button
+            mat-stroked-button
+            color="warn"
+            class="mr-5"
+            (click)="cancelServiceRequest()"
+          >
+            Cancelar solicitud
+          </button>
+          <button mat-stroked-button color="primary">
+            Sugerir otra fecha
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </section>
+</div>
