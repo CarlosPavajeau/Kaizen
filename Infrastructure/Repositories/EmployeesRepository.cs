@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Kaizen.Domain.Data;
@@ -9,6 +11,7 @@ namespace Kaizen.Infrastructure.Repositories
 {
     public class EmployeesRepository : RepositoryBase<Employee, string>, IEmployeesRepository
     {
+        readonly int[] TECHNICAL_EMPLOYEE_JOB_CODES = new[] { 6, 7, 8 };
         public EmployeesRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
         }
@@ -28,6 +31,31 @@ namespace Kaizen.Infrastructure.Repositories
         {
             return await ApplicationDbContext.Employees.Include(e => e.EmployeeCharge)
                 .Where(e => e.Id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Employee>> GetTechniciansAvailable(DateTime date)
+        {
+            var activities = await ApplicationDbContext.Activities
+                .Where(a => a.Date == date && a.State == RequestState.Pending)
+                .Include(a => a.ActivitiesEmployees).ThenInclude(ac => ac.Employee)
+                .Select(a => a.ActivitiesEmployees.Select(ac => ac.Employee)).ToListAsync();
+
+            var employeesCodes = new HashSet<string>();
+
+            activities.ForEach(ac =>
+            {
+                ac.ToList().ForEach(e =>
+                {
+                    employeesCodes.Add(e.Id);
+                });
+            });
+
+            var techniciansAvailable = await GetAll().Include(e => e.EmployeeCharge)
+                .Where(e => !employeesCodes.Contains(e.Id) &&
+                (TECHNICAL_EMPLOYEE_JOB_CODES.Contains(e.EmployeeCharge.Id)))
+                .ToListAsync();
+
+            return techniciansAvailable;
         }
     }
 }
