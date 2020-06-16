@@ -9,7 +9,10 @@ namespace Kaizen.Mappers
     {
         public ServiceRequestMapperProfile()
         {
-            CreateMap<ServiceRequestEditModel, ServiceRequest>();
+            CreateMap<ServiceRequestEditModel, ServiceRequest>().AfterMap((serviceRequestModel, serviceRequest) =>
+            {
+                serviceRequest.Date = serviceRequest.Date.ToLocalTime();
+            });
             CreateMap<ServiceRequestInputModel, ServiceRequest>().AfterMap((serviceRequestModel, serviceRequest) =>
             {
                 serviceRequest.Date = serviceRequestModel.Date.ToLocalTime();
