@@ -6,8 +6,10 @@ import { Component, OnInit } from '@angular/core';
 import { Employee } from '@modules/employees/models/employee';
 import { EmployeeService } from '@modules/employees/services/employee.service';
 import { IForm } from '@core/models/form';
+import { MatDialog } from '@angular/material/dialog';
 import { NotificationsService } from '@shared/services/notifications.service';
 import { RequestState } from '@modules/service-requests/models/request-state';
+import { SelectDateModalComponent } from '@shared/components/select-date-modal/select-date-modal.component';
 import { ServiceRequest } from '@modules/service-requests/models/service-request';
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
 
@@ -32,6 +34,7 @@ export class ActivityRegisterComponent implements OnInit, IForm {
 		private notificationsService: NotificationsService,
 		private activateRoute: ActivatedRoute,
 		private formBuilder: FormBuilder,
+		public dateDialog: MatDialog,
 		private router: Router
 	) {}
 
@@ -91,6 +94,25 @@ export class ActivityRegisterComponent implements OnInit, IForm {
 		this.serviceRequestService.updateServiceRequest(this.serviceRequest).subscribe((serviceRequestUpdate) => {
 			if (serviceRequestUpdate) {
 				this.router.navigateByUrl('/service_requests');
+			}
+		});
+	}
+
+	suggestAnotherDate(): void {
+		const dateRef = this.dateDialog.open(SelectDateModalComponent, {
+			width: '700px'
+		});
+
+		dateRef.afterClosed().subscribe((date) => {
+			if (date) {
+				this.serviceRequest.date = date;
+				this.serviceRequestService
+					.updateServiceRequest(this.serviceRequest)
+					.subscribe((serviceRequestUpdate) => {
+						if (serviceRequestUpdate) {
+							this.router.navigateByUrl('/service_requests');
+						}
+					});
 			}
 		});
 	}
