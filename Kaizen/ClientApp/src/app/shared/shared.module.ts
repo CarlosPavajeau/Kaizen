@@ -23,6 +23,7 @@ import { UniqueEquipmentDirective } from '@shared/directives/unique-equipment.di
 import { UniqueProductDirective } from '@shared/directives/unique-product.directive';
 import { UniqueUserDirective } from '@shared/directives/unique-user.directive';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { SelectDateModalComponent } from './components/select-date-modal/select-date-modal.component';
 
 @NgModule({
 	declarations: [
@@ -41,7 +42,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 		UniqueProductDirective,
 		UniqueUserDirective,
 		ClientsFilterPipe,
-		MonthBitPipe
+		MonthBitPipe,
+		SelectDateModalComponent
 	],
 	imports: [ CommonModule, FlexLayoutModule, MaterialModule, RouterModule, FormsModule, ReactiveFormsModule ],
 	exports: [
