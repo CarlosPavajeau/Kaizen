@@ -50,7 +50,11 @@
         >
           Cancelar solicitud
         </button>
-        <button mat-stroked-button color="primary">
+        <button
+          mat-stroked-button
+          color="primary"
+          (click)="suggestAnotherDate()"
+        >
           Sugerir otra fecha
         </button>
       </div>
@@ -63,7 +67,11 @@
         </h2>
       </div>
       <div>
-        <button mat-raised-button class="royal_azure mr-5">
+        <button
+          mat-raised-button
+          class="royal_azure mr-5"
+          (click)="suggestAnotherDate()"
+        >
           Sugerir otra fecha
         </button>
         <button

@@ -5,6 +5,8 @@ import { EmployeeService } from '@modules/employees/services/employee.service';
 import { RequestState } from '@modules/service-requests/models/request-state';
 import { ServiceRequest } from '@modules/service-requests/models/service-request';
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
+import { MatDialog } from '@angular/material/dialog';
+import { SelectDateModalComponent } from '@app/shared/components/select-date-modal/select-date-modal.component';
 
 @Component({
 	selector: 'app-service-request-detail',
@@ -19,7 +21,8 @@ export class ServiceRequestDetailComponent implements OnInit {
 		private serviceRequestService: ServiceRequestService,
 		private employeeService: EmployeeService,
 		private activateRoute: ActivatedRoute,
-		private router: Router
+		private router: Router,
+		public dateDialog: MatDialog
 	) {}
 
 	ngOnInit(): void {
@@ -40,6 +43,25 @@ export class ServiceRequestDetailComponent implements OnInit {
 		this.serviceRequestService.updateServiceRequest(this.serviceRequest).subscribe((serviceRequestUpdate) => {
 			if (serviceRequestUpdate) {
 				this.router.navigateByUrl('/service_requests');
+			}
+		});
+	}
+
+	suggestAnotherDate(): void {
+		const dateRef = this.dateDialog.open(SelectDateModalComponent, {
+			width: '700px'
+		});
+
+		dateRef.afterClosed().subscribe((date) => {
+			if (date) {
+				this.serviceRequest.date = date;
+				this.serviceRequestService
+					.updateServiceRequest(this.serviceRequest)
+					.subscribe((serviceRequestUpdate) => {
+						if (serviceRequestUpdate) {
+							this.router.navigateByUrl('/service_requests');
+						}
+					});
 			}
 		});
 	}
