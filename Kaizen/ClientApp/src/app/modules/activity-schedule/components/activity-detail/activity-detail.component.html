@@ -1,1 +1,35 @@
-<p>activity-detail works!</p>
+<section class="container">
+  <div *ngIf="activity">
+    <h1 class="text-center">Actividad N° {{ activity.code }}</h1>
+    <h3>
+      Actividad agendada para visitar el cliente
+      {{ activity.client.firstName }} {{ activity.client.lastName }} en la fecha
+      de {{ activity.date | date: "MMMM d, y, h:mm a" }} con una periodicidad de
+      visita {{ activity.periodicity | periodicity }}.
+    </h3>
+    <hr class="separator" />
+    <span>Se solicitaron los siguientes servicios:</span>
+    <div>
+      <mat-list>
+        <mat-list-item *ngFor="let service of activity.services">
+          <mat-icon style="margin-right: 7px;">label</mat-icon>
+          {{ service.code }} - {{ service.name }} :
+          {{ service.cost | currency }}
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <span>Se asiganron los siguientes empleados:</span>
+    <div>
+      <mat-list>
+        <mat-list-item *ngFor="let employee of activity.employees">
+          <mat-icon style="margin-right: 7px;">assignment_ind</mat-icon>
+          {{ employee.id }} - {{ employee.firstName }} {{ employee.lastName }}
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <span
+      >El estado actual de esta actividad es
+      {{ activity.state | requestState }}.</span
+    >
+  </div>
+</section>
