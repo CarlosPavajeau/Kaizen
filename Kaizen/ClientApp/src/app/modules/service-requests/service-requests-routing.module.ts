@@ -1,4 +1,4 @@
-import { AdminGuard } from '@core/guards/admin.guard';
+import { AdminOrOfficeEmployeeGuard } from '@core/guards/admin-or-office-employee.guard';
 import { AuthGuard } from '@core/guards/auth.guard';
 import { ClientGuard } from '@core/guards/client.guard';
 import { NgModule } from '@angular/core';
@@ -11,9 +11,17 @@ const routes: Routes = [
 	{
 		path: '',
 		children: [
-			{ path: '', component: ServiceRequestsComponent, canActivate: [ AuthGuard, AdminGuard ] },
+			{
+				path: '',
+				component: ServiceRequestsComponent,
+				canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
+			},
 			{ path: 'register', component: ServiceRequestRegisterComponent, canActivate: [ AuthGuard, ClientGuard ] },
-			{ path: ':code', component: ServiceRequestDetailComponent, canActivate: [ AuthGuard, AdminGuard ] }
+			{
+				path: ':code',
+				component: ServiceRequestDetailComponent,
+				canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
+			}
 		]
 	}
 ];
