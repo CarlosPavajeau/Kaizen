@@ -16,12 +16,14 @@ namespace Kaizen.Controllers
     public class ActivitiesController : ControllerBase
     {
         private readonly IActivitiesRepository _activitiesRepository;
+        private readonly IClientsRepository _clientsRepository;
         private readonly IUnitWork _unitWork;
         private readonly IMapper _mapper;
 
-        public ActivitiesController(IActivitiesRepository activitiesRepository, IUnitWork unitWork, IMapper mapper)
+        public ActivitiesController(IActivitiesRepository activitiesRepository, IClientsRepository clientsRepository, IUnitWork unitWork, IMapper mapper)
         {
             _activitiesRepository = activitiesRepository;
+            _clientsRepository = clientsRepository;
             _unitWork = unitWork;
             _mapper = mapper;
         }
@@ -89,6 +91,8 @@ namespace Kaizen.Controllers
         public async Task<ActionResult<ActivityViewModel>> PostActivity([FromBody] ActivityInputModel activityModel)
         {
             Activity activity = _mapper.Map<Activity>(activityModel);
+            activity.Client = await _clientsRepository.GetAll().Include(c => c.User)
+                    .Where(c => c.Id == activity.ClientId).FirstOrDefaultAsync();
             _activitiesRepository.Insert(activity);
             activity.PublishEvent(new SavedActivity(activity));
 
