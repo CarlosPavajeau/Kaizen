@@ -55,6 +55,7 @@ export class ServiceRequestDetailComponent implements OnInit {
 		dateRef.afterClosed().subscribe((date) => {
 			if (date) {
 				this.serviceRequest.date = date;
+				this.serviceRequest.state = RequestState.PendingSuggestedDate;
 				this.serviceRequestService
 					.updateServiceRequest(this.serviceRequest)
 					.subscribe((serviceRequestUpdate) => {

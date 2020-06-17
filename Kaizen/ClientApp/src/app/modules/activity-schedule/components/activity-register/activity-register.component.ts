@@ -106,6 +106,7 @@ export class ActivityRegisterComponent implements OnInit, IForm {
 		dateRef.afterClosed().subscribe((date) => {
 			if (date) {
 				this.serviceRequest.date = date;
+				this.serviceRequest.state = RequestState.PendingSuggestedDate;
 				this.serviceRequestService
 					.updateServiceRequest(this.serviceRequest)
 					.subscribe((serviceRequestUpdate) => {
