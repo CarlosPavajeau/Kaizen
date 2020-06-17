@@ -16,10 +16,10 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 	declarations: [],
 	imports: [
 		BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-		CommonModule,
 		HttpClientModule,
 		BrowserAnimationsModule
 	],
+	exports: [ BrowserAnimationsModule, CommonModule ],
 	providers: [
 		ApiPrefixInterceptor,
 		AuthInterceptor,
