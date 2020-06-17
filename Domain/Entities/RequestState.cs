@@ -4,6 +4,7 @@ namespace Kaizen.Domain.Entities
     {
         Pending,
         Accepted,
-        Rejected
+        Rejected,
+        PendingSuggestedDate
     }
 }
