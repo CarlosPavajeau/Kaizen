@@ -24,6 +24,8 @@ import { UniqueProductDirective } from '@shared/directives/unique-product.direct
 import { UniqueUserDirective } from '@shared/directives/unique-user.directive';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { SelectDateModalComponent } from './components/select-date-modal/select-date-modal.component';
+import { PeriodicityPipe } from './pipes/periodicity.pipe';
+import { RequestStatePipe } from './pipes/request-state.pipe';
 
 @NgModule({
 	declarations: [
@@ -43,7 +45,9 @@ import { SelectDateModalComponent } from './components/select-date-modal/select-
 		UniqueUserDirective,
 		ClientsFilterPipe,
 		MonthBitPipe,
-		SelectDateModalComponent
+		SelectDateModalComponent,
+		PeriodicityPipe,
+		RequestStatePipe
 	],
 	imports: [ CommonModule, FlexLayoutModule, MaterialModule, RouterModule, FormsModule, ReactiveFormsModule ],
 	exports: [
@@ -66,7 +70,9 @@ import { SelectDateModalComponent } from './components/select-date-modal/select-
 		UniqueEquipmentDirective,
 		UniqueProductDirective,
 		ClientsFilterPipe,
-		MonthBitPipe
+		MonthBitPipe,
+		PeriodicityPipe,
+		RequestStatePipe
 	],
 	providers: [ NotificationsService, HttpErrorHandlerService ]
 })
