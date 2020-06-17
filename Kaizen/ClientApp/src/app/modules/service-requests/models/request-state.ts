@@ -1,5 +1,6 @@
 export enum RequestState {
 	Pending,
 	Accepted,
-	Rejected
+	Rejected,
+	PendingSuggestedDate
 }
