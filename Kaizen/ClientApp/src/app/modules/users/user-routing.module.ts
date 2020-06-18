@@ -5,6 +5,7 @@ import { UserRegisterComponent } from './components/user-register/user-register.
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { AuthGuard } from 'src/app/core/guards/auth.guard';
 import { NoAuthGuard } from 'src/app/core/guards/no-auth.guard';
+import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
 
 const routes: Routes = [
 	{
@@ -12,6 +13,7 @@ const routes: Routes = [
 		children: [
 			{ path: 'login', component: UserLoginComponent, canActivate: [ NoAuthGuard ] },
 			{ path: 'profile', component: UserProfileComponent, canActivate: [ AuthGuard ] },
+			{ path: 'ConfirmEmail', component: ConfirmEmailComponent },
 			{ path: '', redirectTo: 'profile', pathMatch: 'full' }
 		]
 	}

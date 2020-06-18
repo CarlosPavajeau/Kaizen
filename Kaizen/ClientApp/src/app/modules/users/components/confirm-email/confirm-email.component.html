@@ -1,0 +1,45 @@
+<section class="container">
+  <div>
+    <h1 class="text-center">Confirmación de email</h1>
+  </div>
+  <div *ngIf="confirmingEmail">
+    <mat-spinner class="center-block-content mt-4"> </mat-spinner>
+    <div class="center-block-content text-center mt-5">
+      <span class="text-center">Confirmando email...</span>
+    </div>
+  </div>
+  <div *ngIf="emailConfirmed">
+    <div class="center-block-content text-center">
+      <mat-icon color="primary" class="center-block-content mt-4 text-center"
+        >check_circle</mat-icon
+      >
+    </div>
+    <div class="center-block-content text-center mt-5">
+      <span class="text-center"
+        >Email confirmado con éxito. Sera redirigido a su perfil.</span
+      >
+    </div>
+    <div class="center-block-content text-center mt-5">
+      <span class="text-center"
+        >Si no es redirigido automáticamente haga click
+        <a routerLink="/user/profile">aquí</a>.</span
+      >
+    </div>
+  </div>
+  <div *ngIf="!confirmingEmail && !emailConfirmed">
+    <div class="center-block-content text-center">
+      <mat-icon color="warn" class="center-block-content mt-4 text-center"
+        >error</mat-icon
+      >
+    </div>
+    <div class="center-block-content text-center mt-5">
+      <span class="text-center">Fallo en la confirmación del email.</span>
+    </div>
+    <div class="center-block-content text-center mt-5">
+      <span class="text-center"
+        >Si no es redirigido automáticamente haga click
+        <a routerLink="/user/profile">aquí</a>.</span
+      >
+    </div>
+  </div>
+</section>

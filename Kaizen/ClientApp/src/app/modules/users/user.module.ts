@@ -7,9 +7,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { UserRoutinModule } from './user-routing.module';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
 
 @NgModule({
-	declarations: [ UserRegisterComponent, UserLoginComponent, UserProfileComponent, DashboardComponent ],
+	declarations: [ UserRegisterComponent, UserLoginComponent, UserProfileComponent, DashboardComponent, ConfirmEmailComponent ],
 	imports: [ FormsModule, ReactiveFormsModule, SharedModule, UserRoutinModule ],
 	exports: [ UserRegisterComponent ]
 })
