@@ -26,6 +26,7 @@ namespace Kaizen
         {
             services.LoadDbSettings(Configuration);
             services.LoadMailSettings(Configuration);
+            services.ConfigureMailTemplates();
 
             services.AddEntityFramework(Configuration);
             services.ConfigureRepositories();
