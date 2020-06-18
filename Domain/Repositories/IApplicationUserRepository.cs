@@ -15,5 +15,9 @@ namespace Kaizen.Domain.Repositories
 
         Task<IdentityResult> AddToRoleAsync(ApplicationUser user, string role);
         Task<string> GetUserRoleAsync(ApplicationUser user);
+
+        Task<string> GenerateEmailConfirmationTokenAsync(ApplicationUser user);
+
+        Task<ApplicationUser> ConfirmEmailAsync(ApplicationUser user, string token);
     }
 }
