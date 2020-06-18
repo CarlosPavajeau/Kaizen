@@ -7,6 +7,7 @@ using Kaizen.Core.Exceptions.User;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Events;
 using Kaizen.Domain.Repositories;
+using Kaizen.Extensions;
 using Kaizen.Models.Client;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,7 +42,7 @@ namespace Kaizen.Controllers
         [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<ClientViewModel>>> Requests()
         {
-            var clients = await _clientsRepository.GetClientRequestsAsync();
+            IEnumerable<Client> clients = await _clientsRepository.GetClientRequestsAsync();
             return Ok(_mapper.Map<IEnumerable<ClientViewModel>>(clients));
         }
 
@@ -50,6 +51,7 @@ namespace Kaizen.Controllers
         public async Task<ActionResult<ClientViewModel>> GetClient(string id)
         {
             Client client = await _clientsRepository.FindByIdAsync(id);
+
             if (client == null)
                 throw new ClientNotRegister();
 
@@ -117,7 +119,9 @@ namespace Kaizen.Controllers
 
             Client client = _mapper.Map<Client>(clientInput);
             client.User = user;
-            client.PublishEvent(new SavedPerson(client));
+            string emailConfirmationLink = await GenerateEmailConfirmationLink(user);
+
+            client.PublishEvent(new SavedPerson(client, emailConfirmationLink));
             _clientsRepository.Insert(client);
 
             try
@@ -137,6 +141,13 @@ namespace Kaizen.Controllers
             }
 
             return _mapper.Map<ClientViewModel>(client);
+        }
+
+        private async Task<string> GenerateEmailConfirmationLink(ApplicationUser user)
+        {
+            string token = await _unitWork.ApplicationUsers.GenerateEmailConfirmationTokenAsync(user);
+            string emailConfirmationLink = Url.Action("ConfirmEmail", "user", new { token = token.Base64ForUrlEncode(), email = user.Email }, Request.Scheme);
+            return emailConfirmationLink;
         }
 
         // DELETE: api/Clients/5
