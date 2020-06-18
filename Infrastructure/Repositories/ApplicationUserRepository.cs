@@ -78,5 +78,16 @@ namespace Kaizen.Infrastructure.Repositories
             IList<string> roles = await _userManager.GetRolesAsync(user);
             return roles.FirstOrDefault();
         }
+
+        public async Task<string> GenerateEmailConfirmationTokenAsync(ApplicationUser user)
+        {
+            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        }
+
+        public async Task<ApplicationUser> ConfirmEmailAsync(ApplicationUser user, string token)
+        {
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            return !result.Succeeded ? null : user;
+        }
     }
 }
