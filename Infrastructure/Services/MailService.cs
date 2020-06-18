@@ -28,9 +28,9 @@ namespace Kaizen.Infrastructure.Services
             _client.Credentials = _mailSettings.Credential;
         }
 
-        public async Task SendEmailAsync(string email, string subject, string message)
+        public async Task SendEmailAsync(string email, string subject, string message, bool isHtml = false)
         {
-            ConfigEmail(email, subject, message);
+            ConfigEmail(email, subject, message, isHtml);
             await _client.SendMailAsync(MailMessage);
         }
 
