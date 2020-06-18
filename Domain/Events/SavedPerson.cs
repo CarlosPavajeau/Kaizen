@@ -5,13 +5,12 @@ namespace Kaizen.Domain.Events
 {
     public class SavedPerson : IDomainEvent
     {
-        public string FullName { get; }
-        public string Email { get; }
-
-        public SavedPerson(Person person)
+        public Client Client { get; }
+        public string EmailConfirmationLink { get; }
+        public SavedPerson(Client client, string emailConfirmationLink)
         {
-            FullName = $"{person.FirstName} {person.SecondName} {person.LastName} {person.SecondLastName}";
-            Email = person.User.Email;
+            Client = client;
+            EmailConfirmationLink = emailConfirmationLink;
         }
     }
 }
