@@ -4,6 +4,7 @@ using Kaizen.Core.Exceptions.User;
 using Kaizen.Core.Security;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
+using Kaizen.Extensions;
 using Kaizen.Models.ApplicationUser;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -99,6 +100,18 @@ namespace Kaizen.Controllers
             userView.Token = _tokenGenerator.GenerateToken(user.UserName, role);
 
             return userView;
+        }
+
+        [HttpPost("[action]")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ApplicationUserViewModel>> ConfirmEmail([FromQuery] string token, [FromQuery] string email)
+        {
+            ApplicationUser user = await _userRepository.FindByNameOrEmailAsync(email);
+            if (user is null)
+                throw new UserDoesNotExists();
+
+            user = await _userRepository.ConfirmEmailAsync(user, token.Base64ForUrlDecode());
+            return Ok(_mapper.Map<ApplicationUser>(user));
         }
     }
 }
