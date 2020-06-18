@@ -11,6 +11,7 @@ using Kaizen.Infrastructure.Repositories;
 using Kaizen.Infrastructure.Security;
 using Kaizen.Infrastructure.Services;
 using Kaizen.Infrastructure.Services.Configuration;
+using Kaizen.Infrastructure.Services.MailTemplates;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -107,6 +108,11 @@ namespace Kaizen.Infrastructure.Extensions
         public static void ConfigureApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IMailService, MailService>();
+        }
+
+        public static void ConfigureMailTemplates(this IServiceCollection services)
+        {
+            services.AddScoped<IMailTemplate<ClientMailTemplate>, ClientMailTemplate>();
         }
 
         public static void ConfigureRepositories(this IServiceCollection services)
