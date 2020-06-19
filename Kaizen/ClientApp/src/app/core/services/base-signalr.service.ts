@@ -1,10 +1,10 @@
-import { Injectable, Output, EventEmitter, OnInit } from '@angular/core';
+import { Injectable, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 
 @Injectable({
 	providedIn: 'root'
 })
-export class BaseSignalrService<T> implements OnInit {
+export class BaseSignalrService<T> implements OnInit, OnDestroy {
 	private hubConnection: HubConnection;
 	private readonly hubURl: string;
 	private readonly methodName: string;
@@ -44,6 +44,12 @@ export class BaseSignalrService<T> implements OnInit {
 	private registerSignalEvents(): void {
 		this.hubConnection.on(this.methodName, (data: T) => {
 			this.signalReceived.emit(data);
+		});
+	}
+
+	ngOnDestroy(): void {
+		this.hubConnection.stop().then(() => {
+			console.log('Connection stopped');
 		});
 	}
 }
