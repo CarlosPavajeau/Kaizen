@@ -1,3 +1,4 @@
+using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using Kaizen.Core.Services;
@@ -23,9 +24,10 @@ namespace Kaizen.Infrastructure.Services
         {
             _client.Host = _mailSettings.Host;
             _client.Port = _mailSettings.Port;
-            _client.EnableSsl = _mailSettings.EnableSsl;
             _client.UseDefaultCredentials = _mailSettings.UseDefaultCredentials;
-            _client.Credentials = _mailSettings.Credential;
+            _client.Credentials = new NetworkCredential(_mailSettings.Credential.UserName, _mailSettings.Credential.Password);
+            _client.EnableSsl = _mailSettings.EnableSsl;
+            _client.DeliveryMethod = SmtpDeliveryMethod.Network;
         }
 
         public async Task SendEmailAsync(string email, string subject, string message, bool isHtml = false)
