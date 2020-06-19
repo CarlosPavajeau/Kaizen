@@ -150,7 +150,7 @@ namespace Kaizen.Infrastructure.Extensions
                 m.Host = configuration["Mail:Host"];
                 m.Port = int.Parse(configuration["Mail:Port"]);
                 m.EnableSsl = true;
-                m.UseDefaultCredentials = true;
+                m.UseDefaultCredentials = false;
 
                 string username = configuration["Mail:User"];
                 string password = configuration["Mail:Password"];
