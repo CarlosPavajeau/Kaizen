@@ -1,7 +1,9 @@
+import { Client } from '@modules/clients/models/client';
+import { ClientService } from '@modules/clients/services/client.service';
+import { ClientState } from '@modules/clients/models/client-state';
 import { Component, OnInit } from '@angular/core';
-import { ClientService } from '../../services/client.service';
-import { Client } from '../../models/client';
-import { ClientState } from '../../models/client-state';
+import { NewClientSignalrService } from '@modules/clients/services/new-client-signalr.service';
+import { NotificationsService } from '@shared/services/notifications.service';
 
 @Component({
 	selector: 'app-client-requests',
@@ -10,10 +12,19 @@ import { ClientState } from '../../models/client-state';
 })
 export class ClientRequestsComponent implements OnInit {
 	clientRequests: Client[];
-	constructor(private clientService: ClientService) {}
+	constructor(
+		private clientService: ClientService,
+		private notificationsService: NotificationsService,
+		private newClientSignalr: NewClientSignalrService
+	) {}
 
 	ngOnInit(): void {
 		this.loadClientRequests();
+
+		this.newClientSignalr.signalReceived.subscribe((newClient: Client) => {
+			this.clientRequests.push(newClient);
+			this.notificationsService.addMessage(`Se ha registrado un nuevo cliente`, 'Ok', 'left');
+		});
 	}
 
 	private loadClientRequests(): void {
