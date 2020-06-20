@@ -9,6 +9,8 @@ namespace Kaizen.Extensions
         public static void ConfigureHubMaps(this IEndpointRouteBuilder endpoints)
         {
             endpoints.MapHub<ServiceRequestHub>("/ServiceRequestsHub");
+            endpoints.MapHub<ClientHub>("/ClientsHub");
+            endpoints.MapHub<ActivityHub>("/ActivitiesHub");
         }
     }
 }
