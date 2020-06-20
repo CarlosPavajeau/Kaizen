@@ -1,16 +1,12 @@
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { WorkOrdersRoutingModule } from './work-orders-routing.module';
-import { WorkOrderRegisterComponent } from './components/work-order-register/work-order-register.component';
+import { SharedModule } from '@shared/shared.module';
 import { WorkOrderDetailComponent } from './components/work-order-detail/work-order-detail.component';
-
+import { WorkOrderRegisterComponent } from './components/work-order-register/work-order-register.component';
+import { WorkOrdersRoutingModule } from './work-orders-routing.module';
 
 @NgModule({
-  declarations: [WorkOrderRegisterComponent, WorkOrderDetailComponent],
-  imports: [
-    CommonModule,
-    WorkOrdersRoutingModule
-  ]
+	declarations: [ WorkOrderRegisterComponent, WorkOrderDetailComponent ],
+	imports: [ SharedModule, WorkOrdersRoutingModule, FormsModule, ReactiveFormsModule ]
 })
-export class WorkOrdersModule { }
+export class WorkOrdersModule {}
