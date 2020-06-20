@@ -33,7 +33,6 @@ namespace Kaizen.DomainEvents.Handlers
                                                           $"{savedPerson.ClientAddress.Neighborhood}", $"{savedPerson.ClientAddress.Street}",
                                                           $"{notification.DomainEvent.EmailConfirmationLink}");
 
-
                 await _mailService.SendEmailAsync(savedPerson.User.Email, "Cliente Registrado", email, true);
                 await _clientHub.Clients.Groups("Administrator", "OfficeEmployee").SendAsync("NewPersonRequest");
             }
