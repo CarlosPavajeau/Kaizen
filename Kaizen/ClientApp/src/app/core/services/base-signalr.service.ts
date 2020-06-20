@@ -1,4 +1,5 @@
-import { Injectable, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { AuthenticationService } from '@core/authentication/authentication.service';
+import { EventEmitter, Injectable, OnDestroy, OnInit, Output } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 
 @Injectable({
@@ -8,18 +9,22 @@ export class BaseSignalrService<T> implements OnInit, OnDestroy {
 	private hubConnection: HubConnection;
 	private readonly hubURl: string;
 	private readonly methodName: string;
-	protected token: string;
+	private token: string;
 
 	@Output() signalReceived = new EventEmitter<T>();
 
-	constructor(hubUrl: string, methodName: string) {
+	constructor(private authService: AuthenticationService, hubUrl: string, methodName: string) {
 		this.hubURl = hubUrl;
 		this.methodName = methodName;
+		this.ngOnInit();
 	}
 
 	ngOnInit(): void {
-		this.buildConection();
-		this.startConnection();
+		this.token = this.authService.getToken();
+		if (this.token) {
+			this.buildConection();
+			this.startConnection();
+		}
 	}
 
 	private buildConection(): void {
