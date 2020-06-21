@@ -36,7 +36,7 @@ const routes: Routes = [
 		loadChildren: () => import('@modules/payments/payments.module').then((m) => m.PaymentsModule)
 	},
 	{
-		path: 'work-order',
+		path: 'work_orders',
 		loadChildren: () => import('@modules/work-orders/work-orders.module').then((m) => m.WorkOrdersModule)
 	},
 
