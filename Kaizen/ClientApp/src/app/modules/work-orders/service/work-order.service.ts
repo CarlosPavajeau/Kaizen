@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Sector } from '@modules/work-orders/models/sector';
 import { WORK_ORDERS_API_URL } from '@global/endpoints';
 import { WorkOrder } from '@modules/work-orders/models/work-order';
 
@@ -16,6 +17,10 @@ export class WorkOrderService {
 
 	getWorkOrder(code: number): Observable<WorkOrder> {
 		return this.http.get<WorkOrder>(`${WORK_ORDERS_API_URL}/${code}`);
+	}
+
+	getSectors(): Observable<Sector[]> {
+		return this.http.get<Sector[]>(`${WORK_ORDERS_API_URL}/Sectors`);
 	}
 
 	saveWorkOrder(workOrder: WorkOrder): Observable<WorkOrder> {
