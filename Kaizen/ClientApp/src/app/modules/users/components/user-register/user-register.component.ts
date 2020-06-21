@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -14,7 +14,7 @@ export class UserRegisterComponent implements OnInit {
 	registerForm: FormGroup;
 	@Output() user = new EventEmitter<User>();
 	invalidForm: boolean;
-
+	@Input() savingData: boolean;
 	public get controls() {
 		return this.registerForm.controls;
 	}

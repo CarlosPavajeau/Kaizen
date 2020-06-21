@@ -632,7 +632,10 @@
           </mat-step>
           <mat-step>
             <ng-template matStepLabel>Datos de ingreso</ng-template>
-            <app-user-register (user)="onSubmit($event)"></app-user-register>
+            <app-user-register
+              (user)="onSubmit($event)"
+              [savingData]="savingData"
+            ></app-user-register>
           </mat-step>
         </mat-vertical-stepper>
       </mat-card-content>

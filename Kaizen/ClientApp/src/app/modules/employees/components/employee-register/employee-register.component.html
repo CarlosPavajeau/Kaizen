@@ -344,7 +344,10 @@
             </div>
           </mat-step>
           <mat-step>
-            <app-user-register (user)="onSubmit($event)">
+            <app-user-register
+              (user)="onSubmit($event)"
+              [savingData]="savingData"
+            >
               <ng-template matStepLabel>Datos de ingreso</ng-template>
             </app-user-register>
           </mat-step>

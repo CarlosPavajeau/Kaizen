@@ -11,6 +11,7 @@ import { HttpErrorHandlerService } from '@shared/services/http-error-handler.ser
 import { IForm } from '@core/models/form';
 import { NotificationsService } from '@shared/services/notifications.service';
 import { User } from '@core/models/user';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-client-register',
@@ -23,6 +24,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
 	contactPersonForm: FormGroup;
 	contactPeopleForm: FormGroup;
 	ubicationForm: FormGroup;
+	savingData: boolean = false;
 
 	public get controls(): { [key: string]: AbstractControl } {
 		return this.clientForm.controls;
@@ -50,7 +52,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
 		private formBuilder: FormBuilder,
 		private clientValidator: ClientExistsValidator,
 		private notificationsService: NotificationsService,
-		private httpErrorHandler: HttpErrorHandlerService
+		private router: Router
 	) {}
 
 	ngOnInit(): void {
@@ -184,6 +186,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
 
 	onSubmit(user: User): void {
 		if (user && this.allFormsValid()) {
+			this.savingData = true;
 			user.email = this.contact_controls['email'].value;
 			user.phonenumber = this.contact_controls['firstPhonenumber'].value;
 			user.role = CLIENT_ROLE;
@@ -196,8 +199,12 @@ export class ClientRegisterComponent implements OnInit, IForm {
 						`Cliente ${clientRegister.firstName} registrado con éxito`,
 						'OK'
 					);
-					this.authService.setCurrentUser(userRegister);
-					window.location.reload();
+					if (!this.authService.userLoggedIn()) {
+						this.authService.setCurrentUser(userRegister);
+						window.location.reload();
+					} else {
+						this.router.navigateByUrl('/clients');
+					}
 				});
 			});
 		}

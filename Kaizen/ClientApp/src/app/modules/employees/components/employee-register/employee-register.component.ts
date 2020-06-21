@@ -22,6 +22,7 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
 	contactForm: FormGroup;
 	contractForm: FormGroup;
 	employeeCharges: EmployeeCharge[];
+	savingData: boolean = false;
 
 	public get controls(): { [key: string]: AbstractControl } {
 		return this.employeeForm.controls;
@@ -131,6 +132,7 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
 
 	onSubmit(user: User): void {
 		if (user && this.employeeForm.valid && this.contactForm.valid && this.contractForm.valid) {
+			this.savingData = true;
 			user.email = this.contact_controls['email'].value;
 			user.phonenumber = this.contact_controls['phonenumber'].value;
 
