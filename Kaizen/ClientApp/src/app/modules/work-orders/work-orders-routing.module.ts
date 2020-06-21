@@ -9,8 +9,8 @@ const routes: Routes = [
 	{
 		path: '',
 		children: [
-			{ path: ':code', component: WorkOrderDetailComponent, canActivate: [ AuthGuard ] },
-			{ path: 'register', component: WorkOrderRegisterComponent, canActivate: [ TechnicalEmployeeGuard ] }
+			{ path: 'register', component: WorkOrderRegisterComponent, canActivate: [ AuthGuard ] },
+			{ path: ':code', component: WorkOrderDetailComponent, canActivate: [ AuthGuard ] }
 		]
 	}
 ];
