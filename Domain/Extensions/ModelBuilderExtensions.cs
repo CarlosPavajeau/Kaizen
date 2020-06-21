@@ -24,6 +24,7 @@ namespace Kaizen.Domain.Extensions
             builder.ApplyConfiguration(new ActivityServiceConfig());
             builder.ApplyConfiguration(new WorkOrderConfig());
             builder.ApplyConfiguration(new EmployeeConfig());
+            builder.ApplyConfiguration(new SectorConfig());
         }
     }
 }

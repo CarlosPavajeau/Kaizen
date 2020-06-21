@@ -43,5 +43,6 @@ namespace Kaizen.Domain.Data
         public DbSet<ActivityService> ActivitiesServices { get; set; }
 
         public DbSet<WorkOrder> WorkOrders { get; set; }
+        public DbSet<Sector> Sectors { get; set; }
     }
 }
