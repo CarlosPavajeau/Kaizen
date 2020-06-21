@@ -11,6 +11,7 @@ namespace Kaizen.Mappers
             CreateMap<WorkOrderEditModel, WorkOrder>();
             CreateMap<WorkOrderInputModel, WorkOrder>();
             CreateMap<WorkOrder, WorkOrderViewModel>();
+            CreateMap<Sector, SectorViewModel>();
         }
     }
 }
