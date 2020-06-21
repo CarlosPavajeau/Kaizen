@@ -47,6 +47,13 @@ namespace Kaizen.Controllers
             return _mapper.Map<WorkOrderViewModel>(workOrder);
         }
 
+        [HttpGet("[action]")]
+        public async Task<ActionResult<SectorViewModel>> Sectors()
+        {
+            IEnumerable<Sector> sectors = await _workOrdersRepository.GetSectorsAsync();
+            return Ok(_mapper.Map<IEnumerable<SectorViewModel>>(sectors));
+        }
+
         // PUT: api/WorkOrders/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
@@ -98,7 +105,7 @@ namespace Kaizen.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<WorkOrderViewModel>> DeleteWorkOrder(int id)
         {
-            var workOrder = await _workOrdersRepository.FindByIdAsync(id);
+            WorkOrder workOrder = await _workOrdersRepository.FindByIdAsync(id);
             if (workOrder == null)
             {
                 return NotFound();
