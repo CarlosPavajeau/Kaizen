@@ -7,6 +7,7 @@ import { AuthGuard } from '@core/guards/auth.guard';
 import { ClientRequestsComponent } from './components/client-requests/client-requests.component';
 import { ClientRequestDetailComponent } from './components/client-request-detail/client-request-detail.component';
 import { ClientRegisterGuard } from '@app/core/guards/client-register.guard';
+import { AdminOrOfficeEmployeeGuard } from '@app/core/guards/admin-or-office-employee.guard';
 
 const routes: Routes = [
 	{
@@ -14,8 +15,16 @@ const routes: Routes = [
 		children: [
 			{ path: '', component: ClientsComponent, canActivate: [ AuthGuard, AdminGuard ] },
 			{ path: 'register', component: ClientRegisterComponent, canActivate: [ ClientRegisterGuard ] },
-			{ path: 'requests', component: ClientRequestsComponent, canActivate: [ AuthGuard, AdminGuard ] },
-			{ path: 'requests/:id', component: ClientRequestDetailComponent, canActivate: [ AuthGuard, AdminGuard ] }
+			{
+				path: 'requests',
+				component: ClientRequestsComponent,
+				canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
+			},
+			{
+				path: 'requests/:id',
+				component: ClientRequestDetailComponent,
+				canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
+			}
 		]
 	}
 ];
