@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, Validators, FormBuilder, AbstractControl, FormGroup } from '@angular/forms';
+import { zeroPad } from '@app/core/utils/number-utils';
 
 @Component({
 	selector: 'app-select-date-modal',
@@ -27,10 +28,10 @@ export class SelectDateModalComponent implements OnInit {
 		if (this.dateForm.valid) {
 			const date = this.dateForm.controls['newDate'].value as Date;
 			const time = this.dateForm.controls['newTime'].value;
-			const timeDate = new Date(`1/1/1970 ${time}:00`);
-			date.setHours(timeDate.getHours());
-			date.setMinutes(timeDate.getMinutes());
-			this.dialogRef.close(date);
+			const isoDate = new Date(
+				`${date.getFullYear()}-${zeroPad(date.getMonth() + 1, 2)}-${zeroPad(date.getDate(), 2)}T${time}:00Z`
+			);
+			this.dialogRef.close(isoDate);
 		}
 	}
 }
