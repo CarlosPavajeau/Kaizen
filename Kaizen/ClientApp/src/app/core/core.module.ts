@@ -11,6 +11,9 @@ import { CookieService } from 'ngx-cookie-service';
 import { AuthInterceptor } from '@core/interceptors/auth.interceptor';
 import { HttpErrorInterceptor } from '@core/interceptors/http-error.interceptor';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { MomentUtcDateAdapter } from '@app/global/configs/moment-utc-date-adapter';
+import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
+import { MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
 @NgModule({
 	declarations: [],
@@ -50,7 +53,10 @@ export class CoreModule {
 				{ provide: HTTP_INTERCEPTORS, useClass: ApiPrefixInterceptor, multi: true },
 				{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
 				{ provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
-				{ provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } }
+				{ provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } },
+				{ provide: MAT_DATE_LOCALE, useValue: 'es-us' },
+				{ provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+				{ provide: DateAdapter, useClass: MomentUtcDateAdapter }
 			]
 		};
 	}
