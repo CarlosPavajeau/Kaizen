@@ -1,19 +1,25 @@
+import { ActivatedRouteSnapshot, CanActivate, Route, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ADMINISTRATOR_ROLE, OFFICE_EMPLOYEE_ROLE } from '@global/roles';
+import { AuthenticationService } from '@core/authentication/authentication.service';
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AdminGuard } from './admin.guard';
-import { OfficeEmployeeGuard } from './office-employee.guard';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class AdminOrOfficeEmployeeGuard implements CanActivate {
-	constructor(private adminGuard: AdminGuard, private officeEmployeeGuard: OfficeEmployeeGuard) {}
+	constructor(private authService: AuthenticationService, private router: Router) {}
 
 	canActivate(
 		next: ActivatedRouteSnapshot,
 		state: RouterStateSnapshot
 	): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-		return this.adminGuard.canActivate(next, state) || this.officeEmployeeGuard.canActivate(next, state);
+		const role = this.authService.getUserRole();
+		if (role == OFFICE_EMPLOYEE_ROLE || role == ADMINISTRATOR_ROLE) {
+			return true;
+		}
+
+		this.router.navigateByUrl('user/profile');
+		return false;
 	}
 }
