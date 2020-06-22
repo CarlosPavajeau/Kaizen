@@ -1,4 +1,4 @@
-﻿using Kaizen.Domain.Entities;
+using Kaizen.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,9 +15,8 @@ namespace Kaizen.Domain.Data.Configuration.EntityTypeConfigurations
                 new EmployeeCharge("Contador") { Id = 3 },
                 new EmployeeCharge("Lider SST") { Id = 4 },
                 new EmployeeCharge("Auxiliar Administrativa") { Id = 5 },
-                new EmployeeCharge("Técnico Operativo Lider") { Id = 6 },
-                new EmployeeCharge("Técnico Operativo") { Id = 7 },
-                new EmployeeCharge("Aprendiz") { Id = 8 }
+                new EmployeeCharge("Técnico Operativo") { Id = 6 },
+                new EmployeeCharge("Aprendiz") { Id = 7 }
             });
         }
     }
