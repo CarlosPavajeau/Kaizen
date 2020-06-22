@@ -9,6 +9,7 @@ namespace Kaizen.Mappers
     {
         public ServiceRequestMapperProfile()
         {
+            CreateMap<ServiceRequestEditModel, ServiceRequest>();
             CreateMap<ServiceRequestInputModel, ServiceRequest>().AfterMap((serviceRequestModel, serviceRequest) =>
             {
                 serviceRequest.ServiceRequestsServices = new List<ServiceRequestService>();
