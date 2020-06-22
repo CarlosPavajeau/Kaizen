@@ -11,6 +11,7 @@ import { Service } from '@app/modules/services/models/service';
 import { ServiceRequest } from '@modules/service-requests/models/service-request';
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
 import { ServiceService } from '@modules/services/services/service.service';
+import { zeroPad } from '@core/utils/number-utils';
 
 @Component({
 	selector: 'app-service-request-register',
@@ -82,18 +83,17 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
 	}
 
 	private mapServiceRequest(): ServiceRequest {
-		let serviceRequest: ServiceRequest = {
+		const time = this.controls['time'].value;
+		const date = this.controls['date'].value as Date;
+		const isoDate = new Date(
+			`${date.getFullYear()}-${zeroPad(date.getMonth() + 1, 2)}-${zeroPad(date.getDate(), 2)}T${time}:00Z`
+		);
+		return {
 			clientId: this.clientId,
 			serviceCodes: this.controls['serviceCodes'].value,
-			date: this.controls['date'].value,
+			date: isoDate,
 			state: RequestState.Pending,
 			periodicity: this.controls['periodicity'].value
 		};
-		const time = this.controls['time'].value;
-		const timeDate = new Date(`1/1/1970 ${time}:00`);
-		serviceRequest.date.setHours(timeDate.getHours());
-		serviceRequest.date.setMinutes(timeDate.getMinutes());
-
-		return serviceRequest;
 	}
 }
