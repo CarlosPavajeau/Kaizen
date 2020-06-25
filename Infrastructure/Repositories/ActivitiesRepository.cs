@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,8 +10,69 @@ namespace Kaizen.Infrastructure.Repositories
 {
     public class ActivitiesRepository : RepositoryBase<Activity, int>, IActivitiesRepository
     {
-        public ActivitiesRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
+        private readonly DateTime LIMIT_DATE = DateTime.Parse($"{DateTime.Now.Year}/12/31");
+        private readonly IEmployeesRepository _employeesRepository;
+
+        public ActivitiesRepository(ApplicationDbContext applicationDbContext, IEmployeesRepository employeesRepository) : base(applicationDbContext)
         {
+            _employeesRepository = employeesRepository;
+        }
+
+        public async Task ScheduleActivities(Activity activity)
+        {
+            if (activity.Periodicity == PeriodicityType.Casual)
+                return;
+
+            int dayInterval = GetDayInterval(activity.Periodicity);
+            string[] activityServiceCodes = activity.ActivitiesServices.Select(s => s.ServiceCode).ToArray();
+            List<string> activityEmployeeCodes = activity.ActivitiesEmployees.Select(a => a.EmployeeId).ToList();
+
+            Activity newActivity = activity.Clone() as Activity;
+            newActivity.Date = newActivity.Date.AddDays(dayInterval);
+
+            while (newActivity.Date < LIMIT_DATE)
+            {
+                IEnumerable<Employee> availableEmployees = await GetTechniciansAvailable(newActivity.Date, activityServiceCodes);
+                bool canBeScheduled = ActivityCanBeScheduled(activityEmployeeCodes, availableEmployees);
+                while (!canBeScheduled)
+                {
+                    newActivity.Date = newActivity.Date.AddHours(1);
+                    availableEmployees = await GetTechniciansAvailable(newActivity.Date, activityServiceCodes);
+                    canBeScheduled = ActivityCanBeScheduled(activityEmployeeCodes, availableEmployees);
+                }
+
+                Insert(newActivity);
+                newActivity = newActivity.Clone() as Activity;
+                newActivity.Date = newActivity.Date.AddDays(dayInterval);
+            }
+
+            await ApplicationDbContext.SaveChangesAsync();
+        }
+
+        private bool ActivityCanBeScheduled(List<string> activityEmployeeCodes, IEnumerable<Employee> availableEmployees)
+        {
+            return activityEmployeeCodes.All(e => availableEmployees.Any(a => activityEmployeeCodes.Contains(a.Id)));
+        }
+
+        private async Task<IEnumerable<Employee>> GetTechniciansAvailable(DateTime date, string[] serviceCodes)
+        {
+            return await _employeesRepository.GetTechniciansAvailable(date, serviceCodes);
+        }
+
+        private int GetDayInterval(PeriodicityType periodicityType)
+        {
+            return periodicityType switch
+            {
+                PeriodicityType.Biweekly => 15,
+                PeriodicityType.Monthly => 30,
+                PeriodicityType.BiMonthly => 60,
+                PeriodicityType.Trimester => 90,
+                PeriodicityType.Quarter => 120,
+                PeriodicityType.Quinquemestre => 150,
+                PeriodicityType.Biannual => 180,
+                PeriodicityType.Annual => 360,
+                _ => -1,
+            };
         }
 
         public override async Task<Activity> FindByIdAsync(int id)
