@@ -5,10 +5,11 @@ namespace Kaizen.Domain.Events
 {
     public class SavedServiceRequest : IDomainEvent
     {
-        public ServiceRequest ServiceRequest { get; }
         public SavedServiceRequest(ServiceRequest serviceRequest)
         {
             ServiceRequest = serviceRequest;
         }
+
+        public ServiceRequest ServiceRequest { get; }
     }
 }
