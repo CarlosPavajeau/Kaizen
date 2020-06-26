@@ -22,6 +22,7 @@ export class ActivityRegisterComponent implements OnInit, IForm {
 	serviceRequest: ServiceRequest;
 	techniciansAvailable: Employee[] = [];
 	activityForm: FormGroup;
+	savingData: boolean = false;
 
 	public get controls(): { [key: string]: AbstractControl } {
 		return this.activityForm.controls;
@@ -63,6 +64,7 @@ export class ActivityRegisterComponent implements OnInit, IForm {
 
 	onSubmit(): void {
 		if (this.activityForm.valid) {
+			this.savingData = true;
 			const activity = this.mapActivity();
 			this.activityScheduleService.saveActivity(activity).subscribe((activitySave) => {
 				if (activitySave) {

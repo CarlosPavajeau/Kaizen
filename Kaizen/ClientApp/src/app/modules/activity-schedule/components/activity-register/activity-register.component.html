@@ -65,14 +65,19 @@
             mat-raised-button
             class="royal_azure mr-5"
             (click)="onSubmit()"
+            [disabled]="savingData"
           >
             Agendar actividad
+            <mat-icon *ngIf="savingData"
+              ><mat-spinner color="primary" diameter="20"> </mat-spinner
+            ></mat-icon>
           </button>
           <button
             mat-stroked-button
             color="warn"
             class="mr-5"
             (click)="cancelServiceRequest()"
+            [disabled]="savingData"
           >
             Cancelar solicitud
           </button>
@@ -80,6 +85,7 @@
             mat-stroked-button
             color="primary"
             (click)="suggestAnotherDate()"
+            [disabled]="savingData"
           >
             Sugerir otra fecha
           </button>
