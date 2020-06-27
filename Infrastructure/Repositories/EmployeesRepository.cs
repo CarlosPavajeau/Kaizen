@@ -35,14 +35,25 @@ namespace Kaizen.Infrastructure.Repositories
 
         public async Task<IEnumerable<Employee>> GetTechniciansAvailable(DateTime date, string[] serviceCodes)
         {
-            List<IEnumerable<Employee>> activities = await ApplicationDbContext.Activities
+            HashSet<string> occupiedEmployeesCodes = await GetOccupiedEmployeesCodes(date);
+
+            return await GetAll().Include(e => e.EmployeesServices)
+                .Where(e => ((occupiedEmployeesCodes.Count == 0) || !occupiedEmployeesCodes.Contains(e.Id)) &&
+                    TECHNICAL_EMPLOYEE_JOB_CODES.Contains(e.ChargeId) &&
+                    e.EmployeesServices.Any(es => serviceCodes.Contains(es.ServiceCode)))
+                .ToListAsync();
+        }
+
+        private async Task<HashSet<string>> GetOccupiedEmployeesCodes(DateTime date)
+        {
+            List<IEnumerable<Employee>> occupiedEmployees = await ApplicationDbContext.Activities
                 .Where(a => a.Date == date && a.State == RequestState.Pending)
                 .Include(a => a.ActivitiesEmployees).ThenInclude(ac => ac.Employee)
                 .Select(a => a.ActivitiesEmployees.Select(ac => ac.Employee)).ToListAsync();
 
             HashSet<string> employeesCodes = new HashSet<string>();
 
-            activities.ForEach(ac =>
+            occupiedEmployees.ForEach(ac =>
             {
                 ac.ToList().ForEach(e =>
                 {
@@ -50,14 +61,7 @@ namespace Kaizen.Infrastructure.Repositories
                 });
             });
 
-            List<Employee> techniciansAvailable = await GetAll().Include(e => e.EmployeeCharge).Include(e => e.EmployeesServices)
-                .Where(e => !employeesCodes.Contains(e.Id) &&
-                       TECHNICAL_EMPLOYEE_JOB_CODES.Contains(e.EmployeeCharge.Id) &&
-                       e.EmployeesServices.Any(es => serviceCodes.Contains(es.ServiceCode))
-                       )
-                .ToListAsync();
-
-            return techniciansAvailable;
+            return employeesCodes;
         }
     }
 }
