@@ -43,9 +43,15 @@ a {
   text-decoration: none !important;
 }
 
-*,
-*:active {
+a:active,
+a,
+button:active,
+button {
   outline: none !important;
+}
+
+a:active,
+button:active {
   border: none !important;
 }
 
