@@ -1,0 +1,20 @@
+<section class="container">
+  <h1 class="text-center">La fecha de tu solicitud está ocupada</h1>
+  <p class="text-center">
+    Hemos revisado tu solicitud y la fecha que elegiste no está disponible. Te
+    sugerimos la fecha
+    {{ serviceRequest.date | date: "MMMM d, y, h:mm a" }}.
+  </p>
+  <div class="center-block-content mt-4 text-center">
+    <button
+      mat-raised-button
+      class="royal_azure mr-2"
+      (click)="acceptSuggestedDate()"
+    >
+      Aceptar fecha sugerida
+    </button>
+    <button mat-stroked-button color="primary" (click)="suggestAnotherDate()">
+      Sugerir otra fecha
+    </button>
+  </div>
+</section>
