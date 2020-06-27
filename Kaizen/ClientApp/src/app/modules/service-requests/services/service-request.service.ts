@@ -19,6 +19,10 @@ export class ServiceRequestService {
 		return this.http.get<ServiceRequest>(`${SERVICE_REQUESTS_API_URL}/${id}`);
 	}
 
+	getPendingServiceRequest(clientId: string): Observable<ServiceRequest> {
+		return this.http.get<ServiceRequest>(`${SERVICE_REQUESTS_API_URL}/PendingServiceRequest/${clientId}`);
+	}
+
 	saveServiceRequest(serviceRequest: ServiceRequest): Observable<ServiceRequest> {
 		return this.http.post<ServiceRequest>(SERVICE_REQUESTS_API_URL, serviceRequest);
 	}
