@@ -24,16 +24,26 @@ export class UserProfileComponent implements OnInit {
 	}
 
 	private loadData(): void {
-		const userRole = this.authService.getUserRole();
-		const user_id = this.authService.getCurrentUser().id;
-		if (userRole == CLIENT_ROLE) {
-			this.clientService.getClient(user_id).subscribe((client) => {
-				this.person = client;
-			});
-		} else {
-			this.employeeService.getEmployee(user_id).subscribe((employee) => {
-				this.person = employee;
-			});
+		this.person = JSON.parse(localStorage.getItem('current_person'));
+
+		if (this.person == null) {
+			const userRole = this.authService.getUserRole();
+			const user_id = this.authService.getCurrentUser().id;
+			if (userRole == CLIENT_ROLE) {
+				this.clientService.getClient(user_id).subscribe((client) => {
+					this.person = client;
+					this.savePersonInLocalStorage();
+				});
+			} else {
+				this.employeeService.getEmployee(user_id).subscribe((employee) => {
+					this.person = employee;
+					this.savePersonInLocalStorage();
+				});
+			}
 		}
+	}
+
+	private savePersonInLocalStorage(): void {
+		localStorage.setItem('current_person', JSON.stringify(this.person));
 	}
 }
