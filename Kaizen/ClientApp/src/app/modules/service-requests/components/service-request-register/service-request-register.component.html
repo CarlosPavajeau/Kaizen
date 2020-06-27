@@ -1,5 +1,5 @@
 <div class="container">
-  <section>
+  <section *ngIf="!serviceRequest">
     <mat-card>
       <mat-card-header>
         <mat-card-title>
@@ -91,5 +91,19 @@
         </button>
       </mat-card-actions>
     </mat-card>
+  </section>
+  <section *ngIf="serviceRequest">
+    <h1 class="text-center">Usted ya tiene una solicitud pendiente</h1>
+    <div class="center-block-content text-center">
+      <mat-icon
+        color="primary"
+        class="center-block-content mt-2 text-center mb-2"
+        style="width: 70px; height: 70px; font-size: 70px;"
+        >info</mat-icon
+      >
+    </div>
+    <p class="text-center">
+      Por favor, espere nuestra respuesta. Pronto procesaremos su solicitud.
+    </p>
   </section>
 </div>

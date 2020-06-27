@@ -12,6 +12,7 @@ import { ServiceRequest } from '@modules/service-requests/models/service-request
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
 import { ServiceService } from '@modules/services/services/service.service';
 import { zeroPad } from '@core/utils/number-utils';
+import { Client } from '@app/modules/clients/models/client';
 
 @Component({
 	selector: 'app-service-request-register',
@@ -22,6 +23,7 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
 	serviceRequestForm: FormGroup;
 	services: Service[];
 	periodicities: Periodicity[];
+	serviceRequest: ServiceRequest;
 	private clientId: string;
 
 	get controls(): { [key: string]: AbstractControl } {
@@ -44,6 +46,14 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
 	}
 
 	private loadData(): void {
+		const client: Client = JSON.parse(localStorage.getItem('current_person'));
+		this.serviceRequestService.getPendingServiceRequest(client.id).subscribe((pendingRequest) => {
+			this.serviceRequest = pendingRequest;
+			if (this.serviceRequest && this.serviceRequest.state == RequestState.PendingSuggestedDate) {
+				this.router.navigateByUrl('/service_requests/new_date');
+			}
+		});
+
 		this.periodicities = PERIODICITIES;
 
 		const user_id = this.authService.getCurrentUser().id;
