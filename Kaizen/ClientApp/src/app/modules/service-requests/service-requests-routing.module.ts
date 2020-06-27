@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ServiceRequestDetailComponent } from './components/service-request-detail/service-request-detail.component';
 import { ServiceRequestRegisterComponent } from './components/service-request-register/service-request-register.component';
 import { ServiceRequestsComponent } from './components/service-requests/service-requests.component';
+import { ServiceRequestNewDateComponent } from './components/service-request-new-date/service-request-new-date.component';
 
 const routes: Routes = [
 	{
@@ -17,6 +18,7 @@ const routes: Routes = [
 				canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
 			},
 			{ path: 'register', component: ServiceRequestRegisterComponent, canActivate: [ AuthGuard, ClientGuard ] },
+			{ path: 'new_date', component: ServiceRequestNewDateComponent, canActivate: [ AuthGuard, ClientGuard ] },
 			{
 				path: ':code',
 				component: ServiceRequestDetailComponent,
