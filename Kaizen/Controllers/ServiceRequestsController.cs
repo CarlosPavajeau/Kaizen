@@ -49,6 +49,16 @@ namespace Kaizen.Controllers
             return _mapper.Map<ServiceRequestViewModel>(serviceRequest);
         }
 
+        [HttpGet("[action]/{clientId}")]
+        public async Task<ActionResult<ServiceRequestViewModel>> PendingServiceRequest(string clientId)
+        {
+            ServiceRequest serviceRequest = await _serviceRequestsRepository.GetPendingCustomerServiceRequest(clientId);
+
+            if (serviceRequest is null)
+                return NotFound();
+            return _mapper.Map<ServiceRequestViewModel>(serviceRequest);
+        }
+
         // PUT: api/ServiceRequests/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
