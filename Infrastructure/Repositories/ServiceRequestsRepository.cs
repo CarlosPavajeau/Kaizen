@@ -20,14 +20,32 @@ namespace Kaizen.Infrastructure.Repositories
                 .Include(s => s.ServiceRequestsServices).ThenInclude(s => s.Service)
                 .Where(s => s.Code == id).FirstOrDefaultAsync();
 
+            MapServices(serviceRequest);
+
+            return serviceRequest;
+        }
+
+        private void MapServices(ServiceRequest serviceRequest)
+        {
             if (serviceRequest != null)
             {
                 serviceRequest.Services = new List<Service>();
-                foreach (var serviceRequestService in serviceRequest.ServiceRequestsServices)
+                foreach (ServiceRequestService serviceRequestService in serviceRequest.ServiceRequestsServices)
                 {
                     serviceRequest.Services.Add(serviceRequestService.Service);
                 }
             }
+        }
+
+        public async Task<ServiceRequest> GetPendingCustomerServiceRequest(string clientId)
+        {
+            ServiceRequest serviceRequest = await ApplicationDbContext.ServiceRequests.Include(s => s.Client)
+                .Include(s => s.ServiceRequestsServices)
+                .ThenInclude(s => s.Service)
+                .Where(s => s.ClientId == clientId && (s.State == RequestState.Pending || s.State == RequestState.PendingSuggestedDate))
+                .FirstOrDefaultAsync();
+
+            MapServices(serviceRequest);
 
             return serviceRequest;
         }
