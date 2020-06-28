@@ -6,8 +6,8 @@
       Están pendientes {{ serviceRequests.length }} solicitudes de servicio
     </h3>
   </div>
-  <hr class="separator" />
-  <div>
+  <mat-divider></mat-divider>
+  <div style="padding-top: 1.5rem;">
     <mat-accordion>
       <mat-expansion-panel *ngFor="let serviceRequest of serviceRequests">
         <mat-expansion-panel-header>

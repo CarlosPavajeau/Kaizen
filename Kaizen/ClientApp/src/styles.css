@@ -50,11 +50,6 @@ button {
   outline: none !important;
 }
 
-a:active,
-button:active {
-  border: none !important;
-}
-
 *::-webkit-scrollbar {
   width: 0%;
 }
@@ -182,14 +177,6 @@ mat-card {
 .container {
   margin-top: 40px;
   min-height: 405px;
-}
-
-.separator {
-  height: 0.5px;
-  background: lightgrey;
-  width: 100%;
-  margin-top: 0.5px;
-  margin-bottom: 2rem;
 }
 
 #mision,
