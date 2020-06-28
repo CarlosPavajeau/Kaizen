@@ -1,4 +1,4 @@
-<section class="container">
+<section [ngClass]="{ container: !serviceRequestCode }">
   <div *ngIf="serviceRequest">
     <h1 class="text-center">Solicitud N° {{ serviceRequest.code }}</h1>
     <h3>
@@ -8,80 +8,22 @@
       {{ serviceRequest.client.lastName }}
       {{ serviceRequest.client.secondLastName }}.
     </h3>
-    <hr class="separator" />
-    <span>La solicitud fue hecha para aplicar los siguientes servicios:</span>
-    <div>
-      <mat-list>
-        <mat-list-item *ngFor="let service of serviceRequest.services">
-          <mat-icon style="margin-right: 7px;">label</mat-icon>
-          {{ service.code }} - {{ service.name }} :
-          {{ service.cost | currency }}
-        </mat-list-item>
-      </mat-list>
-    </div>
-    <span
-      >En la fecha {{ serviceRequest.date | date: "MMMM d, y, h:mm a" }}.</span
-    >
-    <hr />
-    <div *ngIf="techniciansAvailable.length > 0">
-      <span>Los técnicos disponibles para realizar esta actividad son:</span>
+    <mat-divider></mat-divider>
+    <div style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
+      <span>La solicitud fue hecha para aplicar los siguientes servicios:</span>
       <div>
         <mat-list>
-          <mat-list-item *ngFor="let technician of techniciansAvailable">
-            {{ technician.id }} - {{ technician.firstName }}
-            {{ technician.lastName }}
+          <mat-list-item *ngFor="let service of serviceRequest.services">
+            <mat-icon style="margin-right: 7px;">label</mat-icon>
+            {{ service.code }} - {{ service.name }} :
+            {{ service.cost | currency }}
           </mat-list-item>
         </mat-list>
       </div>
-      <div>
-        <a
-          mat-raised-button
-          class="royal_azure mr-5"
-          routerLink="/activity_schedule/register"
-          [queryParams]="{ serviceRequest: serviceRequest.code }"
-        >
-          Proceder a reservar actividad
-        </a>
-        <button
-          mat-stroked-button
-          color="warn"
-          class="mr-5"
-          (click)="cancelServiceRequest()"
-        >
-          Cancelar solicitud
-        </button>
-        <button
-          mat-stroked-button
-          color="primary"
-          (click)="suggestAnotherDate()"
-        >
-          Sugerir otra fecha
-        </button>
-      </div>
-    </div>
-    <div *ngIf="techniciansAvailable.length == 0">
-      <div>
-        <h2>
-          No existen técnicos disponibles para realizar los servicios
-          solicitados por el cliente.
-        </h2>
-      </div>
-      <div>
-        <button
-          mat-raised-button
-          class="royal_azure mr-5"
-          (click)="suggestAnotherDate()"
-        >
-          Sugerir otra fecha
-        </button>
-        <button
-          mat-stroked-button
-          color="warn"
-          (click)="cancelServiceRequest()"
-        >
-          Cancelar solicitud
-        </button>
-      </div>
+      <span
+        >En la fecha
+        {{ serviceRequest.date | date: "MMMM d, y, h:mm a" }}.</span
+      >
     </div>
   </div>
 </section>
