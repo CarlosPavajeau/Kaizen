@@ -7,6 +7,7 @@ import { ServiceRequestDetailComponent } from './components/service-request-deta
 import { ServiceRequestRegisterComponent } from './components/service-request-register/service-request-register.component';
 import { ServiceRequestsComponent } from './components/service-requests/service-requests.component';
 import { ServiceRequestNewDateComponent } from './components/service-request-new-date/service-request-new-date.component';
+import { ServiceRequestProcessComponent } from './components/service-request-process/service-request-process.component';
 
 const routes: Routes = [
 	{
@@ -19,6 +20,11 @@ const routes: Routes = [
 			},
 			{ path: 'register', component: ServiceRequestRegisterComponent, canActivate: [ AuthGuard, ClientGuard ] },
 			{ path: 'new_date', component: ServiceRequestNewDateComponent, canActivate: [ AuthGuard, ClientGuard ] },
+			{
+				path: 'process/:code',
+				component: ServiceRequestProcessComponent,
+				canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
+			},
 			{
 				path: ':code',
 				component: ServiceRequestDetailComponent,
