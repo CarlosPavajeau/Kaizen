@@ -7,9 +7,10 @@ import { ActivityScheduleComponent } from './components/activity-schedule/activi
 import { ActivityDetailComponent } from './components/activity-detail/activity-detail.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ServiceRequestsModule } from '../service-requests/service-requests.module';
 
 @NgModule({
 	declarations: [ ActivityRegisterComponent, ActivityScheduleComponent, ActivityDetailComponent ],
-	imports: [ SharedModule, ActivityScheduleRoutingModule, FormsModule, ReactiveFormsModule ]
+	imports: [ SharedModule, ActivityScheduleRoutingModule, FormsModule, ReactiveFormsModule, ServiceRequestsModule ]
 })
 export class ActivityScheduleModule {}
