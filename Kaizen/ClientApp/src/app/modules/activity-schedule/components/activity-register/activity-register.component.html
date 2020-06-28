@@ -9,34 +9,13 @@
         </mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <div *ngIf="serviceRequest">
-          <h1 clasS="text-center">Solicitud N° {{ serviceRequest.code }}</h1>
-          <h3>
-            Solicitud del servicio hecha por el cliente
-            {{ serviceRequest.client.firstName }}
-            {{ serviceRequest.client.secondName }}
-            {{ serviceRequest.client.lastName }}
-            {{ serviceRequest.client.secondLastName }}.
-          </h3>
-          <hr class="separator" />
-          <span
-            >La solicitud fue hecha para aplicar los siguientes servicios:</span
-          >
-          <div>
-            <mat-list>
-              <mat-list-item *ngFor="let service of serviceRequest.services">
-                <mat-icon style="margin-right: 7px;">label</mat-icon>
-                {{ service.code }} - {{ service.name }} :
-                {{ service.cost | currency }}
-              </mat-list-item>
-            </mat-list>
-          </div>
-          <span
-            >En la fecha
-            {{ serviceRequest.date | date: "MMMM d, y, h:mm a" }}.</span
-          >
+        <div *ngIf="fromServiceRequest">
+          <app-service-request-detail
+            [serviceRequestCode]="serviceRequestCode"
+            (serviceRequestLoaded)="onLoadedServiceRequest($event)"
+          ></app-service-request-detail>
         </div>
-        <hr class="separator" />
+        <mat-divider></mat-divider>
         <div>
           <form [formGroup]="activityForm">
             <h1>Asignación de empleados</h1>

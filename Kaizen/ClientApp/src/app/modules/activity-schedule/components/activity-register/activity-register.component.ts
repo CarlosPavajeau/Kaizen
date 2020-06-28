@@ -20,9 +20,11 @@ import { ServiceRequestService } from '@modules/service-requests/services/servic
 })
 export class ActivityRegisterComponent implements OnInit, IForm {
 	serviceRequest: ServiceRequest;
+	serviceRequestCode: number;
 	techniciansAvailable: Employee[] = [];
 	activityForm: FormGroup;
 	savingData: boolean = false;
+	fromServiceRequest: boolean = false;
 
 	public get controls(): { [key: string]: AbstractControl } {
 		return this.activityForm.controls;
@@ -44,15 +46,10 @@ export class ActivityRegisterComponent implements OnInit, IForm {
 
 		this.activateRoute.queryParamMap.subscribe((queryParams) => {
 			const serviceRequestCode = +queryParams.get('serviceRequest');
-			this.serviceRequestService.getServiceRequest(serviceRequestCode).subscribe((serviceRequest) => {
-				this.serviceRequest = serviceRequest;
-				const serviceCodes = serviceRequest.services.map((service) => service.code);
-				this.employeeService
-					.getTechniciansAvailable(serviceRequest.date, serviceCodes)
-					.subscribe((techniciansAvailable) => {
-						this.techniciansAvailable = techniciansAvailable;
-					});
-			});
+			if (serviceRequestCode) {
+				this.fromServiceRequest = true;
+				this.serviceRequestCode = serviceRequestCode;
+			}
 		});
 	}
 
@@ -60,6 +57,10 @@ export class ActivityRegisterComponent implements OnInit, IForm {
 		this.activityForm = this.formBuilder.group({
 			employeeCodes: [ '', [ Validators.required ] ]
 		});
+	}
+
+	onLoadedServiceRequest(serviceRequest: ServiceRequest): void {
+		this.serviceRequest = serviceRequest;
 	}
 
 	onSubmit(): void {
