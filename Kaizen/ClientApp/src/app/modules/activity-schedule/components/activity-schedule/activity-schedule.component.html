@@ -1,1 +1,66 @@
-<p>activity-schedule works!</p>
+<div class="container">
+  <div class="calendar-header">
+    <div class="calendar-control">
+      <button mat-stroked-button class="mr-3">
+        Hoy
+      </button>
+      <div style="display: inline-block;">
+        <button mat-icon-button [matTooltip]="'Mes anterior'">
+          <mat-icon>navigate_before</mat-icon>
+        </button>
+        <button mat-icon-button [matTooltip]="'Mes siguiente'">
+          <mat-icon>navigate_next</mat-icon>
+        </button>
+      </div>
+    </div>
+    <div class="calendar-control float-right">
+      <button mat-icon-button class="mr-2"><mat-icon>search</mat-icon></button>
+      <button mat-stroked-button [matMenuTriggerFor]="menu">
+        Mes <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>Mes</button>
+        <button mat-menu-item>Semana</button>
+        <button mat-menu-item>Día</button>
+      </mat-menu>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="calendar">
+    <div class="calendar-header center-block-content text-center">
+      <h1>{{ currentMonth | date }}</h1>
+    </div>
+    <div class="weeks-days">
+      <mat-grid-list cols="7" rowHeight="25px">
+        <mat-grid-tile>Domingo</mat-grid-tile>
+        <mat-grid-tile>Lunes</mat-grid-tile>
+        <mat-grid-tile>Martes</mat-grid-tile>
+        <mat-grid-tile>Miércoles</mat-grid-tile>
+        <mat-grid-tile>Jueves</mat-grid-tile>
+        <mat-grid-tile>Viernes</mat-grid-tile>
+        <mat-grid-tile>Sábado</mat-grid-tile>
+      </mat-grid-list>
+    </div>
+    <div class="activities">
+      <mat-grid-list cols="7" rowHeight="100px" *ngFor="let week of weeks">
+        <mat-grid-tile *ngFor="let day of week.days">
+          <div>
+            <div
+              class="text-center"
+              style="position: absolute; top: 0; left: 50%;"
+            >
+              <h2 class="text-center" style="font-size: 12px;">
+                {{ day.number }}
+              </h2>
+            </div>
+            <div *ngFor="let activity of day.activities?.slice(-4)">
+              <button mat-button class="activity-button">
+                {{ activity.clientId }}
+              </button>
+            </div>
+          </div>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </div>
+  </div>
+</div>

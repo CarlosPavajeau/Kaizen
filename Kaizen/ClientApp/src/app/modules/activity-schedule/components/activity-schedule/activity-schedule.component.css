@@ -1,0 +1,21 @@
+.calendar-control,
+.calendar-header {
+  display: inline-block;
+}
+
+.calendar-header {
+  margin-bottom: 7px;
+  width: 100%;
+}
+
+.calendar {
+  margin-top: 1rem;
+}
+
+.activity-button {
+  display: block;
+  font-size: 11px;
+  max-width: 150px;
+  min-height: 20px;
+  line-height: 0px;
+}
