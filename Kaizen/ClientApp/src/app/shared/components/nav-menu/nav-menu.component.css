@@ -2,10 +2,6 @@ mat-toolbar.royal_azure a.active {
   background-color: var(--blue_ryb);
 }
 
-.spacer {
-  flex: 1 1 auto;
-}
-
 .nav-main-content {
   display: inline-block;
 }

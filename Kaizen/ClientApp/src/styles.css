@@ -179,6 +179,10 @@ mat-card {
   min-height: 405px;
 }
 
+.spacer {
+  flex: 1 1 auto;
+}
+
 #mision,
 #vision {
   background-color: #f0f0f0;
