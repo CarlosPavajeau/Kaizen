@@ -15,7 +15,7 @@
 .activity-button {
   display: block;
   font-size: 11px;
-  max-width: 150px;
+  width: 100%;
   min-height: 20px;
   line-height: 0px;
 }

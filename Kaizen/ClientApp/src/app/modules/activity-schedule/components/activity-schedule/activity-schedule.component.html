@@ -53,8 +53,12 @@
                 {{ day.number }}
               </h2>
             </div>
-            <div *ngFor="let activity of day.activities?.slice(-4)">
-              <button mat-button class="activity-button">
+            <div *ngFor="let activity of day.activities?.slice(-3)">
+              <button
+                mat-button
+                class="activity-button"
+                [matTooltip]="buildTooltipMessage(activity)"
+              >
                 {{ activity.clientId }}
               </button>
             </div>

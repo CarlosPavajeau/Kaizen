@@ -4,6 +4,7 @@ import { Activity } from '../../models/activity';
 import * as moment from 'moment';
 import { Week } from '../../models/week';
 import { Day } from '../../models/day';
+import { DatePipe } from '@angular/common';
 
 @Component({
 	selector: 'app-activity-schedule',
@@ -27,7 +28,7 @@ export class ActivityScheduleComponent implements OnInit {
 	private loadData(): void {
 		this.activityScheduleService.getActivities().subscribe((activities) => {
 			this.activities = activities;
-			this.activities.forEach((a) => (a.date = new Date(a.date)));
+			this.activities.forEach((activity) => (activity.date = new Date(activity.date)));
 			this.loadActivitiesForDay();
 		});
 	}
@@ -41,7 +42,9 @@ export class ActivityScheduleComponent implements OnInit {
 	}
 
 	private activitiesInDate(date: moment.Moment): Activity[] {
-		return this.activities.filter((a) => a.date.getMonth() == date.month() && a.date.getDay() == date.day());
+		return this.activities.filter((activity) => {
+			return activity.date.getMonth() == date.month() && activity.date.getDate() == date.date();
+		});
 	}
 
 	private buildMonth(): void {
@@ -81,5 +84,13 @@ export class ActivityScheduleComponent implements OnInit {
 		}
 
 		return days;
+	}
+
+	buildTooltipMessage(activity: Activity): string {
+		let datePipe: DatePipe = new DatePipe('en-US');
+		return `Actividad N° ${activity.code}, a las ${datePipe.transform(
+			activity.date,
+			'h:mm a'
+		)}. Para el cliente ${activity.client.lastName} ${activity.client.firstName}`;
 	}
 }
