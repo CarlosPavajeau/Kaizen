@@ -61,6 +61,12 @@ export class ActivityRegisterComponent implements OnInit, IForm {
 
 	onLoadedServiceRequest(serviceRequest: ServiceRequest): void {
 		this.serviceRequest = serviceRequest;
+		const serviceCodes = this.serviceRequest.services.map((s) => s.code);
+		this.employeeService
+			.getTechniciansAvailable(this.serviceRequest.date, serviceCodes)
+			.subscribe((techniciansAvailable) => {
+				this.techniciansAvailable = techniciansAvailable;
+			});
 	}
 
 	onSubmit(): void {
