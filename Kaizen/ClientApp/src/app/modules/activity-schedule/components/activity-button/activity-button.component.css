@@ -1,0 +1,49 @@
+.activity-button {
+  display: block;
+  font-size: 11px;
+  width: 100%;
+  min-height: 20px;
+  line-height: 0px;
+}
+
+.activity-button mat-icon,
+.activity-button .mat-icon {
+  font-size: 11px !important;
+  height: 11px !important;
+}
+
+.periodicity-0 {
+  color: #a6a6a6;
+}
+
+.periodicity-1 {
+  color: #92d050;
+}
+
+.periodicity-2 {
+  color: #ffff00;
+}
+
+.periodicity-3 {
+  color: #e26b0a;
+}
+
+.periodicity-4 {
+  color: #538dd5;
+}
+
+.periodicity-5 {
+  color: #948a54;
+}
+
+.periodicity-6 {
+  color: #8064a2;
+}
+
+.periodicity-7 {
+  color: #ff0000;
+}
+
+.periodicity-8 {
+  color: white;
+}

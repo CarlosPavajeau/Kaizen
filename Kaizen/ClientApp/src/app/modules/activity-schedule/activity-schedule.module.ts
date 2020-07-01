@@ -8,9 +8,11 @@ import { ActivityDetailComponent } from './components/activity-detail/activity-d
 import { SharedModule } from '@app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServiceRequestsModule } from '../service-requests/service-requests.module';
+import { ActivityDetailCardComponent } from './components/activity-detail-card/activity-detail-card.component';
+import { ActivityButtonComponent } from './components/activity-button/activity-button.component';
 
 @NgModule({
-	declarations: [ ActivityRegisterComponent, ActivityScheduleComponent, ActivityDetailComponent ],
+	declarations: [ ActivityRegisterComponent, ActivityScheduleComponent, ActivityDetailComponent, ActivityDetailCardComponent, ActivityButtonComponent ],
 	imports: [ SharedModule, ActivityScheduleRoutingModule, FormsModule, ReactiveFormsModule, ServiceRequestsModule ]
 })
 export class ActivityScheduleModule {}

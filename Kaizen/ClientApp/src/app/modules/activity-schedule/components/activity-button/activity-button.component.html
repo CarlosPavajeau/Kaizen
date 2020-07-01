@@ -1,0 +1,14 @@
+<button
+  mat-button
+  class="activity-button"
+  [matTooltip]="buildTooltipMessage()"
+  [matMenuTriggerFor]="menu"
+>
+  <mat-icon [class]="'periodicity-' + activity.periodicity"
+    >stop_circle</mat-icon
+  >
+  <span>{{ activity.client.tradeName }}</span>
+</button>
+<mat-menu #menu="matMenu" class="mat-elevation-z10">
+  <app-activity-detail-card [activity]="activity"></app-activity-detail-card>
+</mat-menu>
