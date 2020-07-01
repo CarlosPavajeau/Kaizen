@@ -20,10 +20,10 @@
           </mat-list-item>
         </mat-list>
       </div>
-      <span
-        >En la fecha
-        {{ serviceRequest.date | date: "MMMM d, y, h:mm a" }}.</span
-      >
+      <span>
+        En la fecha {{ serviceRequest.date | date: "MMMM d, y, h:mm a" }}. Con
+        una periodicidad {{ serviceRequest.periodicity | periodicity }}.
+      </span>
     </div>
   </div>
 </section>
