@@ -12,10 +12,6 @@
   margin-top: 1rem;
 }
 
-.activity-button {
-  display: block;
-  font-size: 11px;
-  width: 100%;
-  min-height: 20px;
-  line-height: 0px;
+.different-month {
+  color: var(--silver);
 }

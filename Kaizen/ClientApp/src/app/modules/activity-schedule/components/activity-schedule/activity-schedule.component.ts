@@ -4,7 +4,6 @@ import { Activity } from '../../models/activity';
 import * as moment from 'moment';
 import { Week } from '../../models/week';
 import { Day } from '../../models/day';
-import { DatePipe } from '@angular/common';
 
 @Component({
 	selector: 'app-activity-schedule',
@@ -13,16 +12,15 @@ import { DatePipe } from '@angular/common';
 })
 export class ActivityScheduleComponent implements OnInit {
 	activities: Activity[] = [];
-	currentMonth: Date = new Date();
 	weeks: Week[];
-	activitiesForDate: Map<moment.Moment, Activity[]>;
-	selected = moment();
+	currentMonth = moment();
+	selectedMonth: moment.Moment;
 
 	constructor(private activityScheduleService: ActivityScheduleService) {}
 
 	ngOnInit(): void {
+		this.showCurrentMonth();
 		this.loadData();
-		this.buildMonth();
 	}
 
 	private loadData(): void {
@@ -47,11 +45,8 @@ export class ActivityScheduleComponent implements OnInit {
 		});
 	}
 
-	private buildMonth(): void {
-		let month = this.selected.clone();
-		let start = this.selected.clone();
-		start.date(1);
-		start.day(0).day(0).hour(0).minute(0).second(0).millisecond(0);
+	private buildMonth(start: moment.Moment, month: moment.Moment): void {
+		this.resetTime(start);
 
 		this.weeks = [];
 		let done = false,
@@ -61,16 +56,22 @@ export class ActivityScheduleComponent implements OnInit {
 
 		while (!done) {
 			this.weeks.push({
-				days: this.buildWeek(date.clone(), month)
+				days: this.buildWeek(date.clone(), this.selectedMonth)
 			});
+
 			date.add(1, 'w');
 			done = count++ > 2 && monthIndex !== date.month();
 			monthIndex = date.month();
 		}
 	}
 
+	private resetTime(time: moment.Moment) {
+		time.day(0).day(0).hour(0).minute(0).second(0).millisecond(0);
+	}
+
 	private buildWeek(date: moment.Moment, month: moment.Moment) {
 		let days: Day[] = [];
+
 		for (let i = 0; i < 7; ++i) {
 			days.push({
 				name: date.format('dd').substring(0, 1),
@@ -79,6 +80,7 @@ export class ActivityScheduleComponent implements OnInit {
 				isToday: date.isSame(new Date(), 'day'),
 				date: date
 			});
+
 			date = date.clone();
 			date.add(1, 'd');
 		}
@@ -86,11 +88,30 @@ export class ActivityScheduleComponent implements OnInit {
 		return days;
 	}
 
-	buildTooltipMessage(activity: Activity): string {
-		let datePipe: DatePipe = new DatePipe('en-US');
-		return `Actividad N° ${activity.code}, a las ${datePipe.transform(
-			activity.date,
-			'h:mm a'
-		)}. Para el cliente ${activity.client.lastName} ${activity.client.firstName}`;
+	nextMonth(): void {
+		this.changeSelectedMonth(+1);
+	}
+
+	previusMonth(): void {
+		this.changeSelectedMonth(-1);
+	}
+
+	private changeSelectedMonth(to: number): void {
+		const newMonth = this.selectedMonth.clone();
+		this.resetTime(newMonth.month(newMonth.month() + to).date(1));
+		this.selectedMonth.month(this.selectedMonth.month() + to);
+		this.buildMonth(newMonth, this.selectedMonth);
+		this.loadActivitiesForDay();
+	}
+
+	showCurrentMonth(): void {
+		const start = this.currentMonth.clone();
+		start.date(1);
+		this.selectedMonth = this.currentMonth.clone();
+		this.buildMonth(start, this.currentMonth);
+
+		if (this.activities) {
+			this.loadActivitiesForDay();
+		}
 	}
 }

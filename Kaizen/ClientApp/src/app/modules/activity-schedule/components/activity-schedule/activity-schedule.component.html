@@ -1,14 +1,22 @@
 <div class="container">
   <div class="calendar-header">
     <div class="calendar-control">
-      <button mat-stroked-button class="mr-3">
+      <button mat-stroked-button class="mr-3" (click)="showCurrentMonth()">
         Hoy
       </button>
       <div style="display: inline-block;">
-        <button mat-icon-button [matTooltip]="'Mes anterior'">
+        <button
+          mat-icon-button
+          [matTooltip]="'Mes anterior'"
+          (click)="previusMonth()"
+        >
           <mat-icon>navigate_before</mat-icon>
         </button>
-        <button mat-icon-button [matTooltip]="'Mes siguiente'">
+        <button
+          mat-icon-button
+          [matTooltip]="'Mes siguiente'"
+          (click)="nextMonth()"
+        >
           <mat-icon>navigate_next</mat-icon>
         </button>
       </div>
@@ -28,7 +36,7 @@
   <mat-divider></mat-divider>
   <div class="calendar">
     <div class="calendar-header center-block-content text-center">
-      <h1>{{ currentMonth | date }}</h1>
+      <h1>{{ selectedMonth.toDate() | date: "MMMM, y" }}</h1>
     </div>
     <div class="weeks-days">
       <mat-grid-list cols="7" rowHeight="25px">
@@ -49,18 +57,16 @@
               class="text-center"
               style="position: absolute; top: 0; left: 50%;"
             >
-              <h2 class="text-center" style="font-size: 12px;">
+              <h2
+                class="text-center"
+                style="font-size: 12px;"
+                [ngClass]="{ 'different-month': !day.isCurrentMonth }"
+              >
                 {{ day.number }}
               </h2>
             </div>
             <div *ngFor="let activity of day.activities?.slice(-3)">
-              <button
-                mat-button
-                class="activity-button"
-                [matTooltip]="buildTooltipMessage(activity)"
-              >
-                {{ activity.clientId }}
-              </button>
+              <app-activity-button [activity]="activity"></app-activity-button>
             </div>
           </div>
         </mat-grid-tile>
