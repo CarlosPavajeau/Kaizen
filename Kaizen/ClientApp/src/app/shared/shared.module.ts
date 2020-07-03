@@ -2,6 +2,8 @@ import { AboutComponent } from '@shared/components/about/about.component';
 import { ClientsFilterPipe } from '@shared/pipes/clients-filter.pipe';
 import { CommonModule } from '@angular/common';
 import { DashboardCardComponent } from '@shared/components/dashboard-card/dashboard-card.component';
+import { DigitalSignatureComponent } from './components/digital-signature/digital-signature.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { FooterComponent } from '@shared/components/footer/footer.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HeaderComponent } from '@shared/components/header/header.component';
@@ -16,16 +18,15 @@ import { NgModule } from '@angular/core';
 import { NotificationsService } from '@shared/services/notifications.service';
 import { OurservicesComponent } from '@shared/components/ourservices/ourservices.component';
 import { Page404Component } from '@shared/components/page404/page404.component';
+import { PeriodicityPipe } from './pipes/periodicity.pipe';
+import { RequestStatePipe } from './pipes/request-state.pipe';
 import { RouterModule } from '@angular/router';
+import { SelectDateModalComponent } from './components/select-date-modal/select-date-modal.component';
 import { UniqueClientDirective } from '@shared/directives/unique-client.directive';
 import { UniqueEmployeeDirective } from '@shared/directives/unique-employee.directive';
 import { UniqueEquipmentDirective } from '@shared/directives/unique-equipment.directive';
 import { UniqueProductDirective } from '@shared/directives/unique-product.directive';
 import { UniqueUserDirective } from '@shared/directives/unique-user.directive';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { SelectDateModalComponent } from './components/select-date-modal/select-date-modal.component';
-import { PeriodicityPipe } from './pipes/periodicity.pipe';
-import { RequestStatePipe } from './pipes/request-state.pipe';
 
 @NgModule({
 	declarations: [
@@ -47,7 +48,8 @@ import { RequestStatePipe } from './pipes/request-state.pipe';
 		MonthBitPipe,
 		SelectDateModalComponent,
 		PeriodicityPipe,
-		RequestStatePipe
+		RequestStatePipe,
+		DigitalSignatureComponent
 	],
 	imports: [ CommonModule, FlexLayoutModule, MaterialModule, RouterModule, FormsModule, ReactiveFormsModule ],
 	exports: [
@@ -64,6 +66,7 @@ import { RequestStatePipe } from './pipes/request-state.pipe';
 		OurservicesComponent,
 		DashboardCardComponent,
 		MatAutocompleteChipListInputComponent,
+		DigitalSignatureComponent,
 		UniqueClientDirective,
 		UniqueUserDirective,
 		UniqueEmployeeDirective,
