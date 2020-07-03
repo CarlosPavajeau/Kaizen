@@ -19,6 +19,7 @@ export class ActivityButtonComponent implements OnInit {
 		return `Actividad N° ${this.activity.code}, a las ${datePipe.transform(
 			this.activity.date,
 			'h:mm a'
-		)}. Para el cliente ${this.activity.client.lastName} ${this.activity.client.firstName}`;
+		)}. Para el cliente ${this.activity.client.lastName} ${this.activity.client
+			.firstName}. Click para ver más información.`;
 	}
 }
