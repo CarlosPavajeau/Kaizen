@@ -1,0 +1,34 @@
+<div class="calendar-header center-block-content text-center">
+  <h1>{{ selectedDate.toDate() | date: "MMMM, y" }}</h1>
+</div>
+<div class="weeks-days">
+  <mat-grid-list cols="7" rowHeight="25px">
+    <mat-grid-tile>Domingo</mat-grid-tile>
+    <mat-grid-tile>Lunes</mat-grid-tile>
+    <mat-grid-tile>Martes</mat-grid-tile>
+    <mat-grid-tile>Miércoles</mat-grid-tile>
+    <mat-grid-tile>Jueves</mat-grid-tile>
+    <mat-grid-tile>Viernes</mat-grid-tile>
+    <mat-grid-tile>Sábado</mat-grid-tile>
+  </mat-grid-list>
+</div>
+<div class="activities">
+  <mat-grid-list cols="7" rowHeight="100px" *ngFor="let week of weeks">
+    <mat-grid-tile *ngFor="let day of week.days">
+      <div>
+        <div class="text-center" style="position: absolute; top: 0; left: 50%;">
+          <h2
+            class="text-center"
+            style="font-size: 12px;"
+            [ngClass]="{ 'different-month': !day.isCurrentMonth }"
+          >
+            {{ day.number }}
+          </h2>
+        </div>
+        <div *ngFor="let activity of day.activities?.slice(-3)">
+          <app-activity-button [activity]="activity"></app-activity-button>
+        </div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

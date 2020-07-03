@@ -1,21 +1,21 @@
 <div class="container">
   <div class="calendar-header">
     <div class="calendar-control">
-      <button mat-stroked-button class="mr-3" (click)="showCurrentMonth()">
+      <button mat-stroked-button class="mr-3" (click)="showCurrentDate()">
         Hoy
       </button>
       <div style="display: inline-block;">
         <button
           mat-icon-button
-          [matTooltip]="'Mes anterior'"
-          (click)="previusMonth()"
+          [matTooltip]="previusMessages[view]"
+          (click)="previusDate()"
         >
           <mat-icon>navigate_before</mat-icon>
         </button>
         <button
           mat-icon-button
-          [matTooltip]="'Mes siguiente'"
-          (click)="nextMonth()"
+          [matTooltip]="nextMessages[view]"
+          (click)="nextDate()"
         >
           <mat-icon>navigate_next</mat-icon>
         </button>
@@ -24,53 +24,29 @@
     <div class="calendar-control float-right">
       <button mat-icon-button class="mr-2"><mat-icon>search</mat-icon></button>
       <button mat-stroked-button [matMenuTriggerFor]="menu">
-        Mes <mat-icon>arrow_drop_down</mat-icon>
+        {{ activityScheduleViewNames[view] }}
+        <mat-icon>arrow_drop_down</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item>Mes</button>
-        <button mat-menu-item>Semana</button>
-        <button mat-menu-item>Día</button>
+        <button mat-menu-item (click)="setView(0)">Mes</button>
+        <button mat-menu-item (click)="setView(1)">Semana</button>
+        <button mat-menu-item (click)="setView(2)">Día</button>
       </mat-menu>
     </div>
   </div>
   <mat-divider></mat-divider>
   <div class="calendar">
-    <div class="calendar-header center-block-content text-center">
-      <h1>{{ selectedMonth.toDate() | date: "MMMM, y" }}</h1>
-    </div>
-    <div class="weeks-days">
-      <mat-grid-list cols="7" rowHeight="25px">
-        <mat-grid-tile>Domingo</mat-grid-tile>
-        <mat-grid-tile>Lunes</mat-grid-tile>
-        <mat-grid-tile>Martes</mat-grid-tile>
-        <mat-grid-tile>Miércoles</mat-grid-tile>
-        <mat-grid-tile>Jueves</mat-grid-tile>
-        <mat-grid-tile>Viernes</mat-grid-tile>
-        <mat-grid-tile>Sábado</mat-grid-tile>
-      </mat-grid-list>
-    </div>
-    <div class="activities">
-      <mat-grid-list cols="7" rowHeight="100px" *ngFor="let week of weeks">
-        <mat-grid-tile *ngFor="let day of week.days">
-          <div>
-            <div
-              class="text-center"
-              style="position: absolute; top: 0; left: 50%;"
-            >
-              <h2
-                class="text-center"
-                style="font-size: 12px;"
-                [ngClass]="{ 'different-month': !day.isCurrentMonth }"
-              >
-                {{ day.number }}
-              </h2>
-            </div>
-            <div *ngFor="let activity of day.activities?.slice(-3)">
-              <app-activity-button [activity]="activity"></app-activity-button>
-            </div>
-          </div>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </div>
+    <app-activity-schedule-month
+      *ngIf="view == 0"
+      #scheduleMonth
+      [selectedDate]="selectedDate"
+      [activities]="activities"
+    ></app-activity-schedule-month>
+    <app-activity-schedule-day
+      *ngIf="view == 2"
+      #scheduleDay
+      [selectedDate]="selectedDate"
+      [activities]="activities"
+    ></app-activity-schedule-day>
   </div>
 </div>

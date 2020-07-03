@@ -1,9 +1,10 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { ActivityScheduleService } from '../../services/activity-schedule.service';
-import { Activity } from '../../models/activity';
 import * as moment from 'moment';
-import { Week } from '../../models/week';
-import { Day } from '../../models/day';
+import { Activity } from '@modules/activity-schedule/models/activity';
+import { ActivityScheduleDayComponent } from '@modules/activity-schedule/components/activity-schedule-day/activity-schedule-day.component';
+import { ActivityScheduleMonthComponent } from '@modules/activity-schedule/components/activity-schedule-month/activity-schedule-month.component';
+import { ActivityScheduleService } from '@modules/activity-schedule/services/activity-schedule.service';
+import { ActivityScheduleView } from '@modules/activity-schedule/models/activity-schedule-view';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
 	selector: 'app-activity-schedule',
@@ -11,107 +12,95 @@ import { Day } from '../../models/day';
 	styleUrls: [ './activity-schedule.component.css' ]
 })
 export class ActivityScheduleComponent implements OnInit {
+	readonly activityScheduleViewNames: string[] = [ 'Mes', 'Semana', 'Día' ];
+	readonly previusMessages: string[] = [ 'Mes anterior', 'Semana anterior', 'Día anterior' ];
+	readonly nextMessages: string[] = [ 'Mes siguiente', 'Semana siguiente', 'Día siguiente' ];
+
 	activities: Activity[] = [];
-	weeks: Week[];
-	currentMonth = moment();
-	selectedMonth: moment.Moment;
+	currentDate = moment();
+	selectedDate: moment.Moment = this.currentDate.clone();
+	view: ActivityScheduleView = ActivityScheduleView.Month;
+
+	@ViewChild(ActivityScheduleDayComponent) scheduleDay: ActivityScheduleDayComponent;
+	@ViewChild(ActivityScheduleMonthComponent) scheduleMonth: ActivityScheduleMonthComponent;
 
 	constructor(private activityScheduleService: ActivityScheduleService) {}
 
 	ngOnInit(): void {
-		this.showCurrentMonth();
 		this.loadData();
 	}
 
 	private loadData(): void {
 		this.activityScheduleService.getActivities().subscribe((activities) => {
 			this.activities = activities;
-			this.activities.forEach((activity) => (activity.date = new Date(activity.date)));
-			this.loadActivitiesForDay();
+			this.onLoadData();
 		});
 	}
 
-	private loadActivitiesForDay(): void {
-		this.weeks.forEach((week) => {
-			week.days.forEach((day) => {
-				day.activities = this.activitiesInDate(day.date);
-			});
-		});
+	private onLoadData(): void {
+		this.activities.forEach((activity) => (activity.date = new Date(activity.date)));
+
+		if (this.scheduleDay) {
+			this.scheduleDay.activities = this.activities;
+		}
+		if (this.scheduleMonth) {
+			this.scheduleMonth.activities = this.activities;
+		}
+
+		this.showCurrentDate();
 	}
 
-	private activitiesInDate(date: moment.Moment): Activity[] {
-		return this.activities.filter((activity) => {
-			return activity.date.getMonth() == date.month() && activity.date.getDate() == date.date();
-		});
-	}
-
-	private buildMonth(start: moment.Moment, month: moment.Moment): void {
-		this.resetTime(start);
-
-		this.weeks = [];
-		let done = false,
-			date = start.clone(),
-			monthIndex = date.month(),
-			count = 0;
-
-		while (!done) {
-			this.weeks.push({
-				days: this.buildWeek(date.clone(), this.selectedMonth)
-			});
-
-			date.add(1, 'w');
-			done = count++ > 2 && monthIndex !== date.month();
-			monthIndex = date.month();
+	nextDate(): void {
+		switch (this.view) {
+			case ActivityScheduleView.Month: {
+				this.scheduleMonth.nextMonth();
+				break;
+			}
+			case ActivityScheduleView.Week: {
+				break;
+			}
+			case ActivityScheduleView.Day: {
+				this.scheduleDay.nextDay();
+				break;
+			}
 		}
 	}
 
-	private resetTime(time: moment.Moment) {
-		time.day(0).day(0).hour(0).minute(0).second(0).millisecond(0);
-	}
-
-	private buildWeek(date: moment.Moment, month: moment.Moment) {
-		let days: Day[] = [];
-
-		for (let i = 0; i < 7; ++i) {
-			days.push({
-				name: date.format('dd').substring(0, 1),
-				number: date.date(),
-				isCurrentMonth: date.month() === month.month(),
-				isToday: date.isSame(new Date(), 'day'),
-				date: date
-			});
-
-			date = date.clone();
-			date.add(1, 'd');
+	previusDate(): void {
+		switch (this.view) {
+			case ActivityScheduleView.Month: {
+				this.scheduleMonth.previusMonth();
+				break;
+			}
+			case ActivityScheduleView.Week: {
+				break;
+			}
+			case ActivityScheduleView.Day: {
+				this.scheduleDay.previusDay();
+				break;
+			}
 		}
-
-		return days;
 	}
 
-	nextMonth(): void {
-		this.changeSelectedMonth(+1);
-	}
+	showCurrentDate(): void {
+		this.selectedDate = this.currentDate.clone();
 
-	previusMonth(): void {
-		this.changeSelectedMonth(-1);
-	}
-
-	private changeSelectedMonth(to: number): void {
-		const newMonth = this.selectedMonth.clone();
-		this.resetTime(newMonth.month(newMonth.month() + to).date(1));
-		this.selectedMonth.month(this.selectedMonth.month() + to);
-		this.buildMonth(newMonth, this.selectedMonth);
-		this.loadActivitiesForDay();
-	}
-
-	showCurrentMonth(): void {
-		const start = this.currentMonth.clone();
-		start.date(1);
-		this.selectedMonth = this.currentMonth.clone();
-		this.buildMonth(start, this.currentMonth);
-
-		if (this.activities) {
-			this.loadActivitiesForDay();
+		switch (this.view) {
+			case ActivityScheduleView.Month: {
+				this.scheduleMonth.showCurrentMonth();
+				break;
+			}
+			case ActivityScheduleView.Week: {
+				break;
+			}
+			case ActivityScheduleView.Day: {
+				this.scheduleDay.showCurrentDay();
+				break;
+			}
 		}
+	}
+
+	setView(view: ActivityScheduleView | number): void {
+		this.view = view;
 	}
 }

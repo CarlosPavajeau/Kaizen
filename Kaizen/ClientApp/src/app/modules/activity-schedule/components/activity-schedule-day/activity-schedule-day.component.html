@@ -1,0 +1,18 @@
+<div class="calendar-header center-block-content text-center">
+  <h1>{{ selectedDate.toDate() | date: "MMMM d, y" }}</h1>
+</div>
+<div class="days">
+  <div *ngFor="let hour of hours">
+    <div class="hour-divider">
+      <span class="hour-text">{{ hour.date.toDate() | date: "h:mm a" }}</span>
+      <mat-divider class="hour-line"></mat-divider>
+    </div>
+    <div>
+      <mat-list>
+        <mat-list-item *ngFor="let activity of hour.activities">
+          {{ activity.code }}
+        </mat-list-item>
+      </mat-list>
+    </div>
+  </div>
+</div>
