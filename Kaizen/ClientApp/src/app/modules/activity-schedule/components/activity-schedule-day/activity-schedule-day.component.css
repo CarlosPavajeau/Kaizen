@@ -16,3 +16,11 @@
 .hour-line {
   flex: 1;
 }
+
+.hour-activities {
+  padding-left: 2.5rem;
+}
+
+app-activity-button {
+  width: 100%;
+}

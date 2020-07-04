@@ -1,4 +1,4 @@
-.activity-button {
+.month-activity-button {
   display: block;
   font-size: 11px;
   width: 100%;
@@ -6,44 +6,87 @@
   line-height: 0px;
 }
 
-.activity-button mat-icon,
-.activity-button .mat-icon {
+.month-activity-button mat-icon,
+.month-activity-button .mat-icon {
   font-size: 11px !important;
   height: 11px !important;
 }
 
 .periodicity-0 {
-  color: #a6a6a6;
+  color: var(--silver);
 }
 
 .periodicity-1 {
-  color: #92d050;
+  color: var(--wageningen_green);
 }
 
 .periodicity-2 {
-  color: #ffff00;
+  color: var(--sizzling_sunrise);
 }
 
 .periodicity-3 {
-  color: #e26b0a;
+  color: var(--international_orange);
 }
 
 .periodicity-4 {
-  color: #538dd5;
+  color: var(--blue_crayola);
 }
 
 .periodicity-5 {
-  color: #948a54;
+  color: var(--moss_green);
 }
 
 .periodicity-6 {
-  color: #8064a2;
+  color: var(--ciber_grape);
 }
 
 .periodicity-7 {
-  color: #ff0000;
+  color: var(--rosso_corsa);
 }
 
 .periodicity-8 {
   color: white;
+}
+
+.hour-activity-button {
+  width: 100%;
+  text-align: left;
+  color: white;
+}
+
+.hour-activity-button.periodicity-0 {
+  background: var(--silver);
+}
+
+.hour-activity-button.periodicity-1 {
+  background: var(--wageningen_green);
+}
+
+.hour-activity-button.periodicity-2 {
+  background: var(--sizzling_sunrise);
+}
+
+.hour-activity-button.periodicity-0,
+.hour-activity-button.periodicity-2 {
+  color: rgba(0, 0, 0, 0.8) !important;
+}
+
+.hour-activity-button.periodicity-3 {
+  background: var(--international_orange);
+}
+
+.hour-activity-button.periodicity-4 {
+  background: var(--blue_crayola);
+}
+
+.hour-activity-button.periodicity-5 {
+  background: var(--moss_green);
+}
+
+.hour-activity-button.periodicity-6 {
+  background: var(--ciber_grape);
+}
+
+.hour-activity-button.periodicity-7 {
+  background: var(--rosso_corsa);
 }

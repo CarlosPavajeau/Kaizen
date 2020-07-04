@@ -1,6 +1,7 @@
 <button
+  *ngIf="!hourButton"
   mat-button
-  class="activity-button"
+  class="month-activity-button"
   [matTooltip]="buildTooltipMessage()"
   [matMenuTriggerFor]="menu"
 >
@@ -8,6 +9,18 @@
     >stop_circle</mat-icon
   >
   <span>{{ activity.client.tradeName }}</span>
+</button>
+<button
+  *ngIf="hourButton"
+  mat-button
+  class="hour-activity-button"
+  [class]="'periodicity-' + activity.periodicity"
+  [matTooltip]="'Click para ver más información.'"
+  [matTooltipShowDelay]="2000"
+  [matMenuTriggerFor]="menu"
+>
+  Actividad N° {{ activity.code }}, para el cliente
+  {{ activity.client.tradeName }} a las {{ activity.date | date: "hh:mm a" }}.
 </button>
 <mat-menu #menu="matMenu" class="mat-elevation-z10">
   <app-activity-detail-card [activity]="activity"></app-activity-detail-card>

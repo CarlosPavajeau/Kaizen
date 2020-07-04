@@ -8,9 +8,12 @@
       <mat-divider class="hour-line"></mat-divider>
     </div>
     <div>
-      <mat-list>
+      <mat-list class="hour-activities">
         <mat-list-item *ngFor="let activity of hour.activities">
-          {{ activity.code }}
+          <app-activity-button
+            [activity]="activity"
+            [hourButton]="true"
+          ></app-activity-button>
         </mat-list-item>
       </mat-list>
     </div>

@@ -9,6 +9,7 @@ import { DatePipe } from '@angular/common';
 })
 export class ActivityButtonComponent implements OnInit {
 	@Input() activity: Activity;
+	@Input() hourButton: boolean = false;
 
 	constructor() {}
 
