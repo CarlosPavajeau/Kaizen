@@ -1,1 +1,67 @@
-<p>work-order-register works!</p>
+<section class="container">
+  <div></div>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title><span>Registro de orden de trabajo</span></mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="activity">
+        <p>Actividad N° {{ activity.code }}</p>
+        <p>Para el cliente {{ activity?.client?.firstName }}</p>
+      </div>
+      <form [formGroup]="workOrderForm">
+        <div class="form-element">
+          <mat-form-field>
+            <mat-label>Sector</mat-label>
+            <mat-select formControlName="sector">
+              <mat-option *ngFor="let sector of sectors" [value]="sector.id">
+                {{ sector.name }}
+              </mat-option>
+            </mat-select>
+            <mat-hint>Elija el sector de aplicación</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="form-element">
+          <mat-form-field>
+            <mat-label>Hora de llegada</mat-label>
+            <input type="time" matInput formControlName="arrivalTime" />
+            <mat-hint>Digite la hora de llegada</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="form-element">
+          <mat-form-field>
+            <mat-label>Hora de salida</mat-label>
+            <input type="time" matInput formControlName="depatureTime" />
+            <mat-hint>Digite la hora de salida</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="form-element">
+          <mat-form-field>
+            <mat-label>Observaciones</mat-label>
+            <textarea
+              matInput
+              #observations
+              formControlName="observations"
+              maxlength="500"
+            ></textarea>
+            <mat-hint align="start"
+              >Escriba las obsevaciones de la orden de trabajo</mat-hint
+            >
+            <mat-hint align="end"
+              >{{ observations.value.length }} /
+              {{ observations.maxLength }}</mat-hint
+            >
+          </mat-form-field>
+        </div>
+        <div class="form-element">
+          <digital-signature #digitalSignature></digital-signature>
+        </div>
+      </form>
+      <div>
+        <button mat-raised-button class="royal_azure" (click)="onSubmit()">
+          Regitrar orden
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</section>
