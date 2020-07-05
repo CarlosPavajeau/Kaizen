@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   win: circleci/windows@2.2.0
+  node: circleci/node@3.0.1
 
 jobs:
   build:
@@ -11,3 +12,20 @@ jobs:
       - checkout
       - run: dotnet restore
       - run: dotnet build --configuration Release --no-restore
+
+  build_angular:
+    executor: node/default
+
+    steps:
+      - checkout
+      - node/install-packages:
+          app-dir: ~/project/Kaizen/ClientApp
+      - run:
+          name: Building
+          command: cd Kaizen/ClientApp && npm run build
+
+workflows:
+  build_app:
+    jobs:
+      - build
+      - build_angular

@@ -1,8 +1,20 @@
-language: csharp
-solution: Kaizen.sln
+matrix:
+  include:
+    - language: csharp
+      solution: Kaisen.sln
+      mono: none
+      dotnet: 3.1.101
+      script:
+        - dotnet restore
+        - dotnet build --configuration Release --no-restore
+    - language: node_js
+      node_js:
+        - "12.16.1"
 
-mono: none
-dotnet: 3.1.101
-script:
-  - dotnet restore
-  - dotnet build --configuration Release --no-restore
+      before_script:
+        - npm install -g @angular/cli
+
+      script:
+        - cd Kaizen/ClientApp
+        - npm install
+        - ng build --prod
