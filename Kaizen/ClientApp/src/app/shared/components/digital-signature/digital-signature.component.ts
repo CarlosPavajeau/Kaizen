@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterContentInit, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterContentInit, ElementRef, Input, HostListener } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { switchMap, takeUntil, pairwise } from 'rxjs/operators';
 import { Point } from '@app/core/models/point';
@@ -12,8 +12,8 @@ export class DigitalSignatureComponent implements AfterContentInit {
 	@ViewChild('canvas', { static: true })
 	public canvas: ElementRef;
 
-	@Input() public width = 400;
-	@Input() public height = 150;
+	@Input() public width = 300;
+	@Input() public height = 200;
 
 	private cx: CanvasRenderingContext2D;
 	private canvasElement: HTMLCanvasElement;
@@ -25,7 +25,6 @@ export class DigitalSignatureComponent implements AfterContentInit {
 
 		this.canvasElement.width = this.width;
 		this.canvasElement.height = this.height;
-
 		this.cx.lineWidth = 3;
 		this.cx.lineCap = 'round';
 		this.cx.strokeStyle = 'black';
@@ -55,6 +54,35 @@ export class DigitalSignatureComponent implements AfterContentInit {
 				const currentPos: Point = {
 					x: res[1].clientX - rect.left,
 					y: res[1].clientY - rect.top
+				};
+
+				this.drawOnCanvas(prevPos, currentPos);
+			});
+
+		fromEvent(canvasEl, 'touchstart')
+			.pipe(
+				switchMap((e) => {
+					return fromEvent(canvasEl, 'touchmove').pipe(
+						takeUntil(fromEvent(canvasEl, 'touchend')),
+						takeUntil(fromEvent(canvasEl, 'touchleave')),
+						pairwise()
+					);
+				})
+			)
+			.subscribe((res: [TouchEvent, TouchEvent]) => {
+				const rect = canvasEl.getBoundingClientRect();
+
+				res[0].preventDefault();
+				res[1].preventDefault();
+
+				const prevPos: Point = {
+					x: res[0].touches[0].clientX - rect.left,
+					y: res[0].touches[0].clientY - rect.top
+				};
+
+				const currentPos: Point = {
+					x: res[1].touches[0].clientX - rect.left,
+					y: res[1].touches[0].clientY - rect.top
 				};
 
 				this.drawOnCanvas(prevPos, currentPos);
