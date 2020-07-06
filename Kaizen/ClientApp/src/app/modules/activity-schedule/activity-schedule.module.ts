@@ -12,6 +12,7 @@ import { ActivityDetailCardComponent } from './components/activity-detail-card/a
 import { ActivityButtonComponent } from './components/activity-button/activity-button.component';
 import { ActivityScheduleDayComponent } from './components/activity-schedule-day/activity-schedule-day.component';
 import { ActivityScheduleMonthComponent } from './components/activity-schedule-month/activity-schedule-month.component';
+import { WorkScheduleComponent } from './components/work-schedule/work-schedule.component';
 
 @NgModule({
 	declarations: [
@@ -21,7 +22,8 @@ import { ActivityScheduleMonthComponent } from './components/activity-schedule-m
 		ActivityDetailCardComponent,
 		ActivityButtonComponent,
 		ActivityScheduleDayComponent,
-		ActivityScheduleMonthComponent
+		ActivityScheduleMonthComponent,
+		WorkScheduleComponent
 	],
 	imports: [ SharedModule, ActivityScheduleRoutingModule, FormsModule, ReactiveFormsModule, ServiceRequestsModule ]
 })
