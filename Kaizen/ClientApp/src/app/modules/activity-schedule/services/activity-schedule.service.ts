@@ -18,6 +18,12 @@ export class ActivityScheduleService {
 		return this.http.get<Activity>(`${ACTIVITIES_API_URL}/${code}`);
 	}
 
+	getPendingEmployeeActivities(employeeId: string): Observable<Activity[]> {
+		return this.http.get<Activity[]>(
+			`${ACTIVITIES_API_URL}/EmployeeActivities/${employeeId}?date=${new Date().toISOString()}`
+		);
+	}
+
 	saveActivity(activity: Activity): Observable<Activity> {
 		return this.http.post<Activity>(ACTIVITIES_API_URL, activity);
 	}
