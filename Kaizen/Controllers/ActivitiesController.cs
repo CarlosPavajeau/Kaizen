@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using Kaizen.Domain.Entities;
 using Kaizen.Domain.Events;
 using Kaizen.Domain.Repositories;
 using Kaizen.Models.Activity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +15,7 @@ namespace Kaizen.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ActivitiesController : ControllerBase
     {
         private readonly IActivitiesRepository _activitiesRepository;
@@ -41,7 +44,7 @@ namespace Kaizen.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ActivityViewModel>> GetActivity(int id)
         {
-            var activity = await _activitiesRepository.FindByIdAsync(id);
+            Activity activity = await _activitiesRepository.FindByIdAsync(id);
 
             if (activity == null)
             {
@@ -49,6 +52,13 @@ namespace Kaizen.Controllers
             }
 
             return _mapper.Map<ActivityViewModel>(activity);
+        }
+
+        [HttpGet("[action]/{employeeId}")]
+        public async Task<ActionResult<IEnumerable<ActivityViewModel>>> EmployeeActivities(string employeeId, [FromQuery] DateTime date)
+        {
+            IEnumerable<Activity> activities = await _activitiesRepository.GetPendingEmployeeActivities(employeeId, date);
+            return Ok(_mapper.Map<IEnumerable<ActivityViewModel>>(activities));
         }
 
         // PUT: api/Activities/5
@@ -106,7 +116,7 @@ namespace Kaizen.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<ActivityViewModel>> DeleteActivity(int id)
         {
-            var activity = await _activitiesRepository.FindByIdAsync(id);
+            Activity activity = await _activitiesRepository.FindByIdAsync(id);
             if (activity == null)
             {
                 return NotFound();
