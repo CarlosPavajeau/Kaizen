@@ -23,6 +23,7 @@ export class NavMenuComponent implements OnInit {
 
 	onLogout(): void {
 		this.authService.logoutUser();
+		localStorage.removeItem('current_person');
 		window.location.reload();
 	}
 }
