@@ -99,5 +99,14 @@ namespace Kaizen.Infrastructure.Repositories
 
             return activity;
         }
+
+        public async Task<IEnumerable<Activity>> GetPendingEmployeeActivities(string employeeId, DateTime date)
+        {
+            return await GetAll().Include(a => a.ActivitiesEmployees).Include(a => a.Client)
+                .Where(a => a.State == RequestState.Pending &&
+                       a.Date.Month == date.Month && a.Date.Day == date.Day &&
+                       a.ActivitiesEmployees.Select(a => a.EmployeeId).Contains(employeeId))
+                .ToListAsync();
+        }
     }
 }
