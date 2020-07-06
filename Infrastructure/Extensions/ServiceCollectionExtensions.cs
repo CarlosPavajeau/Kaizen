@@ -7,6 +7,7 @@ using Kaizen.Domain.Data;
 using Kaizen.Domain.Data.Configuration;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
+using Kaizen.Infrastructure.Identity;
 using Kaizen.Infrastructure.Repositories;
 using Kaizen.Infrastructure.Security;
 using Kaizen.Infrastructure.Services;
@@ -27,6 +28,7 @@ namespace Kaizen.Infrastructure.Extensions
         {
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddErrorDescriber<SpanishIdentityErrorDescriber>()
                 .AddDefaultTokenProviders();
         }
 
