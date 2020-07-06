@@ -69,7 +69,7 @@ export const DASHBOARS_CARDS: { [role: string]: DashboardCard[] } = {
 	],
 	TechnicalEmployee: [
 		{ title: 'Datos de acceso', iconName: 'settings' },
-		{ title: 'Horario de trabajo', iconName: 'calendar_today' }
+		{ title: 'Horario de trabajo', iconName: 'calendar_today', url: '/activity_schedule/work_schedule' }
 	],
 	OfficeEmployee: [
 		{ title: 'Datos de acceso', iconName: 'settings' },
