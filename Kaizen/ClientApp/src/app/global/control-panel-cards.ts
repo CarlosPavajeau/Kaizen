@@ -5,7 +5,7 @@ export const DASHBOARS_CARDS: { [role: string]: DashboardCard[] } = {
 		{ title: 'Datos de acceso', iconName: 'settings' },
 		{ title: 'Mis facturas', iconName: 'attach_money' },
 		{ title: 'Solicitar un servicio', iconName: 'add_circle', url: '/service_requests/register' },
-		{ title: 'Gestionar visitas', iconName: 'info' },
+		{ title: 'Mis visitas', iconName: 'info', url: '/activity_schedule/client_schedule' },
 		{ title: 'Evaluar servicios', iconName: 'stars' }
 	],
 	Administrator: [
