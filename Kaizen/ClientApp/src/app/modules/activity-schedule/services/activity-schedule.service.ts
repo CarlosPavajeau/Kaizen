@@ -24,6 +24,10 @@ export class ActivityScheduleService {
 		);
 	}
 
+	getPendingClientActivities(clientId: string): Observable<Activity[]> {
+		return this.http.get<Activity[]>(`${ACTIVITIES_API_URL}/ClientActivities/${clientId}`);
+	}
+
 	saveActivity(activity: Activity): Observable<Activity> {
 		return this.http.post<Activity>(ACTIVITIES_API_URL, activity);
 	}
