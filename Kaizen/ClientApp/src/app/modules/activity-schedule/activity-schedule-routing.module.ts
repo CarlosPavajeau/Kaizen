@@ -6,6 +6,7 @@ import { AuthGuard } from '@core/guards/auth.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { WorkScheduleComponent } from './components/work-schedule/work-schedule.component';
+import { ClientScheduleComponent } from './components/client-schedule/client-schedule.component';
 
 const routes: Routes = [
 	{
@@ -20,6 +21,11 @@ const routes: Routes = [
 			{
 				path: 'work_schedule',
 				component: WorkScheduleComponent,
+				canActivate: [ AuthGuard ]
+			},
+			{
+				path: 'client_schedule',
+				component: ClientScheduleComponent,
 				canActivate: [ AuthGuard ]
 			},
 			{ path: ':code', component: ActivityDetailComponent, canActivate: [ AuthGuard ] }

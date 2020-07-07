@@ -1,0 +1,25 @@
+<section class="container">
+  <div>
+    <h1 class="text-center">Visitas pendientes</h1>
+    <br />
+    <h3>
+      Estimado cliente, tiene pendiente
+      {{ pendingActivities.length }} actividades en el vigante año
+      {{ date | date: "yyyy" }}.
+    </h3>
+  </div>
+  <mat-divider></mat-divider>
+  <div style="padding-top: 1.5rem;">
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let activity of pendingActivities">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Actividad N°{{ activity.code }} en la fecha
+            {{ activity.date | date: "MMMM d, y, h:mm a" }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <h4>Actividad N°{{ activity.code }}</h4>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</section>
