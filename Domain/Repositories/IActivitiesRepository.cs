@@ -10,5 +10,7 @@ namespace Kaizen.Domain.Repositories
     {
         Task ScheduleActivities(Activity activity);
         Task<IEnumerable<Activity>> GetPendingEmployeeActivities(string employeeId, DateTime date);
+
+        Task<IEnumerable<Activity>> GetPendingClientActivities(string clientId);
     }
 }

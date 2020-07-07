@@ -108,5 +108,10 @@ namespace Kaizen.Infrastructure.Repositories
                        a.ActivitiesEmployees.Select(a => a.EmployeeId).Contains(employeeId))
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<Activity>> GetPendingClientActivities(string clientId)
+        {
+            return await Where(a => a.State == RequestState.Pending && a.ClientId == clientId).ToListAsync();
+        }
     }
 }
