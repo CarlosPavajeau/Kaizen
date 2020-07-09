@@ -22,6 +22,8 @@ namespace Kaizen.Domain.Entities
         [MaxLength(500)]
         public string Observations { get; set; }
 
+        public string ClientSignature { get; set; }
+
         public int ActivityCode { get; set; }
         public string EmployeeId { get; set; }
         public int SectorId { get; set; }
