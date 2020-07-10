@@ -9,6 +9,7 @@ namespace Kaizen.Domain.Entities
     {
         public List<ActivityEmployee> ActivitiesEmployees { get; set; }
         public List<ActivityService> ActivitiesServices { get; set; }
+        public ActivityState State { get; set; }
 
         [NotMapped]
         public List<Employee> Employees { get; set; }

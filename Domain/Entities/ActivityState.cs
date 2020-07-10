@@ -1,10 +1,11 @@
 namespace Kaizen.Domain.Entities
 {
-    public enum RequestState
+    public enum ActivityState
     {
         Pending,
         Accepted,
         Rejected,
-        PendingSuggestedDate
+        PendingSuggestedDate,
+        Applied
     }
 }
