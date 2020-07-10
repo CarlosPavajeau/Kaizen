@@ -19,6 +19,10 @@ export class WorkOrderService {
 		return this.http.get<WorkOrder>(`${WORK_ORDERS_API_URL}/${code}`);
 	}
 
+	getWorkOrderOfActivity(activityCode: number): Observable<WorkOrder> {
+		return this.http.get<WorkOrder>(`${WORK_ORDERS_API_URL}/ActivityWorkOrder/${activityCode}`);
+	}
+
 	getSectors(): Observable<Sector[]> {
 		return this.http.get<Sector[]>(`${WORK_ORDERS_API_URL}/Sectors`);
 	}
