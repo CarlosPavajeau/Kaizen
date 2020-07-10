@@ -17,9 +17,9 @@ export class DigitalSignatureComponent implements AfterContentInit {
 
 	private cx: CanvasRenderingContext2D;
 	private canvasElement: HTMLCanvasElement;
+	private _isEmpty: boolean = true;
 
 	ngAfterContentInit(): void {
-		console.log(this.canvas);
 		this.canvasElement = this.canvas.nativeElement;
 		this.cx = this.canvasElement.getContext('2d');
 
@@ -28,6 +28,7 @@ export class DigitalSignatureComponent implements AfterContentInit {
 		this.cx.lineWidth = 3;
 		this.cx.lineCap = 'round';
 		this.cx.strokeStyle = 'black';
+		this.cx.fillStyle = 'white';
 
 		this.captureEvents(this.canvasElement);
 	}
@@ -100,11 +101,27 @@ export class DigitalSignatureComponent implements AfterContentInit {
 			this.cx.moveTo(prevPos.x, prevPos.y);
 			this.cx.lineTo(currentPos.x, currentPos.y);
 			this.cx.stroke();
+			this._isEmpty = false;
 		}
 	}
 
 	getImageData(): string {
 		const dataUrl = this.canvasElement.toDataURL('image/png', '720px');
 		return dataUrl.split(',')[1];
+	}
+
+	get isEmpty(): boolean {
+		return this._isEmpty;
+	}
+
+	clear(): void {
+		if (!this.cx) {
+			return;
+		}
+
+		this.cx.beginPath();
+		this.cx.clearRect(0, 0, this.canvasElement.width, this.canvasElement.height);
+		this.cx.fillRect(0, 0, this.canvasElement.width, this.canvasElement.height);
+		this._isEmpty = true;
 	}
 }
