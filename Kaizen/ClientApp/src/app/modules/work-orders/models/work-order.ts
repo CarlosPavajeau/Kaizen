@@ -7,11 +7,12 @@ export interface WorkOrder {
 	code?: number;
 	workOrderState: WorkOrderState;
 	arrivalTime: Date;
-	depatureTime: Date;
-	observations: string;
+	depatureTime?: Date;
+	observations?: string;
 	sectorId: number;
 	executionDate: Date;
-	validity: Date;
+	validity?: Date;
+	clientSignature?: string;
 	activityCode: number;
 	employeeId: string;
 
