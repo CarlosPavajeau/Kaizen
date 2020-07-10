@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Kaizen.Domain.Entities;
+using Kaizen.Domain.Events;
 using Kaizen.Domain.Repositories;
 using Kaizen.Models.WorkOrder;
 using Microsoft.AspNetCore.Mvc;
@@ -75,6 +76,7 @@ namespace Kaizen.Controllers
 
             _mapper.Map(workOrderModel, workOrder);
             _workOrdersRepository.Update(workOrder);
+            workOrder.PublishEvent(new UpdatedWorkOrder(workOrder));
 
             try
             {
