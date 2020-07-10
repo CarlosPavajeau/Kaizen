@@ -6,6 +6,6 @@ namespace Kaizen.Models.Activity
     public class ActivityEditModel
     {
         public DateTime Date { get; set; }
-        public RequestState State { get; set; }
+        public ActivityState State { get; set; }
     }
 }
