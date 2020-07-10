@@ -47,7 +47,7 @@ namespace Kaizen.Infrastructure.Repositories
         private async Task<HashSet<string>> GetOccupiedEmployeesCodes(DateTime date)
         {
             List<IEnumerable<Employee>> occupiedEmployees = await ApplicationDbContext.Activities
-                .Where(a => a.Date == date && a.State == RequestState.Pending)
+                .Where(a => a.Date == date && a.State == ActivityState.Pending)
                 .Include(a => a.ActivitiesEmployees).ThenInclude(ac => ac.Employee)
                 .Select(a => a.ActivitiesEmployees.Select(ac => ac.Employee)).ToListAsync();
 

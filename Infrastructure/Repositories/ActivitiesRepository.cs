@@ -103,7 +103,7 @@ namespace Kaizen.Infrastructure.Repositories
         public async Task<IEnumerable<Activity>> GetPendingEmployeeActivities(string employeeId, DateTime date)
         {
             return await GetAll().Include(a => a.ActivitiesEmployees).Include(a => a.Client)
-                .Where(a => a.State == RequestState.Pending &&
+                .Where(a => a.State == ActivityState.Pending &&
                        a.Date.Month == date.Month && a.Date.Day == date.Day &&
                        a.ActivitiesEmployees.Select(a => a.EmployeeId).Contains(employeeId))
                 .ToListAsync();
@@ -111,7 +111,7 @@ namespace Kaizen.Infrastructure.Repositories
 
         public async Task<IEnumerable<Activity>> GetPendingClientActivities(string clientId)
         {
-            return await Where(a => a.State == RequestState.Pending && a.ClientId == clientId).ToListAsync();
+            return await Where(a => a.State == ActivityState.Pending && a.ClientId == clientId).ToListAsync();
         }
     }
 }

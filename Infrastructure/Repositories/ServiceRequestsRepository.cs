@@ -42,7 +42,7 @@ namespace Kaizen.Infrastructure.Repositories
             ServiceRequest serviceRequest = await ApplicationDbContext.ServiceRequests.Include(s => s.Client)
                 .Include(s => s.ServiceRequestsServices)
                 .ThenInclude(s => s.Service)
-                .Where(s => s.ClientId == clientId && (s.State == RequestState.Pending || s.State == RequestState.PendingSuggestedDate))
+                .Where(s => s.ClientId == clientId && (s.State == ServiceRequestState.Pending || s.State == ServiceRequestState.PendingSuggestedDate))
                 .FirstOrDefaultAsync();
 
             MapServices(serviceRequest);
