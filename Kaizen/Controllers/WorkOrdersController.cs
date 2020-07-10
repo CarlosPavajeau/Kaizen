@@ -47,6 +47,13 @@ namespace Kaizen.Controllers
             return _mapper.Map<WorkOrderViewModel>(workOrder);
         }
 
+        [HttpGet("[action]/{id}")]
+        public async Task<ActionResult<WorkOrderViewModel>> ActivityWorkOrder(int id)
+        {
+            WorkOrder workOrder = await _workOrdersRepository.FindByActivityCodeAsync(id);
+            return _mapper.Map<WorkOrderViewModel>(workOrder);
+        }
+
         [HttpGet("[action]")]
         public async Task<ActionResult<SectorViewModel>> Sectors()
         {
@@ -58,7 +65,7 @@ namespace Kaizen.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutWorkOrder(int id, WorkOrderEditModel workOrderModel)
+        public async Task<ActionResult<WorkOrderViewModel>> PutWorkOrder(int id, WorkOrderEditModel workOrderModel)
         {
             WorkOrder workOrder = await _workOrdersRepository.FindByIdAsync(id);
             if (workOrder is null)
@@ -85,7 +92,7 @@ namespace Kaizen.Controllers
                 }
             }
 
-            return NoContent();
+            return _mapper.Map<WorkOrderViewModel>(workOrder);
         }
 
         // POST: api/WorkOrders
