@@ -9,6 +9,7 @@ namespace Kaizen.Domain.Data.Configuration.EntityTypeConfigurations
         public void Configure(EntityTypeBuilder<Activity> builder)
         {
             builder.ToTable("Activities");
+            builder.Property(p => p.State).HasDefaultValue(ActivityState.Pending);
             builder.Property(a => a.Periodicity).HasDefaultValue(PeriodicityType.Casual);
         }
     }

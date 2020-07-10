@@ -9,7 +9,7 @@ namespace Kaizen.Domain.Data.Configuration.EntityTypeConfigurations
         public void Configure(EntityTypeBuilder<ServiceRequest> builder)
         {
             builder.ToTable("ServiceRequests");
-            builder.Property(p => p.State).HasDefaultValue(RequestState.Pending);
+            builder.Property(p => p.State).HasDefaultValue(ServiceRequestState.Pending);
             builder.Property(p => p.Periodicity).HasDefaultValue(PeriodicityType.Casual);
         }
     }
