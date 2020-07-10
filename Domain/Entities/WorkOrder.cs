@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kaizen.Domain.Entities
 {
-    public class WorkOrder
+    public class WorkOrder : Entity
     {
         [Key]
         public int Code { get; set; }
