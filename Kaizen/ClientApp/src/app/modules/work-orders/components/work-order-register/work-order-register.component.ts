@@ -130,7 +130,7 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
 		this.workOrder.workOrderState = WorkOrderState.Canceled;
 		this.workOrderService.updateWorkOrder(this.workOrder).subscribe((workOrderUpdate) => {
 			if (workOrderUpdate) {
-				this.router.navigateByUrl('/users/profile');
+				this.router.navigateByUrl('/user/profile');
 			}
 		});
 	}
@@ -154,7 +154,7 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
 
 			this.workOrderService.updateWorkOrder(this.workOrder).subscribe((workOrderUpdate) => {
 				if (workOrderUpdate) {
-					this.router.navigateByUrl('/users/profile');
+					this.router.navigateByUrl('/user/profile');
 				}
 			});
 		}
