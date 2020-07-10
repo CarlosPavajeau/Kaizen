@@ -31,7 +31,7 @@ namespace Kaizen.Controllers
         public async Task<ActionResult<IEnumerable<ServiceRequestViewModel>>> GetServiceRequests()
         {
             List<ServiceRequest> serviceRequests = await _serviceRequestsRepository.GetAll()
-                .Where(s => s.State == RequestState.Pending).ToListAsync();
+                .Where(s => s.State == ServiceRequestState.Pending).ToListAsync();
             return Ok(_mapper.Map<IEnumerable<ServiceRequestViewModel>>(serviceRequests));
         }
 
