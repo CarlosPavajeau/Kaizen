@@ -8,5 +8,7 @@ namespace Kaizen.Domain.Repositories
     public interface IWorkOrdersRepository : IRepositoryBase<WorkOrder, int>
     {
         Task<IEnumerable<Sector>> GetSectorsAsync();
+
+        Task<WorkOrder> FindByActivityCodeAsync(int activityCode);
     }
 }
