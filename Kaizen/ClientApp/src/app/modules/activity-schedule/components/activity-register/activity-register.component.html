@@ -14,33 +14,146 @@
             [serviceRequestCode]="serviceRequestCode"
             (serviceRequestLoaded)="onLoadedServiceRequest($event)"
           ></app-service-request-detail>
+          <mat-divider></mat-divider>
         </div>
-        <mat-divider></mat-divider>
         <div>
           <form [formGroup]="activityForm">
-            <h1>Asignación de empleados</h1>
-            <div class="form-element form-select">
-              <mat-form-field>
-                <mat-label>Técnicos a asignar</mat-label>
-                <mat-select formControlName="employeeCodes" multiple>
-                  <mat-option
-                    *ngFor="let employee of techniciansAvailable"
-                    [value]="employee.id"
+            <div *ngIf="!fromServiceRequest">
+              <div class="form-element">
+                <mat-form-field appearance="standard">
+                  <mat-label>Identificación cliente</mat-label>
+                  <input
+                    type="text"
+                    matInput
+                    formControlName="clientId"
+                    placeholder="Ejemplo: 100787032"
+                  />
+                  <button
+                    type="button"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="Search"
+                    (click)="searchClient()"
+                    [matTooltip]="'Buscar cliente'"
                   >
-                    {{ employee.id }} - {{ employee.firstName }}
-                    {{ employee.lastName }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint
-                  >Selecciones los empleados que aplicaran los servicios
-                  solicitados</mat-hint
+                    <mat-icon>search</mat-icon>
+                  </button>
+                  <mat-hint>
+                    Digite la identificación del cliente a buscar
+                  </mat-hint>
+                </mat-form-field>
+              </div>
+              <div *ngIf="client">
+                <span
+                  >Cliente {{ client.firstName }} {{ client.lastName }} con
+                  nombre comercial {{ client.tradeName }}.</span
                 >
-              </mat-form-field>
+              </div>
+              <div class="form-element form-select">
+                <mat-form-field>
+                  <mat-label>Servicios a aplicar</mat-label>
+                  <mat-select formControlName="serviceCodes" multiple>
+                    <mat-option
+                      *ngFor="let service of services"
+                      [value]="service.code"
+                    >
+                      {{ service.name }} : ${{ service.cost }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="form-element form-select">
+                <mat-form-field>
+                  <mat-label>Periodicidad</mat-label>
+                  <mat-select formControlName="periodicity">
+                    <mat-option
+                      *ngFor="let periodicity of periodicities"
+                      [value]="periodicity.type"
+                    >
+                      {{ periodicity.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="form-element">
+                <table>
+                  <tr>
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Fecha de aplicación</mat-label>
+                        <input
+                          matInput
+                          [matDatepicker]="datePicker"
+                          formControlName="date"
+                        />
+                        <mat-datepicker-toggle
+                          matSuffix
+                          [for]="datePicker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #datePicker></mat-datepicker>
+                        <mat-hint
+                          >Elija la fecha en la que quiere la aplicación del
+                          servicio</mat-hint
+                        >
+                      </mat-form-field>
+                    </td>
+                    <td>
+                      <mat-form-field>
+                        <mat-label>Hora de aplicación</mat-label>
+                        <input
+                          type="time"
+                          matInput
+                          placeholder="Ejemplo 2:00PM"
+                          formControlName="time"
+                        />
+                        <mat-hint
+                          >Elija la hora en la quie quiere la aplicación del
+                          servicio</mat-hint
+                        >
+                      </mat-form-field>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div>
+                <button
+                  mat-raised-button
+                  class="royal_azure"
+                  (click)="loadTechniciansAvailable()"
+                >
+                  Buscar técnicos disponibles
+                </button>
+              </div>
+            </div>
+            <div
+              *ngIf="techniciansAvailable.length > 0"
+              style="padding-top: 1rem;"
+            >
+              <h1>Asignación de empleados</h1>
+              <div class="form-element form-select">
+                <mat-form-field>
+                  <mat-label>Técnicos a asignar</mat-label>
+                  <mat-select formControlName="employeeCodes" multiple>
+                    <mat-option
+                      *ngFor="let employee of techniciansAvailable"
+                      [value]="employee.id"
+                    >
+                      {{ employee.id }} - {{ employee.firstName }}
+                      {{ employee.lastName }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint
+                    >Selecciones los empleados que aplicaran los servicios
+                    solicitados</mat-hint
+                  >
+                </mat-form-field>
+              </div>
             </div>
           </form>
         </div>
         <div>
           <button
+            *ngIf="techniciansAvailable.length > 0"
             mat-raised-button
             class="royal_azure mr-5"
             (click)="onSubmit()"
@@ -52,6 +165,7 @@
             ></mat-icon>
           </button>
           <button
+            *ngIf="fromServiceRequest"
             mat-stroked-button
             color="warn"
             class="mr-5"
@@ -61,6 +175,7 @@
             Cancelar solicitud
           </button>
           <button
+            *ngIf="fromServiceRequest"
             mat-stroked-button
             color="primary"
             (click)="suggestAnotherDate()"
