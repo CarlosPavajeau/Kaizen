@@ -62,6 +62,7 @@ export const DASHBOARS_CARDS: { [role: string]: DashboardCard[] } = {
 			iconName: 'event',
 			isMenu: true,
 			subMenu: [
+				{ title: 'Agendar actividad', iconName: 'add_alarm', url: '/activity_schedule/register' },
 				{ title: 'Ver actividades', iconName: 'explore', url: '/activity_schedule' },
 				{ title: 'Solicitudes de servicio', url: '/service_requests/', iconName: 'pending' }
 			]
