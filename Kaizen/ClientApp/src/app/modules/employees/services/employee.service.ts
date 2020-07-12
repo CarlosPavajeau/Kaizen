@@ -26,7 +26,7 @@ export class EmployeeService {
 
 	getTechniciansAvailable(date: Date, serviceCodes: string[]): Observable<Employee[]> {
 		return this.http.get<Employee[]>(
-			`${EMPLOYEES_API_URL}/TechniciansAvailable?date=${date}&serviceCodes=${serviceCodes}`
+			`${EMPLOYEES_API_URL}/TechniciansAvailable?date=${date.toJSON()}&serviceCodes=${serviceCodes}`
 		);
 	}
 

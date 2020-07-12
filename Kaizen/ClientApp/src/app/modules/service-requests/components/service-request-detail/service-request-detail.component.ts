@@ -28,7 +28,7 @@ export class ServiceRequestDetailComponent implements OnInit {
 
 		this.serviceRequestService.getServiceRequest(code).subscribe((serviceRequest) => {
 			this.serviceRequest = serviceRequest;
-
+			this.serviceRequest.date = new Date(this.serviceRequest.date);
 			if (this.serviceRequestCode) {
 				this.serviceRequestLoaded.emit(this.serviceRequest);
 			}
