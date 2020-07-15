@@ -63,5 +63,13 @@ namespace Kaizen.Infrastructure.Repositories
 
             return employeesCodes;
         }
+
+        public async Task<IEnumerable<Employee>> EmployeesWithContractCloseToExpiration()
+        {
+            DateTime today = DateTime.Now;
+            return await GetAll().Include(e => e.EmployeeContract).Include(e => e.User)
+                .Where(e => (e.EmployeeContract.EndDate - today).Days == 3)
+                .ToListAsync();
+        }
     }
 }
