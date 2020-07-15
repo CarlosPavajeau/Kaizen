@@ -64,10 +64,6 @@ mat-form-field {
   font-size: initial !important;
 }
 
-.form-element {
-  margin-bottom: 17px;
-}
-
 .form-element table {
   width: 100%;
 }
