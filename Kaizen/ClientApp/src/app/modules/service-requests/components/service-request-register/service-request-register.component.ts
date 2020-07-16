@@ -13,6 +13,7 @@ import { ServiceRequestService } from '@modules/service-requests/services/servic
 import { ServiceService } from '@modules/services/services/service.service';
 import { zeroPad } from '@core/utils/number-utils';
 import { Client } from '@app/modules/clients/models/client';
+import { buildIsoDate } from '@app/core/utils/date-utils';
 
 @Component({
 	selector: 'app-service-request-register',
@@ -95,9 +96,7 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
 	private mapServiceRequest(): ServiceRequest {
 		const time = this.controls['time'].value;
 		const date = this.controls['date'].value as Date;
-		const isoDate = new Date(
-			`${date.getFullYear()}-${zeroPad(date.getMonth() + 1, 2)}-${zeroPad(date.getDate(), 2)}T${time}:00Z`
-		);
+		const isoDate = buildIsoDate(date, time);
 		return {
 			clientId: this.clientId,
 			serviceCodes: this.controls['serviceCodes'].value,

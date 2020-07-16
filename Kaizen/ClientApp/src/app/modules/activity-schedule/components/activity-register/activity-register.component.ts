@@ -18,6 +18,7 @@ import { Service } from '@modules/services/models/service';
 import { ServiceRequest } from '@modules/service-requests/models/service-request';
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
 import { ServiceService } from '@modules/services/services/service.service';
+import { zeroPad } from '@app/core/utils/number-utils';
 
 @Component({
 	selector: 'app-activity-register',
@@ -138,8 +139,16 @@ export class ActivityRegisterComponent implements OnInit, IForm {
 
 	private mapActivity(): Activity {
 		if (this.fromServiceRequest) {
+			const isoDate = buildIsoDate(
+				this.serviceRequest.date,
+				`${zeroPad(this.serviceRequest.date.getHours(), 2)}:${zeroPad(
+					this.serviceRequest.date.getMinutes(),
+					2
+				)}`
+			);
+
 			return {
-				date: this.serviceRequest.date,
+				date: isoDate,
 				state: RequestState.Pending,
 				clientId: this.serviceRequest.clientId,
 				periodicity: this.serviceRequest.periodicity,

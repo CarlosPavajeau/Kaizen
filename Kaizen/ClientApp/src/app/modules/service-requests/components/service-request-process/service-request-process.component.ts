@@ -33,19 +33,16 @@ export class ServiceRequestProcessComponent implements OnInit {
 	private loadData(): void {
 		const code = +this.activateRoute.snapshot.paramMap.get('code');
 		this.serviceRequestCode = code;
-		this.serviceRequestService.getServiceRequest(code).subscribe((serviceRequest) => {
-			this.serviceRequest = serviceRequest;
-			const serviceCodes = serviceRequest.services.map((service) => service.code);
+	}
+
+	onLoadedServiceRequest(serviceRequest: ServiceRequest): void {
+		this.serviceRequest = serviceRequest;
+		const serviceCodes = serviceRequest.services.map((service) => service.code);
 			this.employeeService
 				.getTechniciansAvailable(serviceRequest.date, serviceCodes)
 				.subscribe((techniciansAvailable) => {
 					this.techniciansAvailable = techniciansAvailable;
 				});
-		});
-	}
-
-	onLoadedServiceRequest(serviceRequest: ServiceRequest): void {
-		this.serviceRequest = serviceRequest;
 	}
 
 	cancelServiceRequest(): void {
