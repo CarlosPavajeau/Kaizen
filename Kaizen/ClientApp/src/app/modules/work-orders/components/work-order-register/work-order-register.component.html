@@ -38,7 +38,7 @@
             </mat-form-field>
           </div>
         </form>
-        <div>
+        <div class="form-buttons">
           <button
             mat-raised-button
             class="royal_azure"
@@ -61,13 +61,13 @@
               La firma del cliente es obligatoria
             </mat-error>
           </div>
-          <div>
+          <div class="form-buttons">
             <button mat-button color="primary" (click)="clearSignaturePad()">
               Limpiar firma
             </button>
           </div>
         </form>
-        <div>
+        <div class="form-buttons">
           <button
             mat-raised-button
             class="royal_azure mr-4"
@@ -117,9 +117,15 @@
             </mat-form-field>
           </div>
         </form>
-        <button mat-raised-button class="royal_azure" (click)="saveWorkOrder()">
-          Registrar orden de trabajo
-        </button>
+        <div class="form-buttons">
+          <button
+            mat-raised-button
+            class="royal_azure"
+            (click)="saveWorkOrder()"
+          >
+            Registrar orden de trabajo
+          </button>
+        </div>
       </div>
     </mat-card-content>
   </mat-card>

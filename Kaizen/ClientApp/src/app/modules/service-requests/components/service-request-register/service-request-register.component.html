@@ -4,7 +4,7 @@
       <mat-card-header>
         <mat-card-title>
           <div>
-            <h1 class="text-center">Formilario de solicitud de servicio</h1>
+            <h1 class="text-center">Formulario de solicitud de servicio</h1>
           </div></mat-card-title
         >
       </mat-card-header>
@@ -103,13 +103,13 @@
               </mat-form-field>
             </div>
           </form>
+          <div class="form-buttons">
+            <button mat-raised-button class="royal_azure" (click)="onSubmit()">
+              Enviar solicitud de servicio
+            </button>
+          </div>
         </div>
       </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button class="royal_azure" (click)="onSubmit()">
-          Enviar solicitud de servicio
-        </button>
-      </mat-card-actions>
     </mat-card>
   </section>
   <section *ngIf="serviceRequest">

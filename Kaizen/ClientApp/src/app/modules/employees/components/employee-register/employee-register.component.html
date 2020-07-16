@@ -187,14 +187,18 @@
                       [value]="employeeCharge.id"
                       >{{ employeeCharge.charge }}</mat-option
                     >
-                    <mat-error
-                      *ngIf="controls['employeeCharge'].hasError('required')"
-                      >Campo requerido</mat-error
-                    >
                   </mat-select>
+                  <mat-error
+                    *ngIf="controls['employeeCharge'].hasError('required')"
+                  >
+                    El cargo del empleado es requerido
+                  </mat-error>
+                  <mat-hint>
+                    Seleccione el cargo del empleado
+                  </mat-hint>
                 </mat-form-field>
               </div>
-              <div>
+              <div class="form-buttons">
                 <button mat-raised-button matStepperNext class="royal_azure">
                   Continuar
                 </button>
@@ -272,7 +276,7 @@
                   </tr>
                 </table>
               </div>
-              <div>
+              <div class="form-buttons">
                 <button mat-raised-button matStepperPrevious>
                   Regresar
                 </button>
@@ -334,7 +338,7 @@
                 </mat-form-field>
               </div>
             </form>
-            <div>
+            <div class="form-buttons">
               <button mat-raised-button matStepperPrevious>
                 Regresar
               </button>

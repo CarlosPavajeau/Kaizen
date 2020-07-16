@@ -76,6 +76,19 @@ mat-form-field {
   width: 50%;
 }
 
+.form-buttons {
+  padding-top: 1.5rem;
+}
+
+.form-buttons button {
+  margin-right: 0.7rem;
+}
+
+.search-field {
+  float: right;
+  max-width: 300px;
+}
+
 .mat-stepper-vertical {
   margin-top: 8px;
 }
@@ -94,13 +107,6 @@ mat-form-field {
 
 .mat-form-field {
   margin-top: 16px;
-}
-
-.filter-input {
-  float: right;
-  margin-bottom: 10px;
-  margin-right: 20px;
-  max-width: 350px;
 }
 
 html,
