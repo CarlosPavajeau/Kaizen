@@ -208,11 +208,10 @@
                     <mat-option [value]="'JuridicPerson'"
                       >Persona juridica</mat-option
                     >
-                    <mat-error
-                      *ngIf="controls['clientType'].hasError('required')"
-                      >Campo requerido</mat-error
-                    >
                   </mat-select>
+                  <mat-error *ngIf="controls['clientType'].hasError('required')"
+                    >Campo requerido</mat-error
+                  >
                 </mat-form-field>
               </div>
               <div class="form-buttons">
@@ -516,7 +515,7 @@
                         <input
                           type="text"
                           matInput
-                          placeholder="Digite u número de teléfono"
+                          placeholder="Digite su número de teléfono"
                           formControlName="person_phonenumber_1"
                         />
                       </mat-form-field>

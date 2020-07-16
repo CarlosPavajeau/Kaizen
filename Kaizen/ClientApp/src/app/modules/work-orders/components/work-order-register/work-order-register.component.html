@@ -114,6 +114,9 @@
               >
                 El registro de las observaciones es requerido
               </mat-error>
+              <mat-error *ngIf="controls['observations'].hasError('minlength')">
+                Debe digitar minímo 30 caracteres
+              </mat-error>
             </mat-form-field>
           </div>
         </form>

@@ -18,6 +18,9 @@
                   formControlName="code"
                 />
                 <mat-hint>Digite el código del servicio</mat-hint>
+                <mat-error *ngIf="controls['code'].hasError('required')">
+                  El código del servicio es requerido
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="form-element">
@@ -30,6 +33,9 @@
                   formControlName="name"
                 />
                 <mat-hint>Digite el nombre del servicio</mat-hint>
+                <mat-error *ngIf="controls['name'].hasError('required')">
+                  El nombre del servicio es requerido
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="form-element form-select">
@@ -43,6 +49,9 @@
                     {{ serviceType.name }}
                   </mat-option>
                 </mat-select>
+                <mat-error *ngIf="controls['serviceType'].hasError('required')">
+                  Debe seleccionar el tipo de servicio
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="form-element">
@@ -55,6 +64,9 @@
                   formControlName="cost"
                 />
                 <mat-hint>Digite el costo del servicio</mat-hint>
+                <mat-error *ngIf="controls['cost'].hasError('required')">
+                  El precio del servicio es requerido
+                </mat-error>
               </mat-form-field>
             </div>
           </form>
