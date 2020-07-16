@@ -41,6 +41,15 @@
                   <mat-hint>
                     Digite la identificación del cliente a buscar
                   </mat-hint>
+                  <mat-error *ngIf="controls['clientId'].hasError('required')">
+                    Este campo es requerido
+                  </mat-error>
+                  <mat-error *ngIf="controls['clientId'].hasError('minlength')">
+                    La identificación debe tener mínimo 8 carácteres
+                  </mat-error>
+                  <mat-error *ngIf="controls['clientId'].hasError('maxlength')">
+                    La identidicación no debe tener más de 10 carácteres
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div *ngIf="client">
@@ -60,6 +69,14 @@
                       {{ service.name }} : ${{ service.cost }}
                     </mat-option>
                   </mat-select>
+                  <mat-hint>
+                    Seleccione los servicios a aplicar al cliente
+                  </mat-hint>
+                  <mat-error
+                    *ngIf="controls['serviceCodes'].hasError('required')"
+                  >
+                    Debe seleccionar al menos un servicio
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="form-element form-select">
@@ -73,6 +90,12 @@
                       {{ periodicity.name }}
                     </mat-option>
                   </mat-select>
+                  <mat-hint>Elija la periodicidad de las visitas</mat-hint>
+                  <mat-error
+                    *ngIf="controls['periodicity'].hasError('required')"
+                  >
+                    La periodicidad de las visitas es requerida
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="form-element">
@@ -91,10 +114,15 @@
                           [for]="datePicker"
                         ></mat-datepicker-toggle>
                         <mat-datepicker #datePicker></mat-datepicker>
-                        <mat-hint
-                          >Elija la fecha en la que quiere la aplicación del
-                          servicio</mat-hint
+                        <mat-hint>
+                          Elija la fecha en la que quiere la aplicación del
+                          servicio
+                        </mat-hint>
+                        <mat-error
+                          *ngIf="controls['date'].hasError('required')"
                         >
+                          Debe escoger una fecha de aplicación de los servicios
+                        </mat-error>
                       </mat-form-field>
                     </td>
                     <td>
@@ -106,10 +134,15 @@
                           placeholder="Ejemplo 2:00PM"
                           formControlName="time"
                         />
-                        <mat-hint
-                          >Elija la hora en la quie quiere la aplicación del
-                          servicio</mat-hint
+                        <mat-hint>
+                          Elija la hora en la quie quiere la aplicación del
+                          servicio
+                        </mat-hint>
+                        <mat-error
+                          *ngIf="controls['time'].hasError('required')"
                         >
+                          Debe escoger la hora de aplicación de los servicios
+                        </mat-error>
                       </mat-form-field>
                     </td>
                   </tr>
@@ -142,10 +175,15 @@
                       {{ employee.lastName }}
                     </mat-option>
                   </mat-select>
-                  <mat-hint
-                    >Selecciones los empleados que aplicaran los servicios
-                    solicitados</mat-hint
+                  <mat-hint>
+                    Selecciones los empleados que aplicaran los servicios
+                    solicitados
+                  </mat-hint>
+                  <mat-error
+                    *ngIf="controls['employeeCodes'].hasError('required')"
                   >
+                    Debe asignar por lo menos un técnico
+                  </mat-error>
                 </mat-form-field>
               </div>
             </div>

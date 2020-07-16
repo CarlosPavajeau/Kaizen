@@ -22,6 +22,9 @@
                 </mat-option>
               </mat-select>
               <mat-hint>Elija el sector de aplicación</mat-hint>
+              <mat-error *ngIf="controls['sector'].hasError('required')">
+                El sector de aplicación es requerido
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="form-element">
@@ -29,6 +32,9 @@
               <mat-label>Hora de llegada</mat-label>
               <input type="time" matInput formControlName="arrivalTime" />
               <mat-hint>Digite la hora de llegada</mat-hint>
+              <mat-error *ngIf="controls['arrivalTime'].hasError('required')">
+                Se debe registrar la hora de llegada
+              </mat-error>
             </mat-form-field>
           </div>
         </form>
@@ -51,6 +57,9 @@
             <h4 class="text-center">Firma del cliente</h4>
             <digital-signature #digitalSignature></digital-signature>
             <mat-hint>Por favor digite la firma del cliente</mat-hint>
+            <mat-error *ngIf="digitalSignature.isEmpty">
+              La firma del cliente es obligatoria
+            </mat-error>
           </div>
           <div>
             <button mat-button color="primary" (click)="clearSignaturePad()">
@@ -78,6 +87,9 @@
               <mat-label>Hora de salida</mat-label>
               <input type="time" matInput formControlName="depatureTime" />
               <mat-hint>Digite la hora de salida</mat-hint>
+              <mat-error *ngIf="controls['depatureTime'].hasError('required')">
+                Debe registrar su hora de salida
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="form-element">
@@ -96,6 +108,12 @@
                 >{{ observations.value.length }} /
                 {{ observations.maxLength }}</mat-hint
               >
+              <mat-error
+                align="start"
+                *ngIf="controls['observations'].hasError('required')"
+              >
+                El registro de las observaciones es requerido
+              </mat-error>
             </mat-form-field>
           </div>
         </form>

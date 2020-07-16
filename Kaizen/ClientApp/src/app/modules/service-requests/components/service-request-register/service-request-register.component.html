@@ -27,10 +27,13 @@
                         [for]="datePicker"
                       ></mat-datepicker-toggle>
                       <mat-datepicker #datePicker></mat-datepicker>
-                      <mat-hint
-                        >Elija la fecha en la que quiere la aplicación del
-                        servicio</mat-hint
-                      >
+                      <mat-hint>
+                        Elija la fecha en la que quiere la aplicación del
+                        servicio
+                      </mat-hint>
+                      <mat-error *ngIf="controls['date'].hasError('required')">
+                        Debe escoger una fecha de aplicación
+                      </mat-error>
                     </mat-form-field>
                   </td>
                   <td>
@@ -42,10 +45,13 @@
                         placeholder="Ejemplo 2:00PM"
                         formControlName="time"
                       />
-                      <mat-hint
-                        >Elija la hora en la quie quiere la aplicación del
-                        servicio</mat-hint
-                      >
+                      <mat-hint>
+                        Elija la hora en la que quiere la aplicación del
+                        servicio
+                      </mat-hint>
+                      <mat-error *ngIf="controls['time'].hasError('required')">
+                        Debe escoger una hora de aplicación
+                      </mat-error>
                     </mat-form-field>
                   </td>
                 </tr>
@@ -62,6 +68,14 @@
                     {{ service.name }} : ${{ service.cost }}
                   </mat-option>
                 </mat-select>
+                <mat-hint>
+                  Elija los servicios a aplicar
+                </mat-hint>
+                <mat-error
+                  *ngIf="controls['serviceCodes'].hasError('required')"
+                >
+                  Debe elegir por lo menos un servicio
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="form-element form-select">
@@ -80,6 +94,12 @@
                   [matTooltip]="'Como quieres recibir nuestras visitas'"
                   >info_outline</mat-icon
                 >
+                <mat-hint>
+                  Elija la periodicidad de las visitas
+                </mat-hint>
+                <mat-error *ngIf="controls['periodicity'].hasError('required')">
+                  La periodicidad de las visitas es requerida
+                </mat-error>
               </mat-form-field>
             </div>
           </form>
