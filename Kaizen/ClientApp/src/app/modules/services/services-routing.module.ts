@@ -4,6 +4,7 @@ import { AuthGuard } from '@core/guards/auth.guard';
 import { ServicesComponent } from './components/services/services.component';
 import { ServiceRegisterComponent } from './components/service-register/service-register.component';
 import { AdminGuard } from '@core/guards/admin.guard';
+import { ServiceDetailComponent } from './components/service-detail/service-detail.component';
 
 const routes: Routes = [
 	{
@@ -11,7 +12,8 @@ const routes: Routes = [
 		canActivate: [ AuthGuard, AdminGuard ],
 		children: [
 			{ path: '', component: ServicesComponent },
-			{ path: 'register', component: ServiceRegisterComponent }
+			{ path: 'register', component: ServiceRegisterComponent },
+			{ path: ':code', component: ServiceDetailComponent }
 		]
 	}
 ];

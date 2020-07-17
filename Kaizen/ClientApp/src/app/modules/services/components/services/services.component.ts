@@ -13,7 +13,7 @@ import { ServiceService } from '@modules/services/services/service.service';
 export class ServicesComponent implements OnInit, AfterViewInit {
 	services: Service[];
 	dataSource: MatTableDataSource<Service> = new MatTableDataSource<Service>(this.services);
-	displayedColumns: string[] = [ 'code', 'name', 'type', 'cost' ];
+	displayedColumns: string[] = [ 'code', 'name', 'type', 'cost', 'options' ];
 	@ViewChild(MatPaginator, { static: true })
 	paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;

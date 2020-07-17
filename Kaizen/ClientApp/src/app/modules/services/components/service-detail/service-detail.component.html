@@ -1,0 +1,53 @@
+<section class="container">
+  <div *ngIf="service">
+    <mat-card>
+      <mat-card-header>
+        <h1 style="margin: 0 auto 16px auto;">Información del servicio</h1>
+      </mat-card-header>
+      <mat-card-content>
+        <div>
+          <h3>
+            Código: <span>{{ service.code }}</span>
+          </h3>
+          <h3>
+            Nombre: <span>{{ service.name }}</span>
+          </h3>
+          <h3>
+            Precio: <span>{{ service.cost | currency }}</span>
+          </h3>
+          <h3>
+            Tipo de servicio: <span>{{ service.serviceType.name }}</span>
+          </h3>
+          <h2 class="text-center">Productos utilizados</h2>
+          <mat-list>
+            <mat-list-item
+              *ngFor="let product of service.products; last as last"
+            >
+              {{ product.code }} - {{ product.name }}
+              <mat-divider *ngIf="!last"></mat-divider>
+            </mat-list-item>
+          </mat-list>
+          <h2 class="text-center">Equipos utilizados</h2>
+          <mat-list>
+            <mat-list-item
+              *ngFor="let equipment of service.equipments; last as last"
+            >
+              {{ equipment.code }} - {{ equipment.name }}
+              <mat-divider *ngIf="!last"></mat-divider>
+            </mat-list-item>
+          </mat-list>
+          <h2 class="text-center">Empleados asignados</h2>
+          <mat-list>
+            <mat-list-item
+              *ngFor="let employee of service.employees; last as last"
+            >
+              {{ employee.id }} - {{ employee.firstName }}
+              {{ employee.lastName }}
+              <mat-divider *ngIf="!last"></mat-divider>
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</section>
