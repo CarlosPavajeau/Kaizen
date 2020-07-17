@@ -51,11 +51,31 @@
             {{ client.firstPhoneNumber }}
           </mat-cell>
         </ng-container>
+        <ng-container matColumnDef="options">
+          <mat-header-cell *matHeaderCellDef>
+            Opciones
+          </mat-header-cell>
+          <mat-cell *matCellDef="let client">
+            <a
+              mat-icon-button
+              routerLink="/clients/{{ client.id }}"
+              [matTooltip]="'Ver más información'"
+            >
+              <mat-icon>visibility</mat-icon>
+            </a>
+            <a mat-icon-button [matTooltip]="'Editar cliente'">
+              <mat-icon>edit</mat-icon>
+            </a>
+            <a mat-icon-button [matTooltip]="'Eliminar cliente'">
+              <mat-icon>delete</mat-icon>
+            </a>
+          </mat-cell>
+        </ng-container>
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
       </table>
       <mat-paginator
-        [pageSizeOptions]="[2, 3, 10]"
+        [pageSizeOptions]="[15, 30, 50, 100]"
         showFirstLastButtons
       ></mat-paginator>
     </div>

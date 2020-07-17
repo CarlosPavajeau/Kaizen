@@ -8,9 +8,10 @@ import { SharedModule } from '@shared/shared.module';
 import { UserModule } from '@modules/users/user.module';
 import { ClientRequestsComponent } from './components/client-requests/client-requests.component';
 import { ClientRequestDetailComponent } from './components/client-request-detail/client-request-detail.component';
+import { ClientDetailComponent } from './components/client-detail/client-detail.component';
 
 @NgModule({
-	declarations: [ ClientRegisterComponent, ClientsComponent, ClientRequestsComponent, ClientRequestDetailComponent ],
+	declarations: [ ClientRegisterComponent, ClientsComponent, ClientRequestsComponent, ClientRequestDetailComponent, ClientDetailComponent ],
 	imports: [ FormsModule, ReactiveFormsModule, SharedModule, ClientRoutingModule, UserModule ]
 })
 export class ClientModule {}

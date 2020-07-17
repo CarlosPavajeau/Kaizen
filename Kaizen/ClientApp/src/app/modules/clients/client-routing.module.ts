@@ -8,6 +8,7 @@ import { ClientRequestsComponent } from './components/client-requests/client-req
 import { ClientRequestDetailComponent } from './components/client-request-detail/client-request-detail.component';
 import { ClientRegisterGuard } from '@app/core/guards/client-register.guard';
 import { AdminOrOfficeEmployeeGuard } from '@app/core/guards/admin-or-office-employee.guard';
+import { ClientDetailComponent } from './components/client-detail/client-detail.component';
 
 const routes: Routes = [
 	{
@@ -23,6 +24,11 @@ const routes: Routes = [
 			{
 				path: 'requests/:id',
 				component: ClientRequestDetailComponent,
+				canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
+			},
+			{
+				path: ':id',
+				component: ClientDetailComponent,
 				canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
 			}
 		]
