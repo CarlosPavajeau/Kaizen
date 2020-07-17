@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using Kaizen.Domain.Entities;
 using Kaizen.Models.Service;
@@ -31,7 +32,21 @@ namespace Kaizen.Mappers
             });
 
             CreateMap<ServiceType, ServiceTypeViewModel>();
-            CreateMap<Service, ServiceViewModel>();
+            CreateMap<Service, ServiceViewModel>().BeforeMap((service, serviceViewMode) => 
+            {
+                if (service.EmployeesServices != null)
+                {
+                    service.Employees = service.EmployeesServices.Select(s => s.Employee).ToList();
+                }
+                if (service.EquipmentsServices != null)
+                {
+                    service.Equipments = service.EquipmentsServices.Select(s => s.Equipment).ToList();
+                }
+                if (service.ProductsServices != null)
+                {
+                    service.Products = service.ProductsServices.Select(s => s.Product).ToList();
+                }
+            });
         }
     }
 }
