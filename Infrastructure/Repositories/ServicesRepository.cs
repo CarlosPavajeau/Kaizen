@@ -16,7 +16,11 @@ namespace Kaizen.Infrastructure.Repositories
 
         public override async Task<Service> FindByIdAsync(string id)
         {
-            return await ApplicationDbContext.Services.Include(s => s.ServiceType)
+            return await ApplicationDbContext.Services
+                .Include(s => s.ServiceType)
+                .Include(s => s.EmployeesServices).ThenInclude(s => s.Employee)
+                .Include(s => s.EquipmentsServices).ThenInclude(s => s.Equipment)
+                .Include(s => s.ProductsServices).ThenInclude(s => s.Product)
                 .Where(s => s.Code == id)
                 .FirstOrDefaultAsync();
         }
