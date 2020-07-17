@@ -13,7 +13,7 @@ import { EquipmentService } from '@modules/inventory/equipments/services/equipme
 export class EquipmentsComponent implements OnInit, AfterViewInit {
 	equipments: Equipment[];
 	dataSource: MatTableDataSource<Equipment> = new MatTableDataSource<Equipment>(this.equipments);
-	displayedColumns: string[] = [ 'code', 'name', 'maintenanceDate', 'amount', 'price' ];
+	displayedColumns: string[] = [ 'code', 'name', 'maintenanceDate', 'amount', 'price', 'options' ];
 	@ViewChild(MatPaginator, { static: true })
 	paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;

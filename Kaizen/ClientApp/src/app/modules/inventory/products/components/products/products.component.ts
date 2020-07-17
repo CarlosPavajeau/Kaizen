@@ -13,7 +13,7 @@ import { ProductService } from '../../services/product.service';
 export class ProductsComponent implements OnInit, AfterViewInit {
 	products: Product[];
 	dataSource: MatTableDataSource<Product> = new MatTableDataSource<Product>(this.products);
-	displayedColumns: string[] = [ 'code', 'name', 'amount', 'presentation', 'price', 'months' ];
+	displayedColumns: string[] = [ 'code', 'name', 'amount', 'presentation', 'price', 'months', 'options' ];
 	@ViewChild(MatPaginator, { static: true })
 	paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
