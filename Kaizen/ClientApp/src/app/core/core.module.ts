@@ -1,4 +1,4 @@
-import { NgModule, Optional, SkipSelf, ModuleWithProviders } from '@angular/core';
+import { NgModule, Optional, SkipSelf, ModuleWithProviders, LOCALE_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiPrefixInterceptor } from '@core/interceptors/api-prefix.interceptor';
@@ -14,6 +14,10 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { MomentUtcDateAdapter } from '@app/global/configs/moment-utc-date-adapter';
 import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
 import { MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import localeEs from '@angular/common/locales/es';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(localeEs);
 
 @NgModule({
 	declarations: [],
@@ -56,7 +60,8 @@ export class CoreModule {
 				{ provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 3000 } },
 				{ provide: MAT_DATE_LOCALE, useValue: 'es-us' },
 				{ provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
-				{ provide: DateAdapter, useClass: MomentUtcDateAdapter }
+				{ provide: DateAdapter, useClass: MomentUtcDateAdapter },
+				{ provide: LOCALE_ID, useValue: 'es' }
 			]
 		};
 	}
