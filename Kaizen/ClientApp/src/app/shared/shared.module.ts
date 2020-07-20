@@ -28,6 +28,7 @@ import { UniqueEquipmentDirective } from '@shared/directives/unique-equipment.di
 import { UniqueProductDirective } from '@shared/directives/unique-product.directive';
 import { UniqueUserDirective } from '@shared/directives/unique-user.directive';
 import { ActivityStatePipe } from './pipes/activity-state.pipe';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
 	declarations: [
@@ -51,7 +52,8 @@ import { ActivityStatePipe } from './pipes/activity-state.pipe';
 		PeriodicityPipe,
 		ServiceRequestStatePipe,
 		DigitalSignatureComponent,
-		ActivityStatePipe
+		ActivityStatePipe,
+		ConfirmDialogComponent
 	],
 	imports: [ CommonModule, FlexLayoutModule, MaterialModule, RouterModule, FormsModule, ReactiveFormsModule ],
 	exports: [
@@ -78,7 +80,8 @@ import { ActivityStatePipe } from './pipes/activity-state.pipe';
 		MonthBitPipe,
 		PeriodicityPipe,
 		ServiceRequestStatePipe,
-		ActivityStatePipe
+		ActivityStatePipe,
+		ConfirmDialogComponent
 	],
 	providers: [ NotificationsService, HttpErrorHandlerService ]
 })

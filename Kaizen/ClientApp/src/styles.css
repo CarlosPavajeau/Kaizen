@@ -171,6 +171,10 @@ mat-card {
   transform: translate(-50%, -50%);
 }
 
+.full-width {
+  width: 100%;
+}
+
 .royal_azure {
   background: var(--royal_azure);
 }
