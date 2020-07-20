@@ -22,7 +22,7 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
 	contactForm: FormGroup;
 	contractForm: FormGroup;
 	employeeCharges: EmployeeCharge[];
-	savingData: boolean = false;
+	savingData = false;
 
 	public get controls(): { [key: string]: AbstractControl } {
 		return this.employeeForm.controls;
@@ -138,9 +138,9 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
 
 			const employeeChargeId = +this.controls['employeeCharge'].value;
 			let role: string;
-			if (employeeChargeId == 1 || employeeChargeId == 2) {
+			if (employeeChargeId === 1 || employeeChargeId === 2) {
 				role = ADMINISTRATOR_ROLE;
-			} else if (employeeChargeId == 5) {
+			} else if (employeeChargeId === 5) {
 				role = OFFICE_EMPLOYEE_ROLE;
 			} else if ([ 6, 7, 8 ].includes(employeeChargeId)) {
 				role = TECHNICAL_EMPLOYEE_ROLE;

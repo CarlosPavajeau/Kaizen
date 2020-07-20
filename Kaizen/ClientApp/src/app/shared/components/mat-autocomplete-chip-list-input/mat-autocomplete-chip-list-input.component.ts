@@ -10,13 +10,15 @@ import { FocusMonitor } from '@angular/cdk/a11y';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 @Component({
-	selector: 'mat-autocomplete-chip-list-input',
+	selector: 'app-mat-autocomplete-chip-list-input',
 	templateUrl: './mat-autocomplete-chip-list-input.component.html',
 	styleUrls: [ './mat-autocomplete-chip-list-input.component.css' ],
 	providers: [ { provide: MatFormFieldControl, useExisting: MatAutocompleteChipListInputComponent } ]
 })
 export class MatAutocompleteChipListInputComponent<T>
 	implements OnInit, OnDestroy, MatFormFieldControl<T[]>, ControlValueAccessor {
+	static nextId = 0;
+
 	@Input() initialData: T[] = [];
 	@Input() filterFunction: (code: string | T, value: T) => boolean;
 	@Input() findFunction: (code: string | number, value: T) => boolean;
@@ -34,6 +36,20 @@ export class MatAutocompleteChipListInputComponent<T>
 
 	private _placeholder: string;
 	formGroup: FormGroup;
+
+	errorState = false;
+	controlType = 'mat-autocomplete-chip-list-input';
+	autofilled?: boolean;
+
+	@HostBinding('attr.aria-describedby') describeBy = '';
+
+	stateChanges: Subject<void> = new Subject<void>();
+
+	@HostBinding() id = `mat-autocomplete-chip-list-input-${MatAutocompleteChipListInputComponent.nextId++}`;
+
+	focused = false;
+	private _required = false;
+	private _disabled = false;
 
 	constructor(
 		@Optional()
@@ -78,23 +94,14 @@ export class MatAutocompleteChipListInputComponent<T>
 		this.stateChanges.next();
 	}
 
-	stateChanges: Subject<void> = new Subject<void>();
-
-	static nextId = 0;
-	@HostBinding() id = `mat-autocomplete-chip-list-input-${MatAutocompleteChipListInputComponent.nextId++}`;
-
-	focused: boolean = false;
-
 	get empty(): boolean {
-		return this.selectedData.length == 0;
+		return this.selectedData.length === 0;
 	}
 
 	@HostBinding('class.floating')
 	get shouldLabelFloat(): boolean {
 		return this.focused || !this.empty || this.formGroup.controls['autoControl'].value;
 	}
-
-	private _required = false;
 
 	@Input()
 	get required(): boolean {
@@ -106,8 +113,6 @@ export class MatAutocompleteChipListInputComponent<T>
 		this.stateChanges.next();
 	}
 
-	private _disabled = false;
-
 	@Input()
 	get disabled(): boolean {
 		return this._disabled;
@@ -116,23 +121,16 @@ export class MatAutocompleteChipListInputComponent<T>
 	set disabled(value: boolean) {
 		this._disabled = coerceBooleanProperty(value);
 
-
-			this._disabled ? this.formGroup.disable() :
-			this.formGroup.enable();
+		this._disabled ? this.formGroup.disable() : this.formGroup.enable();
 		this.stateChanges.next();
 	}
 
-	errorState: boolean = false;
-	controlType?: string = 'mat-autocomplete-chip-list-input';
-	autofilled?: boolean;
-
-	@HostBinding('attr.aria-describedby') describeBy = '';
 	setDescribedByIds(ids: string[]): void {
 		this.describeBy = ids.join(' ');
 	}
 
 	onContainerClick(event: MouseEvent): void {
-		if ((event.target as Element).tagName.toLowerCase() != 'input') {
+		if ((event.target as Element).tagName.toLowerCase() !== 'input') {
 			this.elRef.nativeElement.querySelector('input').focus();
 		}
 	}
@@ -148,18 +146,16 @@ export class MatAutocompleteChipListInputComponent<T>
 		});
 
 		this.filteredData = this.formGroup.controls['autoControl'].valueChanges.pipe(
-			startWith(null),
+			startWith(<string>null),
 			map((dataCode: string | null) => {
-				const data =
-					dataCode ? this.filterData(dataCode) :
-					this.initialData.slice();
+				const data = dataCode ? this.filterData(dataCode) : this.initialData.slice();
 				return data;
 			})
 		);
 	}
 
 	filterData(dataCode: string): T[] {
-		if (typeof dataCode == 'string') {
+		if (typeof dataCode === 'string') {
 			return this.initialData.filter((data) => this.filterFunction(dataCode, data));
 		} else {
 			return this.initialData.slice();

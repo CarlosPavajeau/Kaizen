@@ -44,9 +44,9 @@ export class ActivityScheduleDayComponent implements OnInit {
 	private loadActivitiesForHour(date: Moment) {
 		return this.activities.filter((activity) => {
 			return (
-				activity.date.getMonth() == date.month() &&
-				activity.date.getDate() == date.date() &&
-				activity.date.getHours() == date.hour()
+				activity.date.getMonth() === date.month() &&
+				activity.date.getDate() === date.date() &&
+				activity.date.getHours() === date.hour()
 			);
 		});
 	}

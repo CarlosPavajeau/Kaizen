@@ -9,8 +9,8 @@ export class MonthBitPipe implements PipeTransform {
 		if (!bitMask) {
 			return 'None';
 		} else {
-			let months: string = '';
-			let monthAdded: boolean = false;
+			let months = '';
+			let monthAdded = false;
 			MONTHS.forEach((month) => {
 				if (bitMask & month.value) {
 					if (!monthAdded) {

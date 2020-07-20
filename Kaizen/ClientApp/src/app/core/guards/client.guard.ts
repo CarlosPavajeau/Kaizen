@@ -14,7 +14,7 @@ export class ClientGuard implements CanActivate {
 		next: ActivatedRouteSnapshot,
 		state: RouterStateSnapshot
 	): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-		var role = this.authService.getUserRole();
+		const role = this.authService.getUserRole();
 		if (role !== CLIENT_ROLE) {
 			this.router.navigateByUrl('/user/profile');
 			return false;

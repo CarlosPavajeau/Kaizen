@@ -7,7 +7,7 @@ import { AuthenticationService } from '@core/authentication/authentication.servi
 	styleUrls: [ './nav-menu.component.css' ]
 })
 export class NavMenuComponent implements OnInit {
-	isLogged: boolean = false;
+	isLogged = false;
 
 	constructor(private authService: AuthenticationService) {}
 

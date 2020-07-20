@@ -50,7 +50,7 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
 		const client: Client = JSON.parse(localStorage.getItem('current_person'));
 		this.serviceRequestService.getPendingServiceRequest(client.id).subscribe((pendingRequest) => {
 			this.serviceRequest = pendingRequest;
-			if (this.serviceRequest && this.serviceRequest.state == RequestState.PendingSuggestedDate) {
+			if (this.serviceRequest && this.serviceRequest.state === RequestState.PendingSuggestedDate) {
 				this.router.navigateByUrl('/service_requests/new_date');
 			}
 		});

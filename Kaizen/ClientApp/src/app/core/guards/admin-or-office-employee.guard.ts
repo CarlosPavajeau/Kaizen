@@ -15,7 +15,7 @@ export class AdminOrOfficeEmployeeGuard implements CanActivate {
 		state: RouterStateSnapshot
 	): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 		const role = this.authService.getUserRole();
-		if (role == OFFICE_EMPLOYEE_ROLE || role == ADMINISTRATOR_ROLE) {
+		if (role === OFFICE_EMPLOYEE_ROLE || role === ADMINISTRATOR_ROLE) {
 			return true;
 		}
 

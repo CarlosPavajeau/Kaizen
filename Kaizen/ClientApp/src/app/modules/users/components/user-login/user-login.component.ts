@@ -11,11 +11,11 @@ import { IForm } from '@core/models/form';
 })
 export class UserLoginComponent implements OnInit, IForm {
 	loginForm: FormGroup;
-	invalidUserOrEmail: boolean = false;
-	invalidPassword: boolean = false;
-	invalidForm: boolean = false;
-	loading: boolean = false;
-	hide: boolean = true;
+	invalidUserOrEmail = false;
+	invalidPassword = false;
+	invalidForm = false;
+	loading = false;
+	hide = true;
 
 	public get controls() {
 		return this.loginForm.controls;
@@ -37,7 +37,7 @@ export class UserLoginComponent implements OnInit, IForm {
 	onSubmit(): void {
 		if (this.loginForm.valid) {
 			this.loading = true;
-			let loginRequest: LoginRequest = {
+			const loginRequest: LoginRequest = {
 				usernameOrEmail: this.controls['usernameOrEmail'].value,
 				password: this.controls['password'].value
 			};

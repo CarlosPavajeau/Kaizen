@@ -39,7 +39,7 @@ export class ServiceRequestsComponent implements OnInit {
 		serviceRequest.state = RequestState.Rejected;
 		this.serviceRequestService.updateServiceRequest(serviceRequest).subscribe((serviceRequestUpdate) => {
 			if (serviceRequestUpdate) {
-				this.serviceRequests = this.serviceRequests.filter((s) => s.code != serviceRequestUpdate.code);
+				this.serviceRequests = this.serviceRequests.filter((s) => s.code !== serviceRequestUpdate.code);
 			}
 		});
 	}

@@ -9,7 +9,7 @@ import { UserService } from '../../services/user.service';
 })
 export class ConfirmEmailComponent implements OnInit {
 	emailConfirmed: boolean;
-	confirmingEmail: boolean = true;
+	confirmingEmail = true;
 	constructor(private userService: UserService, private activatedRoute: ActivatedRoute, private router: Router) {}
 
 	ngOnInit(): void {

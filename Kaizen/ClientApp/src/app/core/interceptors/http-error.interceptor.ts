@@ -13,7 +13,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 			catchError((error: HttpErrorResponse) => {
 				if ([ 401, 403 ].includes(error.status)) {
 					this.authService.logoutUser();
-          window.location.reload();
+					window.location.reload();
 				}
 				return throwError(error);
 			})

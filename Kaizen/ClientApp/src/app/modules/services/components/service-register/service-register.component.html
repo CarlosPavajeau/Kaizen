@@ -80,7 +80,7 @@
           <ng-template matStepLabel>Productos utilizados</ng-template>
           <form [formGroup]="serviceProductsForm">
             <div class="form-element">
-              <mat-autocomplete-chip-list-input
+              <app-mat-autocomplete-chip-list-input
                 #productAuto
                 formControlName="productCodes"
                 [label]="'Código producto'"
@@ -89,7 +89,7 @@
                 [findFunction]="findProduct"
                 [dataStrFunction]="productStr"
                 [initialData]="products"
-              ></mat-autocomplete-chip-list-input>
+              ></app-mat-autocomplete-chip-list-input>
             </div>
           </form>
           <div class="form-buttons">
@@ -103,7 +103,7 @@
           <ng-template matStepLabel>Equipos necesarios</ng-template>
           <form [formGroup]="serviceEquipmentsForm">
             <div class="form-element">
-              <mat-autocomplete-chip-list-input
+              <app-mat-autocomplete-chip-list-input
                 #equipmentAuto
                 formControlName="equipmentCodes"
                 [label]="'Código de equipos'"
@@ -112,7 +112,7 @@
                 [findFunction]="findEquipment"
                 [dataStrFunction]="equipmentStr"
                 [initialData]="equipments"
-              ></mat-autocomplete-chip-list-input>
+              ></app-mat-autocomplete-chip-list-input>
             </div>
           </form>
           <div class="form-buttons">
@@ -128,7 +128,7 @@
           <ng-template matStepLabel>Empleados aptos</ng-template>
           <form [formGroup]="serviceEmployeesForm">
             <div class="form-element">
-              <mat-autocomplete-chip-list-input
+              <app-mat-autocomplete-chip-list-input
                 #employeeAuto
                 formControlName="employeeCodes"
                 [label]="'Código empleados'"
@@ -137,7 +137,7 @@
                 [findFunction]="findEmployee"
                 [dataStrFunction]="employeeStr"
                 [initialData]="employees"
-              ></mat-autocomplete-chip-list-input>
+              ></app-mat-autocomplete-chip-list-input>
             </div>
           </form>
           <div class="form-buttons">

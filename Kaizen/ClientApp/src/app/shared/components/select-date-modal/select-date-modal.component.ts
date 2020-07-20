@@ -1,7 +1,7 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormControl, Validators, FormBuilder, AbstractControl, FormGroup } from '@angular/forms';
-import { zeroPad } from '@app/core/utils/number-utils';
+import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
+import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { buildIsoDate } from '@app/core/utils/date-utils';
 
 @Component({
 	selector: 'app-select-date-modal',
@@ -28,9 +28,7 @@ export class SelectDateModalComponent implements OnInit {
 		if (this.dateForm.valid) {
 			const date = this.dateForm.controls['newDate'].value as Date;
 			const time = this.dateForm.controls['newTime'].value;
-			const isoDate = new Date(
-				`${date.getFullYear()}-${zeroPad(date.getMonth() + 1, 2)}-${zeroPad(date.getDate(), 2)}T${time}:00Z`
-			);
+			const isoDate = buildIsoDate(date, time);
 			this.dialogRef.close(isoDate);
 		}
 	}

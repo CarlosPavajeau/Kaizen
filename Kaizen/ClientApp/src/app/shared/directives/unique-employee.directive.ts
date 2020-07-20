@@ -5,7 +5,7 @@ import { CheckEmployeeExistsService } from '@app/core/services/check-employee-ex
 import { map } from 'rxjs/operators';
 
 @Directive({
-	selector: '[uniqueEmployee]',
+	selector: '[appUniqueEmployee]',
 	providers: [ { provide: NG_ASYNC_VALIDATORS, useExisting: UniqueEmployeeDirective, multi: true } ]
 })
 export class UniqueEmployeeDirective implements AsyncValidator {

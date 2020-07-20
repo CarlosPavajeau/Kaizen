@@ -45,7 +45,7 @@ export class ClientRequestsComponent implements OnInit {
 
 	private proccessClient(client: Client): void {
 		this.clientService.updateClient(client).subscribe((clientUpdate) => {
-			this.clientRequests = this.clientRequests.filter((c) => c.id != clientUpdate.id);
+			this.clientRequests = this.clientRequests.filter((c) => c.id !== clientUpdate.id);
 		});
 	}
 }

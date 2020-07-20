@@ -35,7 +35,7 @@ export class ProductRegisterComponent implements OnInit, IForm {
 	@ViewChild('auto') matAutocomplete: MatAutocomplete;
 	productForm: FormGroup;
 	productDocumentsForm: FormGroup;
-	uploading: boolean = false;
+	uploading = false;
 	uploadP: number;
 
 	public get controls(): { [key: string]: AbstractControl } {
@@ -61,13 +61,8 @@ export class ProductRegisterComponent implements OnInit, IForm {
 
 		this.allMonths = MONTHS;
 		this.filteredMonths = this.controls['applicationMonths'].valueChanges.pipe(
-			startWith(null),
-			map(
-				(month: string | null) =>
-
-						month ? this._filter(month) :
-						this.allMonths.slice()
-			)
+			startWith(<string>null),
+			map((month: string | null) => (month ? this._filter(month) : this.allMonths.slice()))
 		);
 	}
 
@@ -101,9 +96,9 @@ export class ProductRegisterComponent implements OnInit, IForm {
 	onSubmit() {
 		if (this.productForm.valid && this.productDocumentsForm.valid) {
 			this.uploadDocuments().subscribe((result) => {
-				if (result.type == HttpEventType.UploadProgress) {
+				if (result.type === HttpEventType.UploadProgress) {
 					this.uploadP = Math.round(100 * (result.loaded / result.total));
-				} else if (result.type == HttpEventType.Response) {
+				} else if (result.type === HttpEventType.Response) {
 					const fileNames = result.body;
 					this.uploading = false;
 					const product = this.mapProduct(fileNames);
@@ -151,12 +146,12 @@ export class ProductRegisterComponent implements OnInit, IForm {
 		const input = event.input;
 		const value = event.value;
 
-		const month = this.allMonths.find((m) => m.name == value);
+		const month = this.allMonths.find((m) => m.name === value);
 
 		if (month) {
 			this.applicationMonths |= +month.value;
 			this.selectedMonths.push(month);
-			this.allMonths = this.allMonths.filter((m) => m.value != month.value);
+			this.allMonths = this.allMonths.filter((m) => m.value !== month.value);
 
 			if (input) {
 				input.value = '';
@@ -167,7 +162,7 @@ export class ProductRegisterComponent implements OnInit, IForm {
 
 	removeMonth(month: MonthBit) {
 		this.applicationMonths -= month.value;
-		this.selectedMonths = this.selectedMonths.filter((m) => m.value != month.value);
+		this.selectedMonths = this.selectedMonths.filter((m) => m.value !== month.value);
 		this.allMonths.push(month);
 		this.controls['applicationMonths'].setValue(this.applicationMonths);
 	}
@@ -177,13 +172,13 @@ export class ProductRegisterComponent implements OnInit, IForm {
 		const viewValue = event.option.viewValue;
 		this.applicationMonths |= +value.value;
 		this.selectedMonths.push(value);
-		this.allMonths = this.allMonths.filter((m) => m.value != value.value);
+		this.allMonths = this.allMonths.filter((m) => m.value !== value.value);
 		this.monthInput.nativeElement.value = '';
 		this.controls['applicationMonths'].setValue(this.applicationMonths);
 	}
 
 	private _filter(value: string): MonthBit[] {
-		if (typeof value == 'string') {
+		if (typeof value === 'string') {
 			const filterValue = value.toLowerCase();
 
 			return this.allMonths.filter((month) => month.name.toLowerCase().indexOf(filterValue) === 0);

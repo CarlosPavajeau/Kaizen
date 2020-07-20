@@ -5,7 +5,7 @@ import { CheckEquipmentExistsService } from '@core/services/check-equipment-exis
 import { map } from 'rxjs/operators';
 
 @Directive({
-	selector: '[uniqueEquipment]',
+	selector: '[appUniqueEquipment]',
 	providers: [ { provide: NG_ASYNC_VALIDATORS, useExisting: UniqueEquipmentDirective, multi: true } ]
 })
 export class UniqueEquipmentDirective implements AsyncValidator {

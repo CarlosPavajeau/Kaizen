@@ -91,7 +91,7 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
 
 			const employee: Employee = JSON.parse(localStorage.getItem('current_person'));
 
-			let workOrder: WorkOrder = {
+			const workOrder: WorkOrder = {
 				workOrderState: WorkOrderState.Generated,
 				arrivalTime: arrivalTimeISO,
 				activityCode: this.activity.code,

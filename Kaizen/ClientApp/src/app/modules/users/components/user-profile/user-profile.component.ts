@@ -29,7 +29,7 @@ export class UserProfileComponent implements OnInit {
 		if (this.person == null) {
 			const userRole = this.authService.getUserRole();
 			const user_id = this.authService.getCurrentUser().id;
-			if (userRole == CLIENT_ROLE) {
+			if (userRole === CLIENT_ROLE) {
 				this.clientService.getClient(user_id).subscribe((client) => {
 					this.person = client;
 					this.savePersonInLocalStorage();

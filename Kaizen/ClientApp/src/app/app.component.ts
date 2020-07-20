@@ -7,7 +7,7 @@ import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 })
 export class AppComponent {
 	title = 'app';
-	loading: boolean = false;
+	loading = false;
 
 	constructor(private router: Router) {
 		router.events.subscribe((event) => {

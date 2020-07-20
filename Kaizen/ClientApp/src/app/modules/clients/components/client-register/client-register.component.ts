@@ -24,7 +24,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
 	contactPersonForm: FormGroup;
 	contactPeopleForm: FormGroup;
 	ubicationForm: FormGroup;
-	savingData: boolean = false;
+	savingData = false;
 
 	public get controls(): { [key: string]: AbstractControl } {
 		return this.clientForm.controls;
@@ -215,14 +215,12 @@ export class ClientRegisterComponent implements OnInit, IForm {
 			this.clientForm.valid &&
 			this.contactPersonForm.valid &&
 			this.ubicationForm.valid &&
-			(
-				this.controls['clientType'].value == 'JuridicPerson' ? this.legalPersonForm.valid :
-				true)
+			(this.controls['clientType'].value === 'JuridicPerson' ? this.legalPersonForm.valid : true)
 		);
 	}
 
 	mapClient(user_id: string): Client {
-		let client: Client = {
+		const client: Client = {
 			id: this.controls['id'].value,
 			firstName: this.controls['firstName'].value,
 			secondName: this.controls['secondName'].value,
@@ -253,7 +251,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
 			state: ClientState.Pending
 		};
 
-		if (client.clientType == 'JuridicPerson') {
+		if (client.clientType === 'JuridicPerson') {
 			client.nit = this.legal_controls['NIT'].value;
 			client.busninessName = this.legal_controls['businessName'].value;
 		}

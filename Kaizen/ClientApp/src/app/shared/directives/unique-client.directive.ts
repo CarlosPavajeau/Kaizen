@@ -5,7 +5,7 @@ import { CheckClientExistsService } from '@core/services/check-client-exists.ser
 import { map } from 'rxjs/operators';
 
 @Directive({
-	selector: '[uniqueClient]',
+	selector: '[appUniqueClient]',
 	providers: [ { provide: NG_ASYNC_VALIDATORS, useExisting: UniqueClientDirective, multi: true } ]
 })
 export class UniqueClientDirective implements AsyncValidator {

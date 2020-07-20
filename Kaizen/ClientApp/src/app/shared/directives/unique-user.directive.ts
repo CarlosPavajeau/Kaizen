@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Directive({
-	selector: '[uniqueUser]',
+	selector: '[appUniqueUser]',
 	providers: [ { provide: NG_ASYNC_VALIDATORS, useExisting: UniqueUserDirective, multi: true } ]
 })
 export class UniqueUserDirective implements AsyncValidator {

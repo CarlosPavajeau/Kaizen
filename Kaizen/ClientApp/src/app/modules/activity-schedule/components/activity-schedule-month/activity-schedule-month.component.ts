@@ -28,9 +28,9 @@ export class ActivityScheduleMonthComponent implements OnInit {
 		this.resetTime(this.start);
 
 		this.weeks = [];
-		let done = false,
-			date = this.start.clone(),
-			monthIndex = date.month(),
+		let done = false;
+		const date = this.start.clone();
+		let monthIndex = date.month(),
 			count = 0;
 
 		while (!done) {
@@ -56,7 +56,7 @@ export class ActivityScheduleMonthComponent implements OnInit {
 
 	private activitiesInDate(date: moment.Moment): Activity[] {
 		return this.activities.filter((activity) => {
-			return activity.date.getMonth() == date.month() && activity.date.getDate() == date.date();
+			return activity.date.getMonth() === date.month() && activity.date.getDate() === date.date();
 		});
 	}
 
@@ -65,7 +65,7 @@ export class ActivityScheduleMonthComponent implements OnInit {
 	}
 
 	private buildWeek(date: moment.Moment, month: moment.Moment) {
-		let days: Day[] = [];
+		const days: Day[] = [];
 
 		for (let i = 0; i < 7; ++i) {
 			days.push({

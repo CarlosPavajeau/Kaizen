@@ -55,7 +55,7 @@
             style="margin-top: 3rem; align-items: center;"
           >
             <h4 class="text-center">Firma del cliente</h4>
-            <digital-signature #digitalSignature></digital-signature>
+            <app-digital-signature #digitalSignature></app-digital-signature>
             <mat-hint>Por favor digite la firma del cliente</mat-hint>
             <mat-error *ngIf="digitalSignature.isEmpty">
               La firma del cliente es obligatoria

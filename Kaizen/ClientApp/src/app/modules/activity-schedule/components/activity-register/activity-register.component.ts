@@ -30,8 +30,8 @@ export class ActivityRegisterComponent implements OnInit, IForm {
 	serviceRequestCode: number;
 	techniciansAvailable: Employee[] = [];
 	activityForm: FormGroup;
-	savingData: boolean = false;
-	fromServiceRequest: boolean = false;
+	savingData = false;
+	fromServiceRequest = false;
 	services: Service[];
 	periodicities: Periodicity[];
 	client: Client;

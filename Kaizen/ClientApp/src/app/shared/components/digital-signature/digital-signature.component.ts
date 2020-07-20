@@ -4,7 +4,7 @@ import { switchMap, takeUntil, pairwise } from 'rxjs/operators';
 import { Point } from '@app/core/models/point';
 
 @Component({
-	selector: 'digital-signature',
+	selector: 'app-digital-signature',
 	templateUrl: './digital-signature.component.html',
 	styleUrls: [ './digital-signature.component.css' ]
 })
@@ -17,7 +17,7 @@ export class DigitalSignatureComponent implements AfterContentInit {
 
 	private cx: CanvasRenderingContext2D;
 	private canvasElement: HTMLCanvasElement;
-	private _isEmpty: boolean = true;
+	private _isEmpty = true;
 
 	ngAfterContentInit(): void {
 		this.canvasElement = this.canvas.nativeElement;

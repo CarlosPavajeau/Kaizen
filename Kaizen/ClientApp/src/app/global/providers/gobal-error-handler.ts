@@ -15,7 +15,7 @@ export class GlobalErrorHandler implements ErrorHandler {
 			if (error.error.Message) {
 				this.notificationsService.addMessage(error.error.Message, 'Ok');
 			} else if (error.error.errors) {
-				for (const prop in error.error.errors) {
+				for (const prop of Object.keys(error.error.errors)) {
 					error.error.errors[prop].forEach((element: string) => {
 						this.notificationsService.addMessage(element, 'Ok');
 					});

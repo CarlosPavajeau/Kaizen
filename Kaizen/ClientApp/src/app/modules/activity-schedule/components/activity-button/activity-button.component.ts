@@ -9,14 +9,14 @@ import { DatePipe } from '@angular/common';
 })
 export class ActivityButtonComponent implements OnInit {
 	@Input() activity: Activity;
-	@Input() hourButton: boolean = false;
+	@Input() hourButton = false;
 
 	constructor() {}
 
 	ngOnInit(): void {}
 
 	buildTooltipMessage(): string {
-		let datePipe: DatePipe = new DatePipe('en-US');
+		const datePipe: DatePipe = new DatePipe('en-US');
 		return `Actividad N° ${this.activity.code}, a las ${datePipe.transform(
 			this.activity.date,
 			'h:mm a'

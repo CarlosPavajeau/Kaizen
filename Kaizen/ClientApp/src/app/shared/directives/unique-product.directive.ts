@@ -5,7 +5,7 @@ import { CheckProductExistsService } from '@core/services/check-product-exists.s
 import { map } from 'rxjs/operators';
 
 @Directive({
-	selector: '[uniqueProduct]',
+	selector: '[appUniqueProduct]',
 	providers: [ { provide: NG_ASYNC_VALIDATORS, useExisting: UniqueProductDirective, multi: true } ]
 })
 export class UniqueProductDirective implements AsyncValidator {
