@@ -19,7 +19,7 @@ import { NotificationsService } from '@shared/services/notifications.service';
 import { OurservicesComponent } from '@shared/components/ourservices/ourservices.component';
 import { Page404Component } from '@shared/components/page404/page404.component';
 import { PeriodicityPipe } from './pipes/periodicity.pipe';
-import { RequestStatePipe } from './pipes/request-state.pipe';
+import { ServiceRequestStatePipe } from './pipes/service-request-state.pipe';
 import { RouterModule } from '@angular/router';
 import { SelectDateModalComponent } from './components/select-date-modal/select-date-modal.component';
 import { UniqueClientDirective } from '@shared/directives/unique-client.directive';
@@ -27,6 +27,7 @@ import { UniqueEmployeeDirective } from '@shared/directives/unique-employee.dire
 import { UniqueEquipmentDirective } from '@shared/directives/unique-equipment.directive';
 import { UniqueProductDirective } from '@shared/directives/unique-product.directive';
 import { UniqueUserDirective } from '@shared/directives/unique-user.directive';
+import { ActivityStatePipe } from './pipes/activity-state.pipe';
 
 @NgModule({
 	declarations: [
@@ -48,8 +49,9 @@ import { UniqueUserDirective } from '@shared/directives/unique-user.directive';
 		MonthBitPipe,
 		SelectDateModalComponent,
 		PeriodicityPipe,
-		RequestStatePipe,
-		DigitalSignatureComponent
+		ServiceRequestStatePipe,
+		DigitalSignatureComponent,
+		ActivityStatePipe
 	],
 	imports: [ CommonModule, FlexLayoutModule, MaterialModule, RouterModule, FormsModule, ReactiveFormsModule ],
 	exports: [
@@ -75,7 +77,8 @@ import { UniqueUserDirective } from '@shared/directives/unique-user.directive';
 		ClientsFilterPipe,
 		MonthBitPipe,
 		PeriodicityPipe,
-		RequestStatePipe
+		ServiceRequestStatePipe,
+		ActivityStatePipe
 	],
 	providers: [ NotificationsService, HttpErrorHandlerService ]
 })

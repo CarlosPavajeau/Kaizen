@@ -1,6 +1,6 @@
 import { Client } from '@app/modules/clients/models/client';
 import { Service } from '@app/modules/services/models/service';
-import { RequestState } from './request-state';
+import { ServiceRequestState } from './service-request-state';
 import { PeriodicityType } from './periodicity-type';
 
 export interface ServiceRequest {
@@ -9,7 +9,7 @@ export interface ServiceRequest {
 	clientId: string;
 	serviceCodes: string[];
 
-	state: RequestState;
+	state: ServiceRequestState;
 	periodicity: PeriodicityType;
 
 	client?: Client;

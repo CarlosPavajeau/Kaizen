@@ -5,7 +5,7 @@ import { EmployeeService } from '@app/modules/employees/services/employee.servic
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { Employee } from '@app/modules/employees/models/employee';
-import { RequestState } from '../../models/request-state';
+import { ServiceRequestState } from '../../models/service-request-state';
 import { SelectDateModalComponent } from '@app/shared/components/select-date-modal/select-date-modal.component';
 
 @Component({
@@ -38,15 +38,15 @@ export class ServiceRequestProcessComponent implements OnInit {
 	onLoadedServiceRequest(serviceRequest: ServiceRequest): void {
 		this.serviceRequest = serviceRequest;
 		const serviceCodes = serviceRequest.services.map((service) => service.code);
-			this.employeeService
-				.getTechniciansAvailable(serviceRequest.date, serviceCodes)
-				.subscribe((techniciansAvailable) => {
-					this.techniciansAvailable = techniciansAvailable;
-				});
+		this.employeeService
+			.getTechniciansAvailable(serviceRequest.date, serviceCodes)
+			.subscribe((techniciansAvailable) => {
+				this.techniciansAvailable = techniciansAvailable;
+			});
 	}
 
 	cancelServiceRequest(): void {
-		this.serviceRequest.state = RequestState.Rejected;
+		this.serviceRequest.state = ServiceRequestState.Rejected;
 		this.serviceRequestService.updateServiceRequest(this.serviceRequest).subscribe((serviceRequestUpdate) => {
 			if (serviceRequestUpdate) {
 				this.router.navigateByUrl('/service_requests');
@@ -62,7 +62,7 @@ export class ServiceRequestProcessComponent implements OnInit {
 		dateRef.afterClosed().subscribe((date) => {
 			if (date) {
 				this.serviceRequest.date = date;
-				this.serviceRequest.state = RequestState.PendingSuggestedDate;
+				this.serviceRequest.state = ServiceRequestState.PendingSuggestedDate;
 				this.serviceRequestService
 					.updateServiceRequest(this.serviceRequest)
 					.subscribe((serviceRequestUpdate) => {

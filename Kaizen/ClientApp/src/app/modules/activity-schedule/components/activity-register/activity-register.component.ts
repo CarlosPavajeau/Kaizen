@@ -12,13 +12,14 @@ import { IForm } from '@core/models/form';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationsService } from '@shared/services/notifications.service';
 import { PERIODICITIES, Periodicity } from '@app/modules/service-requests/models/periodicity-type';
-import { RequestState } from '@modules/service-requests/models/request-state';
+import { ServiceRequestState } from '@app/modules/service-requests/models/service-request-state';
 import { SelectDateModalComponent } from '@shared/components/select-date-modal/select-date-modal.component';
 import { Service } from '@modules/services/models/service';
 import { ServiceRequest } from '@modules/service-requests/models/service-request';
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
 import { ServiceService } from '@modules/services/services/service.service';
 import { zeroPad } from '@app/core/utils/number-utils';
+import { ActivityState } from '../../models/activity-state';
 
 @Component({
 	selector: 'app-activity-register',
@@ -123,7 +124,7 @@ export class ActivityRegisterComponent implements OnInit, IForm {
 				if (activitySave) {
 					this.notificationsService.addMessage(`Actividad N° ${activitySave.code} registrada`, 'Ok');
 					if (this.fromServiceRequest) {
-						this.serviceRequest.state = RequestState.Accepted;
+						this.serviceRequest.state = ServiceRequestState.Accepted;
 						this.serviceRequestService
 							.updateServiceRequest(this.serviceRequest)
 							.subscribe((serviceRequestUpdate) => {
@@ -149,7 +150,7 @@ export class ActivityRegisterComponent implements OnInit, IForm {
 
 			return {
 				date: isoDate,
-				state: RequestState.Pending,
+				state: ActivityState.Pending,
 				clientId: this.serviceRequest.clientId,
 				periodicity: this.serviceRequest.periodicity,
 				serviceCodes: this.serviceRequest.services.map((s) => s.code),
@@ -162,7 +163,7 @@ export class ActivityRegisterComponent implements OnInit, IForm {
 			const isoDate = buildIsoDate(date, time);
 			return {
 				date: isoDate,
-				state: RequestState.Pending,
+				state: ActivityState.Pending,
 				clientId: this.controls['clientId'].value,
 				periodicity: +this.controls['periodicity'].value,
 				serviceCodes: serviceCodes,
@@ -172,7 +173,7 @@ export class ActivityRegisterComponent implements OnInit, IForm {
 	}
 
 	cancelServiceRequest(): void {
-		this.serviceRequest.state = RequestState.Rejected;
+		this.serviceRequest.state = ServiceRequestState.Rejected;
 		this.serviceRequestService.updateServiceRequest(this.serviceRequest).subscribe((serviceRequestUpdate) => {
 			if (serviceRequestUpdate) {
 				this.router.navigateByUrl('/service_requests');
@@ -188,7 +189,7 @@ export class ActivityRegisterComponent implements OnInit, IForm {
 		dateRef.afterClosed().subscribe((date) => {
 			if (date) {
 				this.serviceRequest.date = date;
-				this.serviceRequest.state = RequestState.PendingSuggestedDate;
+				this.serviceRequest.state = ServiceRequestState.PendingSuggestedDate;
 				this.serviceRequestService
 					.updateServiceRequest(this.serviceRequest)
 					.subscribe((serviceRequestUpdate) => {

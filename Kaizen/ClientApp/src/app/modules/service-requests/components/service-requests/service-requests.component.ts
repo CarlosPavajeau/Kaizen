@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NewServiceRequestSignalrService } from '@modules/service-requests/services/new-service-request-signalr.service';
 import { NotificationsService } from '@shared/services/notifications.service';
-import { RequestState } from '@modules/service-requests/models/request-state';
+import { ServiceRequestState } from '@app/modules/service-requests/models/service-request-state';
 import { ServiceRequest } from '@modules/service-requests/models/service-request';
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
 
@@ -36,7 +36,7 @@ export class ServiceRequestsComponent implements OnInit {
 	}
 
 	rejectServiceRequest(serviceRequest: ServiceRequest): void {
-		serviceRequest.state = RequestState.Rejected;
+		serviceRequest.state = ServiceRequestState.Rejected;
 		this.serviceRequestService.updateServiceRequest(serviceRequest).subscribe((serviceRequestUpdate) => {
 			if (serviceRequestUpdate) {
 				this.serviceRequests = this.serviceRequests.filter((s) => s.code !== serviceRequestUpdate.code);

@@ -1,7 +1,7 @@
 import { Client } from '@modules/clients/models/client';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { RequestState } from '../../models/request-state';
+import { ServiceRequestState } from '../../models/service-request-state';
 import { Router } from '@angular/router';
 import { SelectDateModalComponent } from '@shared/components/select-date-modal/select-date-modal.component';
 import { ServiceRequest } from '../../models/service-request';
@@ -47,7 +47,7 @@ export class ServiceRequestNewDateComponent implements OnInit {
 	}
 
 	acceptSuggestedDate(): void {
-		this.serviceRequest.state = RequestState.Pending;
+		this.serviceRequest.state = ServiceRequestState.Pending;
 		this.updateServiceRequest();
 	}
 

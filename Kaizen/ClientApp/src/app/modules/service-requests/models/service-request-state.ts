@@ -1,4 +1,4 @@
-export enum RequestState {
+export enum ServiceRequestState {
 	Pending,
 	Accepted,
 	Rejected,
