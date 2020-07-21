@@ -11,7 +11,7 @@
         <p>Nombre: {{ product.name }}</p>
         <p>Cantidad: {{ product.amount }}</p>
         <p>Presentación: {{ product.presentation }}</p>
-        <p>Precio: {{ product.price | currency: "COP" }}</p>
+        <p>Precio: {{ product.price | currency: "COP":"symbol-narrow" }}</p>
         <p>Meses de aplicación: {{ product.applicationMonths | monthBit }}</p>
         <p>Descripción: {{ product.description }}</p>
       </mat-card-content>

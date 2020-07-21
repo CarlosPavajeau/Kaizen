@@ -14,7 +14,7 @@
           {{ equipment.maintenanceDate | date: "MMMM d, y hh:mm a" }}
         </p>
         <p>Cantidad: {{ equipment.amount }}</p>
-        <p>Precio: {{ equipment.price | currency: "COP" }}</p>
+        <p>Precio: {{ equipment.price | currency: "COP":"symbol-narrow" }}</p>
         <p>Descripción: {{ equipment.description }}</p>
       </mat-card-content>
     </mat-card>

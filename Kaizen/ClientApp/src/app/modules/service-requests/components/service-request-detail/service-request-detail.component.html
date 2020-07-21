@@ -16,7 +16,7 @@
           <mat-list-item *ngFor="let service of serviceRequest.services">
             <mat-icon style="margin-right: 7px;">label</mat-icon>
             {{ service.code }} - {{ service.name }} :
-            {{ service.cost | currency }}
+            {{ service.cost | currency: "COP":"symbol-narrow" }}
           </mat-list-item>
         </mat-list>
       </div>

@@ -13,7 +13,8 @@
             Nombre: <span>{{ service.name }}</span>
           </h3>
           <h3>
-            Precio: <span>{{ service.cost | currency }}</span>
+            Precio:
+            <span>{{ service.cost | currency: "COP":"symbol-narrow" }}</span>
           </h3>
           <h3>
             Tipo de servicio: <span>{{ service.serviceType.name }}</span>
