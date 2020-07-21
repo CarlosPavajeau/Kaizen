@@ -1,1 +1,24 @@
-<p>employee-detail works!</p>
+<div class="container">
+  <div *ngIf="employee">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          Información del empleado
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Identificación: {{ employee.id }}</p>
+        <p>
+          Nombre: {{ employee.firstName }} {{ employee.secondName }}
+          {{ employee.lastName }} {{ employee.secondLastName }}
+        </p>
+        <p *ngIf="employee.employeeCharge">
+          Cargo del empleado: {{ employee.employeeCharge.charge }}
+        </p>
+        <p *ngIf="employee.employeeContract">
+          Código de contrato: {{ employee.employeeContract.contractCode }}
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

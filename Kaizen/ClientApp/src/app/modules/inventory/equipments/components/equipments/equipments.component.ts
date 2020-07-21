@@ -4,6 +4,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { EquipmentService } from '@modules/inventory/equipments/services/equipment.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
 	selector: 'app-equipments',
@@ -18,7 +20,7 @@ export class EquipmentsComponent implements OnInit, AfterViewInit {
 	paginator: MatPaginator;
 	@ViewChild(MatSort) sort: MatSort;
 
-	constructor(private equipmentService: EquipmentService) {}
+	constructor(private equipmentService: EquipmentService, private matDialog: MatDialog) {}
 
 	ngOnInit(): void {
 		this.loadEquipments();
@@ -34,5 +36,16 @@ export class EquipmentsComponent implements OnInit, AfterViewInit {
 	ngAfterViewInit(): void {
 		this.dataSource.paginator = this.paginator;
 		this.dataSource.sort = this.sort;
+	}
+
+	deleteEquipment(equipment: Equipment): void {
+		const dialodRef = this.matDialog.open(ConfirmDialogComponent, {
+			width: '500px',
+			data: `Está seguro de eliminar el equipo "${equipment.name}", una vez confirmada la acción no podra revertirla.`
+		});
+
+		dialodRef.afterClosed().subscribe((result) => {
+			console.log(result);
+		});
 	}
 }

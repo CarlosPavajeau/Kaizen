@@ -4,7 +4,42 @@
       <mat-card-header>
         <h1 style="margin: 0 auto 16px auto;">Información del cliente</h1>
       </mat-card-header>
-      <mat-card-content> </mat-card-content>
+      <mat-card-content>
+        <p>Identificación: {{ client.id }}</p>
+        <p>
+          Nombre: {{ client.firstName }} {{ client.secondName }}
+          {{ client.lastName }} {{ client.secondLastName }}
+        </p>
+        <p>Nombre comercial: {{ client.tradeName }}</p>
+        <p>
+          Tipo de cliente:
+          {{
+            client.clientType === "NaturalPerson"
+              ? "Persona natural"
+              : "Persona jurídica"
+          }}
+        </p>
+        <p *ngIf="client.nit">NIT: {{ client.nit }}</p>
+        <p *ngIf="client.busninessName">
+          Razón social: {{ client.busninessName }}
+        </p>
+        <p>Primer numéro de teléfono: {{ client.firstPhoneNumber }}</p>
+        <p *ngIf="client.secondPhoneNumber">
+          Segundo numéro de teléfono: {{ client.secondPhoneNumber }}
+        </p>
+        <p *ngIf="client.firstLandLine">
+          Primer número fijo: {{ client.firstLandLine }}
+        </p>
+        <p *ngIf="client.secondLandLine">
+          Segundo número fijo: {{ client.secondLandLine }}
+        </p>
+        <p *ngIf="client.clientAddress">
+          Dirección: {{ client.clientAddress.city }},
+          {{ client.clientAddress.neighborhood }},
+          {{ client.clientAddress.street }}
+        </p>
+        <p>Estado: {{ client.state | clientState }}.</p>
+      </mat-card-content>
     </mat-card>
   </div>
 </section>

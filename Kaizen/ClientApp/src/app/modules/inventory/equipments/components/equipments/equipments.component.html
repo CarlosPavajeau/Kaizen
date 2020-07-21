@@ -49,7 +49,11 @@
             <a mat-icon-button [matTooltip]="'Editar equipo'">
               <mat-icon>edit</mat-icon>
             </a>
-            <a mat-icon-button [matTooltip]="'Eliminar equipo'">
+            <a
+              mat-icon-button
+              [matTooltip]="'Eliminar equipo'"
+              (click)="deleteEquipment(equipment)"
+            >
               <mat-icon>delete</mat-icon>
             </a>
           </mat-cell>

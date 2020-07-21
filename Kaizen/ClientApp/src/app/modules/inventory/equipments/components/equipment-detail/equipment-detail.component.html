@@ -1,1 +1,22 @@
-<p>equipment-detail works!</p>
+<div class="container">
+  <div *ngIf="equipment">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          Información del equipo
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Código: {{ equipment.code }}</p>
+        <p>Nombre: {{ equipment.name }}</p>
+        <p>
+          Fecha de compra/mantenimiento:
+          {{ equipment.maintenanceDate | date: "MMMM d, y hh:mm a" }}
+        </p>
+        <p>Cantidad: {{ equipment.amount }}</p>
+        <p>Precio: {{ equipment.price | currency: "COP" }}</p>
+        <p>Descripción: {{ equipment.description }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
