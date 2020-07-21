@@ -18,7 +18,33 @@
             {{ activity.date | date: "MMMM d, y, h:mm a" }}
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <h4>Actividad N°{{ activity.code }}</h4>
+        <div>
+          <h2>Servicios solicitados</h2>
+          <mat-list>
+            <mat-list-item *ngFor="let service of activity.services">
+              {{ service.code }} - {{ service.name }}
+            </mat-list-item>
+          </mat-list>
+        </div>
+        <mat-divider></mat-divider>
+        <div style="margin-top: 1rem;">
+          <h2>Empleados asignados</h2>
+          <mat-list>
+            <mat-list-item *ngFor="let employee of activity.employees">
+              {{ employee.id }} - {{ employee.firstName }}
+              {{ employee.lastName }}
+            </mat-list-item>
+          </mat-list>
+        </div>
+        <mat-action-row>
+          <a
+            mat-raised-button
+            class="royal_azure"
+            [routerLink]="['/activity_schedule/', activity.code]"
+          >
+            Ver más información
+          </a>
+        </mat-action-row>
       </mat-expansion-panel>
     </mat-accordion>
   </div>
