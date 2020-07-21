@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using Kaizen.Domain.Entities;
 using Kaizen.Models.Activity;
@@ -32,7 +33,17 @@ namespace Kaizen.Mappers
                     });
                 }
             });
-            CreateMap<Activity, ActivityViewModel>();
+
+            CreateMap<Activity, ActivityViewModel>().BeforeMap((activity, activityViewModel) => {
+                if (activity is null)
+                    return;
+
+                if (activity.ActivitiesEmployees != null)
+                    activity.Employees = activity.ActivitiesEmployees.Select(ae => ae.Employee).ToList();
+                
+                if (activity.ActivitiesServices != null)
+                    activity.Services = activity.ActivitiesServices.Select(a => a.Service).ToList();
+            });
         }
     }
 }
