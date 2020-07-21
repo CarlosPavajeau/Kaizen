@@ -77,27 +77,10 @@ namespace Kaizen.Infrastructure.Repositories
 
         public override async Task<Activity> FindByIdAsync(int id)
         {
-            Activity activity = await ApplicationDbContext.Activities.Include(a => a.Client)
+            return await ApplicationDbContext.Activities.Include(a => a.Client)
                 .Include(a => a.ActivitiesServices)
                 .ThenInclude(a => a.Service).Include(a => a.ActivitiesEmployees).ThenInclude(a => a.Employee)
                 .Where(a => a.Code == id).FirstOrDefaultAsync();
-
-            if (activity != null)
-            {
-                activity.Services = new List<Service>();
-                foreach (ActivityService activityService in activity.ActivitiesServices)
-                {
-                    activity.Services.Add(activityService.Service);
-                }
-
-                activity.Employees = new List<Employee>();
-                foreach (ActivityEmployee activityEmployee in activity.ActivitiesEmployees)
-                {
-                    activity.Employees.Add(activityEmployee.Employee);
-                }
-            }
-
-            return activity;
         }
 
         public async Task<IEnumerable<Activity>> GetPendingEmployeeActivities(string employeeId, DateTime date)
@@ -111,7 +94,10 @@ namespace Kaizen.Infrastructure.Repositories
 
         public async Task<IEnumerable<Activity>> GetPendingClientActivities(string clientId)
         {
-            return await Where(a => a.State == ActivityState.Pending && a.ClientId == clientId).ToListAsync();
+            return await GetAll().Include(a => a.ActivitiesServices).ThenInclude(a => a.Service)
+                .Include(a => a.ActivitiesEmployees).ThenInclude(a => a.Employee)
+                .Where(a => a.State == ActivityState.Pending && a.ClientId == clientId)
+                .ToListAsync();
         }
     }
 }
