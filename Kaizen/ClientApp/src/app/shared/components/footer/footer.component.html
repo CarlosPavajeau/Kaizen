@@ -1,11 +1,38 @@
 <footer class="footer royal_azure">
-  <section>
-    <h1>Ecolplag S.A.S</h1>
-  </section>
-  <section>
-    <span>Somos una empresa dedicada a la fumigación y control de plagas</span>
-  </section>
-  <section>
-    <span>&copy; {{ year }}</span>
-  </section>
+  <div class="container">
+    <section class="text-center">
+      <h1>Ecolplag S.A.S</h1>
+    </section>
+    <div class="row">
+      <div class="col-xs-12 col-md-4">
+        <div class="footer-section">
+          <h2>Acerca de nuestra empresa</h2>
+          <ul>
+            <li>
+              <a routerLink="/about" target="blank">¿Quiénes somos?</a>
+            </li>
+            <li>
+              <a routerLink="/ourservices" target="blank">Nuestros servicios</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-4">
+        <div class="footer-section">
+          <h2>Soporte al cliente</h2>
+          <ul>
+            <li>
+              <a target="blank">Preguntas frecuentes</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <section style="margin-top: 1rem;" class="text-center">
+      <span>
+        Ecolplag S.A.S. <span>&copy; {{ year }}</span> Todos los derechos
+        reservados.
+      </span>
+    </section>
+  </div>
 </footer>

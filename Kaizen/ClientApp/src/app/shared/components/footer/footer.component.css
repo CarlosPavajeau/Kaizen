@@ -12,3 +12,24 @@ footer {
 footer span {
   font-size: 12px;
 }
+
+.container {
+  margin-top: 0px;
+  min-height: auto;
+}
+
+.footer-section ul {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+.footer-section ul li {
+  margin: 10px 5px;
+}
+
+.footer-section ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 12px;
+}
