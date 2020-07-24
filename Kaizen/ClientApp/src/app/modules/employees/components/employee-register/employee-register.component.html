@@ -40,143 +40,139 @@
                   >
                 </mat-form-field>
               </div>
-              <div class="form-element">
-                <table cellspacing="0">
-                  <tr>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Primer nombre</mat-label>
-                        <input
-                          type="text"
-                          matInput
-                          placeholder="Digite su primer nombre"
-                          formControlName="firstName"
-                        />
-                        <mat-hint>Digite su primer nombre</mat-hint>
-                        <mat-error
-                          *ngIf="controls['firstName'].hasError('required')"
-                          >Su primer nombre es requerido</mat-error
-                        >
-                        <mat-error
-                          *ngIf="controls['firstName'].hasError('minlength')"
-                          >Digite por lo menos 3 carácteres</mat-error
-                        >
-                        <mat-error
-                          *ngIf="controls['firstName'].hasError('maxlength')"
-                          >Digite máximo 20 caracteres</mat-error
-                        >
-                        <mat-error
-                          *ngIf="
-                            controls['firstName'].hasError('notAlphabetic') &&
-                            !controls['firstName'].hasError('maxlength') &&
-                            !controls['firstName'].hasError('minlength')
-                          "
-                          >Digite carácteres alfabeticos</mat-error
-                        >
-                      </mat-form-field>
-                    </td>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Segundo nombre</mat-label>
-                        <input
-                          type="text"
-                          matInput
-                          placeholder="Digite su segundo nombre"
-                          formControlName="secondName"
-                        />
-                        <mat-hint>Digite su segundo nombre</mat-hint>
-                        <mat-error
-                          *ngIf="controls['secondName'].hasError('minlength')"
-                          >Digite por lo menos 3 carácteres</mat-error
-                        >
-                        <mat-error
-                          *ngIf="controls['secondName'].hasError('maxlength')"
-                          >Digite máximo 20 caracteres</mat-error
-                        >
-                        <mat-error
-                          *ngIf="
-                            controls['secondName'].hasError('notAlphabetic') &&
-                            !controls['secondName'].hasError('maxlength') &&
-                            !controls['secondName'].hasError('minlength')
-                          "
-                          >Digite carácteres alfabeticos</mat-error
-                        >
-                      </mat-form-field>
-                    </td>
-                  </tr>
-                </table>
+              <div class="form-row">
+                <div class="form-col">
+                  <div class="form-element">
+                    <mat-form-field>
+                      <mat-label>Primer nombre</mat-label>
+                      <input
+                        type="text"
+                        matInput
+                        placeholder="Digite su primer nombre"
+                        formControlName="firstName"
+                      />
+                      <mat-hint>Digite su primer nombre</mat-hint>
+                      <mat-error
+                        *ngIf="controls['firstName'].hasError('required')"
+                        >Su primer nombre es requerido</mat-error
+                      >
+                      <mat-error
+                        *ngIf="controls['firstName'].hasError('minlength')"
+                        >Digite por lo menos 3 carácteres</mat-error
+                      >
+                      <mat-error
+                        *ngIf="controls['firstName'].hasError('maxlength')"
+                        >Digite máximo 20 caracteres</mat-error
+                      >
+                      <mat-error
+                        *ngIf="
+                          controls['firstName'].hasError('notAlphabetic') &&
+                          !controls['firstName'].hasError('maxlength') &&
+                          !controls['firstName'].hasError('minlength')
+                        "
+                        >Digite carácteres alfabeticos</mat-error
+                      >
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="form-col">
+                  <div class="form-element">
+                    <mat-form-field>
+                      <mat-label>Segundo nombre</mat-label>
+                      <input
+                        type="text"
+                        matInput
+                        placeholder="Digite su segundo nombre"
+                        formControlName="secondName"
+                      />
+                      <mat-hint>Digite su segundo nombre</mat-hint>
+                      <mat-error
+                        *ngIf="controls['secondName'].hasError('minlength')"
+                        >Digite por lo menos 3 carácteres</mat-error
+                      >
+                      <mat-error
+                        *ngIf="controls['secondName'].hasError('maxlength')"
+                        >Digite máximo 20 caracteres</mat-error
+                      >
+                      <mat-error
+                        *ngIf="
+                          controls['secondName'].hasError('notAlphabetic') &&
+                          !controls['secondName'].hasError('maxlength') &&
+                          !controls['secondName'].hasError('minlength')
+                        "
+                        >Digite carácteres alfabeticos</mat-error
+                      >
+                    </mat-form-field>
+                  </div>
+                </div>
               </div>
-              <div class="form-element">
-                <table cellspacing="0">
-                  <tr>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Primer apellido</mat-label>
-                        <input
-                          type="text"
-                          matInput
-                          placeholder="Digite su primer apellido"
-                          formControlName="lastName"
-                        />
-                        <mat-hint>Digite su primer apellido</mat-hint>
-                        <mat-error
-                          *ngIf="controls['lastName'].hasError('required')"
-                          >Su primer apellido es requerido</mat-error
-                        >
-                        <mat-error
-                          *ngIf="controls['lastName'].hasError('minlength')"
-                          >Digite por lo menos 3 carácteres</mat-error
-                        >
-                        <mat-error
-                          *ngIf="controls['lastName'].hasError('maxlength')"
-                          >Digite máximo 20 caracteres</mat-error
-                        >
-                        <mat-error
-                          *ngIf="
-                            controls['lastName'].hasError('notAlphabetic') &&
-                            !controls['lastName'].hasError('maxlength') &&
-                            !controls['lastName'].hasError('minlength')
-                          "
-                          >Digite carácteres alfabeticos</mat-error
-                        >
-                      </mat-form-field>
-                    </td>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Segundo apellido</mat-label>
-                        <input
-                          type="text"
-                          matInput
-                          placeholder="Digite su segundo apellido"
-                          formControlName="secondLastname"
-                        />
-                        <mat-hint>Digite su segundo apellido</mat-hint>
-                        <mat-error
-                          *ngIf="
-                            controls['secondLastname'].hasError('minlength')
-                          "
-                          >Digite por lo menos 3 carácteres</mat-error
-                        >
-                        <mat-error
-                          *ngIf="
-                            controls['secondLastname'].hasError('maxlength')
-                          "
-                          >Digite máximo 20 caracteres</mat-error
-                        >
-                        <mat-error
-                          *ngIf="
-                            controls['secondLastname'].hasError(
-                              'notAlphabetic'
-                            ) &&
-                            !controls['secondLastname'].hasError('maxlength') &&
-                            !controls['secondLastname'].hasError('minlength')
-                          "
-                          >Digite carácteres alfabeticos</mat-error
-                        >
-                      </mat-form-field>
-                    </td>
-                  </tr>
-                </table>
+              <div class="form-row">
+                <div class="form-col">
+                  <div class="form-element">
+                    <mat-form-field>
+                      <mat-label>Primer apellido</mat-label>
+                      <input
+                        type="text"
+                        matInput
+                        placeholder="Digite su primer apellido"
+                        formControlName="lastName"
+                      />
+                      <mat-hint>Digite su primer apellido</mat-hint>
+                      <mat-error
+                        *ngIf="controls['lastName'].hasError('required')"
+                        >Su primer apellido es requerido</mat-error
+                      >
+                      <mat-error
+                        *ngIf="controls['lastName'].hasError('minlength')"
+                        >Digite por lo menos 3 carácteres</mat-error
+                      >
+                      <mat-error
+                        *ngIf="controls['lastName'].hasError('maxlength')"
+                        >Digite máximo 20 caracteres</mat-error
+                      >
+                      <mat-error
+                        *ngIf="
+                          controls['lastName'].hasError('notAlphabetic') &&
+                          !controls['lastName'].hasError('maxlength') &&
+                          !controls['lastName'].hasError('minlength')
+                        "
+                        >Digite carácteres alfabeticos</mat-error
+                      >
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="form-col">
+                  <div class="form-element">
+                    <mat-form-field>
+                      <mat-label>Segundo apellido</mat-label>
+                      <input
+                        type="text"
+                        matInput
+                        placeholder="Digite su segundo apellido"
+                        formControlName="secondLastname"
+                      />
+                      <mat-hint>Digite su segundo apellido</mat-hint>
+                      <mat-error
+                        *ngIf="controls['secondLastname'].hasError('minlength')"
+                        >Digite por lo menos 3 carácteres</mat-error
+                      >
+                      <mat-error
+                        *ngIf="controls['secondLastname'].hasError('maxlength')"
+                        >Digite máximo 20 caracteres</mat-error
+                      >
+                      <mat-error
+                        *ngIf="
+                          controls['secondLastname'].hasError(
+                            'notAlphabetic'
+                          ) &&
+                          !controls['secondLastname'].hasError('maxlength') &&
+                          !controls['secondLastname'].hasError('minlength')
+                        "
+                        >Digite carácteres alfabeticos</mat-error
+                      >
+                    </mat-form-field>
+                  </div>
+                </div>
               </div>
               <div class="form-element form-select">
                 <mat-form-field>
@@ -208,73 +204,67 @@
           <mat-step [stepControl]="contactForm">
             <form [formGroup]="contactForm">
               <ng-template matStepLabel>Datos de contacto</ng-template>
-              <div class="form-element">
-                <table cellspacing="0">
-                  <tr>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Dirección de email</mat-label>
-                        <input type="email" matInput formControlName="email" />
-                        <mat-hint>Digite su dirección de email</mat-hint>
-                        <mat-error
-                          *ngIf="contact_controls['email'].hasError('required')"
-                          >Su email es requerido</mat-error
-                        >
-                        <mat-error
-                          *ngIf="contact_controls['email'].hasError('email')"
-                          >Digite un email valido</mat-error
-                        >
-                      </mat-form-field>
-                    </td>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Número de teléfono</mat-label>
-                        <input
-                          type="tel"
-                          matInput
-                          formControlName="phonenumber"
-                        />
-                        <mat-hint>Digite su número de teléfono</mat-hint>
-                        <mat-error
-                          *ngIf="
-                            contact_controls['phonenumber'].hasError('required')
-                          "
-                          >Su número de teléfono es requerido</mat-error
-                        >
-                        <mat-error
-                          *ngIf="
-                            contact_controls['phonenumber'].hasError(
-                              'minlength'
-                            )
-                          "
-                          >Digite por lo menos 10 carácteres</mat-error
-                        >
-                        <mat-error
-                          *ngIf="
-                            contact_controls['phonenumber'].hasError(
-                              'maxlength'
-                            )
-                          "
-                          >Digite máximo 10 caracteres</mat-error
-                        >
-                        <mat-error
-                          *ngIf="
-                            contact_controls['phonenumber'].hasError(
-                              'notNumber'
-                            ) &&
-                            !contact_controls['phonenumber'].hasError(
-                              'maxlength'
-                            ) &&
-                            !contact_controls['phonenumber'].hasError(
-                              'minlength'
-                            )
-                          "
-                          >Digite carácteres numéricos</mat-error
-                        >
-                      </mat-form-field>
-                    </td>
-                  </tr>
-                </table>
+              <div class="form-row">
+                <div class="form-col">
+                  <div class="form-element">
+                    <mat-form-field>
+                      <mat-label>Dirección de email</mat-label>
+                      <input type="email" matInput formControlName="email" />
+                      <mat-hint>Digite su dirección de email</mat-hint>
+                      <mat-error
+                        *ngIf="contact_controls['email'].hasError('required')"
+                        >Su email es requerido</mat-error
+                      >
+                      <mat-error
+                        *ngIf="contact_controls['email'].hasError('email')"
+                        >Digite un email valido</mat-error
+                      >
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="form-col">
+                  <div class="form-element">
+                    <mat-form-field>
+                      <mat-label>Número de teléfono</mat-label>
+                      <input
+                        type="tel"
+                        matInput
+                        formControlName="phonenumber"
+                      />
+                      <mat-hint>Digite su número de teléfono</mat-hint>
+                      <mat-error
+                        *ngIf="
+                          contact_controls['phonenumber'].hasError('required')
+                        "
+                        >Su número de teléfono es requerido</mat-error
+                      >
+                      <mat-error
+                        *ngIf="
+                          contact_controls['phonenumber'].hasError('minlength')
+                        "
+                        >Digite por lo menos 10 carácteres</mat-error
+                      >
+                      <mat-error
+                        *ngIf="
+                          contact_controls['phonenumber'].hasError('maxlength')
+                        "
+                        >Digite máximo 10 caracteres</mat-error
+                      >
+                      <mat-error
+                        *ngIf="
+                          contact_controls['phonenumber'].hasError(
+                            'notNumber'
+                          ) &&
+                          !contact_controls['phonenumber'].hasError(
+                            'maxlength'
+                          ) &&
+                          !contact_controls['phonenumber'].hasError('minlength')
+                        "
+                        >Digite carácteres numéricos</mat-error
+                      >
+                    </mat-form-field>
+                  </div>
+                </div>
               </div>
               <div class="form-buttons">
                 <button mat-raised-button matStepperPrevious>

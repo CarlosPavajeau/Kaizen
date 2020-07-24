@@ -98,55 +98,51 @@
                   </mat-error>
                 </mat-form-field>
               </div>
-              <div class="form-element">
-                <table>
-                  <tr>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Fecha de aplicación</mat-label>
-                        <input
-                          matInput
-                          [matDatepicker]="datePicker"
-                          formControlName="date"
-                        />
-                        <mat-datepicker-toggle
-                          matSuffix
-                          [for]="datePicker"
-                        ></mat-datepicker-toggle>
-                        <mat-datepicker #datePicker></mat-datepicker>
-                        <mat-hint>
-                          Elija la fecha en la que quiere la aplicación del
-                          servicio
-                        </mat-hint>
-                        <mat-error
-                          *ngIf="controls['date'].hasError('required')"
-                        >
-                          Debe escoger una fecha de aplicación de los servicios
-                        </mat-error>
-                      </mat-form-field>
-                    </td>
-                    <td>
-                      <mat-form-field>
-                        <mat-label>Hora de aplicación</mat-label>
-                        <input
-                          type="time"
-                          matInput
-                          placeholder="Ejemplo 2:00PM"
-                          formControlName="time"
-                        />
-                        <mat-hint>
-                          Elija la hora en la quie quiere la aplicación del
-                          servicio
-                        </mat-hint>
-                        <mat-error
-                          *ngIf="controls['time'].hasError('required')"
-                        >
-                          Debe escoger la hora de aplicación de los servicios
-                        </mat-error>
-                      </mat-form-field>
-                    </td>
-                  </tr>
-                </table>
+              <div class="form-row">
+                <div class="form-col">
+                  <div class="form-element">
+                    <mat-form-field>
+                      <mat-label>Fecha de aplicación</mat-label>
+                      <input
+                        matInput
+                        [matDatepicker]="datePicker"
+                        formControlName="date"
+                      />
+                      <mat-datepicker-toggle
+                        matSuffix
+                        [for]="datePicker"
+                      ></mat-datepicker-toggle>
+                      <mat-datepicker #datePicker></mat-datepicker>
+                      <mat-hint>
+                        Elija la fecha en la que quiere la aplicación del
+                        servicio
+                      </mat-hint>
+                      <mat-error *ngIf="controls['date'].hasError('required')">
+                        Debe escoger una fecha de aplicación de los servicios
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="form-col">
+                  <div class="form-element">
+                    <mat-form-field>
+                      <mat-label>Hora de aplicación</mat-label>
+                      <input
+                        type="time"
+                        matInput
+                        placeholder="Ejemplo 2:00PM"
+                        formControlName="time"
+                      />
+                      <mat-hint>
+                        Elija la hora en la quie quiere la aplicación del
+                        servicio
+                      </mat-hint>
+                      <mat-error *ngIf="controls['time'].hasError('required')">
+                        Debe escoger la hora de aplicación de los servicios
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
               </div>
               <div class="form-buttons">
                 <button
