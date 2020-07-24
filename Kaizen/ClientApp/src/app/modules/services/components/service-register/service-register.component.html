@@ -79,18 +79,40 @@
         <mat-step>
           <ng-template matStepLabel>Productos utilizados</ng-template>
           <form [formGroup]="serviceProductsForm">
-            <div class="form-element">
-              <app-mat-autocomplete-chip-list-input
-                #productAuto
-                formControlName="productCodes"
-                [label]="'Código producto'"
-                [hint]="'Digite el código del producto'"
-                [filterFunction]="filterProduct"
-                [findFunction]="findProduct"
-                [dataStrFunction]="productStr"
-                [initialData]="products"
-              ></app-mat-autocomplete-chip-list-input>
-            </div>
+            <mat-form-field>
+              <mat-label>Código de producto</mat-label>
+              <input type="text" matInput [formControl]="productCode" />
+              <mat-hint>Digite el código del producto a elegir</mat-hint>
+            </mat-form-field>
+            <mat-slide-toggle
+              color="primary"
+              [formControl]="showSelectedProducts"
+            >
+              Mostrar seleccionados
+            </mat-slide-toggle>
+            <mat-selection-list
+              *ngIf="!(showSelectedProducts.valueChanges | async)"
+              formControlName="productCodes"
+              #productsListSelection="matSelectionList"
+              (selectionChange)="onSelectProduct($event)"
+            >
+              <mat-list-option
+                *ngFor="
+                  let product of products
+                    | filterProducts: (productCode.valueChanges | async)
+                "
+                [value]="product"
+                color="primary"
+              >
+                {{ product.code }} - {{ product.name }}
+              </mat-list-option>
+            </mat-selection-list>
+            <mat-list *ngIf="showSelectedProducts.valueChanges | async">
+              <mat-list-item *ngFor="let product of selectedProducts">
+                <mat-icon matListIcon>done</mat-icon>
+                {{ product.code }} - {{ product.name }}
+              </mat-list-item>
+            </mat-list>
           </form>
           <div class="form-buttons">
             <button matStepperPrevious mat-raised-button>Regresar</button>
@@ -102,18 +124,40 @@
         <mat-step>
           <ng-template matStepLabel>Equipos necesarios</ng-template>
           <form [formGroup]="serviceEquipmentsForm">
-            <div class="form-element">
-              <app-mat-autocomplete-chip-list-input
-                #equipmentAuto
-                formControlName="equipmentCodes"
-                [label]="'Código de equipos'"
-                [hint]="'Digite el código del qeuipo a buscar'"
-                [filterFunction]="filterEquipment"
-                [findFunction]="findEquipment"
-                [dataStrFunction]="equipmentStr"
-                [initialData]="equipments"
-              ></app-mat-autocomplete-chip-list-input>
-            </div>
+            <mat-form-field>
+              <mat-label>Código de equipo</mat-label>
+              <input type="text" matInput [formControl]="equipmentCode" />
+              <mat-hint>Digite el código del equipo a elegir</mat-hint>
+            </mat-form-field>
+            <mat-slide-toggle
+              color="primary"
+              [formControl]="showSelectedEquipments"
+            >
+              Mostrar seleccionados
+            </mat-slide-toggle>
+            <mat-selection-list
+              *ngIf="!(showSelectedEquipments.valueChanges | async)"
+              formControlName="equipmentCodes"
+              #equipmentListSelection="matSelectionList"
+              (selectionChange)="onSelectEquipment($event)"
+            >
+              <mat-list-option
+                *ngFor="
+                  let equipment of equipments
+                    | filterEquipments: (equipmentCode.valueChanges | async)
+                "
+                [value]="equipment"
+                color="primary"
+              >
+                {{ equipment.code }} - {{ equipment.name }}
+              </mat-list-option>
+            </mat-selection-list>
+            <mat-list *ngIf="showSelectedEquipments.valueChanges | async">
+              <mat-list-item *ngFor="let equipment of selectedEquipments">
+                <mat-icon matListIcon>done</mat-icon>
+                {{ equipment.code }} - {{ equipment.name }}
+              </mat-list-item>
+            </mat-list>
           </form>
           <div class="form-buttons">
             <button matStepperPrevious mat-raised-button>
@@ -127,18 +171,42 @@
         <mat-step>
           <ng-template matStepLabel>Empleados aptos</ng-template>
           <form [formGroup]="serviceEmployeesForm">
-            <div class="form-element">
-              <app-mat-autocomplete-chip-list-input
-                #employeeAuto
-                formControlName="employeeCodes"
-                [label]="'Código empleados'"
-                [hint]="'Digite el código del empleado'"
-                [filterFunction]="filterEmployee"
-                [findFunction]="findEmployee"
-                [dataStrFunction]="employeeStr"
-                [initialData]="employees"
-              ></app-mat-autocomplete-chip-list-input>
-            </div>
+            <mat-form-field>
+              <mat-label>Código de empleado</mat-label>
+              <input type="text" matInput [formControl]="employeeCode" />
+              <mat-hint>Digite el código del empleado a elegir</mat-hint>
+            </mat-form-field>
+            <mat-slide-toggle
+              color="primary"
+              [formControl]="showSelectedEmployees"
+            >
+              Mostrar seleccionados
+            </mat-slide-toggle>
+            <mat-selection-list
+              *ngIf="!(showSelectedEmployees.valueChanges | async)"
+              #employeeListSelection="matSelectionList"
+              formControlName="employeeCodes"
+              (selectionChange)="onSelectEmployee($event)"
+            >
+              <mat-list-option
+                *ngFor="
+                  let employee of employees
+                    | filterEmployees: (employeeCode.valueChanges | async)
+                "
+                [value]="employee"
+                color="primary"
+              >
+                {{ employee.id }} - {{ employee.firstName }}
+                {{ employee.lastName }}
+              </mat-list-option>
+            </mat-selection-list>
+            <mat-list *ngIf="showSelectedEmployees.valueChanges | async">
+              <mat-list-item *ngFor="let employee of selectedEmployees">
+                <mat-icon matListIcon>done</mat-icon>
+                {{ employee.id }} - {{ employee.firstName }}
+                {{ employee.lastName }}
+              </mat-list-item>
+            </mat-list>
           </form>
           <div class="form-buttons">
             <button matStepperPrevious mat-raised-button>
