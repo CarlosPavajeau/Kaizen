@@ -73,7 +73,7 @@ mat-form-field {
 }
 
 .form-select {
-  width: 50%;
+  width: 100%;
 }
 
 .form-buttons {
@@ -82,6 +82,30 @@ mat-form-field {
 
 .form-buttons button {
   margin-right: 0.7rem;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.form-col {
+  flex: 1;
+  margin-right: 0;
+}
+
+.form-col:last-child {
+  margin-right: 0;
+}
+
+@media (min-width: 525px) {
+  .form-col {
+    margin-right: 1.5rem;
+  }
+
+  .form-select {
+    width: 50%;
+  }
 }
 
 .search-field {
