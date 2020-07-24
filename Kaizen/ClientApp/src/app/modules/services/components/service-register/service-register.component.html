@@ -76,7 +76,7 @@
             </button>
           </div>
         </mat-step>
-        <mat-step>
+        <mat-step [stepControl]="serviceProductsForm">
           <ng-template matStepLabel>Productos utilizados</ng-template>
           <form [formGroup]="serviceProductsForm">
             <mat-form-field>
@@ -121,7 +121,7 @@
             </button>
           </div>
         </mat-step>
-        <mat-step>
+        <mat-step [stepControl]="serviceEquipmentsForm">
           <ng-template matStepLabel>Equipos necesarios</ng-template>
           <form [formGroup]="serviceEquipmentsForm">
             <mat-form-field>
@@ -168,7 +168,7 @@
             </button>
           </div>
         </mat-step>
-        <mat-step>
+        <mat-step [stepControl]="serviceEmployeesForm">
           <ng-template matStepLabel>Empleados aptos</ng-template>
           <form [formGroup]="serviceEmployeesForm">
             <mat-form-field>
