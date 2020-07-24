@@ -30,6 +30,9 @@ import { UniqueUserDirective } from '@shared/directives/unique-user.directive';
 import { ActivityStatePipe } from './pipes/activity-state.pipe';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { ClientStatePipe } from './pipes/client-state.pipe';
+import { FilterProductsPipe } from './pipes/filter-products.pipe';
+import { FilterEquipmentsPipe } from './pipes/filter-equipments.pipe';
+import { FilterEmployeesPipe } from './pipes/filter-employees.pipe';
 
 @NgModule({
 	declarations: [
@@ -55,7 +58,10 @@ import { ClientStatePipe } from './pipes/client-state.pipe';
 		DigitalSignatureComponent,
 		ActivityStatePipe,
 		ConfirmDialogComponent,
-		ClientStatePipe
+		ClientStatePipe,
+		FilterProductsPipe,
+		FilterEquipmentsPipe,
+		FilterEmployeesPipe
 	],
 	imports: [ CommonModule, FlexLayoutModule, MaterialModule, RouterModule, FormsModule, ReactiveFormsModule ],
 	exports: [
@@ -84,7 +90,10 @@ import { ClientStatePipe } from './pipes/client-state.pipe';
 		ServiceRequestStatePipe,
 		ActivityStatePipe,
 		ConfirmDialogComponent,
-		ClientStatePipe
+		ClientStatePipe,
+		FilterProductsPipe,
+		FilterEquipmentsPipe,
+		FilterEmployeesPipe
 	],
 	providers: [ NotificationsService, HttpErrorHandlerService ]
 })
