@@ -175,6 +175,10 @@ mat-card {
   width: 100%;
 }
 
+.mat-form-field + .mat-slide-toggle {
+  margin-top: 0.7rem;
+}
+
 .royal_azure {
   background: var(--royal_azure);
 }
