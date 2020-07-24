@@ -90,3 +90,7 @@
 .hour-activity-button.periodicity-7 {
   background: var(--rosso_corsa);
 }
+
+.hour-activity-button.periodicity-8 {
+  color: black;
+}
