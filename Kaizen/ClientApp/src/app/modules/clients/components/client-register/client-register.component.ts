@@ -104,21 +104,25 @@ export class ClientRegisterComponent implements OnInit, IForm {
 
 	private initContactPeopleForm() {
 		this.contactPeopleForm = this.formBuilder.group({
-			person_name_1: [ '', Validators.required, Validators.maxLength(50) ],
+			person_name_1: [ '', [ Validators.required, Validators.maxLength(50) ] ],
 			person_phonenumber_1: [
 				'',
-				Validators.required,
-				Validators.minLength(10),
-				Validators.maxLength(10),
-				CharactersValidators.numericCharacters
+				[
+					Validators.required,
+					Validators.minLength(10),
+					Validators.maxLength(10),
+					CharactersValidators.numericCharacters
+				]
 			],
-			person_name_2: [ '', Validators.required, Validators.maxLength(50) ],
+			person_name_2: [ '', [ Validators.required, Validators.maxLength(50) ] ],
 			person_phonenumber_2: [
 				'',
-				Validators.required,
-				Validators.minLength(10),
-				Validators.maxLength(10),
-				CharactersValidators.numericCharacters
+				[
+					Validators.required,
+					Validators.minLength(10),
+					Validators.maxLength(10),
+					CharactersValidators.numericCharacters
+				]
 			]
 		});
 	}
@@ -215,7 +219,9 @@ export class ClientRegisterComponent implements OnInit, IForm {
 			this.clientForm.valid &&
 			this.contactPersonForm.valid &&
 			this.ubicationForm.valid &&
-			(this.controls['clientType'].value === 'JuridicPerson' ? this.legalPersonForm.valid : true)
+			(
+				this.controls['clientType'].value === 'JuridicPerson' ? this.legalPersonForm.valid :
+				true)
 		);
 	}
 
