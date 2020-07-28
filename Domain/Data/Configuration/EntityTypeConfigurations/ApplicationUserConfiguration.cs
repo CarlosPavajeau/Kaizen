@@ -1,4 +1,4 @@
-﻿using Kaizen.Domain.Entities;
+using Kaizen.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,6 +15,9 @@ namespace Kaizen.Domain.Data.Configuration.EntityTypeConfigurations
             builder.Property(p => p.PhoneNumber).HasMaxLength(10);
             builder.Property(p => p.Email).HasMaxLength(150);
             builder.Property(p => p.NormalizedEmail).HasMaxLength(150);
+
+            builder.HasIndex(p => p.Email).IsUnique();
+            builder.HasIndex(p => p.PhoneNumber).IsUnique();
         }
     }
 }

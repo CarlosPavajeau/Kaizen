@@ -9,6 +9,7 @@ using Kaizen.Models.ApplicationUser;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Kaizen.Controllers
 {
@@ -38,11 +39,14 @@ namespace Kaizen.Controllers
             return _mapper.Map<ApplicationUserViewModel>(user);
         }
 
-        [HttpGet("[action]/{username}")]
+        [HttpGet("[action]/{usernameOrEmailOrPhone}")]
         [AllowAnonymous]
-        public async Task<ActionResult<bool>> CheckExists(string username)
+        public async Task<ActionResult<bool>> CheckExists(string usernameOrEmailOrPhone)
         {
-            return (await _userRepository.FindByNameAsync(username)) != null;
+            return await _userRepository.GetAll()
+                .AnyAsync(p => p.UserName == usernameOrEmailOrPhone ||
+                          p.PhoneNumber == usernameOrEmailOrPhone ||
+                          p.Email == usernameOrEmailOrPhone);
         }
 
         // PUT: api/Users/{id}?token={token}
