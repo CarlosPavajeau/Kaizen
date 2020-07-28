@@ -7,11 +7,11 @@ import { ClientExistsValidator } from '@shared/validators/client-exists-validato
 import { ClientService } from '@modules/clients/services/client.service';
 import { ClientState } from '@modules/clients/models/client-state';
 import { Component, OnInit } from '@angular/core';
-import { HttpErrorHandlerService } from '@shared/services/http-error-handler.service';
 import { IForm } from '@core/models/form';
 import { NotificationsService } from '@shared/services/notifications.service';
-import { User } from '@core/models/user';
 import { Router } from '@angular/router';
+import { User } from '@core/models/user';
+import { UserExistsValidator } from '@shared/validators/user-exists-validator';
 
 @Component({
 	selector: 'app-client-register',
@@ -51,6 +51,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
 		private authService: AuthenticationService,
 		private formBuilder: FormBuilder,
 		private clientValidator: ClientExistsValidator,
+		private userValidator: UserExistsValidator,
 		private notificationsService: NotificationsService,
 		private router: Router
 	) {}
@@ -79,12 +80,16 @@ export class ClientRegisterComponent implements OnInit, IForm {
 		this.contactPersonForm = this.formBuilder.group({
 			firstPhonenumber: [
 				'',
-				[
-					Validators.required,
-					Validators.minLength(10),
-					Validators.maxLength(10),
-					CharactersValidators.numericCharacters
-				]
+				{
+					validators: [
+						Validators.required,
+						Validators.minLength(10),
+						Validators.maxLength(10),
+						CharactersValidators.numericCharacters
+					],
+					asyncValidators: [ this.userValidator.validate.bind(this.userValidator) ],
+					updateOn: 'blur'
+				}
 			],
 			secondPhonenumber: [
 				'',
@@ -98,7 +103,14 @@ export class ClientRegisterComponent implements OnInit, IForm {
 				'',
 				[ Validators.minLength(10), Validators.maxLength(15), CharactersValidators.numericCharacters ]
 			],
-			email: [ '', [ Validators.required, Validators.email ] ]
+			email: [
+				'',
+				{
+					validators: [ Validators.required, Validators.email ],
+					asyncValidators: [ this.userValidator.validate.bind(this.userValidator) ],
+					updateOn: 'blur'
+				}
+			]
 		});
 	}
 

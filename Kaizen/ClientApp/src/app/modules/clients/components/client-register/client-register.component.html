@@ -331,6 +331,15 @@
                         "
                         >Digite carácteres numéricos</mat-error
                       >
+                      <mat-error
+                        *ngIf="
+                          contact_controls['firstPhonenumber'].hasError(
+                            'userExists'
+                          )
+                        "
+                      >
+                        El télefono digitado ya está en uso
+                      </mat-error>
                     </mat-form-field>
                   </div>
                 </div>
@@ -471,6 +480,11 @@
                   <mat-error *ngIf="contact_controls['email'].hasError('email')"
                     >Digite un email valido</mat-error
                   >
+                  <mat-error
+                    *ngIf="contact_controls['email'].hasError('userExists')"
+                  >
+                    El email digitado ya está en uso
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="form-buttons">
