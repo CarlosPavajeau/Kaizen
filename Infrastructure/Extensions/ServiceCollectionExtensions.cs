@@ -114,8 +114,7 @@ namespace Kaizen.Infrastructure.Extensions
 
         public static void ConfigureMailTemplates(this IServiceCollection services)
         {
-            services.AddScoped<IMailTemplate<ClientMailTemplate>, ClientMailTemplate>()
-                .AddScoped<IMailTemplate<ContractCloseToExpirationMailTemplate>, ContractCloseToExpirationMailTemplate>();
+            services.AddScoped<IMailTemplate, MailTemplate>();
         }
 
         public static void ConfigureRepositories(this IServiceCollection services)

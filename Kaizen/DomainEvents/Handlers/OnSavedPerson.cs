@@ -4,7 +4,6 @@ using Kaizen.Core.Services;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Events;
 using Kaizen.Hubs;
-using Kaizen.Infrastructure.Services.MailTemplates;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
 
@@ -16,9 +15,9 @@ namespace Kaizen.DomainEvents.Handlers
         {
             public readonly IMailService _mailService;
             private readonly IHubContext<ClientHub> _clientHub;
-            private readonly IMailTemplate<ClientMailTemplate> _mailTemplate;
+            private readonly IMailTemplate _mailTemplate;
 
-            public Handler(IMailService mailService, IHubContext<ClientHub> clientHub, IMailTemplate<ClientMailTemplate> mailTemplate)
+            public Handler(IMailService mailService, IHubContext<ClientHub> clientHub, IMailTemplate mailTemplate)
             {
                 _mailService = mailService;
                 _clientHub = clientHub;
@@ -28,7 +27,7 @@ namespace Kaizen.DomainEvents.Handlers
             public async Task Handle(DomainEventNotification<SavedPerson> notification, CancellationToken cancellationToken)
             {
                 Client savedPerson = notification.DomainEvent.Client;
-                string email = _mailTemplate.LoadTemplate($"{savedPerson.FirstName} {savedPerson.LastName}",
+                string email = _mailTemplate.LoadTemplate("NewClient.html", $"{savedPerson.FirstName} {savedPerson.LastName}",
                                                           $"{savedPerson.TradeName}", $"{savedPerson.ClientAddress.City}",
                                                           $"{savedPerson.ClientAddress.Neighborhood}", $"{savedPerson.ClientAddress.Street}",
                                                           $"{notification.DomainEvent.EmailConfirmationLink}");

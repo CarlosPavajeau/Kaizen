@@ -5,7 +5,6 @@ using Kaizen.Core.Defines;
 using Kaizen.Core.Services;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
-using Kaizen.Infrastructure.Services.MailTemplates;
 
 namespace Kaizen.HostedServices
 {
@@ -15,10 +14,10 @@ namespace Kaizen.HostedServices
 
         private readonly IEmployeesRepository _employeesRepository;
         private readonly IMailService _mailService;
-        private readonly IMailTemplate<ContractCloseToExpirationMailTemplate> _mailTemplate;
+        private readonly IMailTemplate _mailTemplate;
 
         public EmployeeContractHostedService(IEmployeesRepository employeesRepository, IMailService mailService,
-            IMailTemplate<ContractCloseToExpirationMailTemplate> mailTemplate)
+            IMailTemplate mailTemplate)
         {
             _employeesRepository = employeesRepository;
             _mailService = mailService;
@@ -32,7 +31,7 @@ namespace Kaizen.HostedServices
                 IEnumerable<Employee> employees = await _employeesRepository.EmployeesWithContractCloseToExpiration();
                 foreach (var employee in employees)
                 {
-                    string mailMessage = _mailTemplate.LoadTemplate($"{employee.LastName} {employee.FirstName}",
+                    string mailMessage = _mailTemplate.LoadTemplate("ContractCloseToExpiration.html", $"{employee.LastName} {employee.FirstName}",
                                                                     employee.ContractCode,
                                                                     employee.EmployeeContract.EndDate.ToShortDateString());
 
