@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Kaizen.Domain.Entities;
@@ -12,9 +14,11 @@ namespace Kaizen.DomainEvents.Handlers
         public class Handler : INotificationHandler<DomainEventNotification<UpdatedWorkOrder>>
         {
             private readonly IUnitWork _unitWork;
-            public Handler(IUnitWork unitWork)
+            private readonly IServiceInvoicesRepository _serviceInvoicesRepository;
+            public Handler(IUnitWork unitWork, IServiceInvoicesRepository serviceInvoicesRepository)
             {
                 _unitWork = unitWork;
+                _serviceInvoicesRepository = serviceInvoicesRepository;
             }
 
             public async Task Handle(DomainEventNotification<UpdatedWorkOrder> notification, CancellationToken cancellationToken)
@@ -23,14 +27,48 @@ namespace Kaizen.DomainEvents.Handlers
 
                 if (workOrder.WorkOrderState == WorkOrderState.Valid)
                 {
-                    Activity activity = await _unitWork.Activities.FindByIdAsync(workOrder.ActivityCode);
-                    if (activity is null)
-                        return;
-
-                    activity.State = ActivityState.Applied;
-                    _unitWork.Activities.Update(activity);
+                    Activity appliedActivity = await UpdateActivityToApplied(workOrder.ActivityCode);
+                    GenerateInvoice(appliedActivity);
                     await _unitWork.SaveAsync();
                 }
+            }
+
+            private async Task<Activity> UpdateActivityToApplied(int activityCode)
+            {
+                Activity activity = await _unitWork.Activities.FindByIdAsync(activityCode);
+                if (activity != null)
+                {
+                    activity.State = ActivityState.Applied;
+                    _unitWork.Activities.Update(activity);
+                }
+
+                return activity;
+            }
+
+            private void GenerateInvoice(Activity activity)
+            {
+                if (activity is null)
+                    return;
+
+                List<Service> services = activity.ActivitiesServices.Select(s => s.Service).ToList();
+
+                ServiceInvoice serviceInvoice = new ServiceInvoice()
+                {
+                    Client = activity.Client,
+                    ClientId = activity.ClientId,
+                    PaymentMethod = PaymentMethod.None,
+                    State = InvoiceState.Generated,
+                    IVA = 0.19M
+                };
+
+                services.ForEach(service =>
+                {
+                    serviceInvoice.AddDetail(service);
+                });
+
+                serviceInvoice.CalculateTotal();
+
+                _serviceInvoicesRepository.Insert(serviceInvoice);
             }
         }
     }
