@@ -16,5 +16,10 @@ namespace Kaizen.Domain.Entities
         [ForeignKey("ClientId")]
         public Client Client { get; set; }
         public string ClientId { get; set; }
+
+        public void CalculateTotal()
+        {
+            Total = SubTotal * (1 + IVA);
+        }
     }
 }
