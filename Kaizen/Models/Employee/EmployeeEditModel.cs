@@ -1,5 +1,5 @@
 using Kaizen.Domain.Entities;
-using Kaizen.Models.Client;
+using Kaizen.Models.Base;
 
 namespace Kaizen.Models.Employee
 {

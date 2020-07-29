@@ -1,4 +1,4 @@
-namespace Kaizen.Models.Client
+namespace Kaizen.Models.Base
 {
     public class PersonEditModel
     {

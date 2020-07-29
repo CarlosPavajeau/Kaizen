@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Kaizen.Domain.Entities;
+using Kaizen.Models.Base;
 
 namespace Kaizen.Models.Client
 {
