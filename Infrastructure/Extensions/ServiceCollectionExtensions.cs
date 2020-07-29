@@ -129,6 +129,8 @@ namespace Kaizen.Infrastructure.Extensions
             services.AddScoped<IActivitiesRepository, ActivitiesRepository>();
             services.AddScoped<IServiceRequestsRepository, ServiceRequestsRepository>();
             services.AddScoped<IWorkOrdersRepository, WorkOrdersRepository>();
+            services.AddScoped<IServiceInvoicesRepository, ServiceInvoicesRepository>()
+                .AddScoped<IProductInvoicesRepository, ProductInvoicesRepository>();
         }
 
         public static void ConfigureTokenGenerator(this IServiceCollection services)
