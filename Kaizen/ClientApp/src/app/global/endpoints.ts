@@ -8,3 +8,5 @@ export const EQUIPMENTS_API_URL = 'api/Equipments';
 export const UPLOAD_DOWNLOAD_API_URL = 'api/UploadDownload';
 export const ACTIVITIES_API_URL = 'api/Activities';
 export const WORK_ORDERS_API_URL = 'api/WorkOrders';
+export const SERVICE_INVOICES_API_URL = 'api/ServiceInvoices';
+export const PRODUCT_INVOICES_API_URL = 'api/ProductInvoices';
