@@ -1,0 +1,77 @@
+<section class="container">
+  <div class="text-center">
+    <h1>Facturas de servicio</h1>
+  </div>
+  <div class="center-block-content">
+    <div class="form-element search-field"></div>
+    <div>
+      <table
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        class="mat-elevation-z6"
+      >
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef>Código</mat-header-cell>
+          <mat-cell *matCellDef="let serviceInvoice">
+            {{ serviceInvoice.id }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="state">
+          <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
+          <mat-cell *matCellDef="let serviceInvoice">
+            {{ serviceInvoice.state | invoiceState }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="iva">
+          <mat-header-cell *matHeaderCellDef>IVA</mat-header-cell>
+          <mat-cell *matCellDef="let serviceInvoice">
+            {{ serviceInvoice.iva * 100 }} %
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="subtotal">
+          <mat-header-cell *matHeaderCellDef>SubTotal</mat-header-cell>
+          <mat-cell *matCellDef="let serviceInvoice">
+            {{ serviceInvoice.subTotal | currency: "COP":"symbol-narrow" }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="total">
+          <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
+          <mat-cell *matCellDef="let serviceInvoice">
+            {{ serviceInvoice.total | currency: "COP":"symbol-narrow" }}
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef>Opciones</mat-header-cell>
+          <mat-cell *matCellDef="let serviceInvoice">
+            <a
+              mat-icon-button
+              routerLink="/payments/service_invoices/{{ serviceInvoice.id }}"
+              [matTooltip]="'Ver más información'"
+            >
+              <mat-icon>visibility</mat-icon>
+            </a>
+            <div *ngIf="isClient">
+              <a
+                *ngIf="serviceInvoice.state === 0 || serviceInvoice.state === 1"
+                mat-icon-button
+                routerLink="/payments/pay/service_invoice/{{
+                  serviceInvoice.id
+                }}"
+                [matTooltip]="'Pagar factura'"
+              >
+                <mat-icon>monetization_on</mat-icon>
+              </a>
+            </div>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </table>
+      <mat-paginator
+        [pageSizeOptions]="[15, 30, 50, 100]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </div>
+</section>
