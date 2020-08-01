@@ -1,6 +1,10 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Kaizen.Domain.Data;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Kaizen.Infrastructure.Repositories
 {
@@ -8,6 +12,18 @@ namespace Kaizen.Infrastructure.Repositories
     {
         public ServiceInvoicesRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
+        }
+
+        public override async Task<ServiceInvoice> FindByIdAsync(int id)
+        {
+            return await GetAll().Include(s => s.ServiceInvoiceDetails).Include(s => s.Client)
+                .Where(s => s.Id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<ServiceInvoice>> GetClientInvoices(string clientId)
+        {
+            return await GetAll().Include(s => s.ServiceInvoiceDetails).Include(s => s.Client)
+                .Where(s => s.ClientId == clientId).ToListAsync();
         }
     }
 }
