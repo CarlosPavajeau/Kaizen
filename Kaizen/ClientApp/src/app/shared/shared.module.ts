@@ -33,6 +33,8 @@ import { ClientStatePipe } from './pipes/client-state.pipe';
 import { FilterProductsPipe } from './pipes/filter-products.pipe';
 import { FilterEquipmentsPipe } from './pipes/filter-equipments.pipe';
 import { FilterEmployeesPipe } from './pipes/filter-employees.pipe';
+import { InvoiceStatePipe } from './pipes/invoice-state.pipe';
+import { PaymentMethodPipe } from './pipes/payment-method.pipe';
 
 @NgModule({
 	declarations: [
@@ -61,7 +63,9 @@ import { FilterEmployeesPipe } from './pipes/filter-employees.pipe';
 		ClientStatePipe,
 		FilterProductsPipe,
 		FilterEquipmentsPipe,
-		FilterEmployeesPipe
+		FilterEmployeesPipe,
+		InvoiceStatePipe,
+		PaymentMethodPipe
 	],
 	imports: [ CommonModule, FlexLayoutModule, MaterialModule, RouterModule, FormsModule, ReactiveFormsModule ],
 	exports: [
@@ -93,7 +97,9 @@ import { FilterEmployeesPipe } from './pipes/filter-employees.pipe';
 		ClientStatePipe,
 		FilterProductsPipe,
 		FilterEquipmentsPipe,
-		FilterEmployeesPipe
+		FilterEmployeesPipe,
+		InvoiceStatePipe,
+		PaymentMethodPipe
 	],
 	providers: [ NotificationsService, HttpErrorHandlerService ]
 })
