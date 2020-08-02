@@ -7,6 +7,9 @@ import {
 } from '@angular/material/snack-bar';
 import { SnackBarMessage } from '@shared/models/snackbar-message';
 import { Subscription } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { SuccessDialogComponent } from '../components/success-dialog/success-dialog.component';
+import { ErrorDialogComponent } from '../components/error-dialog/error-dialog.component';
 
 @Injectable({
 	providedIn: 'root'
@@ -17,10 +20,34 @@ export class NotificationsService implements OnDestroy {
 	private snackBarRef: MatSnackBarRef<SimpleSnackBar>;
 	private isInstanceVisible = false;
 
-	constructor(private snackBar: MatSnackBar, private zone: NgZone) {}
+	constructor(private snackBar: MatSnackBar, private zone: NgZone, private dialog: MatDialog) {}
 
 	ngOnDestroy(): void {
 		this.subscription.unsubscribe();
+	}
+
+	showSuccessMessage(message: string, onClose: () => void): void {
+		const dialogRef = this.dialog.open(SuccessDialogComponent, {
+			width: '500px',
+			data: message
+		});
+
+		dialogRef.afterClosed().subscribe(() => {
+			onClose();
+		});
+	}
+
+	showErrorMessage(message: string, onClose?: () => void): void {
+		const dialogRef = this.dialog.open(ErrorDialogComponent, {
+			width: '500px',
+			data: message
+		});
+
+		dialogRef.afterClosed().subscribe(() => {
+			if (onClose) {
+				onClose();
+			}
+		});
 	}
 
 	addMessage(message: string, action?: string, horizontalPosition?: MatSnackBarHorizontalPosition) {
