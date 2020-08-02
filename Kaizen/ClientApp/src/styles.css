@@ -39,6 +39,12 @@
   --rich_black_fogra29: #00091d;
   --moss_green: #9d9158;
   --ciber_grape: #6d548c;
+  --dark-cornflower-blue: hsla(220, 60%, 36%, 1);
+  --forest-green-web: hsla(140, 76%, 31%, 1);
+  --green-blue-crayola: hsla(201, 96%, 43%, 1);
+  --powder-blue: hsla(167, 40%, 82%, 1);
+  --cultured: hsla(0, 9%, 98%, 1);
+  --white: hsla(0, 0%, 100%, 1);
 }
 
 a {
@@ -247,6 +253,22 @@ mat-card {
 
 table {
   width: 100%;
+}
+
+.error-icon,
+.success-icon {
+  font-size: 70px !important;
+  width: 70px;
+  height: 70px;
+}
+
+.success-icon {
+  color: var(--forest-green-web);
+}
+
+.success-button {
+  background: var(--forest-green-web);
+  color: white;
 }
 
 /*Animaciones bonitas UwU*/
