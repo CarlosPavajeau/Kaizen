@@ -35,6 +35,8 @@ import { FilterEquipmentsPipe } from './pipes/filter-equipments.pipe';
 import { FilterEmployeesPipe } from './pipes/filter-employees.pipe';
 import { InvoiceStatePipe } from './pipes/invoice-state.pipe';
 import { PaymentMethodPipe } from './pipes/payment-method.pipe';
+import { SuccessDialogComponent } from './components/success-dialog/success-dialog.component';
+import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 
 @NgModule({
 	declarations: [
@@ -65,7 +67,9 @@ import { PaymentMethodPipe } from './pipes/payment-method.pipe';
 		FilterEquipmentsPipe,
 		FilterEmployeesPipe,
 		InvoiceStatePipe,
-		PaymentMethodPipe
+		PaymentMethodPipe,
+		SuccessDialogComponent,
+		ErrorDialogComponent
 	],
 	imports: [ CommonModule, FlexLayoutModule, MaterialModule, RouterModule, FormsModule, ReactiveFormsModule ],
 	exports: [

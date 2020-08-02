@@ -1,0 +1,11 @@
+.success-button {
+  background: #138a3a;
+  color: white;
+}
+
+.success-icon {
+  font-size: 70px !important;
+  width: 70px;
+  height: 70px;
+  color: #138a3a;
+}
