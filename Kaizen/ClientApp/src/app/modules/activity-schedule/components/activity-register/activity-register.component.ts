@@ -122,20 +122,28 @@ export class ActivityRegisterComponent implements OnInit, IForm {
 			const activity = this.mapActivity();
 			this.activityScheduleService.saveActivity(activity).subscribe((activitySave) => {
 				if (activitySave) {
-					this.notificationsService.addMessage(`Actividad N° ${activitySave.code} registrada`, 'Ok');
 					if (this.fromServiceRequest) {
 						this.serviceRequest.state = ServiceRequestState.Accepted;
 						this.serviceRequestService
 							.updateServiceRequest(this.serviceRequest)
 							.subscribe((serviceRequestUpdate) => {
-								this.router.navigateByUrl('/service_requests');
+								this.onSaveActivity(activitySave.code, '/service_requests');
 							});
 					} else {
-						this.router.navigateByUrl('/activity_schedule');
+						this.onSaveActivity(activitySave.code, '/activity_schedule');
 					}
 				}
 			});
 		}
+	}
+
+	private onSaveActivity(activityCode: number, url: string): void {
+		this.notificationsService.showSuccessMessage(
+			`Actividad N° ${activityCode} agendada con éxito. Tambíen se agendaron todas las actividades siguientes dependiendo de la periodicidad de la actividad`,
+			() => {
+				this.router.navigateByUrl(url);
+			}
+		);
 	}
 
 	private mapActivity(): Activity {

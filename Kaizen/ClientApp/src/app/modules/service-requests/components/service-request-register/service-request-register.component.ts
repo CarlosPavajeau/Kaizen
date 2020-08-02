@@ -80,13 +80,16 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
 			const serviceRequest = this.mapServiceRequest();
 			this.serviceRequestService.saveServiceRequest(serviceRequest).subscribe((serviceRequestSave) => {
 				if (serviceRequestSave) {
-					this.notificationService.addMessage(
-						`Solicitud de servicio N° ${serviceRequestSave.code} registrada`,
-						'Ok'
+					this.notificationService.showSuccessMessage(
+						`Solicitud de servicio N° ${serviceRequestSave.code} registrada. Espere nuestra pronta respuesta.`,
+						() => {
+							this.router.navigateByUrl('/user/profile');
+						}
 					);
-					setTimeout(() => {
-						this.router.navigateByUrl('/user/profile');
-					}, 2000);
+				} else {
+					this.notificationService.showErrorMessage(
+						'La solicitud de servicio no pudo ser registrada. Por favor verifique que los campos enviados son correctos.'
+					);
 				}
 			});
 		}
