@@ -1,21 +1,20 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { IForm } from '@core/models/form';
-import { AbstractControl, FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { HttpEventType } from '@angular/common/http';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { Router } from '@angular/router';
+import { FileResponse } from '@app/core/models/file-response';
+import { MonthBit, MONTHS } from '@app/core/models/months';
+import { UploadDownloadService } from '@app/core/services/upload-download.service';
+import { NotificationsService } from '@app/shared/services/notifications.service';
+import { IForm } from '@core/models/form';
 import { ProductService } from '@modules/inventory/products/services/product.service';
 import { ProductExistsValidator } from '@shared/validators/product-exists-validator';
-import { Observable, of } from 'rxjs';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { startWith, map } from 'rxjs/operators';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { MONTHS_NAMES } from '@global/months';
-import { UploadDownloadService } from '@app/core/services/upload-download.service';
-import { HttpEventType, HttpEvent } from '@angular/common/http';
-import { FileResponse } from '@app/core/models/file-response';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { Product } from '../../models/product';
-import { Router } from '@angular/router';
-import { NotificationsService } from '@app/shared/services/notifications.service';
-import { MonthBit, MONTHS } from '@app/core/models/months';
 
 @Component({
 	selector: 'app-product-register',
@@ -104,10 +103,12 @@ export class ProductRegisterComponent implements OnInit, IForm {
 					const product = this.mapProduct(fileNames);
 
 					this.productService.saveProduct(product).subscribe((productSave) => {
-						this.notificationService.addMessage(`Producto ${productSave.name} registrado`, 'Ok');
-						setTimeout(() => {
-							this.router.navigateByUrl('/inventory/products');
-						}, 2000);
+						this.notificationService.showSuccessMessage(
+							`El producto ${productSave.name} fue registrado con éxito`,
+							() => {
+								this.router.navigateByUrl('/inventory/products');
+							}
+						);
 					});
 				}
 			});

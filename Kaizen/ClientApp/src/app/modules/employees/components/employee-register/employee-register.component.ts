@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { EmployeeService } from '@modules/employees/services/employee.service';
-import { FormBuilder, AbstractControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthenticationService } from '@core/authentication/authentication.service';
-import { NotificationsService } from '@shared/services/notifications.service';
-import { EmployeeExistsValidator } from '@shared/validators/employee-exists-validator';
 import { IForm } from '@core/models/form';
-import { CharactersValidators } from '@shared/validators/characters-validators';
 import { User } from '@core/models/user';
+import { ADMINISTRATOR_ROLE, EMPLOYEE_ROLE, OFFICE_EMPLOYEE_ROLE, TECHNICAL_EMPLOYEE_ROLE } from '@global/roles';
 import { Employee } from '@modules/employees/models/employee';
 import { EmployeeCharge } from '@modules/employees/models/employee-charge';
-import { OFFICE_EMPLOYEE_ROLE, TECHNICAL_EMPLOYEE_ROLE, ADMINISTRATOR_ROLE, EMPLOYEE_ROLE } from '@global/roles';
-import { Router } from '@angular/router';
+import { EmployeeService } from '@modules/employees/services/employee.service';
+import { NotificationsService } from '@shared/services/notifications.service';
+import { CharactersValidators } from '@shared/validators/characters-validators';
+import { EmployeeExistsValidator } from '@shared/validators/employee-exists-validator';
 
 @Component({
 	selector: 'app-employee-register',
@@ -153,12 +153,12 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
 				const employee: Employee = this.mapEmployee(userRegister.id);
 
 				this.employeeService.saveEmployee(employee).subscribe((employeeRegister) => {
-					this.notificationsService.addMessage(
-						`Empleado ${employeeRegister.firstName} registrado con exito`,
-						'Ok'
+					this.notificationsService.showSuccessMessage(
+						`El empleado ${employeeRegister.firstName} ${employeeRegister.lastName} fue registrado con éxito`,
+						() => {
+							this.router.navigateByUrl('/employees');
+						}
 					);
-					this.onReset();
-					this.router.navigateByUrl('/employees');
 				});
 			});
 		}
@@ -180,9 +180,5 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
 			},
 			userId: userId
 		};
-	}
-
-	onReset(): void {
-		this.employeeForm.reset();
 	}
 }

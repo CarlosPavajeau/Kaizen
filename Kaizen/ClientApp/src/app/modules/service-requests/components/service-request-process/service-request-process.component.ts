@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ServiceRequestService } from '../../services/service-request.service';
-import { ServiceRequest } from '../../models/service-request';
-import { EmployeeService } from '@app/modules/employees/services/employee.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { Employee } from '@app/modules/employees/models/employee';
-import { ServiceRequestState } from '../../models/service-request-state';
-import { SelectDateModalComponent } from '@app/shared/components/select-date-modal/select-date-modal.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Employee } from '@modules/employees/models/employee';
+import { EmployeeService } from '@modules/employees/services/employee.service';
+import { ServiceRequest } from '@modules/service-requests/models/service-request';
+import { ServiceRequestState } from '@modules/service-requests/models/service-request-state';
+import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
+import { SelectDateModalComponent } from '@shared/components/select-date-modal/select-date-modal.component';
+import { NotificationsService } from '@shared/services/notifications.service';
 
 @Component({
 	selector: 'app-service-request-process',
@@ -23,7 +24,8 @@ export class ServiceRequestProcessComponent implements OnInit {
 		private employeeService: EmployeeService,
 		private activateRoute: ActivatedRoute,
 		private router: Router,
-		public dateDialog: MatDialog
+		public dateDialog: MatDialog,
+		private notificationsService: NotificationsService
 	) {}
 
 	ngOnInit(): void {
@@ -67,7 +69,12 @@ export class ServiceRequestProcessComponent implements OnInit {
 					.updateServiceRequest(this.serviceRequest)
 					.subscribe((serviceRequestUpdate) => {
 						if (serviceRequestUpdate) {
-							this.router.navigateByUrl('/service_requests');
+							this.notificationsService.showSuccessMessage(
+								`Fecha de solicitud de servicio modificada con éxito`,
+								() => {
+									this.router.navigateByUrl('/service_requests');
+								}
+							);
 						}
 					});
 			}

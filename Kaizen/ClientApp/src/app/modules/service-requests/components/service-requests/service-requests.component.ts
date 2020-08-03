@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NewServiceRequestSignalrService } from '@modules/service-requests/services/new-service-request-signalr.service';
-import { NotificationsService } from '@shared/services/notifications.service';
 import { ServiceRequestState } from '@app/modules/service-requests/models/service-request-state';
 import { ServiceRequest } from '@modules/service-requests/models/service-request';
+import { NewServiceRequestSignalrService } from '@modules/service-requests/services/new-service-request-signalr.service';
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
+import { NotificationsService } from '@shared/services/notifications.service';
 
 @Component({
 	selector: 'app-service-requests',
