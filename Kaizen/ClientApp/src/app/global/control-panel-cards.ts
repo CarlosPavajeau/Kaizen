@@ -3,14 +3,14 @@ import { DashboardCard } from '@core/models/dashboard-card';
 export const DASHBOARS_CARDS: { [role: string]: DashboardCard[] } = {
 	Client: [
 		{ title: 'Datos de acceso', iconName: 'settings' },
-		{ title: 'Mis facturas', iconName: 'attach_money' },
+		{ title: 'Mis facturas', iconName: 'attach_money', url: '/payments/service_invoices' },
 		{ title: 'Solicitar un servicio', iconName: 'add_circle', url: '/service_requests/register' },
 		{ title: 'Mis visitas', iconName: 'info', url: '/activity_schedule/client_schedule' },
 		{ title: 'Evaluar servicios', iconName: 'stars' }
 	],
 	Administrator: [
 		{ title: 'Datos de acceso', iconName: 'settings' },
-		{ title: 'Facturas', iconName: 'attach_money' },
+		{ title: 'Facturas', iconName: 'attach_money', url: '/payments/service_invoices' },
 		{
 			title: 'Gestión de productos',
 			iconName: 'label',
