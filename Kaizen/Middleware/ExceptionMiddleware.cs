@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Kaizen.Core.Exceptions;
 using Kaizen.Models.Error;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace Kaizen.Middleware
 {
@@ -36,19 +37,18 @@ namespace Kaizen.Middleware
             if (exception is HttpException httpException)
             {
                 httpContext.Response.StatusCode = httpException.StatusCode;
+                return httpContext.Response.WriteAsync(new ErrorDetail
+                {
+                    StatusCode = httpContext.Response.StatusCode,
+                    Message = exception.Message
+
+                }.ToString());
             }
             else
             {
                 httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return httpContext.Response.WriteAsync(JsonConvert.SerializeObject(exception));
             }
-
-            return httpContext.Response.WriteAsync(new ErrorDetail
-            {
-                StatusCode = httpContext.Response.StatusCode,
-                Message = exception.Message
-
-            }.ToString());
-
         }
     }
 }
