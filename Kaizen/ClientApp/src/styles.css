@@ -258,8 +258,8 @@ table {
 .error-icon,
 .success-icon {
   font-size: 70px !important;
-  width: 70px;
-  height: 70px;
+  width: 70px !important;
+  height: 70px !important;
 }
 
 .success-icon {
