@@ -1,4 +1,6 @@
+import { ErrorDialogComponent } from '../components/error-dialog/error-dialog.component';
 import { Injectable, NgZone, OnDestroy } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import {
 	MatSnackBar,
 	MatSnackBarHorizontalPosition,
@@ -7,9 +9,7 @@ import {
 } from '@angular/material/snack-bar';
 import { SnackBarMessage } from '@shared/models/snackbar-message';
 import { Subscription } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
 import { SuccessDialogComponent } from '../components/success-dialog/success-dialog.component';
-import { ErrorDialogComponent } from '../components/error-dialog/error-dialog.component';
 
 @Injectable({
 	providedIn: 'root'
@@ -27,26 +27,30 @@ export class NotificationsService implements OnDestroy {
 	}
 
 	showSuccessMessage(message: string, onClose: () => void): void {
-		const dialogRef = this.dialog.open(SuccessDialogComponent, {
-			width: '500px',
-			data: message
-		});
+		this.zone.run(() => {
+			const dialogRef = this.dialog.open(SuccessDialogComponent, {
+				width: '500px',
+				data: message
+			});
 
-		dialogRef.afterClosed().subscribe(() => {
-			onClose();
+			dialogRef.afterClosed().subscribe(() => {
+				onClose();
+			});
 		});
 	}
 
 	showErrorMessage(message: string, onClose?: () => void): void {
-		const dialogRef = this.dialog.open(ErrorDialogComponent, {
-			width: '500px',
-			data: message
-		});
+		this.zone.run(() => {
+			const dialogRef = this.dialog.open(ErrorDialogComponent, {
+				width: '500px',
+				data: message
+			});
 
-		dialogRef.afterClosed().subscribe(() => {
-			if (onClose) {
-				onClose();
-			}
+			dialogRef.afterClosed().subscribe(() => {
+				if (onClose) {
+					onClose();
+				}
+			});
 		});
 	}
 
