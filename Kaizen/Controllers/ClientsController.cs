@@ -35,7 +35,8 @@ namespace Kaizen.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ClientViewModel>>> GetClients()
         {
-            return await _clientsRepository.GetAll().Select(c => _mapper.Map<ClientViewModel>(c)).ToListAsync();
+            List<Client> clients = await _clientsRepository.GetAll().ToListAsync();
+            return Ok(_mapper.Map<IEnumerable<ClientViewModel>>(clients));
         }
 
         // GET: api/Clients/Requests
@@ -53,10 +54,9 @@ namespace Kaizen.Controllers
             Client client = await _clientsRepository.FindByIdAsync(id);
 
             if (client == null)
-                throw new ClientNotRegister();
+                throw new ClientDoesNotExists(id);
 
-            ClientViewModel clientViewModel = _mapper.Map<ClientViewModel>(client);
-            return clientViewModel;
+            return _mapper.Map<ClientViewModel>(client);
         }
 
         // GET: api/Clients/ClientId/{userId}
@@ -82,7 +82,7 @@ namespace Kaizen.Controllers
         {
             Client client = await _clientsRepository.FindByIdAsync(id);
             if (client is null)
-                throw new ClientNotRegister();
+                throw new ClientDoesNotExists(id);
 
             _mapper.Map(clientModel, client);
             _clientsRepository.Update(client);
@@ -95,7 +95,7 @@ namespace Kaizen.Controllers
             {
                 if (!ClientExists(id))
                 {
-                    return NotFound();
+                    throw new ClientDoesNotExists(id);
                 }
                 else
                 {
