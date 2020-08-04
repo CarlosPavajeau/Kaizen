@@ -7,6 +7,7 @@ using Kaizen.Domain.Repositories;
 using Kaizen.Extensions;
 using Kaizen.Models.ApplicationUser;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -75,13 +76,31 @@ namespace Kaizen.Controllers
 
             IdentityResult createResult = await _userRepository.CreateAsync(user, applicationUserModel.Password);
             if (!createResult.Succeeded)
-                throw new UserNotCreate();
+            {
+                SetIdentityResultErrors(createResult);
+                return BadRequest(new ValidationProblemDetails(ModelState)
+                {
+                    Status = StatusCodes.Status400BadRequest
+                });
+            }
 
             IdentityResult roleResult = await _userRepository.AddToRoleAsync(user, applicationUserModel.Role);
             if (!roleResult.Succeeded)
-                throw new UserNotCreate();
+            {
+                SetIdentityResultErrors(roleResult);
+                return BadRequest(new ValidationProblemDetails(ModelState)
+                {
+                    Status = StatusCodes.Status400BadRequest
+                });
+            }
 
             return await GenerateAuthenticateUser(user);
+        }
+
+        private void SetIdentityResultErrors(IdentityResult identityResult)
+        {
+            foreach (IdentityError error in identityResult.Errors)
+                ModelState.AddModelError(error.Code, error.Description);
         }
 
         [AllowAnonymous]
