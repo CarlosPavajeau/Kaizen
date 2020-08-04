@@ -1,18 +1,19 @@
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '@core/authentication/authentication.service';
-import { ClientService } from '@modules/clients/services/client.service';
 import { Component, OnInit } from '@angular/core';
 import { IForm } from '@core/models/form';
 import { NotificationsService } from '@shared/services/notifications.service';
 import { PERIODICITIES, Periodicity } from '@modules/service-requests/models/periodicity-type';
-import { ServiceRequestState } from '@app/modules/service-requests/models/service-request-state';
+import { ServiceRequestState } from '@modules/service-requests/models/service-request-state';
 import { Router } from '@angular/router';
-import { Service } from '@app/modules/services/models/service';
+import { Service } from '@modules/services/models/service';
 import { ServiceRequest } from '@modules/service-requests/models/service-request';
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
 import { ServiceService } from '@modules/services/services/service.service';
-import { Client } from '@app/modules/clients/models/client';
-import { buildIsoDate } from '@app/core/utils/date-utils';
+import { Client } from '@modules/clients/models/client';
+import { buildIsoDate } from '@core/utils/date-utils';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
 	selector: 'app-service-request-register',
@@ -33,7 +34,6 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
 	constructor(
 		private serviceRequestService: ServiceRequestService,
 		private serviceService: ServiceService,
-		private clientService: ClientService,
 		private authService: AuthenticationService,
 		private notificationService: NotificationsService,
 		private formBuilder: FormBuilder,
@@ -47,19 +47,22 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
 
 	private loadData(): void {
 		const client: Client = JSON.parse(localStorage.getItem('current_person'));
-		this.serviceRequestService.getPendingServiceRequest(client.id).subscribe((pendingRequest) => {
-			this.serviceRequest = pendingRequest;
-			if (this.serviceRequest && this.serviceRequest.state === ServiceRequestState.PendingSuggestedDate) {
-				this.router.navigateByUrl('/service_requests/new_date');
-			}
-		});
+		this.serviceRequestService
+			.getPendingServiceRequest(client.id)
+			.pipe(
+				catchError(() => {
+					return of(null);
+				})
+			)
+			.subscribe((pendingRequest) => {
+				this.serviceRequest = pendingRequest;
+				if (this.serviceRequest && this.serviceRequest.state === ServiceRequestState.PendingSuggestedDate) {
+					this.router.navigateByUrl('/service_requests/new_date');
+				}
+			});
 
 		this.periodicities = PERIODICITIES;
-
-		const user_id = this.authService.getCurrentUser().id;
-		this.clientService.getClientId(user_id).subscribe((clientId) => {
-			this.clientId = clientId + '';
-		});
+		this.clientId = client.id;
 
 		this.serviceService.getServices().subscribe((services) => {
 			this.services = services;
