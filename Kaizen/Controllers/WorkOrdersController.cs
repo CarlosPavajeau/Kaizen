@@ -39,11 +39,8 @@ namespace Kaizen.Controllers
         public async Task<ActionResult<WorkOrderViewModel>> GetWorkOrder(int id)
         {
             WorkOrder workOrder = await _workOrdersRepository.FindByIdAsync(id);
-
             if (workOrder == null)
-            {
-                return NotFound();
-            }
+                return NotFound($"La orden de trabajo con el código { id } no se encuentra registrada.");
 
             return _mapper.Map<WorkOrderViewModel>(workOrder);
         }
@@ -52,6 +49,8 @@ namespace Kaizen.Controllers
         public async Task<ActionResult<WorkOrderViewModel>> ActivityWorkOrder(int id)
         {
             WorkOrder workOrder = await _workOrdersRepository.FindByActivityCodeAsync(id);
+            if (workOrder == null)
+                return NotFound($"No existe una orden de trabajo asosiada a la actividad con código { id }");
             return _mapper.Map<WorkOrderViewModel>(workOrder);
         }
 
@@ -70,9 +69,7 @@ namespace Kaizen.Controllers
         {
             WorkOrder workOrder = await _workOrdersRepository.FindByIdAsync(id);
             if (workOrder is null)
-            {
-                return BadRequest();
-            }
+                return BadRequest($"No se pudo actualizar la orden de trabjo con código { id }. Verifique la existencia de esta.");
 
             _mapper.Map(workOrderModel, workOrder);
             _workOrdersRepository.Update(workOrder);
@@ -86,7 +83,7 @@ namespace Kaizen.Controllers
             {
                 if (!WorkOrderExists(id))
                 {
-                    return NotFound();
+                    return NotFound($"No existe una orden de trabajo asosiada a la actividad con código { id }");
                 }
                 else
                 {
@@ -104,6 +101,7 @@ namespace Kaizen.Controllers
         public async Task<ActionResult<WorkOrderViewModel>> PostWorkOrder(WorkOrderInputModel workOrderModel)
         {
             WorkOrder workOrder = _mapper.Map<WorkOrder>(workOrderModel);
+
             _workOrdersRepository.Insert(workOrder);
             await _unitWork.SaveAsync();
 
@@ -117,7 +115,7 @@ namespace Kaizen.Controllers
             WorkOrder workOrder = await _workOrdersRepository.FindByIdAsync(id);
             if (workOrder == null)
             {
-                return NotFound();
+                return NotFound($"No se pudo eliminar la orden de trabjo con código { id }. Verifique la existencia de esta.");
             }
 
             _workOrdersRepository.Delete(workOrder);

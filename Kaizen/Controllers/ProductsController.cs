@@ -38,11 +38,8 @@ namespace Kaizen.Controllers
         public async Task<ActionResult<ProductViewModel>> GetProduct(string id)
         {
             Product product = await _productsRepository.FindByIdAsync(id);
-
             if (product == null)
-            {
-                return NotFound();
-            }
+                return NotFound($"El producto identificado con el código {id} no está registrado.");
 
             return _mapper.Map<ProductViewModel>(product);
         }
@@ -58,12 +55,12 @@ namespace Kaizen.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(string id, ProductEditModel productModel)
+        public async Task<ActionResult<ProductViewModel>> PutProduct(string id, ProductEditModel productModel)
         {
             Product product = await _productsRepository.FindByIdAsync(id);
             if (product is null)
             {
-                return BadRequest();
+                return BadRequest($"El producto identificado con el código {id} no está registrado.");
             }
 
             _mapper.Map(productModel, product);
@@ -77,7 +74,7 @@ namespace Kaizen.Controllers
             {
                 if (!ProductExists(id))
                 {
-                    return NotFound();
+                    return NotFound($"Error de actualización. El producto identificado con el código {id} no está registrado.");
                 }
                 else
                 {
@@ -85,7 +82,7 @@ namespace Kaizen.Controllers
                 }
             }
 
-            return NoContent();
+            return _mapper.Map<ProductViewModel>(product);
         }
 
         // POST: api/Products
@@ -105,7 +102,7 @@ namespace Kaizen.Controllers
             {
                 if (ProductExists(product.Code))
                 {
-                    return Conflict();
+                    return Conflict($"Ya existe un producto registrado con el código { productModel.Code }.");
                 }
                 else
                 {
@@ -122,9 +119,7 @@ namespace Kaizen.Controllers
         {
             Product product = await _productsRepository.FindByIdAsync(id);
             if (product == null)
-            {
-                return NotFound();
-            }
+                return NotFound($"El producto identificado con el código {id} no está registrado.");
 
             return _mapper.Map<ProductViewModel>(product);
         }

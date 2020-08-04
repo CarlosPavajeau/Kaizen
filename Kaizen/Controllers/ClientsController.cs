@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Kaizen.Core.Exceptions.Client;
 using Kaizen.Core.Exceptions.User;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Events;
@@ -52,9 +51,8 @@ namespace Kaizen.Controllers
         public async Task<ActionResult<ClientViewModel>> GetClient(string id)
         {
             Client client = await _clientsRepository.FindByIdAsync(id);
-
             if (client == null)
-                throw new ClientDoesNotExists(id);
+                return NotFound($"El cliente con identificación {id} no se encuentra registrado.");
 
             return _mapper.Map<ClientViewModel>(client);
         }
@@ -82,7 +80,7 @@ namespace Kaizen.Controllers
         {
             Client client = await _clientsRepository.FindByIdAsync(id);
             if (client is null)
-                throw new ClientDoesNotExists(id);
+                return BadRequest($"El cliente con identificación {id} no se encuentra registrado.");
 
             _mapper.Map(clientModel, client);
             _clientsRepository.Update(client);
@@ -95,7 +93,7 @@ namespace Kaizen.Controllers
             {
                 if (!ClientExists(id))
                 {
-                    throw new ClientDoesNotExists(id);
+                    return NotFound($"Actualización fallida. El cliente con identificación {id} no se encuentra registrado.");
                 }
                 else
                 {
@@ -132,11 +130,11 @@ namespace Kaizen.Controllers
             {
                 if (ClientExists(clientInput.Id))
                 {
-                    throw new ClientAlreadyRegistered(client.Id);
+                    return Conflict($"El cliente con identificación {clientInput.Id} ya se encuentra registrado.");
                 }
                 else
                 {
-                    throw new ClientNotRegister();
+                    throw;
                 }
             }
 

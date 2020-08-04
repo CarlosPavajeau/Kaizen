@@ -40,11 +40,8 @@ namespace Kaizen.Controllers
         public async Task<ActionResult<ServiceRequestViewModel>> GetServiceRequest(int id)
         {
             ServiceRequest serviceRequest = await _serviceRequestsRepository.FindByIdAsync(id);
-
             if (serviceRequest == null)
-            {
-                return NotFound();
-            }
+                return NotFound($"No existe ninguna solicitud de servicio con el código {id}.");
 
             return _mapper.Map<ServiceRequestViewModel>(serviceRequest);
         }
@@ -53,9 +50,9 @@ namespace Kaizen.Controllers
         public async Task<ActionResult<ServiceRequestViewModel>> PendingServiceRequest(string clientId)
         {
             ServiceRequest serviceRequest = await _serviceRequestsRepository.GetPendingCustomerServiceRequest(clientId);
-
             if (serviceRequest is null)
-                return NotFound();
+                return NotFound($"No existe ninguna solicitud de servicio pendiente para el cliente identificaco con {clientId}.");
+
             return _mapper.Map<ServiceRequestViewModel>(serviceRequest);
         }
 
@@ -67,9 +64,7 @@ namespace Kaizen.Controllers
         {
             ServiceRequest serviceRequest = await _serviceRequestsRepository.FindByIdAsync(id);
             if (serviceRequest is null)
-            {
-                return BadRequest();
-            }
+                return BadRequest($"No existe ninguna solicitud de servicio con el código {id}.");
 
             _mapper.Map(serviceRequestModel, serviceRequest);
             _serviceRequestsRepository.Update(serviceRequest);
@@ -82,7 +77,7 @@ namespace Kaizen.Controllers
             {
                 if (!ServiceRequestExists(id))
                 {
-                    return NotFound();
+                    return NotFound($"Actualización fallida. No existe ninguna solicitud de servicio con el código {id}.");
                 }
                 else
                 {
@@ -122,7 +117,7 @@ namespace Kaizen.Controllers
             ServiceRequest serviceRequest = await _serviceRequestsRepository.FindByIdAsync(id);
             if (serviceRequest == null)
             {
-                return NotFound();
+                return NotFound($"No existe ninguna solicitud de servicio con el código {id}.");
             }
 
             _serviceRequestsRepository.Delete(serviceRequest);

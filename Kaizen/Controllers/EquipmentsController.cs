@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Kaizen.Core.Exceptions.Equipments;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.Models.Equipment;
@@ -40,9 +39,8 @@ namespace Kaizen.Controllers
         public async Task<ActionResult<EquipmentViewModel>> GetEquipment(string id)
         {
             Equipment equipment = await _equipmentsRepository.FindByIdAsync(id);
-
             if (equipment == null)
-                throw new EquipmentDoesNotExists();
+                return NotFound($"No existe ningún equipo con el código {id}.");
 
             return _mapper.Map<EquipmentViewModel>(equipment);
         }
@@ -58,11 +56,11 @@ namespace Kaizen.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEquipment(string id, EquipmentEditModel equipmentModel)
+        public async Task<ActionResult<EquipmentViewModel>> PutEquipment(string id, EquipmentEditModel equipmentModel)
         {
             Equipment equipment = await _equipmentsRepository.FindByIdAsync(id);
             if (equipment is null)
-                throw new EquipmentDoesNotExists();
+                return BadRequest($"No existe ningún equipo con el código {id}.");
 
             _mapper.Map(equipmentModel, equipment);
             _equipmentsRepository.Update(equipment);
@@ -75,7 +73,7 @@ namespace Kaizen.Controllers
             {
                 if (!EquipmentExists(id))
                 {
-                    throw new EquipmentDoesNotExists();
+                    return NotFound($"Actualizacón fallida. No existe ningún equipo con el código {id}.");
                 }
                 else
                 {
@@ -83,7 +81,7 @@ namespace Kaizen.Controllers
                 }
             }
 
-            return NoContent();
+            return _mapper.Map<EquipmentViewModel>(equipment);
         }
 
         // POST: api/Equipments
@@ -103,11 +101,11 @@ namespace Kaizen.Controllers
             {
                 if (EquipmentExists(equipment.Code))
                 {
-                    throw new EquipmentAlreadyRegistered();
+                    return Conflict($"Ya existe un equipo con el código {equipmentModel.Code}.");
                 }
                 else
                 {
-                    throw new EquipmentNotRegister();
+                    throw;
                 }
             }
 
@@ -121,7 +119,7 @@ namespace Kaizen.Controllers
             Equipment equipment = await _equipmentsRepository.FindByIdAsync(id);
             if (equipment == null)
             {
-                return NotFound();
+                return NotFound($"No existe ningún equipo con el código {id}.");
             }
 
             return _mapper.Map<EquipmentViewModel>(equipment);

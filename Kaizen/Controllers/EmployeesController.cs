@@ -60,9 +60,8 @@ namespace Kaizen.Controllers
         public async Task<ActionResult<EmployeeViewModel>> GetEmployee(string id)
         {
             Employee employee = await _employeesRepository.FindByIdAsync(id);
-
             if (employee == null)
-                throw new EmployeeDoesNotExists();
+                return NotFound($"No existe ningún empleado registrado con el código {id}.");
 
             return _mapper.Map<EmployeeViewModel>(employee);
         }
@@ -78,12 +77,11 @@ namespace Kaizen.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployee(string id, EmployeeEditModel employeeModel)
+        public async Task<ActionResult<EmployeeViewModel>> PutEmployee(string id, EmployeeEditModel employeeModel)
         {
             Employee employee = await _employeesRepository.FindByIdAsync(id);
-
             if (employee is null)
-                throw new EmployeeDoesNotExists();
+                return BadRequest($"No existe ningún empleado registrado con el código {id}.");
 
             _mapper.Map(employeeModel, employee);
             _employeesRepository.Update(employee);
@@ -96,7 +94,7 @@ namespace Kaizen.Controllers
             {
                 if (!EmployeeExists(id))
                 {
-                    return NotFound();
+                    return NotFound($"Actualización fallida. No existe ningún empleado registrado con el código {id}.");
                 }
                 else
                 {
@@ -104,7 +102,7 @@ namespace Kaizen.Controllers
                 }
             }
 
-            return NoContent();
+            return _mapper.Map<EmployeeViewModel>(employee);
         }
 
         // POST: api/Employees
@@ -138,11 +136,11 @@ namespace Kaizen.Controllers
             {
                 if (EmployeeExists(employee.Id))
                 {
-                    throw new EmployeeAlreadyRegistered(employee.Id);
+                    return Conflict($"Ya existe un empleado registrado con el código {employeeModel.Id}");
                 }
                 else
                 {
-                    throw new EmployeeNotRegister();
+                    throw;
                 }
             }
 
@@ -155,7 +153,7 @@ namespace Kaizen.Controllers
         {
             Employee employee = await _employeesRepository.FindByIdAsync(id);
             if (employee == null)
-                throw new EmployeeDoesNotExists();
+                return NotFound($"No existe ningún empleado registrado con el código {id}.");
 
             await _unitWork.SaveAsync();
 
