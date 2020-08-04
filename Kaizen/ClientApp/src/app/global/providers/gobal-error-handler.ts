@@ -20,10 +20,10 @@ export class GlobalErrorHandler implements ErrorHandler {
 				this.redirectToProfile();
 			});
 		} else if (error.error.errors) {
-			let errorMessage = 'Se presentaron los siguientes errores: \n';
+			let errorMessage = 'Se presentaron los siguientes errores: <br/>';
 			for (const prop of Object.keys(error.error.errors)) {
 				error.error.errors[prop].forEach((element: string) => {
-					errorMessage += `, ${element}`;
+					errorMessage += `- ${element} <br/>`;
 				});
 			}
 			this.notificationsService.showErrorMessage(errorMessage, () => {
