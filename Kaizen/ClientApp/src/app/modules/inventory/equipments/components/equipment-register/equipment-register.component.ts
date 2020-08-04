@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { EquipmentService } from '@modules/inventory/equipments/services/equipment.service';
-import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
-import { IForm } from '@core/models/form';
-import { Equipment } from '@modules/inventory/equipments/models/equipment';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NotificationsService } from '@app/shared/services/notifications.service';
 import { EquipmentExistsValidator } from '@app/shared/validators/equipment-exists-validator';
-import { Router } from '@angular/router';
+import { IForm } from '@core/models/form';
+import { Equipment } from '@modules/inventory/equipments/models/equipment';
+import { EquipmentService } from '@modules/inventory/equipments/services/equipment.service';
 
 @Component({
 	selector: 'app-equipment-register',
@@ -65,10 +65,12 @@ export class EquipmentRegisterComponent implements OnInit, IForm {
 			const equipment: Equipment = this.mapEquipment();
 
 			this.equipmentService.saveEquipment(equipment).subscribe((equipmentSave) => {
-				this.notificationService.addMessage(`El equipo ${equipmentSave.name} ha sido registrado`, 'OK');
-				setTimeout(() => {
-					this.router.navigateByUrl('/inventory/equipments');
-				}, 2000);
+				this.notificationService.showSuccessMessage(
+					`El equipo ${equipmentSave.name} ha sido registrado con éxito`,
+					() => {
+						this.router.navigateByUrl('/inventory/equipments');
+					}
+				);
 			});
 		}
 	}

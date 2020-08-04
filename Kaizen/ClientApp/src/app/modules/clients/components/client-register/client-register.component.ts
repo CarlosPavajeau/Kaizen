@@ -1,16 +1,16 @@
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationService } from '@core/authentication/authentication.service';
-import { CharactersValidators } from '@shared/validators/characters-validators';
-import { Client } from '@modules/clients/models/client';
-import { CLIENT_ROLE } from '@global/roles';
-import { ClientExistsValidator } from '@shared/validators/client-exists-validator';
-import { ClientService } from '@modules/clients/services/client.service';
-import { ClientState } from '@modules/clients/models/client-state';
 import { Component, OnInit } from '@angular/core';
-import { IForm } from '@core/models/form';
-import { NotificationsService } from '@shared/services/notifications.service';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '@core/authentication/authentication.service';
+import { IForm } from '@core/models/form';
 import { User } from '@core/models/user';
+import { CLIENT_ROLE } from '@global/roles';
+import { Client } from '@modules/clients/models/client';
+import { ClientState } from '@modules/clients/models/client-state';
+import { ClientService } from '@modules/clients/services/client.service';
+import { NotificationsService } from '@shared/services/notifications.service';
+import { CharactersValidators } from '@shared/validators/characters-validators';
+import { ClientExistsValidator } from '@shared/validators/client-exists-validator';
 import { UserExistsValidator } from '@shared/validators/user-exists-validator';
 
 @Component({
@@ -211,15 +211,20 @@ export class ClientRegisterComponent implements OnInit, IForm {
 				const client: Client = this.mapClient(userRegister.id);
 
 				this.clientService.saveClient(client).subscribe((clientRegister) => {
-					this.notificationsService.addMessage(
-						`Cliente ${clientRegister.firstName} registrado con éxito`,
-						'OK'
-					);
-					if (!this.authService.userLoggedIn()) {
-						this.authService.setCurrentUser(userRegister);
-						window.location.reload();
+					if (this.authService.userLoggedIn()) {
+						this.notificationsService.showSuccessMessage(
+							`Cliente ${clientRegister.firstName} ${clientRegister.lastName} registrado con éxito.`,
+							() => {
+								this.router.navigateByUrl('/clients');
+							}
+						);
 					} else {
-						this.router.navigateByUrl('/clients');
+						this.notificationsService.showSuccessMessage(
+							`Sus datos fueron registrados correctamente y su solicitud fue enviada. Espere nuestra respuesta.`,
+							() => {
+								window.location.reload();
+							}
+						);
 					}
 				});
 			});
@@ -231,9 +236,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
 			this.clientForm.valid &&
 			this.contactPersonForm.valid &&
 			this.ubicationForm.valid &&
-			(
-				this.controls['clientType'].value === 'JuridicPerson' ? this.legalPersonForm.valid :
-				true)
+			(this.controls['clientType'].value === 'JuridicPerson' ? this.legalPersonForm.valid : true)
 		);
 	}
 

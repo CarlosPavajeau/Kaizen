@@ -1,11 +1,12 @@
-import { Client } from '@modules/clients/models/client';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ServiceRequestState } from '../../models/service-request-state';
 import { Router } from '@angular/router';
+import { Client } from '@modules/clients/models/client';
+import { ServiceRequest } from '@modules/service-requests/models/service-request';
+import { ServiceRequestState } from '@modules/service-requests/models/service-request-state';
+import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
 import { SelectDateModalComponent } from '@shared/components/select-date-modal/select-date-modal.component';
-import { ServiceRequest } from '../../models/service-request';
-import { ServiceRequestService } from '../../services/service-request.service';
+import { NotificationsService } from '@shared/services/notifications.service';
 
 @Component({
 	selector: 'app-service-request-new-date',
@@ -18,7 +19,8 @@ export class ServiceRequestNewDateComponent implements OnInit {
 	constructor(
 		private serviceRequestService: ServiceRequestService,
 		private router: Router,
-		private dateDialog: MatDialog
+		private dateDialog: MatDialog,
+		private notificationsService: NotificationsService
 	) {}
 
 	ngOnInit(): void {
@@ -53,7 +55,12 @@ export class ServiceRequestNewDateComponent implements OnInit {
 
 	private updateServiceRequest(): void {
 		this.serviceRequestService.updateServiceRequest(this.serviceRequest).subscribe((serviceRequestUpdate) => {
-			this.router.navigateByUrl('/user/profile');
+			this.notificationsService.showSuccessMessage(
+				'Fecha de la solicitud del servicio modificada con éxito. Espere nuestra respuesta.',
+				() => {
+					this.router.navigateByUrl('/user/profile');
+				}
+			);
 		});
 	}
 }

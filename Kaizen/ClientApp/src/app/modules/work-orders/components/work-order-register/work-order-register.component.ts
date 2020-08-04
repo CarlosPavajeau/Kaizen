@@ -1,16 +1,17 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NotificationsService } from '@app/shared/services/notifications.service';
+import { IForm } from '@core/models/form';
+import { zeroPad } from '@core/utils/number-utils';
 import { Activity } from '@modules/activity-schedule/models/activity';
 import { ActivityScheduleService } from '@modules/activity-schedule/services/activity-schedule.service';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { DigitalSignatureComponent } from '@shared/components/digital-signature/digital-signature.component';
 import { Employee } from '@modules/employees/models/employee';
-import { IForm } from '@core/models/form';
 import { Sector } from '@modules/work-orders/models/sector';
 import { WorkOrder } from '@modules/work-orders/models/work-order';
-import { WorkOrderService } from '@modules/work-orders/service/work-order.service';
 import { WorkOrderState } from '@modules/work-orders/models/work-order-state';
-import { zeroPad } from '@core/utils/number-utils';
+import { WorkOrderService } from '@modules/work-orders/service/work-order.service';
+import { DigitalSignatureComponent } from '@shared/components/digital-signature/digital-signature.component';
 
 @Component({
 	selector: 'app-work-order-register',
@@ -34,7 +35,8 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
 		private activityService: ActivityScheduleService,
 		private formBuilder: FormBuilder,
 		private activateRoute: ActivatedRoute,
-		private router: Router
+		private router: Router,
+		private notificationsService: NotificationsService
 	) {}
 
 	ngOnInit(): void {
@@ -104,7 +106,12 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
 
 			this.workOrderService.saveWorkOrder(workOrder).subscribe((workOrderSave) => {
 				if (workOrderSave) {
-					this.workOrder = workOrderSave;
+					this.notificationsService.showSuccessMessage(
+						`Orden de trabajo N°${workOrderSave.code} generada con éxito.`,
+						() => {
+							this.workOrder = workOrderSave;
+						}
+					);
 				}
 			});
 		}
@@ -113,13 +120,18 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
 	confirmWorkOrder(): void {
 		if (!this.digitalSignature.isEmpty) {
 			if (this.workOrder) {
-				const workOrder = Object.assign({}, this.workOrder);
+				const workOrder: WorkOrder = { ...this.workOrder };
 				workOrder.clientSignature = this.digitalSignature.getImageData();
 				workOrder.workOrderState = WorkOrderState.Confirmed;
 
 				this.workOrderService.updateWorkOrder(workOrder).subscribe((workOrderUpdate) => {
 					if (workOrderUpdate) {
-						this.workOrder = workOrderUpdate;
+						this.notificationsService.showSuccessMessage(
+							`Orden de trabajo N°${workOrderUpdate.code} confirmada correctamente.`,
+							() => {
+								this.workOrder = workOrderUpdate;
+							}
+						);
 					}
 				});
 			}
@@ -130,7 +142,12 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
 		this.workOrder.workOrderState = WorkOrderState.Canceled;
 		this.workOrderService.updateWorkOrder(this.workOrder).subscribe((workOrderUpdate) => {
 			if (workOrderUpdate) {
-				this.router.navigateByUrl('/user/profile');
+				this.notificationsService.showSuccessMessage(
+					`Orden de trabajo N°${workOrderUpdate.code} cancelada correctamente.`,
+					() => {
+						this.router.navigateByUrl('/user/profile');
+					}
+				);
 			}
 		});
 	}
@@ -154,7 +171,12 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
 
 			this.workOrderService.updateWorkOrder(this.workOrder).subscribe((workOrderUpdate) => {
 				if (workOrderUpdate) {
-					this.router.navigateByUrl('/user/profile');
+					this.notificationsService.showSuccessMessage(
+						`Orden de trabajo N°${workOrderUpdate.code} guardada correctamente.`,
+						() => {
+							this.router.navigateByUrl('/user/profile');
+						}
+					);
 				}
 			});
 		}
