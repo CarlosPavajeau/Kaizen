@@ -41,6 +41,7 @@
       #scheduleMonth
       [selectedDate]="selectedDate"
       [activities]="activities"
+      (selectDay)="onSelectDay($event)"
     ></app-activity-schedule-month>
     <app-activity-schedule-day
       *ngIf="view == 2"

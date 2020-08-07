@@ -87,14 +87,14 @@ export class ActivityScheduleComponent implements OnInit {
 
 		switch (this.view) {
 			case ActivityScheduleView.Month: {
-				this.scheduleMonth.showCurrentMonth();
+				this.scheduleMonth.showCurrentMonth(this.currentDate);
 				break;
 			}
 			case ActivityScheduleView.Week: {
 				break;
 			}
 			case ActivityScheduleView.Day: {
-				this.scheduleDay.showCurrentDay();
+				this.scheduleDay.showCurrentDay(this.currentDate);
 				break;
 			}
 		}
@@ -102,5 +102,10 @@ export class ActivityScheduleComponent implements OnInit {
 
 	setView(view: ActivityScheduleView | number): void {
 		this.view = view;
+	}
+
+	onSelectDay(date: moment.Moment): void {
+		this.selectedDate = date;
+		this.setView(ActivityScheduleView.Day);
 	}
 }

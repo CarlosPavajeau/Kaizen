@@ -64,7 +64,8 @@ export class ActivityScheduleDayComponent implements OnInit {
 		this.buildDay();
 	}
 
-	showCurrentDay(): void {
+	showCurrentDay(currentDate: Moment): void {
+		this.selectedDate = currentDate;
 		this.buildDay();
 	}
 }

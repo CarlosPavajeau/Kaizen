@@ -18,9 +18,10 @@
       <div>
         <div class="text-center" style="position: absolute; top: 0; left: 50%;">
           <h2
-            class="text-center"
+            class="text-center month-day-number"
             style="font-size: 12px;"
             [ngClass]="{ 'different-month': !day.isCurrentMonth }"
+            (click)="onSelectDay(day?.date)"
           >
             {{ day.number }}
           </h2>

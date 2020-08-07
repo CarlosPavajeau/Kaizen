@@ -1,5 +1,5 @@
 import { Activity } from '@modules/activity-schedule/models/activity';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Day } from '@modules/activity-schedule/models/day';
 import { Moment } from 'moment';
 import { Week } from '@modules/activity-schedule/models/week';
@@ -12,6 +12,8 @@ import { Week } from '@modules/activity-schedule/models/week';
 export class ActivityScheduleMonthComponent implements OnInit {
 	@Input() selectedDate: Moment;
 	@Input() activities: Activity[] = [];
+
+	@Output() selectDay = new EventEmitter<Moment>();
 
 	start: Moment;
 	weeks: Week[] = [];
@@ -96,7 +98,12 @@ export class ActivityScheduleMonthComponent implements OnInit {
 		this.buildMonth();
 	}
 
-	showCurrentMonth(): void {
+	showCurrentMonth(currentDate: Moment): void {
+		this.selectedDate = currentDate;
 		this.buildMonth();
+	}
+
+	onSelectDay(day: Moment): void {
+		this.selectDay.emit(day);
 	}
 }
