@@ -4,9 +4,9 @@ namespace Kaizen.Models.ApplicationUser
 {
     public class ApplicationUserInputModel : ApplicationUserEditModel
     {
-        [Required]
+        [Required(ErrorMessage = "Nombre de usuario requerido.")]
         public string Username { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Rol de usuario requerido.")]
         public string Role { get; set; }
     }
 }
