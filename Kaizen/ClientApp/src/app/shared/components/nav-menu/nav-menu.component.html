@@ -4,6 +4,7 @@
   </div>
   <div class="nav-main-content" fxShow="true" fxHide.xs>
     <a
+      class="nav-link"
       mat-button
       routerLink="/"
       routerLinkActive="active"
@@ -11,41 +12,64 @@
     >
       Inicio
     </a>
-    <a mat-button routerLink="/ourservices" routerLinkActive="active"
-      >Nuestros servicios</a
+    <a
+      class="nav-link"
+      mat-button
+      routerLink="/ourservices"
+      routerLinkActive="active"
     >
-    <a mat-button routerLink="/about" routerLinkActive="active"
-      >¿Quiénes somos?</a
+      Nuestros servicios
+    </a>
+    <a
+      class="nav-link"
+      mat-button
+      routerLink="/about"
+      routerLinkActive="active"
     >
+      ¿Quiénes somos?
+    </a>
   </div>
   <div class="spacer"></div>
   <div class="nav-secondary-content">
     <a
+      class="nav-link"
       mat-button
       routerLink="/clients/register"
       routerLinkActive="active"
       *ngIf="!isLogged"
-      >Registrarme</a
     >
+      Registrarme
+    </a>
     <a
+      class="nav-link"
       mat-button
       routerLink="/user/login"
       routerLinkActive="active"
       *ngIf="!isLogged"
-      >Iniciar sesión</a
     >
+      Iniciar sesión
+    </a>
     <a
+      class="nav-link"
       mat-button
       routerLink="/user/profile"
       routerLinkActive="active"
       *ngIf="isLogged"
       fxShow="true"
       fxHide.xs
-      >Perfil</a
     >
-    <a mat-button (click)="onLogout()" *ngIf="isLogged" fxShow="true" fxHide.xs
-      >Cerrar sesión</a
+      Perfil
+    </a>
+    <a
+      class="nav-link"
+      mat-button
+      (click)="onLogout()"
+      *ngIf="isLogged"
+      fxShow="true"
+      fxHide.xs
     >
+      Cerrar sesión
+    </a>
     <button
       *ngIf="isLogged"
       mat-icon-button

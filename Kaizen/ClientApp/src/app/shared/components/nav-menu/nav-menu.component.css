@@ -30,3 +30,7 @@ mat-toolbar button {
 .nav-main-header h2 {
   font-weight: lighter;
 }
+
+.nav-link {
+  margin: 0 4px;
+}
