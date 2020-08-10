@@ -85,7 +85,7 @@ namespace Kaizen.Controllers
         public async Task<ActionResult<ProductInvoiceViewModel>> PostProductInvoice(ProductInvoiceInputModel productInvoiceModel)
         {
             ProductInvoice productInvoice = _mapper.Map<ProductInvoice>(productInvoiceModel);
-            _productInvoicesRepository.Insert(productInvoice);
+            await _productInvoicesRepository.Insert(productInvoice);
 
             await _unitWork.SaveAsync();
 
