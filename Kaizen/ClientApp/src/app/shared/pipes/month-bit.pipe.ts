@@ -2,26 +2,26 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { MonthBit, Months, MONTHS } from '@app/core/models/months';
 
 @Pipe({
-	name: 'monthBit'
+  name: 'monthBit'
 })
 export class MonthBitPipe implements PipeTransform {
-	transform(bitMask: number): string {
-		if (!bitMask) {
-			return 'None';
-		} else {
-			let months = '';
-			let monthAdded = false;
-			MONTHS.forEach((month) => {
-				if (bitMask & month.value) {
-					if (!monthAdded) {
-						months += month.name;
-						monthAdded = true;
-					} else {
-						months += `, ${month.name}`;
-					}
-				}
-			});
-			return months + '.';
-		}
-	}
+  transform(bitMask: number): string {
+    if (!bitMask) {
+      return 'None';
+    } else {
+      let months = '';
+      let monthAdded = false;
+      MONTHS.forEach((month) => {
+        if (bitMask & month.value) {
+          if (!monthAdded) {
+            months += month.name;
+            monthAdded = true;
+          } else {
+            months += `, ${month.name}`;
+          }
+        }
+      });
+      return months + '.';
+    }
+  }
 }

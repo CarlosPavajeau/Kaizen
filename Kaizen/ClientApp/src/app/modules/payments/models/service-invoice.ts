@@ -5,5 +5,5 @@ import { InvoiceState } from './invoice-state';
 import { Invoice } from './invoice';
 
 export interface ServiceInvoice extends Invoice {
-	serviceInvoiceDetails?: ServiceInvoiceDetail[];
+  serviceInvoiceDetails?: ServiceInvoiceDetail[];
 }

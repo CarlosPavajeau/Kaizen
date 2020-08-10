@@ -7,28 +7,28 @@ import { AdminGuard } from '@core/guards/admin.guard';
 import { EmployeeDetailComponent } from './components/employee-detail/employee-detail.component';
 
 const routes: Routes = [
-	{
-		path: '',
-		canActivate: [ AuthGuard, AdminGuard ],
-		children: [
-			{
-				path: '',
-				component: EmployeesComponent
-			},
-			{
-				path: 'register',
-				component: EmployeeRegisterComponent
-			},
-			{
-				path: ':id',
-				component: EmployeeDetailComponent
-			}
-		]
-	}
+  {
+    path: '',
+    canActivate: [ AuthGuard, AdminGuard ],
+    children: [
+      {
+        path: '',
+        component: EmployeesComponent
+      },
+      {
+        path: 'register',
+        component: EmployeeRegisterComponent
+      },
+      {
+        path: ':id',
+        component: EmployeeDetailComponent
+      }
+    ]
+  }
 ];
 
 @NgModule({
-	imports: [ RouterModule.forChild(routes) ],
-	exports: [ RouterModule ]
+  imports: [ RouterModule.forChild(routes) ],
+  exports: [ RouterModule ]
 })
 export class EmployeesRoutingModule {}

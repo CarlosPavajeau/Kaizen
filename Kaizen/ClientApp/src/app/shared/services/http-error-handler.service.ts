@@ -4,17 +4,17 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class HttpErrorHandlerService {
-	constructor(private notificationService: NotificationsService) {}
+  constructor(private notificationService: NotificationsService) {}
 
-	handleError<T>(operation = 'operation', result?: T) {
-		return (error: HttpErrorResponse): Observable<T> => {
-			console.log(error.url);
-			console.log(error);
-			this.notificationService.addMessage(`Error en: ${operation}`, 'Ok');
-			return of(result as T);
-		};
-	}
+  handleError<T>(operation = 'operation', result?: T) {
+    return (error: HttpErrorResponse): Observable<T> => {
+      console.log(error.url);
+      console.log(error);
+      this.notificationService.addMessage(`Error en: ${operation}`, 'Ok');
+      return of(result as T);
+    };
+  }
 }

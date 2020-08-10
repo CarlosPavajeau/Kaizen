@@ -5,33 +5,33 @@ import { ServiceRequestService } from '@modules/service-requests/services/servic
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-	selector: 'app-service-request-detail',
-	templateUrl: './service-request-detail.component.html',
-	styleUrls: [ './service-request-detail.component.css' ]
+  selector: 'app-service-request-detail',
+  templateUrl: './service-request-detail.component.html',
+  styleUrls: [ './service-request-detail.component.css' ]
 })
 export class ServiceRequestDetailComponent implements OnInit {
-	serviceRequest: ServiceRequest;
+  serviceRequest: ServiceRequest;
 
-	@Input() serviceRequestCode: number;
-	@Output() serviceRequestLoaded = new EventEmitter<ServiceRequest>();
+  @Input() serviceRequestCode: number;
+  @Output() serviceRequestLoaded = new EventEmitter<ServiceRequest>();
 
-	constructor(
-		private serviceRequestService: ServiceRequestService,
-		private activateRoute: ActivatedRoute,
-		public dateDialog: MatDialog
-	) {}
+  constructor(
+    private serviceRequestService: ServiceRequestService,
+    private activateRoute: ActivatedRoute,
+    public dateDialog: MatDialog
+  ) {}
 
-	ngOnInit(): void {
-		const code =
-			this.serviceRequestCode ? this.serviceRequestCode :
-			+this.activateRoute.snapshot.paramMap.get('code');
+  ngOnInit(): void {
+    const code =
+      this.serviceRequestCode ? this.serviceRequestCode :
+      +this.activateRoute.snapshot.paramMap.get('code');
 
-		this.serviceRequestService.getServiceRequest(code).subscribe((serviceRequest) => {
-			this.serviceRequest = serviceRequest;
-			this.serviceRequest.date = new Date(this.serviceRequest.date);
-			if (this.serviceRequestCode) {
-				this.serviceRequestLoaded.emit(this.serviceRequest);
-			}
-		});
-	}
+    this.serviceRequestService.getServiceRequest(code).subscribe((serviceRequest) => {
+      this.serviceRequest = serviceRequest;
+      this.serviceRequest.date = new Date(this.serviceRequest.date);
+      if (this.serviceRequestCode) {
+        this.serviceRequestLoaded.emit(this.serviceRequest);
+      }
+    });
+  }
 }

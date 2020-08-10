@@ -1,7 +1,7 @@
 export enum WorkOrderState {
-	Generated,
-	Confirmed,
-	Canceled,
-	Valid,
-	Expired
+  Generated,
+  Confirmed,
+  Canceled,
+  Valid,
+  Expired
 }

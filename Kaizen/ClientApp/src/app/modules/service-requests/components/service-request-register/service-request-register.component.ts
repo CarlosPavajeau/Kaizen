@@ -16,98 +16,98 @@ import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Component({
-	selector: 'app-service-request-register',
-	templateUrl: './service-request-register.component.html',
-	styleUrls: [ './service-request-register.component.css' ]
+  selector: 'app-service-request-register',
+  templateUrl: './service-request-register.component.html',
+  styleUrls: [ './service-request-register.component.css' ]
 })
 export class ServiceRequestRegisterComponent implements OnInit, IForm {
-	serviceRequestForm: FormGroup;
-	services: Service[];
-	periodicities: Periodicity[];
-	serviceRequest: ServiceRequest;
-	private clientId: string;
+  serviceRequestForm: FormGroup;
+  services: Service[];
+  periodicities: Periodicity[];
+  serviceRequest: ServiceRequest;
+  private clientId: string;
 
-	get controls(): { [key: string]: AbstractControl } {
-		return this.serviceRequestForm.controls;
-	}
+  get controls(): { [key: string]: AbstractControl } {
+    return this.serviceRequestForm.controls;
+  }
 
-	constructor(
-		private serviceRequestService: ServiceRequestService,
-		private serviceService: ServiceService,
-		private authService: AuthenticationService,
-		private notificationService: NotificationsService,
-		private formBuilder: FormBuilder,
-		private router: Router
-	) {}
+  constructor(
+    private serviceRequestService: ServiceRequestService,
+    private serviceService: ServiceService,
+    private authService: AuthenticationService,
+    private notificationService: NotificationsService,
+    private formBuilder: FormBuilder,
+    private router: Router
+  ) {}
 
-	ngOnInit(): void {
-		this.loadData();
-		this.initForm();
-	}
+  ngOnInit(): void {
+    this.loadData();
+    this.initForm();
+  }
 
-	private loadData(): void {
-		const client: Client = JSON.parse(localStorage.getItem('current_person'));
-		this.serviceRequestService
-			.getPendingServiceRequest(client.id)
-			.pipe(
-				catchError(() => {
-					return of(null);
-				})
-			)
-			.subscribe((pendingRequest) => {
-				this.serviceRequest = pendingRequest;
-				if (this.serviceRequest && this.serviceRequest.state === ServiceRequestState.PendingSuggestedDate) {
-					this.router.navigateByUrl('/service_requests/new_date');
-				}
-			});
+  private loadData(): void {
+    const client: Client = JSON.parse(localStorage.getItem('current_person'));
+    this.serviceRequestService
+      .getPendingServiceRequest(client.id)
+      .pipe(
+        catchError(() => {
+          return of(null);
+        })
+      )
+      .subscribe((pendingRequest) => {
+        this.serviceRequest = pendingRequest;
+        if (this.serviceRequest && this.serviceRequest.state === ServiceRequestState.PendingSuggestedDate) {
+          this.router.navigateByUrl('/service_requests/new_date');
+        }
+      });
 
-		this.periodicities = PERIODICITIES;
-		this.clientId = client.id;
+    this.periodicities = PERIODICITIES;
+    this.clientId = client.id;
 
-		this.serviceService.getServices().subscribe((services) => {
-			this.services = services;
-		});
-	}
+    this.serviceService.getServices().subscribe((services) => {
+      this.services = services;
+    });
+  }
 
-	initForm(): void {
-		this.serviceRequestForm = this.formBuilder.group({
-			date: [ '', [ Validators.required ] ],
-			time: [ '', [ Validators.required ] ],
-			serviceCodes: [ '', [ Validators.required ] ],
-			periodicity: [ '', Validators.required ]
-		});
-	}
+  initForm(): void {
+    this.serviceRequestForm = this.formBuilder.group({
+      date: [ '', [ Validators.required ] ],
+      time: [ '', [ Validators.required ] ],
+      serviceCodes: [ '', [ Validators.required ] ],
+      periodicity: [ '', Validators.required ]
+    });
+  }
 
-	onSubmit(): void {
-		if (this.serviceRequestForm.valid) {
-			const serviceRequest = this.mapServiceRequest();
-			this.serviceRequestService.saveServiceRequest(serviceRequest).subscribe((serviceRequestSave) => {
-				if (serviceRequestSave) {
-					this.notificationService.showSuccessMessage(
-						`Solicitud de servicio N° ${serviceRequestSave.code} registrada. Espere nuestra pronta respuesta.`,
-						() => {
-							this.router.navigateByUrl('/user/profile');
-						}
-					);
-				} else {
-					this.notificationService.showErrorMessage(
-						'La solicitud de servicio no pudo ser registrada. Por favor verifique que los campos enviados son correctos.'
-					);
-				}
-			});
-		}
-	}
+  onSubmit(): void {
+    if (this.serviceRequestForm.valid) {
+      const serviceRequest = this.mapServiceRequest();
+      this.serviceRequestService.saveServiceRequest(serviceRequest).subscribe((serviceRequestSave) => {
+        if (serviceRequestSave) {
+          this.notificationService.showSuccessMessage(
+            `Solicitud de servicio N° ${serviceRequestSave.code} registrada. Espere nuestra pronta respuesta.`,
+            () => {
+              this.router.navigateByUrl('/user/profile');
+            }
+          );
+        } else {
+          this.notificationService.showErrorMessage(
+            'La solicitud de servicio no pudo ser registrada. Por favor verifique que los campos enviados son correctos.'
+          );
+        }
+      });
+    }
+  }
 
-	private mapServiceRequest(): ServiceRequest {
-		const time = this.controls['time'].value;
-		const date = this.controls['date'].value as Date;
-		const isoDate = buildIsoDate(date, time);
-		return {
-			clientId: this.clientId,
-			serviceCodes: this.controls['serviceCodes'].value,
-			date: isoDate,
-			state: ServiceRequestState.Pending,
-			periodicity: this.controls['periodicity'].value
-		};
-	}
+  private mapServiceRequest(): ServiceRequest {
+    const time = this.controls['time'].value;
+    const date = this.controls['date'].value as Date;
+    const isoDate = buildIsoDate(date, time);
+    return {
+      clientId: this.clientId,
+      serviceCodes: this.controls['serviceCodes'].value,
+      date: isoDate,
+      state: ServiceRequestState.Pending,
+      periodicity: this.controls['periodicity'].value
+    };
+  }
 }

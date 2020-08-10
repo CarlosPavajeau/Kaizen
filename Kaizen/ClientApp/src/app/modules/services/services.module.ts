@@ -8,7 +8,7 @@ import { SharedModule } from '@shared/shared.module';
 import { ServiceDetailComponent } from './components/service-detail/service-detail.component';
 
 @NgModule({
-	declarations: [ ServiceRegisterComponent, ServicesComponent, ServiceDetailComponent ],
-	imports: [ FormsModule, ReactiveFormsModule, SharedModule, ServicesRoutingModule ]
+  declarations: [ ServiceRegisterComponent, ServicesComponent, ServiceDetailComponent ],
+  imports: [ FormsModule, ReactiveFormsModule, SharedModule, ServicesRoutingModule ]
 })
 export class ServicesModule {}

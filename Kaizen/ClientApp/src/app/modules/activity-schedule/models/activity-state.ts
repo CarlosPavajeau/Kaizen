@@ -1,7 +1,7 @@
 export enum ActivityState {
-	Pending,
-	Accepted,
-	Rejected,
-	PendingSuggestedDate,
-	Applied
+  Pending,
+  Accepted,
+  Rejected,
+  PendingSuggestedDate,
+  Applied
 }

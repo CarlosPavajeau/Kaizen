@@ -4,10 +4,10 @@ import { Client } from '../models/client';
 import { Injectable } from '@angular/core';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class NewClientSignalrService extends BaseSignalrService<Client> {
-	constructor(authService: AuthenticationService) {
-		super(authService, '/ClientsHub', 'NewClient');
-	}
+  constructor(authService: AuthenticationService) {
+    super(authService, '/ClientsHub', 'NewClient');
+  }
 }

@@ -9,14 +9,14 @@ import { ServiceRequestNewDateComponent } from './components/service-request-new
 import { ServiceRequestProcessComponent } from './components/service-request-process/service-request-process.component';
 
 @NgModule({
-	declarations: [
-		ServiceRequestRegisterComponent,
-		ServiceRequestDetailComponent,
-		ServiceRequestsComponent,
-		ServiceRequestNewDateComponent,
-		ServiceRequestProcessComponent
-	],
-	imports: [ SharedModule, ServiceRequestsRoutingModule, FormsModule, ReactiveFormsModule ],
-	exports: [ ServiceRequestDetailComponent ]
+  declarations: [
+    ServiceRequestRegisterComponent,
+    ServiceRequestDetailComponent,
+    ServiceRequestsComponent,
+    ServiceRequestNewDateComponent,
+    ServiceRequestProcessComponent
+  ],
+  imports: [ SharedModule, ServiceRequestsRoutingModule, FormsModule, ReactiveFormsModule ],
+  exports: [ ServiceRequestDetailComponent ]
 })
 export class ServiceRequestsModule {}

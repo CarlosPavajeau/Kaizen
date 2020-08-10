@@ -4,17 +4,17 @@ import { Employee } from '@modules/employees/models/employee';
 import { Equipment } from '@modules/inventory/equipments/models/equipment';
 
 export interface Service {
-	code: string;
-	name: string;
-	cost: number;
-	serviceTypeId: number;
-	serviceType?: ServiceType;
+  code: string;
+  name: string;
+  cost: number;
+  serviceTypeId: number;
+  serviceType?: ServiceType;
 
-	productCodes: string[];
-	equipmentCodes: string[];
-	employeeCodes: string[];
+  productCodes: string[];
+  equipmentCodes: string[];
+  employeeCodes: string[];
 
-	products?: Product[];
-	equipments?: Equipment[];
-	employees?: Employee[];
+  products?: Product[];
+  equipments?: Equipment[];
+  employees?: Employee[];
 }

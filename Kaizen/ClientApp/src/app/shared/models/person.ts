@@ -1,9 +1,9 @@
 export interface Person {
-	id: string;
-	firstName: string;
-	secondName?: string;
-	lastName: string;
-	secondLastName?: string;
+  id: string;
+  firstName: string;
+  secondName?: string;
+  lastName: string;
+  secondLastName?: string;
 
-	userId?: string;
+  userId?: string;
 }

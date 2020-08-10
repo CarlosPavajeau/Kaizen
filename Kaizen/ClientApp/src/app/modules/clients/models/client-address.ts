@@ -1,5 +1,5 @@
 export interface ClientAddress {
-	city: string;
-	neighborhood: string;
-	street: string;
+  city: string;
+  neighborhood: string;
+  street: string;
 }

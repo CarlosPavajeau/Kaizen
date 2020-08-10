@@ -5,13 +5,13 @@ import { CheckEquipmentExistsService } from '@core/services/check-equipment-exis
 import { UniqueEquipmentDirective } from '@shared/directives/unique-equipment.directive';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class EquipmentExistsValidator implements AsyncValidator {
-	constructor(private checkEquipmentService: CheckEquipmentExistsService) {}
+  constructor(private checkEquipmentService: CheckEquipmentExistsService) {}
 
-	validate(control: AbstractControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
-		const uniqueEquipmentDirective = new UniqueEquipmentDirective(this.checkEquipmentService);
-		return uniqueEquipmentDirective.validate(control);
-	}
+  validate(control: AbstractControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
+    const uniqueEquipmentDirective = new UniqueEquipmentDirective(this.checkEquipmentService);
+    return uniqueEquipmentDirective.validate(control);
+  }
 }

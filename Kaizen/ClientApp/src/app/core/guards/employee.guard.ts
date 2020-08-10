@@ -5,20 +5,20 @@ import { AuthenticationService } from '@core/authentication/authentication.servi
 import { EMPLOYEE_ROLE } from '@global/roles';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class EmployeeGuard implements CanActivate {
-	constructor(private authService: AuthenticationService, private router: Router) {}
+  constructor(private authService: AuthenticationService, private router: Router) {}
 
-	canActivate(
-		next: ActivatedRouteSnapshot,
-		state: RouterStateSnapshot
-	): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-		const role = this.authService.getUserRole();
-		if (role !== EMPLOYEE_ROLE) {
-			this.router.navigateByUrl('/user/profile');
-			return false;
-		}
-		return true;
-	}
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    const role = this.authService.getUserRole();
+    if (role !== EMPLOYEE_ROLE) {
+      this.router.navigateByUrl('/user/profile');
+      return false;
+    }
+    return true;
+  }
 }

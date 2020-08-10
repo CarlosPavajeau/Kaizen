@@ -5,13 +5,13 @@ import { CheckProductExistsService } from '@core/services/check-product-exists.s
 import { UniqueProductDirective } from '@shared/directives/unique-product.directive';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class ProductExistsValidator implements AsyncValidator {
-	constructor(private checkProductExists: CheckProductExistsService) {}
+  constructor(private checkProductExists: CheckProductExistsService) {}
 
-	validate(control: AbstractControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
-		const uniqueProductDirective = new UniqueProductDirective(this.checkProductExists);
-		return uniqueProductDirective.validate(control);
-	}
+  validate(control: AbstractControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
+    const uniqueProductDirective = new UniqueProductDirective(this.checkProductExists);
+    return uniqueProductDirective.validate(control);
+  }
 }

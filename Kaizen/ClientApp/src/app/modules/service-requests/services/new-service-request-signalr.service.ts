@@ -4,10 +4,10 @@ import { Injectable } from '@angular/core';
 import { ServiceRequest } from '../models/service-request';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class NewServiceRequestSignalrService extends BaseSignalrService<ServiceRequest> {
-	constructor(authService: AuthenticationService) {
-		super(authService, '/ServiceRequestsHub', 'NewServiceRequest');
-	}
+  constructor(authService: AuthenticationService) {
+    super(authService, '/ServiceRequestsHub', 'NewServiceRequest');
+  }
 }

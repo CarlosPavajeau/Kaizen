@@ -1,5 +1,5 @@
 export interface EmployeeContract {
-	contractCode: string;
-	startDate: Date;
-	endDate: Date;
+  contractCode: string;
+  startDate: Date;
+  endDate: Date;
 }

@@ -1,13 +1,12 @@
-import { Invoice } from './invoice';
-import { Product } from '@app/modules/inventory/products/models/product';
+import { Product } from '@modules/inventory/products/models/product';
 
 export interface ProductInvoiceDetail {
-	id: number;
-	productCode: string;
-	productName: string;
-	amount: number;
+  id: number;
+  productCode: string;
+  productName: string;
+  amount: number;
 
-	detail?: Product;
+  detail?: Product;
 
-	total: number;
+  total: number;
 }

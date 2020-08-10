@@ -4,10 +4,10 @@ import { CheckEntityExistsService } from '@core/services/check-entity-exists.ser
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class CheckClientExistsService extends CheckEntityExistsService {
-	constructor(http: HttpClient) {
-		super(http, CLIENTS_API_URL);
-	}
+  constructor(http: HttpClient) {
+    super(http, CLIENTS_API_URL);
+  }
 }

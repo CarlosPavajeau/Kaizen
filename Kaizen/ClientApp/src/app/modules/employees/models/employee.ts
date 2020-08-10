@@ -3,8 +3,8 @@ import { Person } from '@shared/models/person';
 import { EmployeeContract } from './employee-contract';
 
 export interface Employee extends Person {
-	chargeId: number;
-	contractCode: string;
-	employeeCharge?: EmployeeCharge;
-	employeeContract?: EmployeeContract;
+  chargeId: number;
+  contractCode: string;
+  employeeCharge?: EmployeeCharge;
+  employeeContract?: EmployeeContract;
 }

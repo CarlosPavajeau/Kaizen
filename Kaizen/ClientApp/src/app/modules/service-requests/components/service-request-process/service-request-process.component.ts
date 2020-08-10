@@ -10,74 +10,69 @@ import { SelectDateModalComponent } from '@shared/components/select-date-modal/s
 import { NotificationsService } from '@shared/services/notifications.service';
 
 @Component({
-	selector: 'app-service-request-process',
-	templateUrl: './service-request-process.component.html',
-	styleUrls: [ './service-request-process.component.css' ]
+  selector: 'app-service-request-process',
+  templateUrl: './service-request-process.component.html',
+  styleUrls: [ './service-request-process.component.css' ]
 })
 export class ServiceRequestProcessComponent implements OnInit {
-	serviceRequest: ServiceRequest;
-	techniciansAvailable: Employee[] = [];
-	serviceRequestCode: number;
+  serviceRequest: ServiceRequest;
+  techniciansAvailable: Employee[] = [];
+  serviceRequestCode: number;
 
-	constructor(
-		private serviceRequestService: ServiceRequestService,
-		private employeeService: EmployeeService,
-		private activateRoute: ActivatedRoute,
-		private router: Router,
-		public dateDialog: MatDialog,
-		private notificationsService: NotificationsService
-	) {}
+  constructor(
+    private serviceRequestService: ServiceRequestService,
+    private employeeService: EmployeeService,
+    private activateRoute: ActivatedRoute,
+    private router: Router,
+    public dateDialog: MatDialog,
+    private notificationsService: NotificationsService
+  ) {}
 
-	ngOnInit(): void {
-		this.loadData();
-	}
+  ngOnInit(): void {
+    this.loadData();
+  }
 
-	private loadData(): void {
-		const code = +this.activateRoute.snapshot.paramMap.get('code');
-		this.serviceRequestCode = code;
-	}
+  private loadData(): void {
+    const code = +this.activateRoute.snapshot.paramMap.get('code');
+    this.serviceRequestCode = code;
+  }
 
-	onLoadedServiceRequest(serviceRequest: ServiceRequest): void {
-		this.serviceRequest = serviceRequest;
-		const serviceCodes = serviceRequest.services.map((service) => service.code);
-		this.employeeService
-			.getTechniciansAvailable(serviceRequest.date, serviceCodes)
-			.subscribe((techniciansAvailable) => {
-				this.techniciansAvailable = techniciansAvailable;
-			});
-	}
+  onLoadedServiceRequest(serviceRequest: ServiceRequest): void {
+    this.serviceRequest = serviceRequest;
+    const serviceCodes = serviceRequest.services.map((service) => service.code);
+    this.employeeService
+      .getTechniciansAvailable(serviceRequest.date, serviceCodes)
+      .subscribe((techniciansAvailable) => {
+        this.techniciansAvailable = techniciansAvailable;
+      });
+  }
 
-	cancelServiceRequest(): void {
-		this.serviceRequest.state = ServiceRequestState.Rejected;
-		this.serviceRequestService.updateServiceRequest(this.serviceRequest).subscribe((serviceRequestUpdate) => {
-			if (serviceRequestUpdate) {
-				this.router.navigateByUrl('/service_requests');
-			}
-		});
-	}
+  cancelServiceRequest(): void {
+    this.serviceRequest.state = ServiceRequestState.Rejected;
+    this.serviceRequestService.updateServiceRequest(this.serviceRequest).subscribe((serviceRequestUpdate) => {
+      if (serviceRequestUpdate) {
+        this.router.navigateByUrl('/service_requests');
+      }
+    });
+  }
 
-	suggestAnotherDate(): void {
-		const dateRef = this.dateDialog.open(SelectDateModalComponent, {
-			width: '700px'
-		});
+  suggestAnotherDate(): void {
+    const dateRef = this.dateDialog.open(SelectDateModalComponent, {
+      width: '700px'
+    });
 
-		dateRef.afterClosed().subscribe((date) => {
-			if (date) {
-				this.serviceRequest.date = date;
-				this.serviceRequest.state = ServiceRequestState.PendingSuggestedDate;
-				this.serviceRequestService
-					.updateServiceRequest(this.serviceRequest)
-					.subscribe((serviceRequestUpdate) => {
-						if (serviceRequestUpdate) {
-							this.notificationsService.showSuccessMessage(
-								`Fecha de solicitud de servicio modificada con éxito`,
-								() => {
-									this.router.navigateByUrl('/service_requests');
-								}
-							);
-						}
-					});
-			}
-		});
-	}
+    dateRef.afterClosed().subscribe((date) => {
+      if (date) {
+        this.serviceRequest.date = date;
+        this.serviceRequest.state = ServiceRequestState.PendingSuggestedDate;
+        this.serviceRequestService.updateServiceRequest(this.serviceRequest).subscribe((serviceRequestUpdate) => {
+          if (serviceRequestUpdate) {
+            this.notificationsService.showSuccessMessage(`Fecha de solicitud de servicio modificada con éxito`, () => {
+              this.router.navigateByUrl('/service_requests');
+            });
+          }
+        });
+      }
+    });
+  }
 }

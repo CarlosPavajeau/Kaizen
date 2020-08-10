@@ -4,24 +4,24 @@ import { ClientService } from '@modules/clients/services/client.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-	selector: 'app-client-detail',
-	templateUrl: './client-detail.component.html',
-	styleUrls: [ './client-detail.component.css' ]
+  selector: 'app-client-detail',
+  templateUrl: './client-detail.component.html',
+  styleUrls: [ './client-detail.component.css' ]
 })
 export class ClientDetailComponent implements OnInit {
-	client: Client;
+  client: Client;
 
-	constructor(private clientService: ClientService, private activatedRoute: ActivatedRoute) {}
+  constructor(private clientService: ClientService, private activatedRoute: ActivatedRoute) {}
 
-	ngOnInit(): void {
-		this.loadData();
-	}
+  ngOnInit(): void {
+    this.loadData();
+  }
 
-	private loadData(): void {
-		const id = this.activatedRoute.snapshot.paramMap.get('id');
+  private loadData(): void {
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
 
-		this.clientService.getClient(id).subscribe((client) => {
-			this.client = client;
-		});
-	}
+    this.clientService.getClient(id).subscribe((client) => {
+      this.client = client;
+    });
+  }
 }

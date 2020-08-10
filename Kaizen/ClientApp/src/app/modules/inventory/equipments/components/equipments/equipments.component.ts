@@ -8,44 +8,44 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
-	selector: 'app-equipments',
-	templateUrl: './equipments.component.html',
-	styleUrls: [ './equipments.component.css' ]
+  selector: 'app-equipments',
+  templateUrl: './equipments.component.html',
+  styleUrls: [ './equipments.component.css' ]
 })
 export class EquipmentsComponent implements OnInit, AfterViewInit {
-	equipments: Equipment[];
-	dataSource: MatTableDataSource<Equipment> = new MatTableDataSource<Equipment>(this.equipments);
-	displayedColumns: string[] = [ 'code', 'name', 'maintenanceDate', 'amount', 'price', 'options' ];
-	@ViewChild(MatPaginator, { static: true })
-	paginator: MatPaginator;
-	@ViewChild(MatSort) sort: MatSort;
+  equipments: Equipment[];
+  dataSource: MatTableDataSource<Equipment> = new MatTableDataSource<Equipment>(this.equipments);
+  displayedColumns: string[] = [ 'code', 'name', 'maintenanceDate', 'amount', 'price', 'options' ];
+  @ViewChild(MatPaginator, { static: true })
+  paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
 
-	constructor(private equipmentService: EquipmentService, private matDialog: MatDialog) {}
+  constructor(private equipmentService: EquipmentService, private matDialog: MatDialog) {}
 
-	ngOnInit(): void {
-		this.loadEquipments();
-	}
+  ngOnInit(): void {
+    this.loadEquipments();
+  }
 
-	private loadEquipments(): void {
-		this.equipmentService.getEquipments().subscribe((equipments) => {
-			this.equipments = equipments;
-			this.dataSource.data = this.equipments;
-		});
-	}
+  private loadEquipments(): void {
+    this.equipmentService.getEquipments().subscribe((equipments) => {
+      this.equipments = equipments;
+      this.dataSource.data = this.equipments;
+    });
+  }
 
-	ngAfterViewInit(): void {
-		this.dataSource.paginator = this.paginator;
-		this.dataSource.sort = this.sort;
-	}
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
 
-	deleteEquipment(equipment: Equipment): void {
-		const dialodRef = this.matDialog.open(ConfirmDialogComponent, {
-			width: '500px',
-			data: `Está seguro de eliminar el equipo "${equipment.name}", una vez confirmada la acción no podra revertirla.`
-		});
+  deleteEquipment(equipment: Equipment): void {
+    const dialodRef = this.matDialog.open(ConfirmDialogComponent, {
+      width: '500px',
+      data: `Está seguro de eliminar el equipo "${equipment.name}", una vez confirmada la acción no podra revertirla.`
+    });
 
-		dialodRef.afterClosed().subscribe((result) => {
-			console.log(result);
-		});
-	}
+    dialodRef.afterClosed().subscribe((result) => {
+      console.log(result);
+    });
+  }
 }

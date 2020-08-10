@@ -5,13 +5,13 @@ import { UniqueClientDirective } from '@shared/directives/unique-client.directiv
 import { Injectable } from '@angular/core';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class ClientExistsValidator implements AsyncValidator {
-	constructor(private checkClientService: CheckClientExistsService) {}
+  constructor(private checkClientService: CheckClientExistsService) {}
 
-	validate(control: AbstractControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
-		const uniqueClientDirective = new UniqueClientDirective(this.checkClientService);
-		return uniqueClientDirective.validate(control);
-	}
+  validate(control: AbstractControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
+    const uniqueClientDirective = new UniqueClientDirective(this.checkClientService);
+    return uniqueClientDirective.validate(control);
+  }
 }

@@ -6,24 +6,24 @@ import { Equipment } from '@modules/inventory/equipments/models/equipment';
 import { EQUIPMENTS_API_URL } from '@global/endpoints';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class EquipmentService {
-	constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-	getEquipments(): Observable<Equipment[]> {
-		return this.http.get<Equipment[]>(EQUIPMENTS_API_URL);
-	}
+  getEquipments(): Observable<Equipment[]> {
+    return this.http.get<Equipment[]>(EQUIPMENTS_API_URL);
+  }
 
-	getEquipment(code: string): Observable<Equipment> {
-		return this.http.get<Equipment>(`${EQUIPMENTS_API_URL}/${code}`);
-	}
+  getEquipment(code: string): Observable<Equipment> {
+    return this.http.get<Equipment>(`${EQUIPMENTS_API_URL}/${code}`);
+  }
 
-	saveEquipment(equipment: Equipment): Observable<Equipment> {
-		return this.http.post<Equipment>(EQUIPMENTS_API_URL, equipment);
-	}
+  saveEquipment(equipment: Equipment): Observable<Equipment> {
+    return this.http.post<Equipment>(EQUIPMENTS_API_URL, equipment);
+  }
 
-	updateEquipment(equipment: Equipment): Observable<Equipment> {
-		return this.http.put<Equipment>(`${EQUIPMENTS_API_URL}/${equipment.code}`, equipment);
-	}
+  updateEquipment(equipment: Equipment): Observable<Equipment> {
+    return this.http.put<Equipment>(`${EQUIPMENTS_API_URL}/${equipment.code}`, equipment);
+  }
 }

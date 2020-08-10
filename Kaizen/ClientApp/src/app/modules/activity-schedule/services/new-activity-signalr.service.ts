@@ -4,10 +4,10 @@ import { BaseSignalrService } from '@core/services/base-signalr.service';
 import { Injectable } from '@angular/core';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class NewActivitySignalrService extends BaseSignalrService<Activity> {
-	constructor(authService: AuthenticationService) {
-		super(authService, '/ActivityHub', 'NewActivity');
-	}
+  constructor(authService: AuthenticationService) {
+    super(authService, '/ActivityHub', 'NewActivity');
+  }
 }

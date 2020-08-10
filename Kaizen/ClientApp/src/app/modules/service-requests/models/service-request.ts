@@ -4,14 +4,14 @@ import { ServiceRequestState } from './service-request-state';
 import { PeriodicityType } from './periodicity-type';
 
 export interface ServiceRequest {
-	code?: number;
-	date: Date;
-	clientId: string;
-	serviceCodes: string[];
+  code?: number;
+  date: Date;
+  clientId: string;
+  serviceCodes: string[];
 
-	state: ServiceRequestState;
-	periodicity: PeriodicityType;
+  state: ServiceRequestState;
+  periodicity: PeriodicityType;
 
-	client?: Client;
-	services?: Service[];
+  client?: Client;
+  services?: Service[];
 }

@@ -27,39 +27,41 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatTabsModule } from '@angular/material/tabs';
 
 const MaterialModules = [
-	MatButtonModule,
-	MatInputModule,
-	MatRadioModule,
-	MatCardModule,
-	MatToolbarModule,
-	MatMenuModule,
-	MatIconModule,
-	MatExpansionModule,
-	MatTableModule,
-	MatGridListModule,
-	MatDialogModule,
-	MatCheckboxModule,
-	MatChipsModule,
-	MatPaginatorModule,
-	MatTooltipModule,
-	MatSidenavModule,
-	MatListModule,
-	MatProgressSpinnerModule,
-	MatSelectModule,
-	MatStepperModule,
-	MatSnackBarModule,
-	MatSortModule,
-	MatSlideToggleModule,
-	MatDatepickerModule,
-	MatNativeDateModule,
-	MatAutocompleteModule,
-	MatProgressBarModule,
-	MatDividerModule
+  MatButtonModule,
+  MatInputModule,
+  MatRadioModule,
+  MatCardModule,
+  MatToolbarModule,
+  MatMenuModule,
+  MatIconModule,
+  MatExpansionModule,
+  MatTableModule,
+  MatGridListModule,
+  MatDialogModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatPaginatorModule,
+  MatTooltipModule,
+  MatSidenavModule,
+  MatListModule,
+  MatProgressSpinnerModule,
+  MatSelectModule,
+  MatStepperModule,
+  MatSnackBarModule,
+  MatSortModule,
+  MatSlideToggleModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatAutocompleteModule,
+  MatProgressBarModule,
+  MatDividerModule,
+  MatTabsModule
 ];
 
 @NgModule({
-	exports: [ MaterialModules ]
+  exports: [ MaterialModules ]
 })
 export class MaterialModule {}

@@ -1,4 +1,4 @@
 export interface EmployeeCharge {
-	id: number;
-	charge: string;
+  id: number;
+  charge: string;
 }

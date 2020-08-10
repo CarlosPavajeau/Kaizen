@@ -11,7 +11,13 @@ import { ClientRequestDetailComponent } from './components/client-request-detail
 import { ClientDetailComponent } from './components/client-detail/client-detail.component';
 
 @NgModule({
-	declarations: [ ClientRegisterComponent, ClientsComponent, ClientRequestsComponent, ClientRequestDetailComponent, ClientDetailComponent ],
-	imports: [ FormsModule, ReactiveFormsModule, SharedModule, ClientRoutingModule, UserModule ]
+  declarations: [
+    ClientRegisterComponent,
+    ClientsComponent,
+    ClientRequestsComponent,
+    ClientRequestDetailComponent,
+    ClientDetailComponent
+  ],
+  imports: [ FormsModule, ReactiveFormsModule, SharedModule, ClientRoutingModule, UserModule ]
 })
 export class ClientModule {}

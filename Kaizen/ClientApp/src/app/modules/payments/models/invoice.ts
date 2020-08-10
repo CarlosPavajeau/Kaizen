@@ -3,13 +3,13 @@ import { PaymentMethod } from './payment-method';
 import { Client } from '@modules/clients/models/client';
 
 export interface Invoice {
-	id: number;
-	state: InvoiceState;
-	paymentMethod: PaymentMethod;
+  id: number;
+  state: InvoiceState;
+  paymentMethod: PaymentMethod;
 
-	client?: Client;
+  client?: Client;
 
-	iva: number;
-	subTotal: number;
-	total: number;
+  iva: number;
+  subTotal: number;
+  total: number;
 }

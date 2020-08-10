@@ -6,28 +6,28 @@ import { Service } from '@modules/services/models/service';
 import { ServiceType } from '../models/service-type';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class ServiceService {
-	constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-	getServices(): Observable<Service[]> {
-		return this.http.get<Service[]>(SERVICES_API_URL);
-	}
+  getServices(): Observable<Service[]> {
+    return this.http.get<Service[]>(SERVICES_API_URL);
+  }
 
-	getService(id: string): Observable<Service> {
-		return this.http.get<Service>(`${SERVICES_API_URL}/${id}`);
-	}
+  getService(id: string): Observable<Service> {
+    return this.http.get<Service>(`${SERVICES_API_URL}/${id}`);
+  }
 
-	getServiceTypes(): Observable<ServiceType[]> {
-		return this.http.get<ServiceType[]>(`${SERVICES_API_URL}/ServiceTypes`);
-	}
+  getServiceTypes(): Observable<ServiceType[]> {
+    return this.http.get<ServiceType[]>(`${SERVICES_API_URL}/ServiceTypes`);
+  }
 
-	saveService(service: Service): Observable<Service> {
-		return this.http.post<Service>(SERVICES_API_URL, service);
-	}
+  saveService(service: Service): Observable<Service> {
+    return this.http.post<Service>(SERVICES_API_URL, service);
+  }
 
-	updateService(service: Service): Observable<Service> {
-		return this.http.put<Service>(`${SERVICES_API_URL}/${service.code}`, service);
-	}
+  updateService(service: Service): Observable<Service> {
+    return this.http.put<Service>(`${SERVICES_API_URL}/${service.code}`, service);
+  }
 }

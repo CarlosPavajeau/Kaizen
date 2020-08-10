@@ -9,7 +9,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { EquipmentDetailComponent } from './components/equipment-detail/equipment-detail.component';
 
 @NgModule({
-	declarations: [ EquipmentRegisterComponent, EquipmentsComponent, EquipmentDetailComponent ],
-	imports: [ CommonModule, EquipmentsRoutingModule, SharedModule, FormsModule, ReactiveFormsModule ]
+  declarations: [ EquipmentRegisterComponent, EquipmentsComponent, EquipmentDetailComponent ],
+  imports: [ CommonModule, EquipmentsRoutingModule, SharedModule, FormsModule, ReactiveFormsModule ]
 })
 export class EquipmentsModule {}

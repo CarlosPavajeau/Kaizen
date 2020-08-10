@@ -11,32 +11,32 @@ import { AdminOrOfficeEmployeeGuard } from '@app/core/guards/admin-or-office-emp
 import { ClientDetailComponent } from './components/client-detail/client-detail.component';
 
 const routes: Routes = [
-	{
-		path: '',
-		children: [
-			{ path: '', component: ClientsComponent, canActivate: [ AuthGuard, AdminGuard ] },
-			{ path: 'register', component: ClientRegisterComponent, canActivate: [ ClientRegisterGuard ] },
-			{
-				path: 'requests',
-				component: ClientRequestsComponent,
-				canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
-			},
-			{
-				path: 'requests/:id',
-				component: ClientRequestDetailComponent,
-				canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
-			},
-			{
-				path: ':id',
-				component: ClientDetailComponent,
-				canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
-			}
-		]
-	}
+  {
+    path: '',
+    children: [
+      { path: '', component: ClientsComponent, canActivate: [ AuthGuard, AdminGuard ] },
+      { path: 'register', component: ClientRegisterComponent, canActivate: [ ClientRegisterGuard ] },
+      {
+        path: 'requests',
+        component: ClientRequestsComponent,
+        canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
+      },
+      {
+        path: 'requests/:id',
+        component: ClientRequestDetailComponent,
+        canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
+      },
+      {
+        path: ':id',
+        component: ClientDetailComponent,
+        canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
+      }
+    ]
+  }
 ];
 
 @NgModule({
-	imports: [ RouterModule.forChild(routes) ],
-	exports: [ RouterModule ]
+  imports: [ RouterModule.forChild(routes) ],
+  exports: [ RouterModule ]
 })
 export class ClientRoutingModule {}

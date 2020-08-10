@@ -5,13 +5,13 @@ import { UniqueUserDirective } from '@shared/directives/unique-user.directive';
 import { Observable } from 'rxjs';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class UserExistsValidator implements AsyncValidator {
-	constructor(private checkUserService: CheckUserExistsService) {}
+  constructor(private checkUserService: CheckUserExistsService) {}
 
-	validate(control: AbstractControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
-		const uniqueUserDirective = new UniqueUserDirective(this.checkUserService);
-		return uniqueUserDirective.validate(control);
-	}
+  validate(control: AbstractControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
+    const uniqueUserDirective = new UniqueUserDirective(this.checkUserService);
+    return uniqueUserDirective.validate(control);
+  }
 }

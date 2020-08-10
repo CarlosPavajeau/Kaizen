@@ -10,7 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeDetailComponent } from './components/employee-detail/employee-detail.component';
 
 @NgModule({
-	declarations: [ EmployeeRegisterComponent, EmployeesComponent, EmployeeDetailComponent ],
-	imports: [ EmployeesRoutingModule, SharedModule, UserModule, FormsModule, ReactiveFormsModule ]
+  declarations: [ EmployeeRegisterComponent, EmployeesComponent, EmployeeDetailComponent ],
+  imports: [ EmployeesRoutingModule, SharedModule, UserModule, FormsModule, ReactiveFormsModule ]
 })
 export class EmployeesModule {}

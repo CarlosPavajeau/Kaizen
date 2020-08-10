@@ -5,16 +5,16 @@ import { Service } from '@modules/services/models/service';
 import { ActivityState } from './activity-state';
 
 export interface Activity {
-	code?: number;
-	date: Date;
-	state: ActivityState;
-	clientId: string;
-	periodicity: PeriodicityType;
+  code?: number;
+  date: Date;
+  state: ActivityState;
+  clientId: string;
+  periodicity: PeriodicityType;
 
-	employeeCodes: string[];
-	serviceCodes: string[];
+  employeeCodes: string[];
+  serviceCodes: string[];
 
-	employees?: Employee[];
-	services?: Service[];
-	client?: Client;
+  employees?: Employee[];
+  services?: Service[];
+  client?: Client;
 }

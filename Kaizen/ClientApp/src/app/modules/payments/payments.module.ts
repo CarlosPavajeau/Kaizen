@@ -8,7 +8,7 @@ import { ServiceInvoicesComponent } from './components/service-invoices/service-
 import { ProductInvoicesComponent } from './components/product-invoices/product-invoices.component';
 
 @NgModule({
-	declarations: [ PaymentRegisterComponent, ServiceInvoicesComponent, ProductInvoicesComponent ],
-	imports: [ CommonModule, PaymentsRoutingModule, SharedModule ]
+  declarations: [ PaymentRegisterComponent, ServiceInvoicesComponent, ProductInvoicesComponent ],
+  imports: [ CommonModule, PaymentsRoutingModule, SharedModule ]
 })
 export class PaymentsModule {}

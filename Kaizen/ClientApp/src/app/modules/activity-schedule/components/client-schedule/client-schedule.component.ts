@@ -4,26 +4,26 @@ import { Activity } from '../../models/activity';
 import { ActivityScheduleService } from '../../services/activity-schedule.service';
 
 @Component({
-	selector: 'app-client-schedule',
-	templateUrl: './client-schedule.component.html',
-	styleUrls: [ './client-schedule.component.css' ]
+  selector: 'app-client-schedule',
+  templateUrl: './client-schedule.component.html',
+  styleUrls: [ './client-schedule.component.css' ]
 })
 export class ClientScheduleComponent implements OnInit {
-	client: Client;
-	pendingActivities: Activity[];
-	date: Date = new Date();
+  client: Client;
+  pendingActivities: Activity[];
+  date: Date = new Date();
 
-	constructor(private activityScheduleService: ActivityScheduleService) {}
+  constructor(private activityScheduleService: ActivityScheduleService) {}
 
-	ngOnInit(): void {
-		this.loadData();
-	}
+  ngOnInit(): void {
+    this.loadData();
+  }
 
-	private loadData(): void {
-		this.client = JSON.parse(localStorage.getItem('current_person'));
+  private loadData(): void {
+    this.client = JSON.parse(localStorage.getItem('current_person'));
 
-		this.activityScheduleService.getPendingClientActivities(this.client.id).subscribe((pendingActivities) => {
-			this.pendingActivities = pendingActivities;
-		});
-	}
+    this.activityScheduleService.getPendingClientActivities(this.client.id).subscribe((pendingActivities) => {
+      this.pendingActivities = pendingActivities;
+    });
+  }
 }

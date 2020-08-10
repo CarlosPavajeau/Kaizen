@@ -1,5 +1,5 @@
 export enum ActivityScheduleView {
-	Month,
-	Week,
-	Day
+  Month,
+  Week,
+  Day
 }

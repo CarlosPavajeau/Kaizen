@@ -10,32 +10,32 @@ import { ServiceRequestNewDateComponent } from './components/service-request-new
 import { ServiceRequestProcessComponent } from './components/service-request-process/service-request-process.component';
 
 const routes: Routes = [
-	{
-		path: '',
-		children: [
-			{
-				path: '',
-				component: ServiceRequestsComponent,
-				canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
-			},
-			{ path: 'register', component: ServiceRequestRegisterComponent, canActivate: [ AuthGuard, ClientGuard ] },
-			{ path: 'new_date', component: ServiceRequestNewDateComponent, canActivate: [ AuthGuard, ClientGuard ] },
-			{
-				path: 'process/:code',
-				component: ServiceRequestProcessComponent,
-				canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
-			},
-			{
-				path: ':code',
-				component: ServiceRequestDetailComponent,
-				canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
-			}
-		]
-	}
+  {
+    path: '',
+    children: [
+      {
+        path: '',
+        component: ServiceRequestsComponent,
+        canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
+      },
+      { path: 'register', component: ServiceRequestRegisterComponent, canActivate: [ AuthGuard, ClientGuard ] },
+      { path: 'new_date', component: ServiceRequestNewDateComponent, canActivate: [ AuthGuard, ClientGuard ] },
+      {
+        path: 'process/:code',
+        component: ServiceRequestProcessComponent,
+        canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
+      },
+      {
+        path: ':code',
+        component: ServiceRequestDetailComponent,
+        canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
+      }
+    ]
+  }
 ];
 
 @NgModule({
-	imports: [ RouterModule.forChild(routes) ],
-	exports: [ RouterModule ]
+  imports: [ RouterModule.forChild(routes) ],
+  exports: [ RouterModule ]
 })
 export class ServiceRequestsRoutingModule {}

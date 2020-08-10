@@ -5,21 +5,21 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 @Directive({
-	selector: '[appUniqueUser]',
-	providers: [ { provide: NG_ASYNC_VALIDATORS, useExisting: UniqueUserDirective, multi: true } ]
+  selector: '[appUniqueUser]',
+  providers: [ { provide: NG_ASYNC_VALIDATORS, useExisting: UniqueUserDirective, multi: true } ]
 })
 export class UniqueUserDirective implements AsyncValidator {
-	constructor(private checkUserService: CheckUserExistsService) {}
+  constructor(private checkUserService: CheckUserExistsService) {}
 
-	validate(control: AbstractControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
-		const username = control.value;
-		return this.checkUserService.checkEntityExists(username).pipe(
-			map((result) => {
-				if (result) {
-					return { userExists: true };
-				}
-				return null;
-			})
-		);
-	}
+  validate(control: AbstractControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
+    const username = control.value;
+    return this.checkUserService.checkEntityExists(username).pipe(
+      map((result) => {
+        if (result) {
+          return { userExists: true };
+        }
+        return null;
+      })
+    );
+  }
 }

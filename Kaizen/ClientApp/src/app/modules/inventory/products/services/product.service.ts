@@ -5,24 +5,24 @@ import { Product } from '@modules/inventory/products/models/product';
 import { PRODUCTS_API_URL } from '@global/endpoints';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class ProductService {
-	constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-	getProducts(): Observable<Product[]> {
-		return this.http.get<Product[]>(PRODUCTS_API_URL);
-	}
+  getProducts(): Observable<Product[]> {
+    return this.http.get<Product[]>(PRODUCTS_API_URL);
+  }
 
-	getProduct(code: string): Observable<Product> {
-		return this.http.get<Product>(`${PRODUCTS_API_URL}/${code}`);
-	}
+  getProduct(code: string): Observable<Product> {
+    return this.http.get<Product>(`${PRODUCTS_API_URL}/${code}`);
+  }
 
-	saveProduct(product: Product): Observable<Product> {
-		return this.http.post<Product>(PRODUCTS_API_URL, product);
-	}
+  saveProduct(product: Product): Observable<Product> {
+    return this.http.post<Product>(PRODUCTS_API_URL, product);
+  }
 
-	updateProduct(product: Product): Observable<Product> {
-		return this.http.put<Product>(`${PRODUCTS_API_URL}/${product.code}`, product);
-	}
+  updateProduct(product: Product): Observable<Product> {
+    return this.http.put<Product>(`${PRODUCTS_API_URL}/${product.code}`, product);
+  }
 }

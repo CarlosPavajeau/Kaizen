@@ -5,13 +5,13 @@ import { CheckEmployeeExistsService } from '@core/services/check-employee-exists
 import { UniqueEmployeeDirective } from '@shared/directives/unique-employee.directive';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class EmployeeExistsValidator implements AsyncValidator {
-	constructor(private checkEmployeeService: CheckEmployeeExistsService) {}
+  constructor(private checkEmployeeService: CheckEmployeeExistsService) {}
 
-	validate(control: AbstractControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
-		const uniqueEmployeeDirective = new UniqueEmployeeDirective(this.checkEmployeeService);
-		return uniqueEmployeeDirective.validate(control);
-	}
+  validate(control: AbstractControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
+    const uniqueEmployeeDirective = new UniqueEmployeeDirective(this.checkEmployeeService);
+    return uniqueEmployeeDirective.validate(control);
+  }
 }

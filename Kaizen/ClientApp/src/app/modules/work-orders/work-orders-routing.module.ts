@@ -7,18 +7,18 @@ import { WorkOrderRegisterComponent } from './components/work-order-register/wor
 import { WorkOrdersComponent } from './components/work-orders/work-orders.component';
 
 const routes: Routes = [
-	{
-		path: '',
-		children: [
-			{ path: '', component: WorkOrdersComponent },
-			{ path: 'register', component: WorkOrderRegisterComponent, canActivate: [ AuthGuard ] },
-			{ path: ':code', component: WorkOrderDetailComponent, canActivate: [ AuthGuard ] }
-		]
-	}
+  {
+    path: '',
+    children: [
+      { path: '', component: WorkOrdersComponent },
+      { path: 'register', component: WorkOrderRegisterComponent, canActivate: [ AuthGuard ] },
+      { path: ':code', component: WorkOrderDetailComponent, canActivate: [ AuthGuard ] }
+    ]
+  }
 ];
 
 @NgModule({
-	imports: [ RouterModule.forChild(routes) ],
-	exports: [ RouterModule ]
+  imports: [ RouterModule.forChild(routes) ],
+  exports: [ RouterModule ]
 })
 export class WorkOrdersRoutingModule {}

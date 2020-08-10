@@ -9,32 +9,32 @@ import { WorkScheduleComponent } from './components/work-schedule/work-schedule.
 import { ClientScheduleComponent } from './components/client-schedule/client-schedule.component';
 
 const routes: Routes = [
-	{
-		path: '',
-		children: [
-			{ path: '', component: ActivityScheduleComponent, canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ] },
-			{
-				path: 'register',
-				component: ActivityRegisterComponent,
-				canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
-			},
-			{
-				path: 'work_schedule',
-				component: WorkScheduleComponent,
-				canActivate: [ AuthGuard ]
-			},
-			{
-				path: 'client_schedule',
-				component: ClientScheduleComponent,
-				canActivate: [ AuthGuard ]
-			},
-			{ path: ':code', component: ActivityDetailComponent, canActivate: [ AuthGuard ] }
-		]
-	}
+  {
+    path: '',
+    children: [
+      { path: '', component: ActivityScheduleComponent, canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ] },
+      {
+        path: 'register',
+        component: ActivityRegisterComponent,
+        canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
+      },
+      {
+        path: 'work_schedule',
+        component: WorkScheduleComponent,
+        canActivate: [ AuthGuard ]
+      },
+      {
+        path: 'client_schedule',
+        component: ClientScheduleComponent,
+        canActivate: [ AuthGuard ]
+      },
+      { path: ':code', component: ActivityDetailComponent, canActivate: [ AuthGuard ] }
+    ]
+  }
 ];
 
 @NgModule({
-	imports: [ RouterModule.forChild(routes) ],
-	exports: [ RouterModule ]
+  imports: [ RouterModule.forChild(routes) ],
+  exports: [ RouterModule ]
 })
 export class ActivityScheduleRoutingModule {}

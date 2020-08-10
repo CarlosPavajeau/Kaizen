@@ -1,6 +1,6 @@
 export enum InvoiceState {
-	Generated,
-	Regenerated,
-	Paid,
-	Expired
+  Generated,
+  Regenerated,
+  Paid,
+  Expired
 }

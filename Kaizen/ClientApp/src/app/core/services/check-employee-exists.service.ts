@@ -5,10 +5,10 @@ import { CheckEntityExistsService } from '@core/services/check-entity-exists.ser
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class CheckEmployeeExistsService extends CheckEntityExistsService {
-	constructor(http: HttpClient) {
-		super(http, EMPLOYEES_API_URL);
-	}
+  constructor(http: HttpClient) {
+    super(http, EMPLOYEES_API_URL);
+  }
 }

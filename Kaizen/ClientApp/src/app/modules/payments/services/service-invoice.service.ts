@@ -5,24 +5,24 @@ import { Observable } from 'rxjs';
 import { SERVICE_INVOICES_API_URL } from '@global/endpoints';
 
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
 export class ServiceInvoiceService {
-	constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-	getServiceInvoices(): Observable<ServiceInvoice[]> {
-		return this.http.get<ServiceInvoice[]>(`${SERVICE_INVOICES_API_URL}`);
-	}
+  getServiceInvoices(): Observable<ServiceInvoice[]> {
+    return this.http.get<ServiceInvoice[]>(`${SERVICE_INVOICES_API_URL}`);
+  }
 
-	getClientServiceInvoices(clientId: string): Observable<ServiceInvoice[]> {
-		return this.http.get<ServiceInvoice[]>(`${SERVICE_INVOICES_API_URL}/ClientInvoices/${clientId}`);
-	}
+  getClientServiceInvoices(clientId: string): Observable<ServiceInvoice[]> {
+    return this.http.get<ServiceInvoice[]>(`${SERVICE_INVOICES_API_URL}/ClientInvoices/${clientId}`);
+  }
 
-	getServiceInvoice(id: number): Observable<ServiceInvoice> {
-		return this.http.get<ServiceInvoice>(`${SERVICE_INVOICES_API_URL}/${id}`);
-	}
+  getServiceInvoice(id: number): Observable<ServiceInvoice> {
+    return this.http.get<ServiceInvoice>(`${SERVICE_INVOICES_API_URL}/${id}`);
+  }
 
-	updateServiceInvoice(serviceInvoice: ServiceInvoice): Observable<ServiceInvoice> {
-		return this.http.put<ServiceInvoice>(`${SERVICE_INVOICES_API_URL}/${serviceInvoice.id}`, serviceInvoice);
-	}
+  updateServiceInvoice(serviceInvoice: ServiceInvoice): Observable<ServiceInvoice> {
+    return this.http.put<ServiceInvoice>(`${SERVICE_INVOICES_API_URL}/${serviceInvoice.id}`, serviceInvoice);
+  }
 }

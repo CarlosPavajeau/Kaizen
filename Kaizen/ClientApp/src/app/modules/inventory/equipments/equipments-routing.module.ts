@@ -7,28 +7,28 @@ import { AdminGuard } from '@app/core/guards/admin.guard';
 import { EquipmentDetailComponent } from './components/equipment-detail/equipment-detail.component';
 
 const routes: Routes = [
-	{
-		path: '',
-		canActivate: [ AuthGuard, AdminGuard ],
-		children: [
-			{
-				path: '',
-				component: EquipmentsComponent
-			},
-			{
-				path: 'register',
-				component: EquipmentRegisterComponent
-			},
-			{
-				path: ':code',
-				component: EquipmentDetailComponent
-			}
-		]
-	}
+  {
+    path: '',
+    canActivate: [ AuthGuard, AdminGuard ],
+    children: [
+      {
+        path: '',
+        component: EquipmentsComponent
+      },
+      {
+        path: 'register',
+        component: EquipmentRegisterComponent
+      },
+      {
+        path: ':code',
+        component: EquipmentDetailComponent
+      }
+    ]
+  }
 ];
 
 @NgModule({
-	imports: [ RouterModule.forChild(routes) ],
-	exports: [ RouterModule ]
+  imports: [ RouterModule.forChild(routes) ],
+  exports: [ RouterModule ]
 })
 export class EquipmentsRoutingModule {}

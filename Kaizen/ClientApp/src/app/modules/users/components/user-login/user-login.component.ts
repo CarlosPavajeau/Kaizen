@@ -5,69 +5,69 @@ import { LoginRequest } from '@core/models/login-request';
 import { IForm } from '@core/models/form';
 
 @Component({
-	selector: 'app-user-login',
-	templateUrl: './user-login.component.html',
-	styleUrls: [ './user-login.component.css' ]
+  selector: 'app-user-login',
+  templateUrl: './user-login.component.html',
+  styleUrls: [ './user-login.component.css' ]
 })
 export class UserLoginComponent implements OnInit, IForm {
-	loginForm: FormGroup;
-	invalidUserOrEmail = false;
-	invalidPassword = false;
-	invalidForm = false;
-	loading = false;
-	hide = true;
+  loginForm: FormGroup;
+  invalidUserOrEmail = false;
+  invalidPassword = false;
+  invalidForm = false;
+  loading = false;
+  hide = true;
 
-	public get controls() {
-		return this.loginForm.controls;
-	}
+  public get controls() {
+    return this.loginForm.controls;
+  }
 
-	constructor(private authService: AuthenticationService, private formBuilder: FormBuilder) {}
+  constructor(private authService: AuthenticationService, private formBuilder: FormBuilder) {}
 
-	ngOnInit(): void {
-		this.initForm();
-	}
+  ngOnInit(): void {
+    this.initForm();
+  }
 
-	initForm(): void {
-		this.loginForm = this.formBuilder.group({
-			usernameOrEmail: [ '', [ Validators.required, Validators.minLength(5), Validators.maxLength(30) ] ],
-			password: [ '', [ Validators.required, Validators.minLength(8), Validators.maxLength(30) ] ]
-		});
-	}
+  initForm(): void {
+    this.loginForm = this.formBuilder.group({
+      usernameOrEmail: [ '', [ Validators.required, Validators.minLength(5), Validators.maxLength(30) ] ],
+      password: [ '', [ Validators.required, Validators.minLength(8), Validators.maxLength(30) ] ]
+    });
+  }
 
-	onSubmit(): void {
-		if (this.loginForm.valid) {
-			this.loading = true;
-			const loginRequest: LoginRequest = {
-				usernameOrEmail: this.controls['usernameOrEmail'].value,
-				password: this.controls['password'].value
-			};
+  onSubmit(): void {
+    if (this.loginForm.valid) {
+      this.loading = true;
+      const loginRequest: LoginRequest = {
+        usernameOrEmail: this.controls['usernameOrEmail'].value,
+        password: this.controls['password'].value
+      };
 
-			this.authService.loginUser(loginRequest).subscribe(
-				(user) => {
-					if (user) {
-						this.authService.setCurrentUser(user);
-						window.location.reload();
-					} else {
-						this.invalidUserOrEmail = true;
-					}
-				},
-				(error) => {
-					this.loading = false;
-					throw error;
-				}
-			);
-		} else {
-			this.invalidForm = true;
-		}
+      this.authService.loginUser(loginRequest).subscribe(
+        (user) => {
+          if (user) {
+            this.authService.setCurrentUser(user);
+            window.location.reload();
+          } else {
+            this.invalidUserOrEmail = true;
+          }
+        },
+        (error) => {
+          this.loading = false;
+          throw error;
+        }
+      );
+    } else {
+      this.invalidForm = true;
+    }
 
-		this.onReset();
-	}
+    this.onReset();
+  }
 
-	onReset(): void {
-		setTimeout(() => {
-			this.invalidForm = false;
-			this.invalidPassword = false;
-			this.invalidUserOrEmail = false;
-		}, 4000);
-	}
+  onReset(): void {
+    setTimeout(() => {
+      this.invalidForm = false;
+      this.invalidPassword = false;
+      this.invalidUserOrEmail = false;
+    }, 4000);
+  }
 }

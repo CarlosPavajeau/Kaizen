@@ -16,17 +16,17 @@ import { WorkScheduleComponent } from './components/work-schedule/work-schedule.
 import { ClientScheduleComponent } from './components/client-schedule/client-schedule.component';
 
 @NgModule({
-	declarations: [
-		ActivityRegisterComponent,
-		ActivityScheduleComponent,
-		ActivityDetailComponent,
-		ActivityDetailCardComponent,
-		ActivityButtonComponent,
-		ActivityScheduleDayComponent,
-		ActivityScheduleMonthComponent,
-		WorkScheduleComponent,
-		ClientScheduleComponent
-	],
-	imports: [ SharedModule, ActivityScheduleRoutingModule, FormsModule, ReactiveFormsModule, ServiceRequestsModule ]
+  declarations: [
+    ActivityRegisterComponent,
+    ActivityScheduleComponent,
+    ActivityDetailComponent,
+    ActivityDetailCardComponent,
+    ActivityButtonComponent,
+    ActivityScheduleDayComponent,
+    ActivityScheduleMonthComponent,
+    WorkScheduleComponent,
+    ClientScheduleComponent
+  ],
+  imports: [ SharedModule, ActivityScheduleRoutingModule, FormsModule, ReactiveFormsModule, ServiceRequestsModule ]
 })
 export class ActivityScheduleModule {}

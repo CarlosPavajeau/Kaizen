@@ -7,7 +7,7 @@ import { WorkOrdersRoutingModule } from './work-orders-routing.module';
 import { WorkOrdersComponent } from './components/work-orders/work-orders.component';
 
 @NgModule({
-	declarations: [ WorkOrderRegisterComponent, WorkOrderDetailComponent, WorkOrdersComponent ],
-	imports: [ SharedModule, WorkOrdersRoutingModule, FormsModule, ReactiveFormsModule ]
+  declarations: [ WorkOrderRegisterComponent, WorkOrderDetailComponent, WorkOrdersComponent ],
+  imports: [ SharedModule, WorkOrdersRoutingModule, FormsModule, ReactiveFormsModule ]
 })
 export class WorkOrdersModule {}

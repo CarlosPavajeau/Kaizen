@@ -5,21 +5,21 @@ import { CheckEmployeeExistsService } from '@app/core/services/check-employee-ex
 import { map } from 'rxjs/operators';
 
 @Directive({
-	selector: '[appUniqueEmployee]',
-	providers: [ { provide: NG_ASYNC_VALIDATORS, useExisting: UniqueEmployeeDirective, multi: true } ]
+  selector: '[appUniqueEmployee]',
+  providers: [ { provide: NG_ASYNC_VALIDATORS, useExisting: UniqueEmployeeDirective, multi: true } ]
 })
 export class UniqueEmployeeDirective implements AsyncValidator {
-	constructor(private checkEmployeeExists: CheckEmployeeExistsService) {}
+  constructor(private checkEmployeeExists: CheckEmployeeExistsService) {}
 
-	validate(control: AbstractControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
-		const id = control.value;
-		return this.checkEmployeeExists.checkEntityExists(id).pipe(
-			map((result) => {
-				if (result) {
-					return { employeeExists: true };
-				}
-				return null;
-			})
-		);
-	}
+  validate(control: AbstractControl): Promise<ValidationErrors> | Observable<ValidationErrors> {
+    const id = control.value;
+    return this.checkEmployeeExists.checkEntityExists(id).pipe(
+      map((result) => {
+        if (result) {
+          return { employeeExists: true };
+        }
+        return null;
+      })
+    );
+  }
 }
