@@ -9,7 +9,7 @@ namespace Kaizen.Domain.Entities
         public int Id { get; set; }
         public InvoiceState State { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
-        public decimal IVA { get; set; }
+        public decimal IVA { get; set; } = 0.19M;
         public decimal SubTotal { get; set; }
         public decimal Total { get; set; }
 
