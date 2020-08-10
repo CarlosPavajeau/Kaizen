@@ -1,0 +1,143 @@
+<section class="container">
+  <div *ngIf="product">
+    <h1 class="text-center">
+      Edición del producto {{ product.name }} identificado con el código
+      {{ product.code }}
+    </h1>
+    <mat-tab-group mat-align-tabs="center">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>create</mat-icon>
+          Datos básicos
+        </ng-template>
+        <ng-template matTabContent>
+          <form [formGroup]="productForm">
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Nombre</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  placeholder="Ejemplo: Pesticida"
+                  formControlName="name"
+                />
+                <mat-hint>Digite el nombre del producto</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Descripción</mat-label>
+                <textarea
+                  matInput
+                  placeholder="Descripción del producto"
+                  formControlName="description"
+                ></textarea>
+                <mat-hint>Digite la descripción del producto</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-chip-list #chipList aria-label="Meses de aplicación">
+                  <mat-chip
+                    *ngFor="let applicationMonth of selectedMonths"
+                    [selectable]="selectable"
+                    [removable]="removable"
+                    (removed)="removeMonth(applicationMonth)"
+                  >
+                    {{ applicationMonth.name }}
+                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                  </mat-chip>
+                  <input
+                    placeholder="Meses de aplicación"
+                    #monthInput
+                    formControlName="applicationMonths"
+                    [matAutocomplete]="auto"
+                    [matChipInputFor]="chipList"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    (matChipInputTokenEnd)="addMonth($event)"
+                  />
+                </mat-chip-list>
+                <mat-autocomplete
+                  #auto="matAutocomplete"
+                  (optionSelected)="selectedMonth($event)"
+                >
+                  <mat-option
+                    *ngFor="let applicationMonth of filteredMonths | async"
+                    [value]="applicationMonth"
+                  >
+                    {{ applicationMonth.name }}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-hint
+                  >Selecciones los meses de aplicación del producto</mat-hint
+                >
+                <mat-error
+                  *ngIf="controls['applicationMonths'].hasError('required')"
+                  >Meses de aplicación requeridos</mat-error
+                >
+              </mat-form-field>
+            </div>
+          </form>
+          <div class="form-buttons">
+            <button
+              mat-raised-button
+              class="royal_azure"
+              (click)="updateProductBasicData()"
+            >
+              Actualizar datos básicos
+            </button>
+          </div>
+        </ng-template>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>layers</mat-icon>
+          Datos de inventario
+        </ng-template>
+        <ng-template matTabContent>
+          <form [formGroup]="productInInventoryForm">
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Cantidad</mat-label>
+                <input type="number" matInput formControlName="amount" />
+                <mat-hint>
+                  Digite la cantidad existente del producto
+                </mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Presentación</mat-label>
+                <input type="text" matInput formControlName="presentation" />
+                <mat-hint>Digite la presentación del producto</mat-hint>
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Precio</mat-label>
+                <input type="number" matInput formControlName="price" />
+                <mat-hint>Digite el precio de compra del producto</mat-hint>
+              </mat-form-field>
+            </div>
+          </form>
+          <div class="form-buttons">
+            <button
+              mat-raised-button
+              class="royal_azure"
+              (click)="updateProductInInventory()"
+            >
+              Actualizar datos de inventario
+            </button>
+          </div>
+        </ng-template>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>description</mat-icon>
+          Documentos del producto
+        </ng-template>
+        <ng-template matTabContent></ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</section>
