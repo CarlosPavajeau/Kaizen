@@ -7,9 +7,10 @@ import { EquipmentsComponent } from './components/equipments/equipments.componen
 import { SharedModule } from '@app/shared/shared.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { EquipmentDetailComponent } from './components/equipment-detail/equipment-detail.component';
+import { EquipmentEditComponent } from './components/equipment-edit/equipment-edit.component';
 
 @NgModule({
-  declarations: [ EquipmentRegisterComponent, EquipmentsComponent, EquipmentDetailComponent ],
+  declarations: [ EquipmentRegisterComponent, EquipmentsComponent, EquipmentDetailComponent, EquipmentEditComponent ],
   imports: [ CommonModule, EquipmentsRoutingModule, SharedModule, FormsModule, ReactiveFormsModule ]
 })
 export class EquipmentsModule {}
