@@ -81,12 +81,18 @@ export class ProductEditComponent implements OnInit, IForm {
 
   private afterLoadProduct(): void {
     this.applicationMonths = this.product.applicationMonths;
-    this.controls['name'].setValue(this.product.name);
-    this.controls['description'].setValue(this.product.description);
 
-    this.productInInventoryControls['amount'].setValue(this.product.amount);
-    this.productInInventoryControls['presentation'].setValue(this.product.presentation);
-    this.productInInventoryControls['price'].setValue(this.product.price);
+    this.productForm.setValue({
+      name: this.product.name,
+      description: this.product.description,
+      applicationMonths: 0
+    });
+
+    this.productInInventoryForm.setValue({
+      amount: this.product.amount,
+      presentation: this.product.presentation,
+      price: this.product.price
+    });
 
     setTimeout(() => {
       this.monthSelect.first.options.forEach((option) => {
