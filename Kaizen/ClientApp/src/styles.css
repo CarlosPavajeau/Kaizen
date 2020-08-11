@@ -211,10 +211,7 @@ mat-card {
 
 .royal_azure {
   background: var(--royal_azure);
-}
-
-.royal_azure {
-  color: white !important;
+  color: white;
 }
 
 .container {
