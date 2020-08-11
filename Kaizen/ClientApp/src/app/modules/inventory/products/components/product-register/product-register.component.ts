@@ -1,9 +1,7 @@
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { HttpEventType } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { FileResponse } from '@app/core/models/file-response';
 import { MonthBit, MONTHS } from '@app/core/models/months';
@@ -12,8 +10,6 @@ import { NotificationsService } from '@app/shared/services/notifications.service
 import { IForm } from '@core/models/form';
 import { ProductService } from '@modules/inventory/products/services/product.service';
 import { ProductExistsValidator } from '@shared/validators/product-exists-validator';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { Product } from '../../models/product';
 
 @Component({
@@ -23,15 +19,9 @@ import { Product } from '../../models/product';
 })
 export class ProductRegisterComponent implements OnInit, IForm {
   allMonths: MonthBit[];
-  visible = true;
-  selectable = true;
-  removable = true;
-  separatorKeysCodes: number[] = [ ENTER, COMMA ];
-  filteredMonths: Observable<MonthBit[]>;
   applicationMonths: number;
-  selectedMonths: MonthBit[] = [];
-  @ViewChild('monthInput') monthInput: ElementRef<HTMLInputElement>;
-  @ViewChild('auto') matAutocomplete: MatAutocomplete;
+  @ViewChildren('monthSelect') monthSelect: QueryList<MatSelect>;
+
   productForm: FormGroup;
   productDocumentsForm: FormGroup;
   uploading = false;
@@ -59,15 +49,6 @@ export class ProductRegisterComponent implements OnInit, IForm {
     this.initProductDocumentsForm();
 
     this.allMonths = MONTHS;
-    this.filteredMonths = this.controls['applicationMonths'].valueChanges.pipe(
-      startWith(<string>null),
-      map(
-        (month: string | null) =>
-
-            month ? this._filter(month) :
-            this.allMonths.slice()
-      )
-    );
   }
 
   initForm(): void {
@@ -94,6 +75,16 @@ export class ProductRegisterComponent implements OnInit, IForm {
       healthRegister: [ '', [ Validators.required ] ],
       safetySheet: [ '', [ Validators.required ] ],
       emergencyCard: [ '', [ Validators.required ] ]
+    });
+  }
+
+  onSelectMonth(event: MatSelectChange): void {
+    const option = event.source;
+    const values = option.value as [];
+    this.applicationMonths = 0;
+    values.forEach((value) => {
+      // tslint:disable-next-line: no-bitwise
+      this.applicationMonths |= value;
     });
   }
 
@@ -132,7 +123,7 @@ export class ProductRegisterComponent implements OnInit, IForm {
       healthRegister: fileNames[1].fileName,
       safetySheet: fileNames[2].fileName,
       emergencyCard: fileNames[3].fileName,
-      applicationMonths: this.controls['applicationMonths'].value
+      applicationMonths: this.applicationMonths
     };
   }
 
@@ -146,50 +137,5 @@ export class ProductRegisterComponent implements OnInit, IForm {
     this.uploading = true;
 
     return this.uploadDownloadService.uploadFiles(files);
-  }
-
-  addMonth(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    const month = this.allMonths.find((m) => m.name === value);
-
-    if (month) {
-      this.applicationMonths |= +month.value;
-      this.selectedMonths.push(month);
-      this.allMonths = this.allMonths.filter((m) => m.value !== month.value);
-
-      if (input) {
-        input.value = '';
-        this.controls['applicationMonths'].setValue(this.applicationMonths);
-      }
-    }
-  }
-
-  removeMonth(month: MonthBit) {
-    this.applicationMonths -= month.value;
-    this.selectedMonths = this.selectedMonths.filter((m) => m.value !== month.value);
-    this.allMonths.push(month);
-    this.controls['applicationMonths'].setValue(this.applicationMonths);
-  }
-
-  selectedMonth(event: MatAutocompleteSelectedEvent): void {
-    const value = event.option.value;
-    const viewValue = event.option.viewValue;
-    this.applicationMonths |= +value.value;
-    this.selectedMonths.push(value);
-    this.allMonths = this.allMonths.filter((m) => m.value !== value.value);
-    this.monthInput.nativeElement.value = '';
-    this.controls['applicationMonths'].setValue(this.applicationMonths);
-  }
-
-  private _filter(value: string): MonthBit[] {
-    if (typeof value === 'string') {
-      const filterValue = value.toLowerCase();
-
-      return this.allMonths.filter((month) => month.name.toLowerCase().indexOf(filterValue) === 0);
-    } else {
-      return this.allMonths.slice();
-    }
   }
 }

@@ -1,15 +1,11 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ProductService } from '@modules/inventory/products/services/product.service';
-import { Product } from '@modules/inventory/products/models/product';
-import { IForm } from '@core/models/form';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSelect, MatSelectChange } from '@angular/material/select';
+import { ActivatedRoute } from '@angular/router';
+import { IForm } from '@core/models/form';
 import { MonthBit, MONTHS } from '@core/models/months';
-import { Observable } from 'rxjs';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { ENTER, COMMA } from '@angular/cdk/keycodes';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { startWith, map } from 'rxjs/operators';
+import { Product } from '@modules/inventory/products/models/product';
+import { ProductService } from '@modules/inventory/products/services/product.service';
 import { NotificationsService } from '@shared/services/notifications.service';
 
 @Component({
@@ -19,15 +15,8 @@ import { NotificationsService } from '@shared/services/notifications.service';
 })
 export class ProductEditComponent implements OnInit, IForm {
   allMonths: MonthBit[];
-  visible = true;
-  selectable = true;
-  removable = true;
-  separatorKeysCodes: number[] = [ ENTER, COMMA ];
-  filteredMonths: Observable<MonthBit[]>;
   applicationMonths: number;
-  selectedMonths: MonthBit[] = [];
-  @ViewChild('monthInput') monthInput: ElementRef<HTMLInputElement>;
-  @ViewChild('auto') matAutocomplete: MatAutocomplete;
+  @ViewChildren('monthSelect') monthSelect: QueryList<MatSelect>;
 
   product: Product;
 
@@ -59,15 +48,6 @@ export class ProductEditComponent implements OnInit, IForm {
     this.loadData();
 
     this.allMonths = MONTHS;
-    this.filteredMonths = this.controls['applicationMonths'].valueChanges.pipe(
-      startWith(<string>null),
-      map(
-        (month: string | null) =>
-
-            month ? this._filter(month) :
-            this.allMonths.slice()
-      )
-    );
   }
 
   initForm(): void {
@@ -100,65 +80,32 @@ export class ProductEditComponent implements OnInit, IForm {
   }
 
   private afterLoadProduct(): void {
-    this.allMonths.forEach((month) => {
-      if (month.value & this.product.applicationMonths) {
-        this.selectedMonths.push(month);
-        this.applicationMonths |= month.value;
-        this.allMonths = this.allMonths.filter((m) => m.value !== month.value);
-      }
-    });
-    this.controls['applicationMonths'].setValue(this.applicationMonths);
+    this.applicationMonths = this.product.applicationMonths;
     this.controls['name'].setValue(this.product.name);
     this.controls['description'].setValue(this.product.description);
 
     this.productInInventoryControls['amount'].setValue(this.product.amount);
     this.productInInventoryControls['presentation'].setValue(this.product.presentation);
     this.productInInventoryControls['price'].setValue(this.product.price);
+
+    setTimeout(() => {
+      this.monthSelect.first.options.forEach((option) => {
+        // tslint:disable-next-line: no-bitwise
+        if (option.value & this.product.applicationMonths) {
+          option.select();
+        }
+      });
+    }, 0);
   }
 
-  addMonth(event: MatChipInputEvent): void {
-    const input = event.input;
-    const value = event.value;
-
-    const month = this.allMonths.find((m) => m.name === value);
-
-    if (month) {
-      this.applicationMonths |= +month.value;
-      this.selectedMonths.push(month);
-      this.allMonths = this.allMonths.filter((m) => m.value !== month.value);
-
-      if (input) {
-        input.value = '';
-        this.controls['applicationMonths'].setValue(this.applicationMonths);
-      }
-    }
-  }
-
-  removeMonth(month: MonthBit) {
-    this.applicationMonths -= month.value;
-    this.selectedMonths = this.selectedMonths.filter((m) => m.value !== month.value);
-    this.allMonths.push(month);
-    this.controls['applicationMonths'].setValue(this.applicationMonths);
-  }
-
-  selectedMonth(event: MatAutocompleteSelectedEvent): void {
-    const value = event.option.value;
-    const viewValue = event.option.viewValue;
-    this.applicationMonths |= +value.value;
-    this.selectedMonths.push(value);
-    this.allMonths = this.allMonths.filter((m) => m.value !== value.value);
-    this.monthInput.nativeElement.value = '';
-    this.controls['applicationMonths'].setValue(this.applicationMonths);
-  }
-
-  private _filter(value: string): MonthBit[] {
-    if (typeof value === 'string') {
-      const filterValue = value.toLowerCase();
-
-      return this.allMonths.filter((month) => month.name.toLowerCase().indexOf(filterValue) === 0);
-    } else {
-      return this.allMonths.slice();
-    }
+  onSelectMonth(event: MatSelectChange): void {
+    const option = event.source;
+    const values = option.value as [];
+    this.applicationMonths = 0;
+    values.forEach((value) => {
+      // tslint:disable-next-line: no-bitwise
+      this.applicationMonths |= value;
+    });
   }
 
   updateProductBasicData(): void {
