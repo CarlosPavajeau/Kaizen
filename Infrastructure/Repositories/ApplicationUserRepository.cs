@@ -89,5 +89,10 @@ namespace Kaizen.Infrastructure.Repositories
             var result = await _userManager.ConfirmEmailAsync(user, token);
             return !result.Succeeded ? null : user;
         }
+
+        public async Task<IdentityResult> ChangePassswordAsync(ApplicationUser user, string oldPassword, string newPassword)
+        {
+            return await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+        }
     }
 }

@@ -51,20 +51,25 @@ namespace Kaizen.Controllers
                           p.Email == usernameOrEmailOrPhone);
         }
 
-        // PUT: api/Users/{id}?token={token}
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(string id, [FromQuery] string token, [FromBody] ApplicationUserEditModel editModel)
+        // PUT: api/Users/ChangePassword/{id}
+        [HttpPut("[action]/{id}")]
+        public async Task<ActionResult<ApplicationUserViewModel>> ChangePassword(string id, [FromBody] ChangePasswordModel changePasswordModel)
         {
             ApplicationUser user = await _userRepository.FindByIdAsync(id);
+            if (user is null)
+                return BadRequest($"No existe un usuario identificado con el id {id}.");
 
-            if (user != null)
+            IdentityResult changePasswordResult = await _userRepository.ChangePassswordAsync(user, changePasswordModel.OldPassword, changePasswordModel.NewPassword);
+            if (!changePasswordResult.Succeeded)
             {
-                return Ok();
+                SetIdentityResultErrors(changePasswordResult);
+                return BadRequest(new ValidationProblemDetails(ModelState)
+                {
+                    Status = StatusCodes.Status400BadRequest
+                });
             }
-            else
-            {
-                return NotFound();
-            }
+
+            return _mapper.Map<ApplicationUserViewModel>(user);
         }
 
         // POST: api/Users
@@ -78,23 +83,23 @@ namespace Kaizen.Controllers
             if (!createResult.Succeeded)
             {
                 SetIdentityResultErrors(createResult);
-                return BadRequest(new ValidationProblemDetails(ModelState)
-                {
-                    Status = StatusCodes.Status400BadRequest
-                });
+                goto IdentityErrors;
             }
 
             IdentityResult roleResult = await _userRepository.AddToRoleAsync(user, applicationUserModel.Role);
             if (!roleResult.Succeeded)
             {
                 SetIdentityResultErrors(roleResult);
-                return BadRequest(new ValidationProblemDetails(ModelState)
-                {
-                    Status = StatusCodes.Status400BadRequest
-                });
+                goto IdentityErrors;
             }
 
             return await GenerateAuthenticateUser(user);
+
+        IdentityErrors:
+            return BadRequest(new ValidationProblemDetails(ModelState)
+            {
+                Status = StatusCodes.Status400BadRequest
+            });
         }
 
         private void SetIdentityResultErrors(IdentityResult identityResult)
