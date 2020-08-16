@@ -37,44 +37,28 @@
             </div>
             <div class="form-element">
               <mat-form-field>
-                <mat-chip-list #chipList aria-label="Meses de aplicación">
-                  <mat-chip
-                    *ngFor="let applicationMonth of selectedMonths"
-                    [selectable]="selectable"
-                    [removable]="removable"
-                    (removed)="removeMonth(applicationMonth)"
-                  >
-                    {{ applicationMonth.name }}
-                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-                  </mat-chip>
-                  <input
-                    placeholder="Meses de aplicación"
-                    #monthInput
-                    formControlName="applicationMonths"
-                    [matAutocomplete]="auto"
-                    [matChipInputFor]="chipList"
-                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                    (matChipInputTokenEnd)="addMonth($event)"
-                  />
-                </mat-chip-list>
-                <mat-autocomplete
-                  #auto="matAutocomplete"
-                  (optionSelected)="selectedMonth($event)"
+                <mat-label>Meses de aplicación</mat-label>
+                <mat-select
+                  #monthSelect="matSelect"
+                  formControlName="applicationMonths"
+                  (selectionChange)="onSelectMonth($event)"
+                  multiple
                 >
                   <mat-option
-                    *ngFor="let applicationMonth of filteredMonths | async"
-                    [value]="applicationMonth"
+                    *ngFor="let month of allMonths"
+                    [value]="month.value"
                   >
-                    {{ applicationMonth.name }}
+                    {{ month.name }}
                   </mat-option>
-                </mat-autocomplete>
-                <mat-hint
-                  >Selecciones los meses de aplicación del producto</mat-hint
-                >
+                </mat-select>
+                <mat-hint>
+                  Seleccione los meses de aplicación del producto
+                </mat-hint>
                 <mat-error
                   *ngIf="controls['applicationMonths'].hasError('required')"
-                  >Meses de aplicación requeridos</mat-error
                 >
+                  Meses de aplicación requeridos
+                </mat-error>
               </mat-form-field>
             </div>
           </form>

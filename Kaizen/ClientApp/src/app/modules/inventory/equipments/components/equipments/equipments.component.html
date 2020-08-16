@@ -46,7 +46,11 @@
             >
               <mat-icon>visibility</mat-icon>
             </a>
-            <a mat-icon-button [matTooltip]="'Editar equipo'">
+            <a
+              mat-icon-button
+              routerLink="/inventory/equipments/edit/{{ equipment.code }}"
+              [matTooltip]="'Editar equipo'"
+            >
               <mat-icon>edit</mat-icon>
             </a>
             <a
