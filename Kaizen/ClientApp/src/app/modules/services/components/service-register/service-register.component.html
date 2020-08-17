@@ -76,44 +76,9 @@
             </button>
           </div>
         </mat-step>
-        <mat-step [stepControl]="serviceProductsForm">
+        <mat-step [stepControl]="selectProducts">
           <ng-template matStepLabel>Productos utilizados</ng-template>
-          <form [formGroup]="serviceProductsForm">
-            <mat-form-field>
-              <mat-label>Código de producto</mat-label>
-              <input type="text" matInput [formControl]="productCode" />
-              <mat-hint>Digite el código del producto a elegir</mat-hint>
-            </mat-form-field>
-            <mat-slide-toggle
-              color="primary"
-              [formControl]="showSelectedProducts"
-            >
-              Mostrar seleccionados
-            </mat-slide-toggle>
-            <mat-selection-list
-              *ngIf="!(showSelectedProducts.valueChanges | async)"
-              formControlName="productCodes"
-              #productsListSelection="matSelectionList"
-              (selectionChange)="onSelectProduct($event)"
-            >
-              <mat-list-option
-                *ngFor="
-                  let product of products
-                    | filterProducts: (productCode.valueChanges | async)
-                "
-                [value]="product"
-                color="primary"
-              >
-                {{ product.code }} - {{ product.name }}
-              </mat-list-option>
-            </mat-selection-list>
-            <mat-list *ngIf="showSelectedProducts.valueChanges | async">
-              <mat-list-item *ngFor="let product of selectedProducts">
-                <mat-icon matListIcon>done</mat-icon>
-                {{ product.code }} - {{ product.name }}
-              </mat-list-item>
-            </mat-list>
-          </form>
+          <app-select-products #selectProducts></app-select-products>
           <div class="form-buttons">
             <button matStepperPrevious mat-raised-button>Regresar</button>
             <button matStepperNext mat-raised-button class="royal_azure">
@@ -121,44 +86,9 @@
             </button>
           </div>
         </mat-step>
-        <mat-step [stepControl]="serviceEquipmentsForm">
+        <mat-step [stepControl]="selectEquipments">
           <ng-template matStepLabel>Equipos necesarios</ng-template>
-          <form [formGroup]="serviceEquipmentsForm">
-            <mat-form-field>
-              <mat-label>Código de equipo</mat-label>
-              <input type="text" matInput [formControl]="equipmentCode" />
-              <mat-hint>Digite el código del equipo a elegir</mat-hint>
-            </mat-form-field>
-            <mat-slide-toggle
-              color="primary"
-              [formControl]="showSelectedEquipments"
-            >
-              Mostrar seleccionados
-            </mat-slide-toggle>
-            <mat-selection-list
-              *ngIf="!(showSelectedEquipments.valueChanges | async)"
-              formControlName="equipmentCodes"
-              #equipmentListSelection="matSelectionList"
-              (selectionChange)="onSelectEquipment($event)"
-            >
-              <mat-list-option
-                *ngFor="
-                  let equipment of equipments
-                    | filterEquipments: (equipmentCode.valueChanges | async)
-                "
-                [value]="equipment"
-                color="primary"
-              >
-                {{ equipment.code }} - {{ equipment.name }}
-              </mat-list-option>
-            </mat-selection-list>
-            <mat-list *ngIf="showSelectedEquipments.valueChanges | async">
-              <mat-list-item *ngFor="let equipment of selectedEquipments">
-                <mat-icon matListIcon>done</mat-icon>
-                {{ equipment.code }} - {{ equipment.name }}
-              </mat-list-item>
-            </mat-list>
-          </form>
+          <app-select-equipments #selectEquipments></app-select-equipments>
           <div class="form-buttons">
             <button matStepperPrevious mat-raised-button>
               Regresar
@@ -168,46 +98,9 @@
             </button>
           </div>
         </mat-step>
-        <mat-step [stepControl]="serviceEmployeesForm">
+        <mat-step [stepControl]="selectEmployees">
           <ng-template matStepLabel>Empleados aptos</ng-template>
-          <form [formGroup]="serviceEmployeesForm">
-            <mat-form-field>
-              <mat-label>Código de empleado</mat-label>
-              <input type="text" matInput [formControl]="employeeCode" />
-              <mat-hint>Digite el código del empleado a elegir</mat-hint>
-            </mat-form-field>
-            <mat-slide-toggle
-              color="primary"
-              [formControl]="showSelectedEmployees"
-            >
-              Mostrar seleccionados
-            </mat-slide-toggle>
-            <mat-selection-list
-              *ngIf="!(showSelectedEmployees.valueChanges | async)"
-              #employeeListSelection="matSelectionList"
-              formControlName="employeeCodes"
-              (selectionChange)="onSelectEmployee($event)"
-            >
-              <mat-list-option
-                *ngFor="
-                  let employee of employees
-                    | filterEmployees: (employeeCode.valueChanges | async)
-                "
-                [value]="employee"
-                color="primary"
-              >
-                {{ employee.id }} - {{ employee.firstName }}
-                {{ employee.lastName }}
-              </mat-list-option>
-            </mat-selection-list>
-            <mat-list *ngIf="showSelectedEmployees.valueChanges | async">
-              <mat-list-item *ngFor="let employee of selectedEmployees">
-                <mat-icon matListIcon>done</mat-icon>
-                {{ employee.id }} - {{ employee.firstName }}
-                {{ employee.lastName }}
-              </mat-list-item>
-            </mat-list>
-          </form>
+          <app-select-employees #selectEmployees></app-select-employees>
           <div class="form-buttons">
             <button matStepperPrevious mat-raised-button>
               Regresar
