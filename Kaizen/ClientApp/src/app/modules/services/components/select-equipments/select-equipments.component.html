@@ -1,0 +1,32 @@
+<div class="form-element" [formGroup]="selectEquipmentsForm">
+  <mat-form-field>
+    <mat-label>Código de equipo</mat-label>
+    <input type="text" matInput formControlName="equipmentCode" />
+    <mat-hint>Digite el código del equipo a elegir</mat-hint>
+  </mat-form-field>
+  <mat-slide-toggle color="primary" formControlName="showSelectedEquipments">
+    Mostrar seleccionados
+  </mat-slide-toggle>
+  <mat-selection-list
+    *ngIf="!(controls['showSelectedEquipments'].valueChanges | async)"
+    #equipmentsListSelection="matSelectionList"
+    formControlName="equipmentCodes"
+    (selectionChange)="onSelectEquipment($event)"
+  >
+    <mat-list-option
+      *ngFor="
+        let equipment of equipments
+          | filterEquipments: (controls['equipmentCode'].valueChanges | async)
+      "
+      [value]="equipment"
+      color="primary"
+    >
+      {{ equipment.code }} - {{ equipment.name }}
+    </mat-list-option>
+  </mat-selection-list>
+  <mat-list *ngIf="controls['showSelectedEquipments'].valueChanges | async">
+    <mat-list-item *ngFor="let equipment of selectedEquipments">
+      {{ equipment.code }} - {{ equipment.name }}
+    </mat-list-item>
+  </mat-list>
+</div>

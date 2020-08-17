@@ -1,0 +1,32 @@
+<div class="form-element" [formGroup]="selectEmployeesForm">
+  <mat-form-field>
+    <mat-label>Código del empleado</mat-label>
+    <input type="text" matInput formControlName="employeeId" />
+    <mat-hint>Digite el código del empleado a elegir</mat-hint>
+  </mat-form-field>
+  <mat-slide-toggle color="primary" formControlName="showSelectedEmployees">
+    Mostrar seleccionados
+  </mat-slide-toggle>
+  <mat-selection-list
+    *ngIf="!(controls['showSelectedEmployees'].valueChanges | async)"
+    #employeesListSelection="matSelectionList"
+    formControlName="employeeCodes"
+    (selectionChange)="onSelectEmployee($event)"
+  >
+    <mat-list-option
+      *ngFor="
+        let employee of employees
+          | filterEmployees: (controls['employeeId'].valueChanges | async)
+      "
+      [value]="employee"
+      color="primary"
+    >
+      {{ employee.id }} - {{ employee.firstName }} {{ employee.lastName }}
+    </mat-list-option>
+  </mat-selection-list>
+  <mat-list *ngIf="controls['showSelectedEmployees'].valueChanges | async">
+    <mat-list-item *ngFor="let employee of selectedEmployees">
+      {{ employee.id }} - {{ employee.firstName }} {{ employee.lastName }}
+    </mat-list-item>
+  </mat-list>
+</div>

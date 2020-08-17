@@ -1,0 +1,32 @@
+<div class="form-element" [formGroup]="selectProductsForm">
+  <mat-form-field>
+    <mat-label>Código de producto</mat-label>
+    <input type="text" matInput formControlName="productCode" />
+    <mat-hint>Digite el código del producto a elegir</mat-hint>
+  </mat-form-field>
+  <mat-slide-toggle color="primary" formControlName="showSelectedProducts">
+    Mostrar seleccionados
+  </mat-slide-toggle>
+  <mat-selection-list
+    *ngIf="!(controls['showSelectedProducts'].valueChanges | async)"
+    #productsListSelection="matSelectionList"
+    formControlName="productCodes"
+    (selectionChange)="onSelectProduct($event)"
+  >
+    <mat-list-option
+      *ngFor="
+        let product of products
+          | filterProducts: (controls['productCode'].valueChanges | async)
+      "
+      [value]="product"
+      color="primary"
+    >
+      {{ product.code }} - {{ product.name }}
+    </mat-list-option>
+  </mat-selection-list>
+  <mat-list *ngIf="controls['showSelectedProducts'].valueChanges | async">
+    <mat-list-item *ngFor="let product of selectedProducts">
+      {{ product.code }} - {{ product.name }}
+    </mat-list-item>
+  </mat-list>
+</div>
