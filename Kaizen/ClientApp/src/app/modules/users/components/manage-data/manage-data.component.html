@@ -1,0 +1,105 @@
+<section class="container">
+  <div>
+    <h1 class="text-center">
+      Configuración de datos
+    </h1>
+    <mat-tab-group mat-align-tabs="center">
+      <mat-tab>
+        <ng-template mat-tab-label>Cambiar contraseña de acceso</ng-template>
+        <ng-template matTabContent>
+          <form [formGroup]="changePasswordForm">
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Antigua contraseña</mat-label>
+                <input
+                  [type]="hideOldPassword ? 'password' : 'text'"
+                  matInput
+                  placeholder="Digite su contraseña de acceso"
+                  formControlName="oldPassword"
+                />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  (click)="hideOldPassword = !hideOldPassword"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hideOldPassword"
+                >
+                  <mat-icon>
+                    {{ hideOldPassword ? "visibility_on" : "visibility_off" }}
+                  </mat-icon>
+                </button>
+                <mat-hint>
+                  Por favor digite su antigua contraseña de acceso
+                </mat-hint>
+                <mat-error *ngIf="controls['oldPassword'].hasError('required')">
+                  Su contraseña es requerida
+                </mat-error>
+                <mat-error
+                  *ngIf="controls['oldPassword'].hasError('minlength')"
+                >
+                  La contraseña debe tener al menos 8 caracteres
+                </mat-error>
+                <mat-error
+                  *ngIf="controls['oldPassword'].hasError('maxlength')"
+                >
+                  La contraseña no debe tener mas de 30 caracteres
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Nueva contraseña</mat-label>
+                <input
+                  [type]="hideNewPassword ? 'password' : 'text'"
+                  matInput
+                  placeholder="Digite su contraseña de acceso"
+                  formControlName="newPassword"
+                />
+                <button
+                  mat-icon-button
+                  matSuffix
+                  (click)="hideNewPassword = !hideNewPassword"
+                  [attr.aria-label]="'Hide password'"
+                  [attr.aria-pressed]="hideNewPassword"
+                >
+                  <mat-icon>
+                    {{ hideNewPassword ? "visibility_on" : "visibility_off" }}
+                  </mat-icon>
+                </button>
+                <mat-hint>
+                  Por favor digite su antigua contraseña de acceso
+                </mat-hint>
+                <mat-error *ngIf="controls['newPassword'].hasError('required')">
+                  Su contraseña es requerida
+                </mat-error>
+                <mat-error
+                  *ngIf="controls['newPassword'].hasError('minlength')"
+                >
+                  La contraseña debe tener al menos 8 caracteres
+                </mat-error>
+                <mat-error
+                  *ngIf="controls['newPassword'].hasError('maxlength')"
+                >
+                  La contraseña no debe tener mas de 30 caracteres
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </form>
+          <div class="form-buttons">
+            <button
+              mat-raised-button
+              class="royal_azure"
+              (click)="changePassword()"
+            >
+              Cambiar contraseña
+            </button>
+          </div>
+        </ng-template>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>Datos personales</ng-template>
+        <ng-template matTabContent></ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</section>
