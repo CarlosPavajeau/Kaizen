@@ -57,7 +57,11 @@
             >
               <mat-icon>visibility</mat-icon>
             </a>
-            <a mat-icon-button [matTooltip]="'Editar empleado'">
+            <a
+              mat-icon-button
+              routerLink="/employees/edit/{{ employee.id }}"
+              [matTooltip]="'Editar empleado'"
+            >
               <mat-icon>edit</mat-icon>
             </a>
             <a mat-icon-button [matTooltip]="'Eliminar empleado'">

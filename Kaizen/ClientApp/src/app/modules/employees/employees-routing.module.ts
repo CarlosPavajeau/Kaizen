@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { AdminGuard } from '@core/guards/admin.guard';
+import { AuthGuard } from '@core/guards/auth.guard';
+import { EmployeeDetailComponent } from './components/employee-detail/employee-detail.component';
+import { EmployeeEditComponent } from './components/employee-edit/employee-edit.component';
 import { EmployeeRegisterComponent } from './components/employee-register/employee-register.component';
 import { EmployeesComponent } from './components/employees/employees.component';
-import { AuthGuard } from '@core/guards/auth.guard';
-import { AdminGuard } from '@core/guards/admin.guard';
-import { EmployeeDetailComponent } from './components/employee-detail/employee-detail.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
       {
         path: 'register',
         component: EmployeeRegisterComponent
+      },
+      {
+        path: 'edit/:id',
+        component: EmployeeEditComponent
       },
       {
         path: ':id',

@@ -8,9 +8,10 @@ import { SharedModule } from '@shared/shared.module';
 import { UserModule } from '@modules/users/user.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EmployeeDetailComponent } from './components/employee-detail/employee-detail.component';
+import { EmployeeEditComponent } from './components/employee-edit/employee-edit.component';
 
 @NgModule({
-  declarations: [ EmployeeRegisterComponent, EmployeesComponent, EmployeeDetailComponent ],
+  declarations: [ EmployeeRegisterComponent, EmployeesComponent, EmployeeDetailComponent, EmployeeEditComponent ],
   imports: [ EmployeesRoutingModule, SharedModule, UserModule, FormsModule, ReactiveFormsModule ]
 })
 export class EmployeesModule {}
