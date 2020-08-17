@@ -18,7 +18,8 @@ namespace Kaizen.Infrastructure.Repositories
 
         public override async Task<Employee> FindByIdAsync(string id)
         {
-            return await ApplicationDbContext.Employees
+            return await ApplicationDbContext.Employees.Include(e => e.EmployeeContract)
+                .Include(e => e.EmployeeCharge)
                 .Where(e => e.Id == id || e.UserId == id).FirstOrDefaultAsync();
         }
 
