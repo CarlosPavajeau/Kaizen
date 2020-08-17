@@ -13,7 +13,8 @@ export class FilterEquipmentsPipe implements PipeTransform {
     filterText = filterText.trim().toLowerCase();
     return value.filter((equipment) => {
       return (
-        equipment.code.toLowerCase().indexOf(filterText) !== -1 || equipment.name.toLowerCase().indexOf(filterText)
+        equipment.code.toLowerCase().indexOf(filterText) !== -1 ||
+        equipment.name.toLowerCase().indexOf(filterText) !== -1
       );
     });
   }
