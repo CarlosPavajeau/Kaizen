@@ -136,7 +136,12 @@
           </form>
           <div class="form-buttons">
             <button matStepperPrevious mat-raised-button>Regresar</button>
-            <button (click)="onSubmit()" mat-raised-button class="royal_azure">
+            <button
+              (click)="onSubmit()"
+              mat-raised-button
+              class="royal_azure"
+              [appLoadingButton]="savingData"
+            >
               Registrar
             </button>
           </div>

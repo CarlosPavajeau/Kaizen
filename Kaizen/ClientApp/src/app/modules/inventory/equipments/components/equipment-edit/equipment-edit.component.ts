@@ -17,6 +17,8 @@ export class EquipmentEditComponent implements OnInit, IForm {
   equipmentBasicDataForm: FormGroup;
   equipmentInInventoryForm: FormGroup;
 
+  updatingEquipment = false;
+
   get controls(): { [key: string]: AbstractControl } {
     return this.equipmentBasicDataForm.controls;
   }
@@ -89,12 +91,14 @@ export class EquipmentEditComponent implements OnInit, IForm {
   }
 
   private updateEquipment(): void {
+    this.updatingEquipment = true;
     this.equipmentService.updateEquipment(this.equipment).subscribe((upgradedEquipment) => {
       if (upgradedEquipment) {
         this.notificationsService.showSuccessMessage(
           `Se actualizaron correctamente los datos del equipo identificado con el código ${this.equipment.code}.`,
           () => {
             this.equipment = upgradedEquipment;
+            this.updatingEquipment = false;
           }
         );
       }

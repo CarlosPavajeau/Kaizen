@@ -217,7 +217,12 @@
           </div>
           <div class="form-buttons">
             <button mat-raised-button matStepperPrevious>Regresar</button>
-            <button mat-raised-button class="royal_azure" (click)="onSubmit()">
+            <button
+              mat-raised-button
+              class="royal_azure"
+              (click)="onSubmit()"
+              [appLoadingButton]="savingData"
+            >
               Registrar producto
             </button>
           </div>

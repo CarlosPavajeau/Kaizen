@@ -16,6 +16,8 @@ export class EquipmentRegisterComponent implements OnInit, IForm {
   equipmentForm: FormGroup;
   equipmentBuyForm: FormGroup;
 
+  savingData = false;
+
   public get controls(): { [key: string]: AbstractControl } {
     return this.equipmentForm.controls;
   }
@@ -64,6 +66,7 @@ export class EquipmentRegisterComponent implements OnInit, IForm {
     if (this.equipmentForm.valid && this.equipmentBuyForm.valid) {
       const equipment: Equipment = this.mapEquipment();
 
+      this.savingData = true;
       this.equipmentService.saveEquipment(equipment).subscribe((equipmentSave) => {
         this.notificationService.showSuccessMessage(
           `El equipo ${equipmentSave.name} ha sido registrado con éxito`,

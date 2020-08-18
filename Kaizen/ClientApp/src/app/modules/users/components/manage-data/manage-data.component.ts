@@ -23,6 +23,8 @@ export class ManageDataComponent implements OnInit, IForm {
   hideOldPassword = true;
   hideNewPassword = true;
 
+  updatingData = false;
+
   get controls(): { [key: string]: AbstractControl } {
     return this.changePasswordForm.controls;
   }
@@ -56,12 +58,14 @@ export class ManageDataComponent implements OnInit, IForm {
     if (this.changePasswordForm.valid) {
       const changePasswordModel: ChangePasswordModel = { ...this.changePasswordForm.value };
       const currentUser: User = this.authService.getCurrentUser();
+
+      this.updatingData = true;
       this.userService
         .changePassword(currentUser.id, changePasswordModel)
         .pipe(
           catchError((error: any) => {
             this.errorHandlerService.handleHttpError(error, () => {
-              return;
+              this.updatingData = false;
             });
             return of(null);
           })

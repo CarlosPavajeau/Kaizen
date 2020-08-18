@@ -105,7 +105,12 @@
             <button matStepperPrevious mat-raised-button>
               Regresar
             </button>
-            <button mat-raised-button (click)="onSubmit()" class="royal_azure">
+            <button
+              mat-raised-button
+              (click)="onSubmit()"
+              class="royal_azure"
+              [appLoadingButton]="savingData"
+            >
               Registrar servicio
             </button>
           </div>

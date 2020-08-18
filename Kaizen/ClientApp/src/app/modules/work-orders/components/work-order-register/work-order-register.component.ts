@@ -26,6 +26,8 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
 
   @ViewChild('digitalSignature') digitalSignature: DigitalSignatureComponent;
 
+  savingOrUpdatingData = false;
+
   get controls(): { [key: string]: AbstractControl } {
     return this.workOrderForm.controls;
   }
@@ -98,12 +100,14 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
         validity: date
       };
 
+      this.savingOrUpdatingData = true;
       this.workOrderService.saveWorkOrder(workOrder).subscribe((workOrderSave) => {
         if (workOrderSave) {
           this.notificationsService.showSuccessMessage(
             `Orden de trabajo N°${workOrderSave.code} generada con éxito.`,
             () => {
               this.workOrder = workOrderSave;
+              this.savingOrUpdatingData = false;
             }
           );
         }
@@ -118,12 +122,14 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
         workOrder.clientSignature = this.digitalSignature.getImageData();
         workOrder.workOrderState = WorkOrderState.Confirmed;
 
+        this.savingOrUpdatingData = true;
         this.workOrderService.updateWorkOrder(workOrder).subscribe((workOrderUpdate) => {
           if (workOrderUpdate) {
             this.notificationsService.showSuccessMessage(
               `Orden de trabajo N°${workOrderUpdate.code} confirmada correctamente.`,
               () => {
                 this.workOrder = workOrderUpdate;
+                this.savingOrUpdatingData = false;
               }
             );
           }
@@ -134,6 +140,8 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
 
   cancelWorkOrder(): void {
     this.workOrder.workOrderState = WorkOrderState.Canceled;
+
+    this.savingOrUpdatingData = true;
     this.workOrderService.updateWorkOrder(this.workOrder).subscribe((workOrderUpdate) => {
       if (workOrderUpdate) {
         this.notificationsService.showSuccessMessage(
@@ -160,6 +168,7 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
 
       this.workOrder.workOrderState = WorkOrderState.Valid;
 
+      this.savingOrUpdatingData = true;
       this.workOrderService.updateWorkOrder(this.workOrder).subscribe((workOrderUpdate) => {
         if (workOrderUpdate) {
           this.notificationsService.showSuccessMessage(

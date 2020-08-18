@@ -10,10 +10,16 @@
       mat-raised-button
       class="royal_azure mr-2"
       (click)="acceptSuggestedDate()"
+      [appLoadingButton]="updatingServiceRequest"
     >
       Aceptar fecha sugerida
     </button>
-    <button mat-stroked-button color="primary" (click)="suggestAnotherDate()">
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="suggestAnotherDate()"
+      [appLoadingButton]="updatingServiceRequest"
+    >
       Sugerir otra fecha
     </button>
   </div>

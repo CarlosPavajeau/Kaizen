@@ -1,19 +1,19 @@
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationService } from '@core/authentication/authentication.service';
 import { Component, OnInit } from '@angular/core';
-import { IForm } from '@core/models/form';
-import { NotificationsService } from '@shared/services/notifications.service';
-import { PERIODICITIES, Periodicity } from '@modules/service-requests/models/periodicity-type';
-import { ServiceRequestState } from '@modules/service-requests/models/service-request-state';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Service } from '@modules/services/models/service';
-import { ServiceRequest } from '@modules/service-requests/models/service-request';
-import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
-import { ServiceService } from '@modules/services/services/service.service';
-import { Client } from '@modules/clients/models/client';
+import { AuthenticationService } from '@core/authentication/authentication.service';
+import { IForm } from '@core/models/form';
 import { buildIsoDate } from '@core/utils/date-utils';
-import { catchError } from 'rxjs/operators';
+import { Client } from '@modules/clients/models/client';
+import { PERIODICITIES, Periodicity } from '@modules/service-requests/models/periodicity-type';
+import { ServiceRequest } from '@modules/service-requests/models/service-request';
+import { ServiceRequestState } from '@modules/service-requests/models/service-request-state';
+import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
+import { Service } from '@modules/services/models/service';
+import { ServiceService } from '@modules/services/services/service.service';
+import { NotificationsService } from '@shared/services/notifications.service';
 import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-service-request-register',
@@ -26,6 +26,8 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
   periodicities: Periodicity[];
   serviceRequest: ServiceRequest;
   private clientId: string;
+
+  savingData = false;
 
   get controls(): { [key: string]: AbstractControl } {
     return this.serviceRequestForm.controls;
@@ -81,6 +83,7 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
   onSubmit(): void {
     if (this.serviceRequestForm.valid) {
       const serviceRequest = this.mapServiceRequest();
+      this.savingData = true;
       this.serviceRequestService.saveServiceRequest(serviceRequest).subscribe((serviceRequestSave) => {
         if (serviceRequestSave) {
           this.notificationService.showSuccessMessage(

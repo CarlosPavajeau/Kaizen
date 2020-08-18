@@ -16,6 +16,8 @@ import { NotificationsService } from '@shared/services/notifications.service';
 export class ServiceRequestNewDateComponent implements OnInit {
   serviceRequest: ServiceRequest;
 
+  updatingServiceRequest = false;
+
   constructor(
     private serviceRequestService: ServiceRequestService,
     private router: Router,
@@ -54,6 +56,7 @@ export class ServiceRequestNewDateComponent implements OnInit {
   }
 
   private updateServiceRequest(): void {
+    this.updatingServiceRequest = true;
     this.serviceRequestService.updateServiceRequest(this.serviceRequest).subscribe((serviceRequestUpdate) => {
       this.notificationsService.showSuccessMessage(
         'Fecha de la solicitud del servicio modificada con éxito. Espere nuestra respuesta.',

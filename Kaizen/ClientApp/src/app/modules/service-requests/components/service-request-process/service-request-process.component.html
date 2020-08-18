@@ -16,6 +16,7 @@
     </div>
     <div>
       <a
+        *ngIf="!updatingServiceRequest"
         mat-raised-button
         class="royal_azure mr-5"
         routerLink="/activity_schedule/register"
@@ -28,10 +29,16 @@
         color="warn"
         class="mr-5"
         (click)="cancelServiceRequest()"
+        [appLoadingButton]="updatingServiceRequest"
       >
         Cancelar solicitud
       </button>
-      <button mat-stroked-button color="primary" (click)="suggestAnotherDate()">
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="suggestAnotherDate()"
+        [appLoadingButton]="updatingServiceRequest"
+      >
         Sugerir otra fecha
       </button>
     </div>
@@ -48,10 +55,16 @@
         mat-raised-button
         class="royal_azure mr-5"
         (click)="suggestAnotherDate()"
+        [appLoadingButton]="updatingServiceRequest"
       >
         Sugerir otra fecha
       </button>
-      <button mat-stroked-button color="warn" (click)="cancelServiceRequest()">
+      <button
+        mat-stroked-button
+        color="warn"
+        (click)="cancelServiceRequest()"
+        [appLoadingButton]="updatingServiceRequest"
+      >
         Cancelar solicitud
       </button>
     </div>

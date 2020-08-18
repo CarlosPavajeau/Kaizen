@@ -53,13 +53,20 @@
             mat-button
             color="primary"
             (click)="acceptClient(clientRequest)"
+            [appLoadingButton]="updatingClientResquest"
           >
             Aceptar
           </button>
-          <button mat-button color="warn" (click)="rejectClient(clientRequest)">
+          <button
+            mat-button
+            color="warn"
+            (click)="rejectClient(clientRequest)"
+            [appLoadingButton]="updatingClientResquest"
+          >
             Rechazar
           </button>
           <a
+            *ngIf="!updatingClientResquest"
             mat-button
             class="royal_azure"
             routerLink="/clients/requests/{{ clientRequest.id }}"

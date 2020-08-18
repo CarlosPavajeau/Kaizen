@@ -19,6 +19,8 @@ export class ServiceRequestProcessComponent implements OnInit {
   techniciansAvailable: Employee[] = [];
   serviceRequestCode: number;
 
+  updatingServiceRequest = false;
+
   constructor(
     private serviceRequestService: ServiceRequestService,
     private employeeService: EmployeeService,
@@ -49,6 +51,7 @@ export class ServiceRequestProcessComponent implements OnInit {
 
   cancelServiceRequest(): void {
     this.serviceRequest.state = ServiceRequestState.Rejected;
+    this.updatingServiceRequest = true;
     this.serviceRequestService.updateServiceRequest(this.serviceRequest).subscribe((serviceRequestUpdate) => {
       if (serviceRequestUpdate) {
         this.router.navigateByUrl('/service_requests');
@@ -65,6 +68,7 @@ export class ServiceRequestProcessComponent implements OnInit {
       if (date) {
         this.serviceRequest.date = date;
         this.serviceRequest.state = ServiceRequestState.PendingSuggestedDate;
+        this.updatingServiceRequest = true;
         this.serviceRequestService.updateServiceRequest(this.serviceRequest).subscribe((serviceRequestUpdate) => {
           if (serviceRequestUpdate) {
             this.notificationsService.showSuccessMessage(`Fecha de solicitud de servicio modificada con éxito`, () => {

@@ -1,7 +1,7 @@
-import { Client } from '@modules/clients/models/client';
-import { ClientService } from '@modules/clients/services/client.service';
-import { ClientState } from '@modules/clients/models/client-state';
 import { Component, OnInit } from '@angular/core';
+import { Client } from '@modules/clients/models/client';
+import { ClientState } from '@modules/clients/models/client-state';
+import { ClientService } from '@modules/clients/services/client.service';
 import { NewClientSignalrService } from '@modules/clients/services/new-client-signalr.service';
 import { NotificationsService } from '@shared/services/notifications.service';
 
@@ -12,6 +12,8 @@ import { NotificationsService } from '@shared/services/notifications.service';
 })
 export class ClientRequestsComponent implements OnInit {
   clientRequests: Client[];
+  updatingClientResquest = false;
+
   constructor(
     private clientService: ClientService,
     private notificationsService: NotificationsService,
@@ -44,8 +46,10 @@ export class ClientRequestsComponent implements OnInit {
   }
 
   private proccessClient(client: Client): void {
+    this.updatingClientResquest = true;
     this.clientService.updateClient(client).subscribe((clientUpdate) => {
       this.clientRequests = this.clientRequests.filter((c) => c.id !== clientUpdate.id);
+      this.updatingClientResquest = false;
     });
   }
 }

@@ -102,7 +102,12 @@
             </div>
           </form>
           <div class="form-buttons">
-            <button mat-raised-button class="royal_azure" (click)="onSubmit()">
+            <button
+              mat-raised-button
+              class="royal_azure"
+              (click)="onSubmit()"
+              [appLoadingButton]="savingData"
+            >
               Enviar solicitud de servicio
             </button>
           </div>

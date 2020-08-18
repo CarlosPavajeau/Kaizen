@@ -24,6 +24,8 @@ export class ProductEditComponent implements OnInit, IForm {
   productInInventoryForm: FormGroup;
   productDocumentsForm: FormGroup;
 
+  uploadingProduct = false;
+
   get controls(): { [key: string]: AbstractControl } {
     return this.productForm.controls;
   }
@@ -133,6 +135,7 @@ export class ProductEditComponent implements OnInit, IForm {
   }
 
   private updateProduct(): void {
+    this.uploadingProduct = true;
     this.productService.updateProduct(this.product).subscribe((productUpdated) => {
       if (productUpdated) {
         this.notificationsService.showSuccessMessage(
@@ -140,6 +143,7 @@ export class ProductEditComponent implements OnInit, IForm {
           () => {
             this.product = productUpdated;
             this.afterLoadProduct();
+            this.uploadingProduct = false;
           }
         );
       }

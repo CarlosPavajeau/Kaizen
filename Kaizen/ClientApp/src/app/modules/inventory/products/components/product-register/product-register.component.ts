@@ -27,6 +27,8 @@ export class ProductRegisterComponent implements OnInit, IForm {
   uploading = false;
   uploadP: number;
 
+  savingData = false;
+
   public get controls(): { [key: string]: AbstractControl } {
     return this.productForm.controls;
   }
@@ -90,6 +92,7 @@ export class ProductRegisterComponent implements OnInit, IForm {
 
   onSubmit() {
     if (this.productForm.valid && this.productDocumentsForm.valid) {
+      this.savingData = true;
       this.uploadDocuments().subscribe((result) => {
         if (result.type === HttpEventType.UploadProgress) {
           this.uploadP = Math.round(100 * (result.loaded / result.total));

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ClientService } from '../../services/client.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Client } from '../../models/client';
 import { ClientState } from '../../models/client-state';
+import { ClientService } from '../../services/client.service';
 
 @Component({
   selector: 'app-client-request-detail',
@@ -11,6 +11,7 @@ import { ClientState } from '../../models/client-state';
 })
 export class ClientRequestDetailComponent implements OnInit {
   clientRequest: Client;
+  updatingClientResquest = false;
 
   constructor(private clientService: ClientService, private activeRoute: ActivatedRoute, private router: Router) {}
 
@@ -35,6 +36,7 @@ export class ClientRequestDetailComponent implements OnInit {
 
   proccessClient(state: ClientState): void {
     this.clientRequest.state = state;
+    this.updatingClientResquest = true;
     this.clientService.updateClient(this.clientRequest).subscribe((clientUpdate) => {
       this.router.navigateByUrl('/clients/requests');
     });

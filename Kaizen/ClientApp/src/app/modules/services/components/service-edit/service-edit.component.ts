@@ -26,6 +26,8 @@ export class ServiceEditComponent implements OnInit, IForm {
   @ViewChild('selectProducts') selectProducts: SelectProductsComponent;
   @ViewChild('selectEmployees') selectEmployees: SelectEmployeesComponent;
 
+  updatingService = true;
+
   get controls(): { [key: string]: AbstractControl } {
     return this.basicDataForm.controls;
   }
@@ -134,12 +136,14 @@ export class ServiceEditComponent implements OnInit, IForm {
   }
 
   private updateService(): void {
+    this.updatingService = true;
     this.serviceService.updateService(this.service).subscribe((serviceUpdated) => {
       if (serviceUpdated) {
         this.notificationsService.showSuccessMessage(
           `Datos del servicio ${this.service.name} actualizados con éxito.`,
           () => {
             this.service = serviceUpdated;
+            this.updatingService = false;
           }
         );
       }

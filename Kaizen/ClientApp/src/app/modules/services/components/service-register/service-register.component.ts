@@ -24,6 +24,8 @@ export class ServiceRegisterComponent implements OnInit, IForm {
   @ViewChild('selectEmployees') selectEmployees: SelectEmployeesComponent;
   @ViewChild('selectEquipments') selectEquipments: SelectEquipmentsComponent;
 
+  savingData = false;
+
   public get controls(): { [key: string]: AbstractControl } {
     return this.serviceForm.controls;
   }
@@ -58,6 +60,8 @@ export class ServiceRegisterComponent implements OnInit, IForm {
   onSubmit(): void {
     if (this.allFormsValid()) {
       const service = this.mapService();
+
+      this.savingData = true;
       this.serviceService.saveService(service).subscribe((serviceSave) => {
         this.notificationService.showSuccessMessage(
           `El servicio ${serviceSave.name} ha sido registrado con éxito`,

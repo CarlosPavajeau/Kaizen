@@ -18,6 +18,8 @@ export class EmployeeEditComponent implements OnInit, IForm {
   employeeContractForm: FormGroup;
   employeeCharges: EmployeeCharge[];
 
+  updatingEmployee = false;
+
   get controls(): { [key: string]: AbstractControl } {
     return this.employeeContractForm.controls;
   }
@@ -74,12 +76,14 @@ export class EmployeeEditComponent implements OnInit, IForm {
       this.employee.chargeId = +this.controls['employeeCharge'].value;
       this.employee.employeeContract = employeeContract;
 
+      this.updatingEmployee = true;
       this.employeeService.updateEmployee(this.employee).subscribe((updatedEmployee) => {
         if (updatedEmployee) {
           this.notificationsService.showSuccessMessage(
             `Los datos del empleado ${updatedEmployee.firstName} ${updatedEmployee.lastName} fueron actualizados con éxito.`,
             () => {
               this.employee = updatedEmployee;
+              this.updatingEmployee = false;
             }
           );
         }

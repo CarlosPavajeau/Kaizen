@@ -43,6 +43,7 @@
             mat-raised-button
             class="royal_azure"
             (click)="generateWorkOrder()"
+            [appLoadingButton]="savingOrUpdatingData"
           >
             Generar orden de trabajo
           </button>
@@ -62,7 +63,12 @@
             </mat-error>
           </div>
           <div class="form-buttons">
-            <button mat-button color="primary" (click)="clearSignaturePad()">
+            <button
+              mat-button
+              color="primary"
+              (click)="clearSignaturePad()"
+              [appLoadingButton]="savingOrUpdatingData"
+            >
               Limpiar firma
             </button>
           </div>
@@ -72,10 +78,16 @@
             mat-raised-button
             class="royal_azure mr-4"
             (click)="confirmWorkOrder()"
+            [appLoadingButton]="savingOrUpdatingData"
           >
             Confirmar orden de trabajo
           </button>
-          <button mat-stroked-button color="warn" (click)="cancelWorkOrder()">
+          <button
+            mat-stroked-button
+            color="warn"
+            (click)="cancelWorkOrder()"
+            [appLoadingButton]="savingOrUpdatingData"
+          >
             Cancelar orden de trabajo
           </button>
         </div>
@@ -125,6 +137,7 @@
             mat-raised-button
             class="royal_azure"
             (click)="saveWorkOrder()"
+            [appLoadingButton]="savingOrUpdatingData"
           >
             Registrar orden de trabajo
           </button>

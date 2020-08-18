@@ -67,6 +67,7 @@
               mat-raised-button
               class="royal_azure"
               (click)="updateProductBasicData()"
+              [appLoadingButton]="uploadingProduct"
             >
               Actualizar datos básicos
             </button>
@@ -109,6 +110,7 @@
               mat-raised-button
               class="royal_azure"
               (click)="updateProductInInventory()"
+              [appLoadingButton]="uploadingProduct"
             >
               Actualizar datos de inventario
             </button>
