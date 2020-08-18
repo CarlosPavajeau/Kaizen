@@ -36,7 +36,11 @@
             >
               <mat-icon>visibility</mat-icon>
             </a>
-            <a mat-icon-button [matTooltip]="'Editar servicio'">
+            <a
+              mat-icon-button
+              routerLink="/services/edit/{{ service.code }}"
+              [matTooltip]="'Editar servicio'"
+            >
               <mat-icon>edit</mat-icon>
             </a>
             <a mat-icon-button [matTooltip]="'Eliminar servicio'">
