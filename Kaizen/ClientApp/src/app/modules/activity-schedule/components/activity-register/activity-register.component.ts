@@ -1,24 +1,24 @@
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Activity } from '@modules/activity-schedule/models/activity';
-import { ActivityScheduleService } from '@modules/activity-schedule/services/activity-schedule.service';
-import { buildIsoDate } from '@app/core/utils/date-utils';
-import { Client } from '@modules/clients/models/client';
-import { ClientService } from '@modules/clients/services/client.service';
 import { Component, OnInit } from '@angular/core';
-import { Employee } from '@modules/employees/models/employee';
-import { EmployeeService } from '@modules/employees/services/employee.service';
-import { IForm } from '@core/models/form';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { NotificationsService } from '@shared/services/notifications.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { buildIsoDate } from '@app/core/utils/date-utils';
+import { zeroPad } from '@app/core/utils/number-utils';
 import { PERIODICITIES, Periodicity } from '@app/modules/service-requests/models/periodicity-type';
 import { ServiceRequestState } from '@app/modules/service-requests/models/service-request-state';
-import { SelectDateModalComponent } from '@shared/components/select-date-modal/select-date-modal.component';
-import { Service } from '@modules/services/models/service';
+import { IForm } from '@core/models/form';
+import { Activity } from '@modules/activity-schedule/models/activity';
+import { ActivityScheduleService } from '@modules/activity-schedule/services/activity-schedule.service';
+import { Client } from '@modules/clients/models/client';
+import { ClientService } from '@modules/clients/services/client.service';
+import { Employee } from '@modules/employees/models/employee';
+import { EmployeeService } from '@modules/employees/services/employee.service';
 import { ServiceRequest } from '@modules/service-requests/models/service-request';
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
+import { Service } from '@modules/services/models/service';
 import { ServiceService } from '@modules/services/services/service.service';
-import { zeroPad } from '@app/core/utils/number-utils';
+import { SelectDateModalComponent } from '@shared/components/select-date-modal/select-date-modal.component';
+import { NotificationsService } from '@shared/services/notifications.service';
 import { ActivityState } from '../../models/activity-state';
 
 @Component({
@@ -31,8 +31,11 @@ export class ActivityRegisterComponent implements OnInit, IForm {
   serviceRequestCode: number;
   techniciansAvailable: Employee[] = [];
   activityForm: FormGroup;
+
   savingData = false;
+  loadingtechniciansAvailable = false;
   fromServiceRequest = false;
+
   services: Service[];
   periodicities: Periodicity[];
   client: Client;
@@ -109,8 +112,10 @@ export class ActivityRegisterComponent implements OnInit, IForm {
       const date = this.controls['date'].value as Date;
       const isoDate = buildIsoDate(date, time);
 
+      this.loadingtechniciansAvailable = true;
       this.employeeService.getTechniciansAvailable(isoDate, serviceCodes).subscribe((techniciansAvailable) => {
         this.techniciansAvailable = techniciansAvailable;
+        this.loadingtechniciansAvailable = false;
       });
     }
   }

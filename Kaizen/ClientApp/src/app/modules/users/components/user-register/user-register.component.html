@@ -49,12 +49,9 @@
           type="submit"
           mat-raised-button
           class="royal_azure"
-          [disabled]="savingData"
+          [appLoadingButton]="savingData"
         >
           Registrarme
-          <mat-icon *ngIf="savingData"
-            ><mat-spinner color="primary" diameter="20"> </mat-spinner
-          ></mat-icon>
         </button>
       </div>
       <a routerLink="/user/login">¿Ya tienes una cuenta?</a>

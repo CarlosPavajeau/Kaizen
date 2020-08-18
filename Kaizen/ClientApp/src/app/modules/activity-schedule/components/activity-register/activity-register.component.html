@@ -149,6 +149,7 @@
                   mat-raised-button
                   class="royal_azure"
                   (click)="loadTechniciansAvailable()"
+                  [appLoadingButton]="loadingtechniciansAvailable"
                 >
                   Buscar técnicos disponibles
                 </button>
@@ -191,12 +192,9 @@
             mat-raised-button
             class="royal_azure mr-5"
             (click)="onSubmit()"
-            [disabled]="savingData"
+            [appLoadingButton]="savingData"
           >
             Agendar actividad
-            <mat-icon *ngIf="savingData"
-              ><mat-spinner color="primary" diameter="20"> </mat-spinner
-            ></mat-icon>
           </button>
           <button
             *ngIf="fromServiceRequest"
