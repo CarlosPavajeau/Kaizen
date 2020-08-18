@@ -64,23 +64,20 @@
             </mat-error>
           </mat-form-field>
         </div>
-        <div class="form-element left">
+        <div class="form-element left session-toggle">
           <mat-slide-toggle [color]="'primary'"
             ><small>Mantener sesión iniciada</small></mat-slide-toggle
           >
         </div>
-        <div class="text-center" style="margin-top: 10px;">
-          <div style="display: block; margin-bottom: 5px;">
+        <div class="text-center login-actions">
+          <div class="login-button">
             <button
               type="submit"
               mat-raised-button
               class="royal_azure"
-              [disabled]="loading"
+              [appLoadingButton]="loading"
             >
               Iniciar sesión
-              <mat-icon *ngIf="loading"
-                ><mat-spinner color="primary" diameter="20"> </mat-spinner
-              ></mat-icon>
             </button>
           </div>
           <div class="text-center">

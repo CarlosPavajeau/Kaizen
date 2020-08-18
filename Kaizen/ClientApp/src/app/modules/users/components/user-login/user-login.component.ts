@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpErrorHandlerService } from '@app/shared/services/http-error-handler.service';
 import { AuthenticationService } from '@core/authentication/authentication.service';
-import { LoginRequest } from '@core/models/login-request';
 import { IForm } from '@core/models/form';
+import { LoginRequest } from '@core/models/login-request';
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-login',
@@ -21,7 +24,11 @@ export class UserLoginComponent implements OnInit, IForm {
     return this.loginForm.controls;
   }
 
-  constructor(private authService: AuthenticationService, private formBuilder: FormBuilder) {}
+  constructor(
+    private authService: AuthenticationService,
+    private formBuilder: FormBuilder,
+    private errorHandler: HttpErrorHandlerService
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -42,20 +49,22 @@ export class UserLoginComponent implements OnInit, IForm {
         password: this.controls['password'].value
       };
 
-      this.authService.loginUser(loginRequest).subscribe(
-        (user) => {
+      this.authService
+        .loginUser(loginRequest)
+        .pipe(
+          catchError((error: any) => {
+            this.errorHandler.handleHttpError(error, () => {
+              this.loading = false;
+            });
+            return of(null);
+          })
+        )
+        .subscribe((user) => {
           if (user) {
             this.authService.setCurrentUser(user);
             window.location.reload();
-          } else {
-            this.invalidUserOrEmail = true;
           }
-        },
-        (error) => {
-          this.loading = false;
-          throw error;
-        }
-      );
+        });
     } else {
       this.invalidForm = true;
     }
