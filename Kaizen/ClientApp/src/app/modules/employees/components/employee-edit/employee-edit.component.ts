@@ -75,6 +75,7 @@ export class EmployeeEditComponent implements OnInit, IForm {
 
       this.employee.chargeId = +this.controls['employeeCharge'].value;
       this.employee.employeeContract = employeeContract;
+      this.employee.contractCode = employeeContract.contractCode;
 
       this.updatingEmployee = true;
       this.employeeService.updateEmployee(this.employee).subscribe((updatedEmployee) => {
