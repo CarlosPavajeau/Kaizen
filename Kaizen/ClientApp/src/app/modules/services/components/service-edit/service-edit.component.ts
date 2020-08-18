@@ -26,7 +26,7 @@ export class ServiceEditComponent implements OnInit, IForm {
   @ViewChild('selectProducts') selectProducts: SelectProductsComponent;
   @ViewChild('selectEmployees') selectEmployees: SelectEmployeesComponent;
 
-  updatingService = true;
+  updatingService = false;
 
   get controls(): { [key: string]: AbstractControl } {
     return this.basicDataForm.controls;
