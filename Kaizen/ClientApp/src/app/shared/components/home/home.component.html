@@ -1,164 +1,207 @@
 <main>
   <app-header></app-header>
-    <div class="container">
-      <main>
-        <div class="center-content">
-          <div class="row">
-            <div class="col col-lg-6 col-sm-12">
-              <mat-card id="mision">
-                <mat-card-header class="center-flex-content">
-                  <mat-card-title>Misión</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                  <p>
-                    <strong>ECOLPLAG S.A.S.</strong> es una empresa dedicada a la prestación de servicios en prevención y manejo integrado de plagas, control de fauna doméstica y silvestre, además de otras actividades de limpieza y desinfección,
-                    en todos los sectores económicos; utilizando técnicas innovadoras de alta calidad, talento humano calificado, tecnología de punta, costos competitivos y cuidado del medio ambiente.
-                    </p>
-                </mat-card-content>
-              </mat-card>
+  <article>
+    <div class="home-rows">
+      <div layout="row" layout-xs="column" class="home-row">
+        <div class="promo-img">
+          <div>
+            <img
+              src="/assets/images/EmployeeAsset_01.svg"
+              height="222"
+              width="330"
+              alt="Misión"
+            />
+          </div>
+        </div>
+        <div class="text-container">
+          <div class="text-block">
+            <div class="text-headline">Nuestra misión</div>
+            <p class="text-body">
+              <strong>ECOLPLAG S.A.S.</strong> es una empresa dedicada a la
+              prestación de servicios en prevención y manejo integrado de
+              plagas, control de fauna doméstica y silvestre, además de otras
+              actividades de limpieza y desinfección, en todos los sectores
+              económicos; utilizando técnicas innovadoras de alta calidad,
+              talento humano calificado, tecnología de punta, costos
+              competitivos y cuidado del medio ambiente.
+            </p>
+          </div>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <div layout="row" layout-xs="column" class="home-row">
+        <div class="text-container">
+          <div class="text-block">
+            <div class="text-headline">Nuestra visión</div>
+            <p class="text-body">
+              <strong>ECOLPLAG S.A.S.</strong> se proyecta como una empresa
+              líder a nivel regional y nacional en la prestación de servicios
+              para los diferentes sectores económicos, manteniendo los más altos
+              estándares de confiabilidad, seguridad y calidad de servicio.
+            </p>
+          </div>
+        </div>
+        <div class="promo-img">
+          <div>
+            <img
+              src="/assets/images/HandWithPlant.svg"
+              height="222"
+              width="270"
+              alt="Misión"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div class="our-services">
+      <h1 class="text-center text-capitalize mat-h1" style="font-size: 32px;">
+        Nuestros servicios
+      </h1>
+      <div>
+        <div layout="row" layout-xs="column" class="home-row">
+          <div class="promo-img">
+            <div>
+              <img
+                src="/assets/images/EmployeeAsset_02.svg"
+                height="222"
+                width="270"
+                alt="Misión"
+              />
             </div>
-            <div class="col col-lg-6 col-sm-12">
-              <mat-card id="vision">
-                <mat-card-header class="center-flex-content">
-                  <mat-card-title>Visión</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                  <p>
-                    <strong>ECOLPLAG S.A.S.</strong> se proyecta como una empresa líder a nivel regional y nacional en la prestación de servicios para los diferentes sectores económicos, manteniendo los más altos estándares de confiabilidad,
-                    seguridad y calidad de servicio.
-                    </p>
-                </mat-card-content>
-              </mat-card>
+          </div>
+          <div class="text-container">
+            <div class="text-block">
+              <div class="text-headline">
+                Control de plagas
+              </div>
+              <p class="text-body">
+                Servicio dedicado al control de plagas como: ratas, cucarachas,
+                mosquitos, ácaros, serpientes, y muchas más.
+              </p>
             </div>
           </div>
         </div>
-        <section>
-          <div class="center-text">
-            <h2>Disponemos de servicios como:</h2>
-            <div class="card-columns animated fadeIn fast">
-              <div class="card mb-3" style="max-width: 540px;" class="card alert-dark">
-                <div class="row no-gutters">
-                  <div class="col-md-4">
-                    <div id="img1">
-                        <img src="assets/images/lavado.jpg" class="card-img" alt="Card imagen cap">
-                    </div>
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <p class="card-text" class="text-center">Lavado y desinfección de tanques de agua.</p>
-                      <button type="button" class="btn btn-outline-primary btn-block" routerLink="/ourservices">
-                        Más info.
-                      </button>
-                      <button type="button" class="btn btn-outline-primary btn-block" routerLink="/service_requests/register">
-                        Solicitar servicio
-                      </button>
-                    </div>
-                  </div>
-                </div>
+        <mat-divider></mat-divider>
+        <div layout="row" layout-xs="column" class="home-row">
+          <div class="text-container">
+            <div class="text-block">
+              <div class="text-headline">
+                Desinfección de ambientes y superficies
               </div>
-              <div class="card mb-3" style="max-width: 540px;" class="card alert-dark">
-                <div class="row no-gutters">
-                  <div class="col-md-4">
-                      <div id="img2">
-                        <img src="assets/images/controlPlagas.jpg" class="card-img" alt="Card imagen cap">
-                      </div>
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <p class="card-text" class="text-center">Control de plagas.</p><br>
-                      <button type="button" class="btn btn-outline-primary btn-block" routerLink="/ourservices">
-                        Más info.
-                      </button>
-                      <button type="button" class="btn btn-outline-primary btn-block" routerLink="/service_requests/register">
-                        Solicitar servicio
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card mb-3" style="max-width: 540px;" class="card alert-dark">
-                <div class="row no-gutters">
-                  <div class="col-md-4">
-                      <div id="img3">
-                        <img src="assets/images/jardineria.jpg" class="card-img" alt="Card imagen cap">
-                      </div>
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <p class="card-text" class="text-center">Jardinería.</p><br>
-                      <button type="button" class="btn btn-outline-primary btn-block" routerLink="/ourservices">
-                        Más info.
-                      </button>
-                      <button type="button" class="btn btn-outline-primary btn-block" routerLink="/service_requests/register">
-                        Solicitar servicio
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card mb-3" style="max-width: 540px;" class="card alert-dark">
-                <div class="row no-gutters">
-                  <div class="col-md-4">
-                      <div id="img4">
-                        <img src="assets/images/saneamiento.jpg" class="card-img" alt="Card imagen cap">
-                      </div>
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <p class="card-text" class="text-center">Saneamiento de lugares.</p><br>
-                      <button type="button" class="btn btn-outline-primary btn-block" routerLink="/ourservices">
-                        Más info.
-                      </button>
-                      <button type="button" class="btn btn-outline-primary btn-block" routerLink="/service_requests/register">
-                        Solicitar servicio
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card mb-3" style="max-width: 540px;" class="card alert-dark">
-                <div class="row no-gutters">
-                  <div class="col-md-4">
-                      <div id="img5">
-                        <img src="assets/images/limpieza.jpg" class="card-img" alt="Card imagen cap">
-                      </div>
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <p class="card-text" class="text-center">Limpieza de espacios.</p><br>
-                      <button type="button" class="btn btn-outline-primary btn-block" routerLink="/ourservices">
-                        Más info.
-                      </button>
-                      <button type="button" class="btn btn-outline-primary btn-block" routerLink="/service_requests/register">
-                        Solicitar servicio
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card mb-3" style="max-width: 540px;" class="card alert-dark">
-                <div class="row no-gutters">
-                  <div class="col-md-4">
-                      <div id="img6">
-                        <img src="assets/images/captura.png" class="card-img" alt="Card imagen cap">
-                      </div>
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <p class="card-text" class="text-center">Rehabilitación de animales domésticos y silvestres.</p>
-                      <button type="button" class="btn btn-outline-primary btn-block" routerLink="/ourservices">
-                        Más info.
-                      </button>
-                      <button type="button" class="btn btn-outline-primary btn-block" routerLink="/service_requests/register">
-                        Solicitar servicio
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <p class="text-body">
+                Lavado y desinfección de tanques de agua.
+              </p>
             </div>
           </div>
-        </section>
-      </main>
+          <div class="promo-img">
+            <div>
+              <img
+                src="/assets/images/HandWithPlant.svg"
+                height="222"
+                width="270"
+                alt="Misión"
+              />
+            </div>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div layout="row" layout-xs="column" class="home-row">
+          <div class="promo-img">
+            <div>
+              <img
+                src="/assets/images/HandWithPlant.svg"
+                height="222"
+                width="270"
+                alt="Misión"
+              />
+            </div>
+          </div>
+          <div class="text-container">
+            <div class="text-block">
+              <div class="text-headline">
+                Captura y reubicación de animales
+              </div>
+              <p class="text-body">
+                Servicio dedicado a la captura y rehabilitación de animales
+                demésticos o fauna silvestre que necesiten cambiar de
+                ecosistema.
+              </p>
+            </div>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div layout="row" layout-xs="column" class="home-row">
+          <div class="text-container">
+            <div class="text-block">
+              <div class="text-headline">
+                Matenimiento de sistemas y equipos
+              </div>
+              <p class="text-body">
+                Lavado y desinfección de tanques de agua.
+              </p>
+            </div>
+          </div>
+          <div class="promo-img">
+            <div>
+              <img
+                src="/assets/images/HandWithPlant.svg"
+                height="222"
+                width="270"
+                alt="Misión"
+              />
+            </div>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div layout="row" layout-xs="column" class="home-row">
+          <div class="promo-img">
+            <div>
+              <img
+                src="/assets/images/Garden.svg"
+                height="222"
+                width="270"
+                alt="Misión"
+              />
+            </div>
+          </div>
+          <div class="text-container">
+            <div class="text-block">
+              <div class="text-headline">
+                Jardinería
+              </div>
+              <p class="text-body">
+                Servicio dedicado al cultivo de plantas y cuidado de estas.
+                Asímsimo, fumigación para mantenerlas a salvo de las diversas
+                plagas que las acfectan.
+              </p>
+            </div>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div layout="row" layout-xs="column" class="home-row">
+          <div class="text-container">
+            <div class="text-block">
+              <div class="text-headline">
+                Suministro, instalación y mantenimiento de equipos
+              </div>
+              <p class="text-body">
+                Suministro, instalación y mantenimiento de equipos
+              </p>
+            </div>
+          </div>
+          <div class="promo-img">
+            <div>
+              <img
+                src="/assets/images/HandWithPlant.svg"
+                height="222"
+                width="270"
+                alt="Misión"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </article>
 </main>
