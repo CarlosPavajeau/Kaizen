@@ -18,8 +18,8 @@ namespace Kaizen.Infrastructure.Repositories
 
         public override async Task<Employee> FindByIdAsync(string id)
         {
-            return await ApplicationDbContext.Employees.Include(e => e.EmployeeContract)
-                .Include(e => e.EmployeeCharge)
+            return await ApplicationDbContext.Employees
+                .Include(e => e.EmployeeContract).Include(e => e.EmployeeCharge)
                 .Where(e => e.Id == id || e.UserId == id).FirstOrDefaultAsync();
         }
 
@@ -71,6 +71,18 @@ namespace Kaizen.Infrastructure.Repositories
             return await GetAll().Include(e => e.EmployeeContract).Include(e => e.User)
                 .Where(e => (e.EmployeeContract.EndDate - today).Days == 3)
                 .ToListAsync();
+        }
+
+        public async Task<bool> EmployeeContractAlreadyExists(string contractCode)
+        {
+            EmployeeContract contract = await ApplicationDbContext.Set<EmployeeContract>()
+                .FindAsync(contractCode);
+            return contract != null;
+        }
+
+        public void AddNewEmployeeContract(EmployeeContract contract)
+        {
+            ApplicationDbContext.Set<EmployeeContract>().Add(contract);
         }
     }
 }
