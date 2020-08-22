@@ -258,6 +258,205 @@
           </div>
         </ng-template>
       </mat-tab>
+      <mat-tab *ngIf="currentUserType === 'Client'">
+        <ng-template mat-tab-label>Datos de ubicación</ng-template>
+        <ng-template matTabContent>
+          <form [formGroup]="ubicationForm">
+            <div class="form-row">
+              <div class="form-col">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Ciudad</mat-label>
+                    <input
+                      type="tel"
+                      matInput
+                      placeholder="Digite su ciudad"
+                      formControlName="city"
+                    />
+                    <mat-hint>Digite su ciudad</mat-hint>
+                    <mat-error
+                      *ngIf="ubication_controls['city'].hasError('required')"
+                      >Su ciudad es requerida</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="form-col">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Barrio</mat-label>
+                    <input
+                      type="text"
+                      matInput
+                      placeholder="Digite su barrio"
+                      formControlName="neighborhood"
+                    />
+                    <mat-hint>Digite su barrio</mat-hint>
+                    <mat-error
+                      *ngIf="
+                        ubication_controls['neighborhood'].hasError('required')
+                      "
+                      >Su barrio es requerido</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Calle</mat-label>
+                <input
+                  matInput
+                  placeholder="Digite su calle"
+                  formControlName="street"
+                />
+                <mat-hint>Digite su calle</mat-hint>
+                <mat-error
+                  *ngIf="ubication_controls['street'].hasError('required')"
+                  >Su calle es requerida</mat-error
+                >
+              </mat-form-field>
+            </div>
+          </form>
+          <div class="form-buttons">
+            <button
+              mat-raised-button
+              class="royal_azure"
+              (click)="updateUbicationData()"
+              [appLoadingButton]="updatingData"
+            >
+              Actualizar datos de ubicación
+            </button>
+          </div>
+        </ng-template>
+      </mat-tab>
+      <mat-tab *ngIf="currentUserType === 'Client'">
+        <ng-template mat-tab-label>Personas de contacto</ng-template>
+        <ng-template matTabContent>
+          <form [formGroup]="contactPeopleForm">
+            <div class="form-row">
+              <div class="form-col">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Nombre 1ra persona de contacto</mat-label>
+                    <input
+                      type="text"
+                      matInput
+                      placeholder="Ejemplo: Juan Carlos"
+                      formControlName="person_name_1"
+                    />
+                    <mat-hint>
+                      Digite el nombre de su primera persona de contacto
+                    </mat-hint>
+                    <mat-error
+                      *ngIf="
+                        contact_people_controls['person_name_1'].hasError(
+                          'required'
+                        )
+                      "
+                    >
+                      Campo requerido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="form-col">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>
+                      Número de teléfono 1ra persona de contacto
+                    </mat-label>
+                    <input
+                      type="text"
+                      matInput
+                      placeholder="Digite su número de teléfono"
+                      formControlName="person_phonenumber_1"
+                    />
+                    <mat-hint>
+                      Digite el número de teléfono de su primera persona de
+                      contacto
+                    </mat-hint>
+                    <mat-error
+                      *ngIf="
+                        contact_people_controls[
+                          'person_phonenumber_1'
+                        ].hasError('required')
+                      "
+                    >
+                      Campo requerido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-col">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Nombre 2da persona de contacto</mat-label>
+                    <input
+                      type="text"
+                      matInput
+                      placeholder="Ejemplo: Carlos Juan"
+                      formControlName="person_name_2"
+                    />
+                    <mat-hint>
+                      Digite el nombre de su segunda persona de contacto
+                    </mat-hint>
+                    <mat-error
+                      *ngIf="
+                        contact_people_controls['person_name_2'].hasError(
+                          'required'
+                        )
+                      "
+                    >
+                      Campo requerido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="form-col">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>
+                      Número de teléfono 2da persona de contacto
+                    </mat-label>
+                    <input
+                      type="text"
+                      matInput
+                      placeholder="Digite u número de teléfono"
+                      formControlName="person_phonenumber_2"
+                    />
+                    <mat-hint>
+                      Digite el número de teléfono de su segunda persona de
+                      contacto
+                    </mat-hint>
+                    <mat-error
+                      *ngIf="
+                        contact_people_controls[
+                          'person_phonenumber_2'
+                        ].hasError('required')
+                      "
+                    >
+                      Campo requerido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="form-buttons">
+            <button
+              mat-raised-button
+              class="royal_azure"
+              (click)="updateContactPeople()"
+              [appLoadingButton]="updatingData"
+            >
+              Actualizar personas de contacto
+            </button>
+          </div>
+        </ng-template>
+      </mat-tab>
     </mat-tab-group>
   </div>
 </section>
