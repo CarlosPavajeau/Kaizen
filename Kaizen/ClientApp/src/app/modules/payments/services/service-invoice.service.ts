@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ServiceInvoice } from '../models/service-invoice';
-import { Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { SERVICE_INVOICES_API_URL } from '@global/endpoints';
+import { ServiceInvoice } from '@modules/payments/models/service-invoice';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

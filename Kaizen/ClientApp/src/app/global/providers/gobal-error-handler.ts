@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, Injectable } from '@angular/core';
-import { HttpErrorHandlerService } from '@app/shared/services/http-error-handler.service';
+import { HttpErrorHandlerService } from '@shared/services/http-error-handler.service';
 
 @Injectable({
   providedIn: 'root'

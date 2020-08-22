@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivityScheduleService } from '../../services/activity-schedule.service';
+import { Activity } from '@modules/activity-schedule/models/activity';
+import { ActivityScheduleService } from '@modules/activity-schedule/services/activity-schedule.service';
 import { Employee } from '@modules/employees/models/employee';
-import { Activity } from '../../models/activity';
 
 @Component({
   selector: 'app-work-schedule',

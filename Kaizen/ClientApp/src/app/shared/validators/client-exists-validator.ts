@@ -1,8 +1,8 @@
-import { Observable } from 'rxjs';
-import { AbstractControl, ValidationErrors, AsyncValidator } from '@angular/forms';
+import { Injectable } from '@angular/core';
+import { AbstractControl, AsyncValidator, ValidationErrors } from '@angular/forms';
 import { CheckClientExistsService } from '@core/services/check-client-exists.service';
 import { UniqueClientDirective } from '@shared/directives/unique-client.directive';
-import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

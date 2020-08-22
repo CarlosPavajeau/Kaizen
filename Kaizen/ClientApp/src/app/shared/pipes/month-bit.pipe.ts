@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { MonthBit, Months, MONTHS } from '@app/core/models/months';
+import { MONTHS } from '@app/core/models/months';
 
 @Pipe({
   name: 'monthBit'

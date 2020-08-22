@@ -1,7 +1,7 @@
-import { ACTIVITIES_API_URL } from '@global/endpoints';
-import { Activity } from '@modules/activity-schedule/models/activity';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ACTIVITIES_API_URL } from '@global/endpoints';
+import { Activity } from '@modules/activity-schedule/models/activity';
 import { Observable } from 'rxjs';
 
 @Injectable({

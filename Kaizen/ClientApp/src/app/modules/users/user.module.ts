@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '@shared/shared.module';
 import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ManageDataComponent } from './components/manage-data/manage-data.component';

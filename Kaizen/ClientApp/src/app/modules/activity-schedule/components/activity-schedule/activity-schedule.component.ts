@@ -1,10 +1,10 @@
-import * as moment from 'moment';
-import { Activity } from '@modules/activity-schedule/models/activity';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivityScheduleDayComponent } from '@modules/activity-schedule/components/activity-schedule-day/activity-schedule-day.component';
 import { ActivityScheduleMonthComponent } from '@modules/activity-schedule/components/activity-schedule-month/activity-schedule-month.component';
-import { ActivityScheduleService } from '@modules/activity-schedule/services/activity-schedule.service';
+import { Activity } from '@modules/activity-schedule/models/activity';
 import { ActivityScheduleView } from '@modules/activity-schedule/models/activity-schedule-view';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivityScheduleService } from '@modules/activity-schedule/services/activity-schedule.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-activity-schedule',

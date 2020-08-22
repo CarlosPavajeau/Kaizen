@@ -1,7 +1,7 @@
+import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { CLIENT_ROLE } from '@global/roles';
 import { ClientService } from '@modules/clients/services/client.service';
-import { Component, OnInit } from '@angular/core';
 import { EmployeeService } from '@modules/employees/services/employee.service';
 import { Person } from '@shared/models/person';
 

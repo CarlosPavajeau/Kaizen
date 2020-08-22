@@ -1,8 +1,8 @@
-import { Observable } from 'rxjs';
-import { AbstractControl, ValidationErrors, AsyncValidator } from '@angular/forms';
 import { Injectable } from '@angular/core';
+import { AbstractControl, AsyncValidator, ValidationErrors } from '@angular/forms';
 import { CheckEquipmentExistsService } from '@core/services/check-equipment-exists.service';
 import { UniqueEquipmentDirective } from '@shared/directives/unique-equipment.directive';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

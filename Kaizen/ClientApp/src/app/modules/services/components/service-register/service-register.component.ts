@@ -2,13 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IForm } from '@core/models/form';
+import { SelectEmployeesComponent } from '@modules/services/components/select-employees/select-employees.component';
+import { SelectEquipmentsComponent } from '@modules/services/components/select-equipments/select-equipments.component';
+import { SelectProductsComponent } from '@modules/services/components/select-products/select-products.component';
 import { Service } from '@modules/services/models/service';
 import { ServiceType } from '@modules/services/models/service-type';
 import { ServiceService } from '@modules/services/services/service.service';
 import { NotificationsService } from '@shared/services/notifications.service';
-import { SelectEmployeesComponent } from '../select-employees/select-employees.component';
-import { SelectEquipmentsComponent } from '../select-equipments/select-equipments.component';
-import { SelectProductsComponent } from '../select-products/select-products.component';
 
 @Component({
   selector: 'app-service-register',

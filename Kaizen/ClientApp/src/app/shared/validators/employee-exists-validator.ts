@@ -1,8 +1,8 @@
-import { Observable } from 'rxjs';
-import { AbstractControl, ValidationErrors, AsyncValidator } from '@angular/forms';
 import { Injectable } from '@angular/core';
+import { AbstractControl, AsyncValidator, ValidationErrors } from '@angular/forms';
 import { CheckEmployeeExistsService } from '@core/services/check-employee-exists.service';
 import { UniqueEmployeeDirective } from '@shared/directives/unique-employee.directive';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

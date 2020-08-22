@@ -1,6 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
+import { Injectable } from '@angular/core';
 import { SERVICE_REQUESTS_API_URL } from '@global/endpoints';
 import { ServiceRequest } from '@modules/service-requests/models/service-request';
 import { Observable } from 'rxjs';

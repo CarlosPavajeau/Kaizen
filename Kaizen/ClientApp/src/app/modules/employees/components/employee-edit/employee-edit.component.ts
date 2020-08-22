@@ -5,8 +5,8 @@ import { NotificationsService } from '@app/shared/services/notifications.service
 import { IForm } from '@core/models/form';
 import { Employee } from '@modules/employees/models/employee';
 import { EmployeeCharge } from '@modules/employees/models/employee-charge';
+import { EmployeeContract } from '@modules/employees/models/employee-contract';
 import { EmployeeService } from '@modules/employees/services/employee.service';
-import { EmployeeContract } from '../../models/employee-contract';
 
 @Component({
   selector: 'app-employee-edit',

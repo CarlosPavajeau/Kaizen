@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NotificationsService } from '@app/shared/services/notifications.service';
-import { EquipmentExistsValidator } from '@app/shared/validators/equipment-exists-validator';
 import { IForm } from '@core/models/form';
 import { Equipment } from '@modules/inventory/equipments/models/equipment';
 import { EquipmentService } from '@modules/inventory/equipments/services/equipment.service';
+import { NotificationsService } from '@shared/services/notifications.service';
+import { EquipmentExistsValidator } from '@shared/validators/equipment-exists-validator';
 
 @Component({
   selector: 'app-equipment-register',

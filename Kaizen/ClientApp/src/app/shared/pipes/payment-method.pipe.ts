@@ -4,9 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'paymentMethod'
 })
 export class PaymentMethodPipe implements PipeTransform {
-
   transform(value: unknown, ...args: unknown[]): unknown {
     return null;
   }
-
 }

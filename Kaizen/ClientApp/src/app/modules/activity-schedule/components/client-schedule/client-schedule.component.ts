@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Client } from '@app/modules/clients/models/client';
-import { Activity } from '../../models/activity';
-import { ActivityScheduleService } from '../../services/activity-schedule.service';
+import { Activity } from '@modules/activity-schedule/models/activity';
+import { ActivityScheduleService } from '@modules/activity-schedule/services/activity-schedule.service';
 
 @Component({
   selector: 'app-client-schedule',

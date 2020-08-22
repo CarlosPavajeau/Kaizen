@@ -1,5 +1,5 @@
-import { NgModule, ModuleWithProviders, ErrorHandler } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ErrorHandler, ModuleWithProviders, NgModule } from '@angular/core';
 import { GlobalErrorHandler } from '@global/providers/gobal-error-handler';
 
 @NgModule({

@@ -13,9 +13,9 @@ import { UserService } from '@modules/users/services/user.service';
 import { CharactersValidators } from '@shared/validators/characters-validators';
 import { ClientService } from '@modules/clients/services/client.service';
 import { EmployeeService } from '@modules/employees/services/employee.service';
-import { CLIENT_ROLE } from '@app/global/roles';
-import { Client } from '@app/modules/clients/models/client';
-import { Employee } from '@app/modules/employees/models/employee';
+import { CLIENT_ROLE } from '@global/roles';
+import { Client } from '@modules/clients/models/client';
+import { Employee } from '@modules/employees/models/employee';
 
 @Component({
   selector: 'app-manage-data',

@@ -1,12 +1,12 @@
-import { AuthenticationService } from '@core/authentication/authentication.service';
-import { CLIENT_ROLE } from '@app/global/roles';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { AuthenticationService } from '@core/authentication/authentication.service';
+import { CLIENT_ROLE } from '@global/roles';
+import { ServiceInvoice } from '@modules/payments/models/service-invoice';
+import { ServiceInvoiceService } from '@modules/payments/services/service-invoice.service';
 import { Person } from '@shared/models/person';
-import { ServiceInvoice } from '../../models/service-invoice';
-import { ServiceInvoiceService } from '../../services/service-invoice.service';
 
 @Component({
   selector: 'app-service-invoices',

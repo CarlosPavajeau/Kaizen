@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NotificationsService } from '@app/shared/services/notifications.service';
 import { IForm } from '@core/models/form';
 import { zeroPad } from '@core/utils/number-utils';
 import { Activity } from '@modules/activity-schedule/models/activity';
@@ -12,6 +11,7 @@ import { WorkOrder } from '@modules/work-orders/models/work-order';
 import { WorkOrderState } from '@modules/work-orders/models/work-order-state';
 import { WorkOrderService } from '@modules/work-orders/service/work-order.service';
 import { DigitalSignatureComponent } from '@shared/components/digital-signature/digital-signature.component';
+import { NotificationsService } from '@shared/services/notifications.service';
 
 @Component({
   selector: 'app-work-order-register',

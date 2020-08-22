@@ -1,6 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { Activity } from '../../models/activity';
 import { DatePipe } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
+import { Activity } from '@modules/activity-schedule/models/activity';
 
 @Component({
   selector: 'app-activity-button',

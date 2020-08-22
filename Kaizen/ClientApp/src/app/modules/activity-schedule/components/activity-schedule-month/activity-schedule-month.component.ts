@@ -1,8 +1,8 @@
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Activity } from '@modules/activity-schedule/models/activity';
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Day } from '@modules/activity-schedule/models/day';
-import { Moment } from 'moment';
 import { Week } from '@modules/activity-schedule/models/week';
+import { Moment } from 'moment';
 
 @Component({
   selector: 'app-activity-schedule-month',

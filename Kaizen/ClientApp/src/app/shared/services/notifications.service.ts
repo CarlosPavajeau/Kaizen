@@ -1,4 +1,3 @@
-import { ErrorDialogComponent } from '../components/error-dialog/error-dialog.component';
 import { Injectable, NgZone, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {
@@ -7,9 +6,10 @@ import {
   MatSnackBarRef,
   SimpleSnackBar
 } from '@angular/material/snack-bar';
+import { ErrorDialogComponent } from '@shared/components/error-dialog/error-dialog.component';
+import { SuccessDialogComponent } from '@shared/components/success-dialog/success-dialog.component';
 import { SnackBarMessage } from '@shared/models/snackbar-message';
 import { Subscription } from 'rxjs';
-import { SuccessDialogComponent } from '../components/success-dialog/success-dialog.component';
 
 @Injectable({
   providedIn: 'root'
