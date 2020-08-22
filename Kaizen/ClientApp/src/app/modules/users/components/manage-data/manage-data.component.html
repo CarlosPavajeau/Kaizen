@@ -99,7 +99,164 @@
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>Datos personales</ng-template>
-        <ng-template matTabContent></ng-template>
+        <ng-template matTabContent>
+          <form [formGroup]="personalDataForm">
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Primer nombre</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  placeholder="Digite su primer nombre"
+                  formControlName="firstName"
+                />
+                <mat-hint>Digite su primer nombre</mat-hint>
+                <mat-error
+                  *ngIf="personalDataControls['firstName'].hasError('required')"
+                  >Su primer nombre es requerido</mat-error
+                >
+                <mat-error
+                  *ngIf="
+                    personalDataControls['firstName'].hasError('minlength')
+                  "
+                  >Digite por lo menos 3 carácteres</mat-error
+                >
+                <mat-error
+                  *ngIf="
+                    personalDataControls['firstName'].hasError('maxlength')
+                  "
+                  >Digite máximo 20 caracteres</mat-error
+                >
+                <mat-error
+                  *ngIf="
+                    personalDataControls['firstName'].hasError(
+                      'notAlphabetic'
+                    ) &&
+                    !personalDataControls['firstName'].hasError('maxlength') &&
+                    !personalDataControls['firstName'].hasError('minlength')
+                  "
+                  >Digite carácteres alfabeticos</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Segundo nombre</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  placeholder="Digite su segundo nombre"
+                  formControlName="secondName"
+                />
+                <mat-hint>Digite su segundo nombre</mat-hint>
+                <mat-error
+                  *ngIf="
+                    personalDataControls['secondName'].hasError('minlength')
+                  "
+                  >Digite por lo menos 3 carácteres</mat-error
+                >
+                <mat-error
+                  *ngIf="
+                    personalDataControls['secondName'].hasError('maxlength')
+                  "
+                  >Digite máximo 20 caracteres</mat-error
+                >
+                <mat-error
+                  *ngIf="
+                    personalDataControls['secondName'].hasError(
+                      'notAlphabetic'
+                    ) &&
+                    !personalDataControls['secondName'].hasError('maxlength') &&
+                    !personalDataControls['secondName'].hasError('minlength')
+                  "
+                  >Digite carácteres alfabeticos</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Primer apellido</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  placeholder="Digite su primer apellido"
+                  formControlName="lastName"
+                />
+                <mat-hint>Digite su primer apellido</mat-hint>
+                <mat-error
+                  *ngIf="personalDataControls['lastName'].hasError('required')"
+                  >Su primer apellido es requerido</mat-error
+                >
+                <mat-error
+                  *ngIf="personalDataControls['lastName'].hasError('minlength')"
+                  >Digite por lo menos 3 carácteres</mat-error
+                >
+                <mat-error
+                  *ngIf="personalDataControls['lastName'].hasError('maxlength')"
+                  >Digite máximo 20 caracteres</mat-error
+                >
+                <mat-error
+                  *ngIf="
+                    personalDataControls['lastName'].hasError(
+                      'notAlphabetic'
+                    ) &&
+                    !personalDataControls['lastName'].hasError('maxlength') &&
+                    !personalDataControls['lastName'].hasError('minlength')
+                  "
+                  >Digite carácteres alfabeticos</mat-error
+                >
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Segundo apellido</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  placeholder="Digite su segundo apellido"
+                  formControlName="secondLastname"
+                />
+                <mat-hint>Digite su segundo apellido</mat-hint>
+                <mat-error
+                  *ngIf="
+                    personalDataControls['secondLastname'].hasError('minlength')
+                  "
+                  >Digite por lo menos 3 carácteres</mat-error
+                >
+                <mat-error
+                  *ngIf="
+                    personalDataControls['secondLastname'].hasError('maxlength')
+                  "
+                  >Digite máximo 20 caracteres</mat-error
+                >
+                <mat-error
+                  *ngIf="
+                    personalDataControls['secondLastname'].hasError(
+                      'notAlphabetic'
+                    ) &&
+                    !personalDataControls['secondLastname'].hasError(
+                      'maxlength'
+                    ) &&
+                    !personalDataControls['secondLastname'].hasError(
+                      'minlength'
+                    )
+                  "
+                  >Digite carácteres alfabeticos</mat-error
+                >
+              </mat-form-field>
+            </div>
+          </form>
+          <div class="form-buttons">
+            <button
+              mat-raised-button
+              class="royal_azure"
+              (click)="updatePersonalData()"
+              [appLoadingButton]="updatingData"
+            >
+              Actualizar datos personales
+            </button>
+          </div>
+        </ng-template>
       </mat-tab>
     </mat-tab-group>
   </div>
