@@ -93,6 +93,8 @@ mat-form-field {
 .form-row {
   display: flex;
   flex-direction: row;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 
 .form-col {
