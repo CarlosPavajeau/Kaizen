@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminGuard } from '@app/core/guards/admin.guard';
-import { AuthGuard } from '@app/core/guards/auth.guard';
+import { AdminGuard } from '@core/guards/admin.guard';
+import { AuthGuard } from '@core/guards/auth.guard';
 import { EquipmentDetailComponent } from './components/equipment-detail/equipment-detail.component';
 import { EquipmentEditComponent } from './components/equipment-edit/equipment-edit.component';
 import { EquipmentRegisterComponent } from './components/equipment-register/equipment-register.component';

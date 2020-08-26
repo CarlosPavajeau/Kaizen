@@ -14,7 +14,7 @@ namespace Kaizen.Domain.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.6")
+                .HasAnnotation("ProductVersion", "3.1.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Kaizen.Domain.Entities.Activity", b =>
@@ -290,7 +290,6 @@ namespace Kaizen.Domain.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ContractCode")
-                        .IsRequired()
                         .HasColumnType("varchar(30) CHARACTER SET utf8mb4")
                         .HasMaxLength(30);
 
@@ -318,16 +317,17 @@ namespace Kaizen.Domain.Migrations
                         .HasDefaultValue(0);
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("varchar(191) CHARACTER SET utf8mb4")
                         .HasMaxLength(191);
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("ContractCode");
+                    b.HasAlternateKey("UserId");
 
                     b.HasIndex("ChargeId");
 
-                    b.HasIndex("UserId")
+                    b.HasIndex("ContractCode")
                         .IsUnique();
 
                     b.ToTable("Employees");
@@ -1115,13 +1115,13 @@ namespace Kaizen.Domain.Migrations
 
                     b.HasOne("Kaizen.Domain.Entities.EmployeeContract", "EmployeeContract")
                         .WithMany()
-                        .HasForeignKey("ContractCode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ContractCode");
 
                     b.HasOne("Kaizen.Domain.Entities.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Kaizen.Domain.Entities.EmployeeService", b =>

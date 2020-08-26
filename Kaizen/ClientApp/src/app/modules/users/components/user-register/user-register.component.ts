@@ -1,7 +1,5 @@
-import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
-
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '@core/models/user';
 import { UserExistsValidator } from '@shared/validators/user-exists-validator';
 
@@ -12,9 +10,10 @@ import { UserExistsValidator } from '@shared/validators/user-exists-validator';
 })
 export class UserRegisterComponent implements OnInit {
   registerForm: FormGroup;
+
   @Output() user = new EventEmitter<User>();
-  invalidForm: boolean;
   @Input() savingData: boolean;
+
   public get controls() {
     return this.registerForm.controls;
   }
@@ -46,8 +45,6 @@ export class UserRegisterComponent implements OnInit {
         password: this.controls['password'].value
       };
       this.user.emit(user);
-    } else {
-      this.invalidForm = true;
     }
   }
 }

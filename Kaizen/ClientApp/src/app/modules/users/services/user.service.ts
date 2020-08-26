@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '@app/core/models/user';
-import { AUTH_API_URL } from '@app/global/endpoints';
+import { User } from '@core/models/user';
+import { AUTH_API_URL } from '@global/endpoints';
+import { ChangePasswordModel } from '@modules/users/models/change-password';
 import { Observable } from 'rxjs';
-import { ChangePasswordModel } from '../models/change-password';
 
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, AfterContentInit, ElementRef, Input, HostListener } from '@angular/core';
+import { AfterContentInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Point } from '@core/models/point';
 import { fromEvent } from 'rxjs';
-import { switchMap, takeUntil, pairwise } from 'rxjs/operators';
-import { Point } from '@app/core/models/point';
+import { pairwise, switchMap, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-digital-signature',

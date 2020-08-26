@@ -1,8 +1,8 @@
 import { Directive } from '@angular/core';
-import { NG_ASYNC_VALIDATORS, AsyncValidator, AbstractControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, AsyncValidator, NG_ASYNC_VALIDATORS, ValidationErrors } from '@angular/forms';
 import { CheckUserExistsService } from '@core/services/check-user-exists.service';
-import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Directive({
   selector: '[appUniqueUser]',

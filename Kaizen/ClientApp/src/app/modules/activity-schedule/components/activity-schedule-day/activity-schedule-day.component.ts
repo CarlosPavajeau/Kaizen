@@ -1,5 +1,5 @@
-import { Activity } from '@modules/activity-schedule/models/activity';
 import { Component, Input, OnInit } from '@angular/core';
+import { Activity } from '@modules/activity-schedule/models/activity';
 import { Hour } from '@modules/activity-schedule/models/hour';
 import { Moment } from 'moment';
 

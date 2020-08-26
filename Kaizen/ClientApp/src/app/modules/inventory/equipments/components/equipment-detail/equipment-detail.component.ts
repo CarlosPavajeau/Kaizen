@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { EquipmentService } from '../../services/equipment.service';
 import { ActivatedRoute } from '@angular/router';
-import { Equipment } from '../../models/equipment';
+import { Equipment } from '@modules/inventory/equipments/models/equipment';
+import { EquipmentService } from '@modules/inventory/equipments/services/equipment.service';
 
 @Component({
   selector: 'app-equipment-detail',

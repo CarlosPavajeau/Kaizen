@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Sector } from '@modules/work-orders/models/sector';
 import { WORK_ORDERS_API_URL } from '@global/endpoints';
+import { Sector } from '@modules/work-orders/models/sector';
 import { WorkOrder } from '@modules/work-orders/models/work-order';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'

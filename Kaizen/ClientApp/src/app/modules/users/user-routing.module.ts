@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from 'src/app/core/guards/auth.guard';
-import { NoAuthGuard } from 'src/app/core/guards/no-auth.guard';
+import { AuthGuard } from '@core/guards/auth.guard';
+import { NoAuthGuard } from '@core/guards/no-auth.guard';
 import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
 import { ManageDataComponent } from './components/manage-data/manage-data.component';
 import { UserLoginComponent } from './components/user-login/user-login.component';

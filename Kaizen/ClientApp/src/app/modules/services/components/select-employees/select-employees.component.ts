@@ -1,9 +1,9 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectionList, MatSelectionListChange } from '@angular/material/list';
-import { EmployeeService } from '@app/modules/employees/services/employee.service';
 import { IForm } from '@core/models/form';
 import { Employee } from '@modules/employees/models/employee';
+import { EmployeeService } from '@modules/employees/services/employee.service';
 import { delay } from 'rxjs/operators';
 
 @Component({

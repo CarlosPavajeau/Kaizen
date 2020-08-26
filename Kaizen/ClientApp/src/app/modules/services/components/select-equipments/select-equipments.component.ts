@@ -1,9 +1,9 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectionList, MatSelectionListChange } from '@angular/material/list';
-import { IForm } from '@app/core/models/form';
-import { Equipment } from '@app/modules/inventory/equipments/models/equipment';
-import { EquipmentService } from '@app/modules/inventory/equipments/services/equipment.service';
+import { IForm } from '@core/models/form';
+import { Equipment } from '@modules/inventory/equipments/models/equipment';
+import { EquipmentService } from '@modules/inventory/equipments/services/equipment.service';
 import { delay } from 'rxjs/operators';
 
 @Component({

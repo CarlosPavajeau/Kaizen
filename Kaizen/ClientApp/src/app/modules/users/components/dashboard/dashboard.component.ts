@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DashboardCard } from '@app/core/models/dashboard-card';
+import { DashboardCard } from '@core/models/dashboard-card';
 import { AuthenticationService } from '@core/authentication/authentication.service';
-import { DASHBOARS_CARDS } from '@app/global/control-panel-cards';
+import { DASHBOARS_CARDS } from '@global/control-panel-cards';
 
 @Component({
   selector: 'app-dashboard',

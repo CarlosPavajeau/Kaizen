@@ -1,7 +1,7 @@
 import { Directive } from '@angular/core';
-import { NG_ASYNC_VALIDATORS, AsyncValidator, AbstractControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, AsyncValidator, NG_ASYNC_VALIDATORS, ValidationErrors } from '@angular/forms';
+import { CheckEmployeeExistsService } from '@core/services/check-employee-exists.service';
 import { Observable } from 'rxjs';
-import { CheckEmployeeExistsService } from '@app/core/services/check-employee-exists.service';
 import { map } from 'rxjs/operators';
 
 @Directive({

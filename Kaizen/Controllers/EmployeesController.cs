@@ -82,6 +82,14 @@ namespace Kaizen.Controllers
             if (employee is null)
                 return BadRequest($"No existe ningún empleado registrado con el código {id}.");
 
+            bool employeeContractAlreadyExists = await _employeesRepository.EmployeeContractAlreadyExists(employeeModel.ContractCode);
+            if (!employeeContractAlreadyExists)
+            {
+                EmployeeContract contract = _mapper.Map<EmployeeContract>(employeeModel.EmployeeContract);
+                _employeesRepository.AddNewEmployeeContract(contract);
+                employee.EmployeeContract = contract;
+            }
+
             _mapper.Map(employeeModel, employee);
             _employeesRepository.Update(employee);
 

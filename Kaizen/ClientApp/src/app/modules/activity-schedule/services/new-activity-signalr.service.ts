@@ -1,7 +1,7 @@
-import { Activity } from '../models/activity';
+import { Injectable } from '@angular/core';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { BaseSignalrService } from '@core/services/base-signalr.service';
-import { Injectable } from '@angular/core';
+import { Activity } from '@modules/activity-schedule/models/activity';
 
 @Injectable({
   providedIn: 'root'

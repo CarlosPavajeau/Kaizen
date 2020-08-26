@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AsyncValidator, AbstractControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, AsyncValidator, ValidationErrors } from '@angular/forms';
 import { CheckUserExistsService } from '@core/services/check-user-exists.service';
 import { UniqueUserDirective } from '@shared/directives/unique-user.directive';
 import { Observable } from 'rxjs';

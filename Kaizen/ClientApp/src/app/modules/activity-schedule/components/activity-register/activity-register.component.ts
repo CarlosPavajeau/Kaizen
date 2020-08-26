@@ -2,24 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { buildIsoDate } from '@app/core/utils/date-utils';
-import { zeroPad } from '@app/core/utils/number-utils';
-import { PERIODICITIES, Periodicity } from '@app/modules/service-requests/models/periodicity-type';
-import { ServiceRequestState } from '@app/modules/service-requests/models/service-request-state';
 import { IForm } from '@core/models/form';
+import { buildIsoDate } from '@core/utils/date-utils';
+import { zeroPad } from '@core/utils/number-utils';
 import { Activity } from '@modules/activity-schedule/models/activity';
+import { ActivityState } from '@modules/activity-schedule/models/activity-state';
 import { ActivityScheduleService } from '@modules/activity-schedule/services/activity-schedule.service';
 import { Client } from '@modules/clients/models/client';
 import { ClientService } from '@modules/clients/services/client.service';
 import { Employee } from '@modules/employees/models/employee';
 import { EmployeeService } from '@modules/employees/services/employee.service';
+import { PERIODICITIES, Periodicity } from '@modules/service-requests/models/periodicity-type';
 import { ServiceRequest } from '@modules/service-requests/models/service-request';
+import { ServiceRequestState } from '@modules/service-requests/models/service-request-state';
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
 import { Service } from '@modules/services/models/service';
 import { ServiceService } from '@modules/services/services/service.service';
 import { SelectDateModalComponent } from '@shared/components/select-date-modal/select-date-modal.component';
 import { NotificationsService } from '@shared/services/notifications.service';
-import { ActivityState } from '../../models/activity-state';
 
 @Component({
   selector: 'app-activity-register',

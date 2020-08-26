@@ -1,7 +1,7 @@
-import { AuthenticationService } from '@app/core/authentication/authentication.service';
-import { BaseSignalrService } from '@app/core/services/base-signalr.service';
 import { Injectable } from '@angular/core';
-import { ServiceRequest } from '../models/service-request';
+import { AuthenticationService } from '@core/authentication/authentication.service';
+import { BaseSignalrService } from '@core/services/base-signalr.service';
+import { ServiceRequest } from '@modules/service-requests/models/service-request';
 
 @Injectable({
   providedIn: 'root'

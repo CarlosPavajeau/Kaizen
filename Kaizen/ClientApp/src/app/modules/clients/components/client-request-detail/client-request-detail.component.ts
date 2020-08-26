@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Client } from '../../models/client';
-import { ClientState } from '../../models/client-state';
-import { ClientService } from '../../services/client.service';
+import { Client } from '@modules/clients/models/client';
+import { ClientState } from '@modules/clients/models/client-state';
+import { ClientService } from '@modules/clients/services/client.service';
 
 @Component({
   selector: 'app-client-request-detail',

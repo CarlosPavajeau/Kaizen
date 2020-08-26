@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { WorkOrder } from '../../models/work-order';
-import { WorkOrderService } from '../../service/work-order.service';
-import { MatTableDataSource } from '@angular/material/table';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { WorkOrder } from '@modules/work-orders/models/work-order';
+import { WorkOrderService } from '@modules/work-orders/service/work-order.service';
 
 @Component({
   selector: 'app-work-orders',

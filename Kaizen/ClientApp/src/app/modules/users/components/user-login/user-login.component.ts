@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpErrorHandlerService } from '@app/shared/services/http-error-handler.service';
+import { HttpErrorHandlerService } from '@shared/services/http-error-handler.service';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { IForm } from '@core/models/form';
 import { LoginRequest } from '@core/models/login-request';
@@ -14,9 +14,6 @@ import { catchError } from 'rxjs/operators';
 })
 export class UserLoginComponent implements OnInit, IForm {
   loginForm: FormGroup;
-  invalidUserOrEmail = false;
-  invalidPassword = false;
-  invalidForm = false;
   loading = false;
   hide = true;
 
@@ -65,18 +62,6 @@ export class UserLoginComponent implements OnInit, IForm {
             window.location.reload();
           }
         });
-    } else {
-      this.invalidForm = true;
     }
-
-    this.onReset();
-  }
-
-  onReset(): void {
-    setTimeout(() => {
-      this.invalidForm = false;
-      this.invalidPassword = false;
-      this.invalidUserOrEmail = false;
-    }, 4000);
   }
 }

@@ -1,7 +1,7 @@
-import { WorkOrderState } from './work-order-state';
-import { Employee } from '@app/modules/employees/models/employee';
-import { Activity } from '@app/modules/activity-schedule/models/activity';
+import { Activity } from '@modules/activity-schedule/models/activity';
+import { Employee } from '@modules/employees/models/employee';
 import { Sector } from './sector';
+import { WorkOrderState } from './work-order-state';
 
 export interface WorkOrder {
   code?: number;

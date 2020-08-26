@@ -3,14 +3,14 @@ import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
-import { FileResponse } from '@app/core/models/file-response';
-import { MonthBit, MONTHS } from '@app/core/models/months';
-import { UploadDownloadService } from '@app/core/services/upload-download.service';
-import { NotificationsService } from '@app/shared/services/notifications.service';
+import { FileResponse } from '@core/models/file-response';
 import { IForm } from '@core/models/form';
+import { MonthBit, MONTHS } from '@core/models/months';
+import { UploadDownloadService } from '@core/services/upload-download.service';
+import { Product } from '@modules/inventory/products/models/product';
 import { ProductService } from '@modules/inventory/products/services/product.service';
+import { NotificationsService } from '@shared/services/notifications.service';
 import { ProductExistsValidator } from '@shared/validators/product-exists-validator';
-import { Product } from '../../models/product';
 
 @Component({
   selector: 'app-product-register',

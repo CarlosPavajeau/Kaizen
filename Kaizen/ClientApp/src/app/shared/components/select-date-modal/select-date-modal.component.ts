@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { buildIsoDate } from '@app/core/utils/date-utils';
+import { buildIsoDate } from '@core/utils/date-utils';
 
 @Component({
   selector: 'app-select-date-modal',

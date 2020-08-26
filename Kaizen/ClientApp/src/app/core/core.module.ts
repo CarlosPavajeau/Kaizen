@@ -1,21 +1,20 @@
-import { NgModule, Optional, SkipSelf, ModuleWithProviders, LOCALE_ID } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ApiPrefixInterceptor } from '@core/interceptors/api-prefix.interceptor';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import localeEs from '@angular/common/locales/es';
+import { LOCALE_ID, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import { MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthenticationService } from '@core/authentication/authentication.service';
-import { CheckClientExistsService } from '@core/services/check-client-exists.service';
-import { CheckUserExistsService } from '@core/services/check-user-exists.service';
-import { CookieService } from 'ngx-cookie-service';
+import { ApiPrefixInterceptor } from '@core/interceptors/api-prefix.interceptor';
 import { AuthInterceptor } from '@core/interceptors/auth.interceptor';
 import { HttpErrorInterceptor } from '@core/interceptors/http-error.interceptor';
-import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
-import { MomentUtcDateAdapter } from '@app/global/configs/moment-utc-date-adapter';
-import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
-import { MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
-import localeEs from '@angular/common/locales/es';
-import { registerLocaleData } from '@angular/common';
+import { CheckClientExistsService } from '@core/services/check-client-exists.service';
+import { CheckUserExistsService } from '@core/services/check-user-exists.service';
+import { MomentUtcDateAdapter } from '@global/configs/moment-utc-date-adapter';
+import { CookieService } from 'ngx-cookie-service';
 
 registerLocaleData(localeEs);
 
