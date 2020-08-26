@@ -8,6 +8,7 @@ import { ServiceRequestState } from '@modules/service-requests/models/service-re
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
 import { SelectDateModalComponent } from '@shared/components/select-date-modal/select-date-modal.component';
 import { NotificationsService } from '@shared/services/notifications.service';
+import { filter, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-service-request-process',
@@ -64,19 +65,26 @@ export class ServiceRequestProcessComponent implements OnInit {
       width: '700px'
     });
 
-    dateRef.afterClosed().subscribe((date) => {
-      if (date) {
-        this.serviceRequest.date = date;
-        this.serviceRequest.state = ServiceRequestState.PendingSuggestedDate;
-        this.updatingServiceRequest = true;
-        this.serviceRequestService.updateServiceRequest(this.serviceRequest).subscribe((serviceRequestUpdate) => {
-          if (serviceRequestUpdate) {
-            this.notificationsService.showSuccessMessage(`Fecha de solicitud de servicio modificada con éxito`, () => {
-              this.router.navigateByUrl('/service_requests');
-            });
+    dateRef
+      .afterClosed()
+      .pipe(
+        filter((value) => value !== null && value !== undefined),
+        switchMap((date) => {
+          if (date) {
+            this.serviceRequest.date = date;
+            this.serviceRequest.state = ServiceRequestState.PendingSuggestedDate;
+            this.updatingServiceRequest = true;
+
+            return this.serviceRequestService.updateServiceRequest(this.serviceRequest);
           }
-        });
-      }
-    });
+        })
+      )
+      .subscribe((serviceRequestUpdate) => {
+        if (serviceRequestUpdate) {
+          this.notificationsService.showSuccessMessage(`Fecha de solicitud de servicio modificada con éxito`, () => {
+            this.router.navigateByUrl('/service_requests');
+          });
+        }
+      });
   }
 }
