@@ -12,6 +12,7 @@ import { NotificationsService } from '@shared/services/notifications.service';
 import { CharactersValidators } from '@shared/validators/characters-validators';
 import { ClientExistsValidator } from '@shared/validators/client-exists-validator';
 import { UserExistsValidator } from '@shared/validators/user-exists-validator';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-client-register',
@@ -207,10 +208,15 @@ export class ClientRegisterComponent implements OnInit, IForm {
       user.phonenumber = this.contact_controls['firstPhonenumber'].value;
       user.role = CLIENT_ROLE;
 
-      this.authService.registerUser(user).subscribe((userRegister) => {
-        const client: Client = this.mapClient(userRegister.id);
-
-        this.clientService.saveClient(client).subscribe((clientRegister) => {
+      this.authService
+        .registerUser(user)
+        .pipe(
+          switchMap((userRegister: User) => {
+            const client: Client = this.mapClient(userRegister.id);
+            return this.clientService.saveClient(client);
+          })
+        )
+        .subscribe((clientRegister) => {
           if (this.authService.userLoggedIn()) {
             this.notificationsService.showSuccessMessage(
               `Cliente ${clientRegister.firstName} ${clientRegister.lastName} registrado con éxito.`,
@@ -227,7 +233,6 @@ export class ClientRegisterComponent implements OnInit, IForm {
             );
           }
         });
-      });
     }
   }
 
@@ -236,9 +241,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
       this.clientForm.valid &&
       this.contactPersonForm.valid &&
       this.ubicationForm.valid &&
-      (
-        this.controls['clientType'].value === 'JuridicPerson' ? this.legalPersonForm.valid :
-        true)
+      (this.controls['clientType'].value === 'JuridicPerson' ? this.legalPersonForm.valid : true)
     );
   }
 

@@ -11,6 +11,7 @@ import { EmployeeService } from '@modules/employees/services/employee.service';
 import { NotificationsService } from '@shared/services/notifications.service';
 import { CharactersValidators } from '@shared/validators/characters-validators';
 import { EmployeeExistsValidator } from '@shared/validators/employee-exists-validator';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-employee-register',
@@ -149,10 +150,15 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
       }
       user.role = role;
 
-      this.authService.registerUser(user).subscribe((userRegister) => {
-        const employee: Employee = this.mapEmployee(userRegister.id);
-
-        this.employeeService.saveEmployee(employee).subscribe((employeeRegister) => {
+      this.authService
+        .registerUser(user)
+        .pipe(
+          switchMap((userRegister: User) => {
+            const employee: Employee = this.mapEmployee(userRegister.id);
+            return this.employeeService.saveEmployee(employee);
+          })
+        )
+        .subscribe((employeeRegister) => {
           this.notificationsService.showSuccessMessage(
             `El empleado ${employeeRegister.firstName} ${employeeRegister.lastName} fue registrado con éxito`,
             () => {
@@ -160,7 +166,6 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
             }
           );
         });
-      });
     }
   }
 
