@@ -5,6 +5,7 @@ using AutoMapper;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.Models.ProductInvoice;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,6 +13,7 @@ namespace Kaizen.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProductInvoicesController : ControllerBase
     {
         private readonly IProductInvoicesRepository _productInvoicesRepository;

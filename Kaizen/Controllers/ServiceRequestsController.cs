@@ -6,6 +6,7 @@ using Kaizen.Domain.Entities;
 using Kaizen.Domain.Events;
 using Kaizen.Domain.Repositories;
 using Kaizen.Models.ServiceRequest;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,7 @@ namespace Kaizen.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ServiceRequestsController : ControllerBase
     {
         private readonly IServiceRequestsRepository _serviceRequestsRepository;
