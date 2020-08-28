@@ -1,14 +1,16 @@
 <section class="container">
   <div class="center-content">
-    <mat-card style="width: 70%;" class="center-block-content mat-elevation-z5">
+    <mat-card class="center-block-content mat-elevation-z0 login-card">
       <mat-card-header>
-        <div class="center-block-content">
-          <mat-card-title>Inicio de sesión</mat-card-title>
-        </div>
+        <mat-card-title class="text-center">Inicia sesión</mat-card-title>
+        <mat-card-subtitle>
+          Para solicitar servicios, ver tu calendarios de visitas, pagar
+          facturas, etc.
+        </mat-card-subtitle>
       </mat-card-header>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-element">
-          <mat-form-field>
+          <mat-form-field appearance="outline">
             <mat-label>Nombre de usuario/Email</mat-label>
             <input
               type="text"
@@ -28,12 +30,12 @@
             <mat-error
               *ngIf="controls['usernameOrEmail'].hasError('maxlength')"
             >
-              Username must not exceed 15 characters
+              Su nombre de usuario o email no deben exceder los 15 carácteres
             </mat-error>
           </mat-form-field>
         </div>
         <div class="form-element">
-          <mat-form-field>
+          <mat-form-field appearance="outline">
             <mat-label>Contraseña</mat-label>
             <input
               [type]="hide ? 'password' : 'text'"
@@ -48,8 +50,12 @@
               [attr.aria-label]="'Hide password'"
               [attr.aria-pressed]="hide"
             >
-              <mat-icon>
-                {{ hide ? "visibility_off" : "visibility_off" }}
+              <mat-icon
+                [matTooltip]="
+                  hide ? 'Mostrar contraseña' : 'Ocultal contraseña'
+                "
+              >
+                {{ hide ? "visibility_on" : "visibility_off" }}
               </mat-icon>
             </button>
             <mat-hint>Por favor digite su contraseña de acceso</mat-hint>
@@ -60,7 +66,7 @@
               La contraseña debe tener al menos 8 caracteres
             </mat-error>
             <mat-error *ngIf="controls['password'].hasError('maxlength')">
-              La contraseña no debe tener mas de 30 caracteres
+              La contraseña no debe tener más de 30 carácteres
             </mat-error>
           </mat-form-field>
         </div>
@@ -70,8 +76,13 @@
           >
         </div>
         <div class="text-center login-actions">
+          <div class="forgotten-password">
+            <a routerLink="/clients/register">¿Has olvidado tu contraseña?</a>
+          </div>
+          <div class="spacer"></div>
           <div class="login-button">
             <button
+              class="right"
               type="submit"
               mat-raised-button
               class="royal_azure"
@@ -80,14 +91,13 @@
               Iniciar sesión
             </button>
           </div>
-          <div class="text-center">
-            <a routerLink="/clients/register" class="samll-text"
-              ><small>¿Has olvidado tu contraseña?</small></a
-            >
+        </div>
+        <div>
+          <div class="text-center" sty>
+            <a routerLink="/clients/register">
+              ¿No estás registrado? Registrate.
+            </a>
           </div>
-          <a routerLink="/clients/register"
-            ><small>¿No estás registrado?</small></a
-          >
         </div>
       </form>
     </mat-card>
