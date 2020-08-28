@@ -12,6 +12,7 @@
     *ngFor="let subMenu of dashboardCard.subMenu"
     mat-menu-item
     routerLink="{{ subMenu.url }}"
+    class="control-card-option"
   >
     <mat-icon>{{ subMenu.iconName }}</mat-icon>
     <span>{{ subMenu.title }}</span>

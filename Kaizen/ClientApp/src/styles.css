@@ -176,6 +176,10 @@ mat-card {
   min-width: 250px;
 }
 
+mat-cell a:hover {
+  color: initial !important;
+}
+
 .mat-expansion-panel-header-title,
 .mat-expansion-panel-header-description {
   flex-basis: 0;
@@ -211,7 +215,8 @@ mat-card {
   margin-top: 0.7rem;
 }
 
-.royal_azure {
+.royal_azure,
+.royal_azure:hover {
   background: var(--royal_azure);
   color: white;
 }

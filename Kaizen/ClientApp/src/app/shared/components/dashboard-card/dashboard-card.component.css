@@ -14,11 +14,15 @@
 }
 
 .control-card:hover {
-  color: initial;
+  color: initial !important;
 }
 
-.control-card a:hover {
-  color: initial;
+.control-card-option:hover {
+  color: initial !important;
+}
+
+.cardMenu a:hover {
+  color: initial !important;
 }
 
 ::ng-deep .cardMenu {

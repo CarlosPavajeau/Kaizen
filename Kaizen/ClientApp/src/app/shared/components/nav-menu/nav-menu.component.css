@@ -1,5 +1,8 @@
-mat-toolbar.royal_azure a.active {
-  background-color: var(--blue_ryb);
+mat-toolbar.royal_azure a.active,
+mat-toolbar.royal_azure a:hover {
+  border-bottom: 1.5px solid white;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 .nav-main-content {
@@ -20,11 +23,12 @@ mat-toolbar.royal_azure a.active {
 mat-toolbar a,
 mat-toolbar button {
   color: white !important;
+  border-bottom: 1.5px solid var(--royal_azure);
 }
 
 .nav-main-header {
   display: inline-block;
-  margin-right: 16px;
+  margin-right: 2rem;
 }
 
 .nav-main-header h2 {
