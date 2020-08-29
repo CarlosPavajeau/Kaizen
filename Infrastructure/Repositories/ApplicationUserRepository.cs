@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Kaizen.Core.Exceptions.User;
+using Kaizen.Core.Services;
 using Kaizen.Domain.Data;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
@@ -13,15 +14,21 @@ namespace Kaizen.Infrastructure.Repositories
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IMailTemplate _mailTemplate;
+        private readonly IMailService _mailService;
 
         public ApplicationUserRepository(
             ApplicationDbContext dbContext,
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager
+            SignInManager<ApplicationUser> signInManager,
+            IMailTemplate mailTemplate,
+            IMailService mailService
             ) : base(dbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _mailTemplate = mailTemplate;
+            _mailService = mailService;
         }
 
         public async override void Insert(ApplicationUser entity)
@@ -93,6 +100,28 @@ namespace Kaizen.Infrastructure.Repositories
         public async Task<IdentityResult> ChangePassswordAsync(ApplicationUser user, string oldPassword, string newPassword)
         {
             return await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
+        }
+
+        public async Task<string> GeneratePasswordResetTokenAsync(ApplicationUser user)
+        {
+            return await _userManager.GeneratePasswordResetTokenAsync(user);
+        }
+
+        public async Task<IdentityResult> ResetPasswordAsync(ApplicationUser user, string token, string newPassword)
+        {
+            return await _userManager.ResetPasswordAsync(user, token, newPassword);
+        }
+
+        public async Task<bool> SendPasswordResetTokenAsync(ApplicationUser user, string resetPasswordLink)
+        {
+            if (user is null)
+                return false;
+
+            string mailTemplate = _mailTemplate.LoadTemplate("ResetPassword.html", resetPasswordLink);
+
+            await _mailService.SendEmailAsync(user.Email, "Contraseña olvidada", mailTemplate, true);
+
+            return true;
         }
     }
 }

@@ -72,6 +72,26 @@ namespace Kaizen.Controllers
             return _mapper.Map<ApplicationUserViewModel>(user);
         }
 
+        [HttpPut("[action]/{usernameOrEmail}")]
+        public async Task<ActionResult<ApplicationUserViewModel>> ResetPassword(string usernameOrEmail, [FromBody] ResetPasswordModel resetPassword)
+        {
+            ApplicationUser user = await _userRepository.FindByNameOrEmailAsync(usernameOrEmail);
+            if (user is null)
+                throw new UserDoesNotExists();
+
+            IdentityResult resetPasswordResult = await _userRepository.ResetPasswordAsync(user, resetPassword.Token.Base64ForUrlDecode(), resetPassword.NewPassword);
+            if (!resetPasswordResult.Succeeded)
+            {
+                SetIdentityResultErrors(resetPasswordResult);
+                return BadRequest(new ValidationProblemDetails(ModelState)
+                {
+                    Status = StatusCodes.Status400BadRequest
+                });
+            }
+
+            return _mapper.Map<ApplicationUserViewModel>(user);
+        }
+
         // POST: api/Users
         [AllowAnonymous]
         [HttpPost]
@@ -143,6 +163,20 @@ namespace Kaizen.Controllers
 
             user = await _userRepository.ConfirmEmailAsync(user, token.Base64ForUrlDecode());
             return Ok(_mapper.Map<ApplicationUser>(user));
+        }
+
+        [HttpPost("[action]")]
+        [AllowAnonymous]
+        public async Task<ActionResult<bool>> ForgottenPassword([FromQuery] string usernameOrEmail)
+        {
+            ApplicationUser user = await _userRepository.FindByNameOrEmailAsync(usernameOrEmail);
+            if (user is null)
+                throw new UserDoesNotExists();
+
+            string token = await _userRepository.GeneratePasswordResetTokenAsync(user);
+            string resetPasswordLink = Url.Action("ResetPassword", "user", new { token = token.Base64ForUrlEncode(), email = user.Email }, Request.Scheme);
+
+            return await _userRepository.SendPasswordResetTokenAsync(user, resetPasswordLink);
         }
     }
 }

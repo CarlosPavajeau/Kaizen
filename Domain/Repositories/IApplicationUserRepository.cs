@@ -20,5 +20,9 @@ namespace Kaizen.Domain.Repositories
 
         Task<ApplicationUser> ConfirmEmailAsync(ApplicationUser user, string token);
         Task<IdentityResult> ChangePassswordAsync(ApplicationUser user, string oldPassword, string newPassword);
+
+        Task<string> GeneratePasswordResetTokenAsync(ApplicationUser user);
+        Task<bool> SendPasswordResetTokenAsync(ApplicationUser user, string resetPasswordLink);
+        Task<IdentityResult> ResetPasswordAsync(ApplicationUser user, string token, string newPassword);
     }
 }
