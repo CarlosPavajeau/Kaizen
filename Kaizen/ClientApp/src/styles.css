@@ -281,6 +281,22 @@ table {
   left: calc(50% - 10px);
 }
 
+.user-card {
+  min-height: 100vh;
+  width: auto;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+@media (min-width: 601px) {
+  .user-card {
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    min-height: 500px;
+    width: 450px;
+  }
+}
+
 /*Animaciones bonitas UwU*/
 
 .animated {
