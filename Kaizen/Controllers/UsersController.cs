@@ -73,6 +73,7 @@ namespace Kaizen.Controllers
         }
 
         [HttpPut("[action]/{usernameOrEmail}")]
+        [AllowAnonymous]
         public async Task<ActionResult<ApplicationUserViewModel>> ResetPassword(string usernameOrEmail, [FromBody] ResetPasswordModel resetPassword)
         {
             ApplicationUser user = await _userRepository.FindByNameOrEmailAsync(usernameOrEmail);
