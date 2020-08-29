@@ -8,6 +8,8 @@ import { UserLoginComponent } from './components/user-login/user-login.component
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { UserRegisterComponent } from './components/user-register/user-register.component';
 import { UserRoutinModule } from './user-routing.module';
+import { ForgottenPasswordComponent } from './components/forgotten-password/forgotten-password.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { UserRoutinModule } from './user-routing.module';
     UserProfileComponent,
     DashboardComponent,
     ConfirmEmailComponent,
-    ManageDataComponent
+    ManageDataComponent,
+    ForgottenPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [ FormsModule, ReactiveFormsModule, SharedModule, UserRoutinModule ],
   exports: [ UserRegisterComponent ]
