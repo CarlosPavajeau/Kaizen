@@ -16,9 +16,9 @@ const routes: Routes = [
       { path: 'login', component: UserLoginComponent, canActivate: [ NoAuthGuard ] },
       { path: 'profile', component: UserProfileComponent, canActivate: [ AuthGuard ] },
       { path: 'edit', component: ManageDataComponent, canActivate: [ AuthGuard ] },
-      { path: 'forgotten-password', component: ForgottenPasswordComponent },
+      { path: 'forgotten-password', component: ForgottenPasswordComponent, canActivate: [ NoAuthGuard ] },
       { path: 'ConfirmEmail', component: ConfirmEmailComponent },
-      { path: 'ResetPassword', component: ResetPasswordComponent },
+      { path: 'ResetPassword', component: ResetPasswordComponent, canActivate: [ NoAuthGuard ] },
       { path: '', redirectTo: 'profile', pathMatch: 'full' }
     ]
   }
