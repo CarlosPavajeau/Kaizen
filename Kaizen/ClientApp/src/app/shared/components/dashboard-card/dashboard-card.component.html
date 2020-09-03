@@ -2,7 +2,7 @@
   *ngIf="dashboardCard && !dashboardCard.isMenu"
   [routerLink]="dashboardCard.url"
   mat-button
-  class="control-card"
+  class="control-card mat-elevation-z1"
 >
   <mat-icon>{{ dashboardCard.iconName }}</mat-icon>
   <span>{{ dashboardCard.title }}</span>
@@ -21,7 +21,7 @@
 <button
   *ngIf="dashboardCard && dashboardCard.isMenu"
   mat-button
-  class="control-card"
+  class="control-card mat-elevation-z1"
   [matMenuTriggerFor]="cardMenu"
 >
   <mat-icon>{{ dashboardCard.iconName }}</mat-icon>
