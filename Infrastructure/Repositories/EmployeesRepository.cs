@@ -36,33 +36,20 @@ namespace Kaizen.Infrastructure.Repositories
 
         public async Task<IEnumerable<Employee>> GetTechniciansAvailable(DateTime date, string[] serviceCodes)
         {
-            HashSet<string> occupiedEmployeesCodes = await GetOccupiedEmployeesCodes(date);
+            IEnumerable<string> occupiedEmployeesCodes = await GetOccupiedEmployeesCodes(date);
 
             return await GetAll().Include(e => e.EmployeesServices)
-                .Where(e => ((occupiedEmployeesCodes.Count == 0) || !occupiedEmployeesCodes.Contains(e.Id)) &&
+                .Where(e => ((occupiedEmployeesCodes.Count() == 0) || !occupiedEmployeesCodes.Contains(e.Id)) &&
                     TECHNICAL_EMPLOYEE_JOB_CODES.Contains(e.ChargeId) &&
                     e.EmployeesServices.Any(es => serviceCodes.Contains(es.ServiceCode)))
                 .ToListAsync();
         }
 
-        private async Task<HashSet<string>> GetOccupiedEmployeesCodes(DateTime date)
+        private async Task<IEnumerable<string>> GetOccupiedEmployeesCodes(DateTime date)
         {
-            List<IEnumerable<Employee>> occupiedEmployees = await ApplicationDbContext.Activities
-                .Where(a => a.Date == date && a.State == ActivityState.Pending)
-                .Include(a => a.ActivitiesEmployees).ThenInclude(ac => ac.Employee)
-                .Select(a => a.ActivitiesEmployees.Select(ac => ac.Employee)).ToListAsync();
-
-            HashSet<string> employeesCodes = new HashSet<string>();
-
-            occupiedEmployees.ForEach(ac =>
-            {
-                ac.ToList().ForEach(e =>
-                {
-                    employeesCodes.Add(e.Id);
-                });
-            });
-
-            return employeesCodes;
+            return await GetAll().Include(e => e.EmployeesActivities).ThenInclude(e => e.Activity)
+                .Where(e => e.EmployeesActivities.Any(e => e.Activity.Date == date && e.Activity.State == ActivityState.Pending))
+                .Select(e => e.Id).Distinct().ToListAsync();
         }
 
         public async Task<IEnumerable<Employee>> EmployeesWithContractCloseToExpiration()
