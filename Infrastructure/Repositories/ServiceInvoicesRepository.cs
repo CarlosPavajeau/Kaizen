@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,6 +25,13 @@ namespace Kaizen.Infrastructure.Repositories
         {
             return await GetAll().Include(s => s.ServiceInvoiceDetails).Include(s => s.Client)
                 .Where(s => s.ClientId == clientId).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ServiceInvoice>> GetPendingExpiredServiceInvoices()
+        {
+            return await GetAll().Include(s => s.Client).Include(s => s.ServiceInvoiceDetails)
+                .Where(s => s.State == InvoiceState.Generated && (DateTime.Now - s.GenerationDate).Days >= Invoice.DayLimits)
+                .ToListAsync();
         }
     }
 }

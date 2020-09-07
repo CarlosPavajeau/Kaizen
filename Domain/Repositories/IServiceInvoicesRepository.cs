@@ -8,5 +8,7 @@ namespace Kaizen.Domain.Repositories
     public interface IServiceInvoicesRepository : IRepositoryBase<ServiceInvoice, int>
     {
         Task<IEnumerable<ServiceInvoice>> GetClientInvoices(string clientId);
+
+        Task<IEnumerable<ServiceInvoice>> GetPendingExpiredServiceInvoices();
     }
 }
