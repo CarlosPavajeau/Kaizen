@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -5,6 +6,8 @@ namespace Kaizen.Domain.Entities
 {
     public abstract class Invoice : Entity
     {
+        public const int DayLimits = 30;
+
         [Key]
         public int Id { get; set; }
         public InvoiceState State { get; set; }
@@ -16,6 +19,9 @@ namespace Kaizen.Domain.Entities
         [ForeignKey("ClientId")]
         public Client Client { get; set; }
         public string ClientId { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime GenerationDate { get; set; }
 
         public void CalculateTotal()
         {
