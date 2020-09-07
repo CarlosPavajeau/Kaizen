@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -58,7 +59,8 @@ namespace Kaizen.DomainEvents.Handlers
                     ClientId = activity.ClientId,
                     PaymentMethod = PaymentMethod.None,
                     State = InvoiceState.Generated,
-                    IVA = 0.19M
+                    IVA = 0.19M,
+                    GenerationDate = DateTime.Now
                 };
 
                 services.ForEach(service =>
