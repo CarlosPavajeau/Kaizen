@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
@@ -32,8 +33,15 @@ namespace Kaizen.Infrastructure.Services
 
         public async Task SendEmailAsync(string email, string subject, string message, bool isHtml = false)
         {
-            ConfigEmail(email, subject, message, isHtml);
-            await _client.SendMailAsync(MailMessage);
+            try
+            {
+                ConfigEmail(email, subject, message, isHtml);
+                await _client.SendMailAsync(MailMessage);
+            }
+            catch (Exception)
+            {
+
+            }
         }
 
         private void ConfigEmail(string email, string subject, string message, bool isHtml = false)
