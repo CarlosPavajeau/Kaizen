@@ -81,10 +81,7 @@ export class ServiceRegisterComponent implements OnInit, IForm {
 
   private mapService(): Service {
     return {
-      code: this.controls['code'].value,
-      name: this.controls['name'].value,
-      serviceTypeId: +this.controls['serviceType'].value,
-      cost: +this.controls['cost'].value,
+      ...this.serviceForm.value,
       productCodes: this.selectProducts.value,
       equipmentCodes: this.selectEquipments.value,
       employeeCodes: this.selectEmployees.value

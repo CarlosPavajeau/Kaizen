@@ -80,12 +80,8 @@ export class EquipmentRegisterComponent implements OnInit, IForm {
 
   private mapEquipment(): Equipment {
     return {
-      code: this.controls['code'].value,
-      name: this.controls['name'].value,
-      maintenanceDate: this.controls['maintenanceDate'].value,
-      amount: this.buy_controls['amount'].value,
-      price: this.buy_controls['price'].value,
-      description: this.buy_controls['description'].value
+      ...this.equipmentForm.value,
+      ...this.equipmentBuyForm.value
     };
   }
 }

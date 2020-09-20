@@ -106,11 +106,10 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
     const date = this.controls['date'].value as Date;
     const isoDate = buildIsoDate(date, time);
     return {
+      ...this.serviceRequestForm.value,
       clientId: this.clientId,
-      serviceCodes: this.controls['serviceCodes'].value,
       date: isoDate,
-      state: ServiceRequestState.Pending,
-      periodicity: this.controls['periodicity'].value
+      state: ServiceRequestState.Pending
     };
   }
 }

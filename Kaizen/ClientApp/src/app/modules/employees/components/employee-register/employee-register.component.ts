@@ -171,18 +171,10 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
 
   mapEmployee(userId: string): Employee {
     return {
-      id: this.controls['id'].value,
-      firstName: this.controls['firstName'].value,
-      secondName: this.controls['secondName'].value,
-      lastName: this.controls['lastName'].value,
-      secondLastName: this.controls['secondLastname'].value,
+      ...this.employeeForm.value,
       chargeId: +this.controls['employeeCharge'].value,
       contractCode: this.contract_controls['contractCode'].value,
-      employeeContract: {
-        contractCode: this.contract_controls['contractCode'].value,
-        startDate: this.contract_controls['startDate'].value,
-        endDate: this.contract_controls['endDate'].value
-      },
+      employeeContract: { ...this.contractForm.value },
       userId: userId
     };
   }

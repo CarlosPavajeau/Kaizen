@@ -116,12 +116,7 @@ export class ProductRegisterComponent implements OnInit, IForm {
 
   private mapProduct(fileNames: FileResponse[]): Product {
     return {
-      code: this.controls['code'].value,
-      name: this.controls['name'].value,
-      amount: +this.controls['amount'].value,
-      presentation: this.controls['presentation'].value,
-      price: +this.controls['price'].value,
-      description: this.controls['description'].value,
+      ...this.productForm.value,
       dataSheet: fileNames[0].fileName,
       healthRegister: fileNames[1].fileName,
       safetySheet: fileNames[2].fileName,
