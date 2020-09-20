@@ -247,17 +247,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
 
   mapClient(user_id: string): Client {
     const client: Client = {
-      id: this.controls['id'].value,
-      firstName: this.controls['firstName'].value,
-      secondName: this.controls['secondName'].value,
-      lastName: this.controls['lastName'].value,
-      secondLastName: this.controls['secondLastname'].value,
-      tradeName: this.controls['tradeName'].value,
-      clientType: this.controls['clientType'].value,
-      firstPhoneNumber: this.contact_controls['firstPhonenumber'].value,
-      secondPhoneNumber: this.contact_controls['secondPhonenumber'].value,
-      firstLandLine: this.contact_controls['firstLandline'].value,
-      secondLandLine: this.contact_controls['secondLandline'].value,
+      ...this.clientForm.value,
       contactPeople: [
         {
           name: this.contact_people_controls['person_name_1'].value,
@@ -268,19 +258,12 @@ export class ClientRegisterComponent implements OnInit, IForm {
           phonenumber: this.contact_people_controls['person_phonenumber_2'].value
         }
       ],
-      clientAddress: {
-        city: this.ubication_controls['city'].value,
-        neighborhood: this.ubication_controls['neighborhood'].value,
-        street: this.ubication_controls['street'].value
-      },
+      clientAddress: { ...this.ubicationForm.value },
+      nit: this.legal_controls['NIT'].value,
+      busninessName: this.legal_controls['businessName'].value,
       userId: user_id,
       state: ClientState.Pending
     };
-
-    if (client.clientType === 'JuridicPerson') {
-      client.nit = this.legal_controls['NIT'].value;
-      client.busninessName = this.legal_controls['businessName'].value;
-    }
 
     return client;
   }
