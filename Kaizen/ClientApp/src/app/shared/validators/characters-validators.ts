@@ -1,23 +1,19 @@
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, ValidatorFn } from '@angular/forms';
 
-export class CharactersValidators {
-  public static alphabeticCharacters(control: AbstractControl): { [key: string]: boolean } | null {
+export function alphabeticCharacters(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
     const regex = new RegExp('^([aA-zZñÑáéíóúÁÉÍÓÚüÜ]*)$');
     const isAlphabetic = regex.test(control.value);
-    if (!isAlphabetic) {
-      return { notAlphabetic: true };
-    } else {
-      return null;
-    }
-  }
 
-  public static numericCharacters(control: AbstractControl): { [key: string]: boolean } | null {
+    return isAlphabetic ? null : { notAlphabetic: true };
+  };
+}
+
+export function numericCharacters(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
     const regex = new RegExp('^([0-9]*)$');
     const isNumeric = regex.test(control.value);
-    if (!isNumeric) {
-      return { notNumeric: true };
-    } else {
-      return null;
-    }
-  }
+
+    return isNumeric ? null : { notNumeric: true };
+  };
 }

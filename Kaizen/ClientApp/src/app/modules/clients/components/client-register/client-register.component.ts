@@ -9,9 +9,7 @@ import { Client } from '@modules/clients/models/client';
 import { ClientState } from '@modules/clients/models/client-state';
 import { ClientService } from '@modules/clients/services/client.service';
 import { NotificationsService } from '@shared/services/notifications.service';
-import { CharactersValidators } from '@shared/validators/characters-validators';
-import { ClientExistsValidator } from '@shared/validators/client-exists-validator';
-import { UserExistsValidator } from '@shared/validators/user-exists-validator';
+import { alphabeticCharacters, numericCharacters } from '@shared/validators/characters-validators';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
@@ -51,8 +49,6 @@ export class ClientRegisterComponent implements OnInit, IForm {
     private clientService: ClientService,
     private authService: AuthenticationService,
     private formBuilder: FormBuilder,
-    private clientValidator: ClientExistsValidator,
-    private userValidator: UserExistsValidator,
     private notificationsService: NotificationsService,
     private router: Router
   ) {}
@@ -82,33 +78,17 @@ export class ClientRegisterComponent implements OnInit, IForm {
       firstPhonenumber: [
         '',
         {
-          validators: [
-            Validators.required,
-            Validators.minLength(10),
-            Validators.maxLength(10),
-            CharactersValidators.numericCharacters
-          ],
-          asyncValidators: [ this.userValidator.validate.bind(this.userValidator) ],
+          validators: [ Validators.required, Validators.minLength(10), Validators.maxLength(10), numericCharacters() ],
           updateOn: 'blur'
         }
       ],
-      secondPhonenumber: [
-        '',
-        [ Validators.minLength(10), Validators.maxLength(10), CharactersValidators.numericCharacters ]
-      ],
-      firstLandline: [
-        '',
-        [ Validators.minLength(10), Validators.maxLength(15), CharactersValidators.numericCharacters ]
-      ],
-      secondLandline: [
-        '',
-        [ Validators.minLength(10), Validators.maxLength(15), CharactersValidators.numericCharacters ]
-      ],
+      secondPhonenumber: [ '', [ Validators.minLength(10), Validators.maxLength(10), numericCharacters() ] ],
+      firstLandline: [ '', [ Validators.minLength(10), Validators.maxLength(15), numericCharacters() ] ],
+      secondLandline: [ '', [ Validators.minLength(10), Validators.maxLength(15), numericCharacters() ] ],
       email: [
         '',
         {
           validators: [ Validators.required, Validators.email ],
-          asyncValidators: [ this.userValidator.validate.bind(this.userValidator) ],
           updateOn: 'blur'
         }
       ]
@@ -120,37 +100,19 @@ export class ClientRegisterComponent implements OnInit, IForm {
       person_name_1: [ '', [ Validators.required, Validators.maxLength(50) ] ],
       person_phonenumber_1: [
         '',
-        [
-          Validators.required,
-          Validators.minLength(10),
-          Validators.maxLength(10),
-          CharactersValidators.numericCharacters
-        ]
+        [ Validators.required, Validators.minLength(10), Validators.maxLength(10), numericCharacters() ]
       ],
       person_name_2: [ '', [ Validators.required, Validators.maxLength(50) ] ],
       person_phonenumber_2: [
         '',
-        [
-          Validators.required,
-          Validators.minLength(10),
-          Validators.maxLength(10),
-          CharactersValidators.numericCharacters
-        ]
+        [ Validators.required, Validators.minLength(10), Validators.maxLength(10), numericCharacters() ]
       ]
     });
   }
 
   private initLegalPersonForm() {
     this.legalPersonForm = this.formBuilder.group({
-      NIT: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(5),
-          Validators.maxLength(30),
-          CharactersValidators.numericCharacters
-        ]
-      ],
+      NIT: [ '', [ Validators.required, Validators.minLength(5), Validators.maxLength(30), numericCharacters() ] ],
       businessName: [ '', [ Validators.required, Validators.minLength(5), Validators.maxLength(50) ] ]
     });
   }
@@ -160,42 +122,20 @@ export class ClientRegisterComponent implements OnInit, IForm {
       id: [
         '',
         {
-          validators: [
-            Validators.required,
-            Validators.minLength(8),
-            Validators.maxLength(10),
-            CharactersValidators.numericCharacters
-          ],
-          asyncValidators: [ this.clientValidator.validate.bind(this.clientValidator) ],
+          validators: [ Validators.required, Validators.minLength(8), Validators.maxLength(10), numericCharacters() ],
           updateOn: 'blur'
         }
       ],
       firstName: [
         '',
-        [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(20),
-          CharactersValidators.alphabeticCharacters
-        ]
+        [ Validators.required, Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ]
       ],
-      secondName: [
-        '',
-        [ Validators.minLength(2), Validators.maxLength(20), CharactersValidators.alphabeticCharacters ]
-      ],
+      secondName: [ '', [ Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ] ],
       lastName: [
         '',
-        [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(20),
-          CharactersValidators.alphabeticCharacters
-        ]
+        [ Validators.required, Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ]
       ],
-      secondLastname: [
-        '',
-        [ Validators.minLength(2), Validators.maxLength(20), CharactersValidators.alphabeticCharacters ]
-      ],
+      secondLastname: [ '', [ Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ] ],
       tradeName: [ '', [ Validators.required, Validators.minLength(5), Validators.maxLength(50) ] ],
       clientType: [ '', [ Validators.required ] ]
     });

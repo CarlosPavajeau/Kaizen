@@ -59,7 +59,7 @@ export class ProductRegisterComponent implements OnInit, IForm {
         '',
         {
           validators: [ Validators.required ],
-          asyncValidators: [ this.productExistsValidator.validate.bind(this.productExistsValidator) ]
+          updateOn: 'blur'
         }
       ],
       name: [ '', [ Validators.required, Validators.maxLength(40) ] ],

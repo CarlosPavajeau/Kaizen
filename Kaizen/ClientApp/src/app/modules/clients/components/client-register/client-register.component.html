@@ -19,6 +19,7 @@
                     matInput
                     placeholder="Ejemplo: 14234353"
                     formControlName="id"
+                    appUniqueClient
                     required
                   />
                   <mat-hint>Digite su identificación</mat-hint>
@@ -295,6 +296,7 @@
                         matInput
                         placeholder="Digite su número de teléfono"
                         formControlName="firstPhonenumber"
+                        appUniqueUser
                       />
                       <mat-hint>Digite su primer número de teléfono</mat-hint>
                       <mat-error
@@ -471,7 +473,12 @@
               <div class="form-element">
                 <mat-form-field>
                   <mat-label>Dirección de email</mat-label>
-                  <input type="email" matInput formControlName="email" />
+                  <input
+                    type="email"
+                    matInput
+                    formControlName="email"
+                    appUniqueUser
+                  />
                   <mat-hint>Digite su dirección de email</mat-hint>
                   <mat-error
                     *ngIf="contact_controls['email'].hasError('required')"

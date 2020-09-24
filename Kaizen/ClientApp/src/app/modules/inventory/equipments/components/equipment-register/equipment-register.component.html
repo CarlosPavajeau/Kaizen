@@ -18,6 +18,8 @@
                   matInput
                   placeholder="Ejemplo: 22A3"
                   formControlName="code"
+                  appUniqueEquipment
+                  required
                 />
                 <mat-hint>Digite el código del equipo</mat-hint>
                 <mat-error *ngIf="controls['code'].hasError('required')"

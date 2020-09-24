@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { User } from '@core/models/user';
-import { NotificationsService } from '@shared/services/notifications.service';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { IForm } from '@core/models/form';
-import { ChangePasswordModel } from '@modules/users/models/change-password';
-import { Person } from '@shared/models/person';
-import { HttpErrorHandlerService } from '@shared/services/http-error-handler.service';
-import { of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { UserService } from '@modules/users/services/user.service';
-import { CharactersValidators } from '@shared/validators/characters-validators';
-import { ClientService } from '@modules/clients/services/client.service';
-import { EmployeeService } from '@modules/employees/services/employee.service';
+import { User } from '@core/models/user';
 import { CLIENT_ROLE } from '@global/roles';
 import { Client } from '@modules/clients/models/client';
+import { ClientService } from '@modules/clients/services/client.service';
 import { Employee } from '@modules/employees/models/employee';
+import { EmployeeService } from '@modules/employees/services/employee.service';
+import { ChangePasswordModel } from '@modules/users/models/change-password';
+import { UserService } from '@modules/users/services/user.service';
+import { Person } from '@shared/models/person';
+import { HttpErrorHandlerService } from '@shared/services/http-error-handler.service';
+import { NotificationsService } from '@shared/services/notifications.service';
+import { alphabeticCharacters, numericCharacters } from '@shared/validators/characters-validators';
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-manage-data',
@@ -117,52 +117,26 @@ export class ManageDataComponent implements OnInit, IForm {
     this.personalDataForm = this.formBuilder.group({
       firstName: [
         '',
-        [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(20),
-          CharactersValidators.alphabeticCharacters
-        ]
+        [ Validators.required, Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ]
       ],
-      secondName: [
-        '',
-        [ Validators.minLength(2), Validators.maxLength(20), CharactersValidators.alphabeticCharacters ]
-      ],
+      secondName: [ '', [ Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ] ],
       lastName: [
         '',
-        [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(20),
-          CharactersValidators.alphabeticCharacters
-        ]
+        [ Validators.required, Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ]
       ],
-      secondLastname: [
-        '',
-        [ Validators.minLength(2), Validators.maxLength(20), CharactersValidators.alphabeticCharacters ]
-      ]
+      secondLastname: [ '', [ Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ] ]
     });
 
     this.contactPeopleForm = this.formBuilder.group({
       person_name_1: [ '', [ Validators.required, Validators.maxLength(50) ] ],
       person_phonenumber_1: [
         '',
-        [
-          Validators.required,
-          Validators.minLength(10),
-          Validators.maxLength(10),
-          CharactersValidators.numericCharacters
-        ]
+        [ Validators.required, Validators.minLength(10), Validators.maxLength(10), numericCharacters() ]
       ],
       person_name_2: [ '', [ Validators.required, Validators.maxLength(50) ] ],
       person_phonenumber_2: [
         '',
-        [
-          Validators.required,
-          Validators.minLength(10),
-          Validators.maxLength(10),
-          CharactersValidators.numericCharacters
-        ]
+        [ Validators.required, Validators.minLength(10), Validators.maxLength(10), numericCharacters() ]
       ]
     });
 

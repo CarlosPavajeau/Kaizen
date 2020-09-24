@@ -19,6 +19,8 @@
                   placeholder="Ejemplo: 22RT5"
                   formControlName="code"
                   class="text-uppercase"
+                  appUniqueProduct
+                  required
                 />
                 <mat-hint>Digite el código del producto</mat-hint>
               </mat-form-field>
@@ -207,7 +209,7 @@
           </form>
           <div
             class="center-block-content form-element"
-            style="margin-bottom: 15px;"
+            style="margin-bottom: 15px"
           >
             <mat-progress-bar
               *ngIf="uploading"

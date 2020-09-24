@@ -118,9 +118,11 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
   confirmWorkOrder(): void {
     if (!this.digitalSignature.isEmpty) {
       if (this.workOrder) {
-        const workOrder: WorkOrder = { ...this.workOrder };
-        workOrder.clientSignature = this.digitalSignature.getImageData();
-        workOrder.workOrderState = WorkOrderState.Confirmed;
+        const workOrder: WorkOrder = {
+          ...this.workOrder,
+          clientSignature: this.digitalSignature.getImageData(),
+          workOrderState: WorkOrderState.Confirmed
+        };
 
         this.savingOrUpdatingData = true;
         this.workOrderService.updateWorkOrder(workOrder).subscribe((workOrderUpdate) => {

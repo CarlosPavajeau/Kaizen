@@ -45,7 +45,6 @@ export class EquipmentRegisterComponent implements OnInit, IForm {
         '',
         {
           validators: [ Validators.required, Validators.minLength(3), Validators.maxLength(20) ],
-          asyncValidators: [ this.equipmentValidator.validate.bind(this.equipmentValidator) ],
           updateOn: 'blur'
         }
       ],

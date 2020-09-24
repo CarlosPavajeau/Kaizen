@@ -30,7 +30,6 @@ export class UserRegisterComponent implements OnInit {
         '',
         {
           validators: [ Validators.required, Validators.minLength(5), Validators.maxLength(15) ],
-          asyncValidators: [ this.userValidator.validate.bind(this.userValidator) ],
           updateOn: 'blur'
         }
       ],

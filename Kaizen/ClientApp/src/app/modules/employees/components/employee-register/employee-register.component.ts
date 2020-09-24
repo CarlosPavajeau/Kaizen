@@ -9,7 +9,7 @@ import { Employee } from '@modules/employees/models/employee';
 import { EmployeeCharge } from '@modules/employees/models/employee-charge';
 import { EmployeeService } from '@modules/employees/services/employee.service';
 import { NotificationsService } from '@shared/services/notifications.service';
-import { CharactersValidators } from '@shared/validators/characters-validators';
+import { alphabeticCharacters, numericCharacters } from '@shared/validators/characters-validators';
 import { EmployeeExistsValidator } from '@shared/validators/employee-exists-validator';
 import { switchMap } from 'rxjs/operators';
 
@@ -68,42 +68,20 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
       id: [
         '',
         {
-          validators: [
-            Validators.required,
-            Validators.minLength(8),
-            Validators.maxLength(10),
-            CharactersValidators.numericCharacters
-          ],
-          asyncValidators: [ this.employeeValidator.validate.bind(this.employeeValidator) ],
+          validators: [ Validators.required, Validators.minLength(8), Validators.maxLength(10), numericCharacters() ],
           updateOn: 'blur'
         }
       ],
       firstName: [
         '',
-        [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(20),
-          CharactersValidators.alphabeticCharacters
-        ]
+        [ Validators.required, Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ]
       ],
-      secondName: [
-        '',
-        [ Validators.minLength(2), Validators.maxLength(20), CharactersValidators.alphabeticCharacters ]
-      ],
+      secondName: [ '', [ Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ] ],
       lastName: [
         '',
-        [
-          Validators.required,
-          Validators.minLength(2),
-          Validators.maxLength(20),
-          CharactersValidators.alphabeticCharacters
-        ]
+        [ Validators.required, Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ]
       ],
-      secondLastname: [
-        '',
-        [ Validators.minLength(2), Validators.maxLength(20), CharactersValidators.alphabeticCharacters ]
-      ],
+      secondLastname: [ '', [ Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ] ],
       employeeCharge: [ '', [ Validators.required ] ]
     });
   }
@@ -113,12 +91,7 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
       email: [ '', [ Validators.required, Validators.email ] ],
       phonenumber: [
         '',
-        [
-          Validators.required,
-          Validators.minLength(10),
-          Validators.maxLength(10),
-          CharactersValidators.numericCharacters
-        ]
+        [ Validators.required, Validators.minLength(10), Validators.maxLength(10), numericCharacters() ]
       ]
     });
   }
