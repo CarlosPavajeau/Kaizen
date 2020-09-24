@@ -4,10 +4,10 @@ namespace Kaizen.Models.ApplicationUser
 {
     public class LoginRequest
     {
-        [Required]
+        [Required(ErrorMessage = "El usuario o email de acceso son requeridos")]
         public string UsernameOrEmail { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "La contraseña de acceso es requerida")]
         public string Password { get; set; }
     }
 }
