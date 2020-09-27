@@ -1,8 +1,7 @@
 app-header + article {
   padding: 3.2rem;
   padding: 32px;
-  margin-top: 3.5rem;
-  margin-top: 35px;
+  background: #142454;
 }
 
 .home-rows {
@@ -10,8 +9,11 @@ app-header + article {
 }
 
 .home-row {
+  background: #162250;
   max-width: 920px;
   margin: 32px auto;
+  padding: 15px;
+  border-radius: 15px;
 }
 
 div[layout="row"] {
@@ -26,17 +28,31 @@ div[layout="row"] {
   max-width: 50%;
 }
 
+.home-row .promo-img {
+  width: 200px;
+  height: 200px;
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+.home-row .promo-img > div > img,
+.home-row .promo-img > div {
+  width: 100%;
+  height: 100%;
+}
+
 .text-headline {
-  font-size: 20px;
-  font-size: 1.25rem;
+  font-size: 1.7rem;
   font-weight: 500;
-  color: #1976d2;
+  text-align: center;
+  color: #f7f7f2;
   margin-top: 10px;
   text-transform: uppercase;
+  margin-bottom: 15px;
 }
 
 .text-body {
-  color: #444 !important;
+  color: #f7f7f2 !important;
 }
 
 .our-services {

@@ -5,6 +5,10 @@ mat-toolbar.royal_azure a:hover {
   border-bottom-left-radius: 0;
 }
 
+mat-toolbar {
+  background-color: #142454 !important;
+}
+
 .nav-main-content {
   display: inline-block;
 }
@@ -23,7 +27,7 @@ mat-toolbar.royal_azure a:hover {
 mat-toolbar a,
 mat-toolbar button {
   color: white !important;
-  border-bottom: 1.5px solid var(--royal_azure);
+  border-bottom: 1.5px solid #142454;
 }
 
 .nav-main-header {

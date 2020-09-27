@@ -1,5 +1,8 @@
 header {
   display: block;
+  background: #142454;
+  color: white;
+  min-height: 80vh;
 }
 
 div {
@@ -21,7 +24,7 @@ div {
   overflow: hidden;
   transform: skewY(8deg);
   transform-origin: 100%;
-  background: var(--royal_azure);
+  background: #142454;
   color: white;
 }
 
@@ -68,7 +71,7 @@ div {
 
 .header-intro .header-button {
   color: white;
-  background-color: #108944;
+  background-color: #157a6e;
 }
 
 @media (max-width: 1300px) {
