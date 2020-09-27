@@ -201,7 +201,7 @@ mat-cell a:hover {
 }
 
 .center-element {
-  position: absolute;
+  position: fixed;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -295,6 +295,11 @@ table {
     min-height: 500px;
     width: 450px;
   }
+}
+
+.navigation-loading .mat-progress-spinner circle,
+.navigation-loading .mat-spinner circle {
+  stroke: #157a6e !important;
 }
 
 /*Animaciones bonitas UwU*/

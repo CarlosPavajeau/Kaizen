@@ -40,6 +40,7 @@ div {
 
 .header-intro .header-logo {
   display: flex;
+  margin-right: 15px;
 }
 
 .header-intro .header-logo img {
@@ -71,7 +72,9 @@ div {
 
 .header-intro .header-button {
   color: white;
-  background-color: #157a6e;
+  background-color: #154774;
+  font-size: 1.2rem;
+  padding: 10px 20px 10px 20px;
 }
 
 @media (max-width: 1300px) {
