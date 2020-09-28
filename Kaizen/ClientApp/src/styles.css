@@ -151,27 +151,6 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-app-root {
-  display: -webkit-box;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  flex-direction: column;
-  position: absolute;
-  top: 56px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-app-nav-menu {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 2;
-}
-
 mat-card {
   min-width: 250px;
 }
@@ -222,7 +201,6 @@ mat-cell a:hover {
 }
 
 .container {
-  margin-top: 40px;
   min-height: 405px;
 }
 
@@ -300,6 +278,24 @@ table {
 .navigation-loading .mat-progress-spinner circle,
 .navigation-loading .mat-spinner circle {
   stroke: #157a6e !important;
+}
+
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 /*Animaciones bonitas UwU*/

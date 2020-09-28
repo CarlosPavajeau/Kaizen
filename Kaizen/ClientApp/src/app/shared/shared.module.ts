@@ -37,6 +37,8 @@ import { InvoiceStatePipe } from './pipes/invoice-state.pipe';
 import { PaymentMethodPipe } from './pipes/payment-method.pipe';
 import { PeriodicityPipe } from './pipes/periodicity.pipe';
 import { ServiceRequestStatePipe } from './pipes/service-request-state.pipe';
+import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
+import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +73,9 @@ import { ServiceRequestStatePipe } from './pipes/service-request-state.pipe';
     MonthBitPipe,
     PaymentMethodPipe,
     PeriodicityPipe,
-    ServiceRequestStatePipe
+    ServiceRequestStatePipe,
+    DefaultLayoutComponent,
+    DashboardLayoutComponent
   ],
   imports: [ CommonModule, FlexLayoutModule, FormsModule, MaterialModule, ReactiveFormsModule, RouterModule ],
   exports: [

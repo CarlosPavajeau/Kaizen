@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DashboardLayoutComponent } from '@app/shared/layouts/dashboard-layout/dashboard-layout.component';
 import { AuthGuard } from '@core/guards/auth.guard';
 import { NoAuthGuard } from '@core/guards/no-auth.guard';
 import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
@@ -12,16 +13,17 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
 const routes: Routes = [
   {
     path: '',
+    component: DashboardLayoutComponent,
     children: [
-      { path: 'login', component: UserLoginComponent, canActivate: [ NoAuthGuard ] },
       { path: 'profile', component: UserProfileComponent, canActivate: [ AuthGuard ] },
       { path: 'edit', component: ManageDataComponent, canActivate: [ AuthGuard ] },
-      { path: 'forgotten-password', component: ForgottenPasswordComponent, canActivate: [ NoAuthGuard ] },
-      { path: 'ConfirmEmail', component: ConfirmEmailComponent },
-      { path: 'ResetPassword', component: ResetPasswordComponent, canActivate: [ NoAuthGuard ] },
       { path: '', redirectTo: 'profile', pathMatch: 'full' }
     ]
-  }
+  },
+  { path: 'login', component: UserLoginComponent, canActivate: [ NoAuthGuard ] },
+  { path: 'ResetPassword', component: ResetPasswordComponent, canActivate: [ NoAuthGuard ] },
+  { path: 'ConfirmEmail', component: ConfirmEmailComponent },
+  { path: 'forgotten-password', component: ForgottenPasswordComponent, canActivate: [ NoAuthGuard ] }
 ];
 
 @NgModule({

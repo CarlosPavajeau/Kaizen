@@ -1,10 +1,4 @@
-<body>
-  <app-nav-menu></app-nav-menu>
-  <div class="main-content">
-    <router-outlet></router-outlet>
-    <div class="center-element navigation-loading">
-      <mat-spinner *ngIf="loading"></mat-spinner>
-    </div>
-    <app-footer></app-footer>
-  </div>
-</body>
+<router-outlet></router-outlet>
+<div class="center-element navigation-loading">
+  <mat-spinner *ngIf="loading"></mat-spinner>
+</div>

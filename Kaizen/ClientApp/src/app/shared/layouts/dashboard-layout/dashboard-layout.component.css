@@ -1,0 +1,24 @@
+.nav-caption {
+  display: inline-block;
+  padding-left: 7px;
+}
+
+.sidenav,
+.sidenav .mat-toolbar,
+.dashboard-toolbar {
+  background: #142454 !important;
+  color: white !important;
+}
+
+mat-nav-list > * {
+  color: white !important;
+}
+
+a:hover {
+  background: #162250 !important;
+  color: #f7f7f2 !important;
+}
+
+.dashboard-link-active {
+  background: #0f1a3e;
+}

@@ -1,107 +1,99 @@
-<section class="container">
-  <div class="center-content">
-    <mat-card class="center-block-content mat-elevation-z0 user-card">
-      <mat-card-header>
-        <mat-card-title class="text-center">Inicia sesión</mat-card-title>
-        <mat-card-subtitle>
-          Para solicitar servicios, ver tu calendarios de visitas, pagar
-          facturas, etc.
-        </mat-card-subtitle>
-      </mat-card-header>
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="form-element">
-          <mat-form-field appearance="outline">
-            <mat-label>Nombre de usuario/Email</mat-label>
-            <input
-              type="text"
-              matInput
-              placeholder="Ejemplo: manolo"
-              formControlName="usernameOrEmail"
-            />
-            <mat-hint>Por favor digite su nombre de usuario o email</mat-hint>
-            <mat-error *ngIf="controls['usernameOrEmail'].hasError('required')">
-              Su nombre de usuario o email son requeridos
-            </mat-error>
-            <mat-error
-              *ngIf="controls['usernameOrEmail'].hasError('minlength')"
+<div class="center-element">
+  <mat-card class="center-block-content mat-elevation-z0 user-card">
+    <mat-card-header>
+      <mat-card-title class="text-center">Inicia sesión</mat-card-title>
+      <mat-card-subtitle>
+        Para solicitar servicios, ver tu calendarios de visitas, pagar facturas,
+        etc.
+      </mat-card-subtitle>
+    </mat-card-header>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-element">
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre de usuario/Email</mat-label>
+          <input
+            type="text"
+            matInput
+            placeholder="Ejemplo: manolo"
+            formControlName="usernameOrEmail"
+          />
+          <mat-hint>Por favor digite su nombre de usuario o email</mat-hint>
+          <mat-error *ngIf="controls['usernameOrEmail'].hasError('required')">
+            Su nombre de usuario o email son requeridos
+          </mat-error>
+          <mat-error *ngIf="controls['usernameOrEmail'].hasError('minlength')">
+            Su nombre de usuario o email deben tener al menos 5 carácteres
+          </mat-error>
+          <mat-error *ngIf="controls['usernameOrEmail'].hasError('maxlength')">
+            Su nombre de usuario o email no deben exceder los 15 carácteres
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-element">
+        <mat-form-field appearance="outline">
+          <mat-label>Contraseña</mat-label>
+          <input
+            [type]="hide ? 'password' : 'text'"
+            matInput
+            placeholder="Digite su contraseña de acceso"
+            formControlName="password"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon
+              [matTooltip]="hide ? 'Mostrar contraseña' : 'Ocultal contraseña'"
             >
-              Su nombre de usuario o email deben tener al menos 5 carácteres
-            </mat-error>
-            <mat-error
-              *ngIf="controls['usernameOrEmail'].hasError('maxlength')"
-            >
-              Su nombre de usuario o email no deben exceder los 15 carácteres
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="form-element">
-          <mat-form-field appearance="outline">
-            <mat-label>Contraseña</mat-label>
-            <input
-              [type]="hide ? 'password' : 'text'"
-              matInput
-              placeholder="Digite su contraseña de acceso"
-              formControlName="password"
-            />
-            <button
-              mat-icon-button
-              matSuffix
-              (click)="hide = !hide"
-              [attr.aria-label]="'Hide password'"
-              [attr.aria-pressed]="hide"
-            >
-              <mat-icon
-                [matTooltip]="
-                  hide ? 'Mostrar contraseña' : 'Ocultal contraseña'
-                "
-              >
-                {{ hide ? "visibility_on" : "visibility_off" }}
-              </mat-icon>
-            </button>
-            <mat-hint>Por favor digite su contraseña de acceso</mat-hint>
-            <mat-error *ngIf="controls['password'].hasError('required')">
-              Su contraseña es requerida
-            </mat-error>
-            <mat-error *ngIf="controls['password'].hasError('minlength')">
-              La contraseña debe tener al menos 8 caracteres
-            </mat-error>
-            <mat-error *ngIf="controls['password'].hasError('maxlength')">
-              La contraseña no debe tener más de 30 carácteres
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="form-element left session-toggle">
-          <mat-slide-toggle [color]="'primary'"
-            ><small>Mantener sesión iniciada</small></mat-slide-toggle
+              {{ hide ? "visibility_on" : "visibility_off" }}
+            </mat-icon>
+          </button>
+          <mat-hint>Por favor digite su contraseña de acceso</mat-hint>
+          <mat-error *ngIf="controls['password'].hasError('required')">
+            Su contraseña es requerida
+          </mat-error>
+          <mat-error *ngIf="controls['password'].hasError('minlength')">
+            La contraseña debe tener al menos 8 caracteres
+          </mat-error>
+          <mat-error *ngIf="controls['password'].hasError('maxlength')">
+            La contraseña no debe tener más de 30 carácteres
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-element left session-toggle">
+        <mat-slide-toggle [color]="'primary'"
+          ><small>Mantener sesión iniciada</small></mat-slide-toggle
+        >
+      </div>
+      <div class="text-center login-actions">
+        <div class="forgotten-password">
+          <a routerLink="/user/forgotten-password"
+            >¿Has olvidado tu contraseña?</a
           >
         </div>
-        <div class="text-center login-actions">
-          <div class="forgotten-password">
-            <a routerLink="/user/forgotten-password"
-              >¿Has olvidado tu contraseña?</a
-            >
-          </div>
-          <div class="spacer"></div>
-          <div class="login-button">
-            <button
-              class="right"
-              type="submit"
-              mat-raised-button
-              class="royal_azure"
-              [appLoadingButton]="loading"
-            >
-              Iniciar sesión
-            </button>
-          </div>
+        <div class="spacer"></div>
+        <div class="login-button">
+          <button
+            class="right"
+            type="submit"
+            mat-raised-button
+            class="royal_azure"
+            [appLoadingButton]="loading"
+          >
+            Iniciar sesión
+          </button>
         </div>
-        <div>
-          <div class="text-center" sty>
-            <a routerLink="/clients/register">
-              ¿No estás registrado? Registrate.
-            </a>
-          </div>
+      </div>
+      <div>
+        <div class="text-center" sty>
+          <a routerLink="/clients/register">
+            ¿No estás registrado? Registrate.
+          </a>
         </div>
-      </form>
-    </mat-card>
-  </div>
-</section>
+      </div>
+    </form>
+  </mat-card>
+</div>
