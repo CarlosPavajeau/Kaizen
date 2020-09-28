@@ -1,8 +1,10 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '@app/core/authentication/authentication.service';
+import { DASHBOARS_CARDS } from '@app/global/control-panel-cards';
+import { AuthenticationService } from '@core/authentication/authentication.service';
+import { DashboardCard } from '@core/models/dashboard-card';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
@@ -11,13 +13,15 @@ import { map, shareReplay } from 'rxjs/operators';
   templateUrl: './dashboard-layout.component.html',
   styleUrls: [ './dashboard-layout.component.css' ]
 })
-export class DashboardLayoutComponent implements OnInit, AfterViewInit {
+export class DashboardLayoutComponent implements OnInit {
   isHandset$: Observable<boolean>;
-  userType: string;
+  userRole: string;
   @ViewChild('drawer', { static: true })
   drawer: MatSidenav;
 
   isSidenavClose = false;
+
+  menuOptions: DashboardCard[] = [];
 
   constructor(
     private breakPointObserver: BreakpointObserver,
@@ -25,21 +29,22 @@ export class DashboardLayoutComponent implements OnInit, AfterViewInit {
     private router: Router
   ) {}
 
-  ngAfterViewInit(): void {
-    console.log(this.drawer);
-  }
-
   ngOnInit(): void {
     this.isHandset$ = this.breakPointObserver
       .observe(Breakpoints.Handset)
       .pipe(map((result) => result.matches), shareReplay());
 
-    this.userType = this.authService.getUserRole();
+    this.userRole = this.authService.getUserRole();
+    this.menuOptions = DASHBOARS_CARDS[this.userRole];
+
+    console.log(this.menuOptions);
   }
 
   closeSidenav(): void {
-    this.drawer.close();
-    this.isSidenavClose = true;
+    if (this.drawer.opened) {
+      this.drawer.toggle();
+      this.isSidenavClose = true;
+    }
   }
 
   toggleSidenav(): void {

@@ -6,40 +6,52 @@
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false"
+    [class.mat-elevation-z6]="true"
   >
-    <mat-toolbar>Menu</mat-toolbar>
-    <mat-nav-list *ngIf="userType == 'Administrator'">
-      <a mat-list-item routerLink="/payments/service_invoices">
-        <mat-icon>attach_money</mat-icon>
-        <span class="nav-caption">Facturas</span>
-      </a>
-      <a mat-list-item (click)="closeSidenav()">
-        <mat-icon>event</mat-icon>
-        <span class="nav-caption">Calendario</span>
-      </a>
-      <a mat-list-item>
-        <mat-icon>eco</mat-icon>
-        <span class="nav-caption">Productos</span>
-      </a>
-      <a mat-list-item>
-        <mat-icon>construction</mat-icon>
-        <span class="nav-caption">Equipos</span>
-      </a>
-      <a mat-list-item>
-        <mat-icon>people</mat-icon>
-        <span class="nav-caption">Clientes</span>
-      </a>
-      <a mat-list-item>
-        <mat-icon>plumbing</mat-icon>
-        <span class="nav-caption">Empleados</span>
-      </a>
-      <a mat-list-item [matMenuTriggerFor]="menu">
-        <mat-icon>batch_prediction</mat-icon>
-        <span class="nav-caption">Servicios</span>
-      </a>
-      <mat-menu #menu="matMenu">
-        <a mat-menu-item>Servicio</a>
-      </mat-menu>
+    <mat-toolbar>
+      Menu
+      <div class="spacer"></div>
+      <button
+        mat-icon-button
+        (click)="closeSidenav()"
+        [matTooltip]="'Cerrar barra lateral'"
+      >
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-toolbar>
+    <mat-nav-list>
+      <div *ngFor="let menuOption of menuOptions">
+        <a
+          *ngIf="!menuOption.isMenu"
+          mat-list-item
+          [routerLink]="menuOption.url"
+        >
+          <mat-icon>{{ menuOption.iconName }}</mat-icon>
+          <span class="nav-caption">{{ menuOption.title }}</span>
+        </a>
+        <mat-expansion-panel
+          *ngIf="menuOption.isMenu"
+          hideToggle="true"
+          [class.mat-elevation-z0]="true"
+          dense
+          class="dashboard-expansion-panel"
+        >
+          <mat-expansion-panel-header>
+            <mat-icon>{{ menuOption.iconName }}</mat-icon>
+            <span class="nav-caption">{{ menuOption.title }}</span>
+          </mat-expansion-panel-header>
+          <mat-nav-list dense>
+            <a
+              *ngFor="let menuItem of menuOption?.subMenu"
+              mat-list-item
+              [routerLink]="menuItem.url"
+            >
+              <mat-icon>{{ menuItem.iconName }}</mat-icon>
+              {{ menuItem.title }}
+            </a>
+          </mat-nav-list>
+        </mat-expansion-panel>
+      </div>
     </mat-nav-list>
     <mat-nav-list>
       <a

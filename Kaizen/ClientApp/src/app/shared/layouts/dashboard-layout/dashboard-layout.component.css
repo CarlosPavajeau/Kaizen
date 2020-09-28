@@ -10,7 +10,7 @@
   color: white !important;
 }
 
-mat-nav-list > * {
+mat-nav-list * {
   color: white !important;
 }
 
@@ -21,4 +21,23 @@ a:hover {
 
 .dashboard-link-active {
   background: #0f1a3e;
+}
+
+.dashboard-expansion-panel,
+.dashboard-expansion-panel * {
+  background: #142454;
+  color: white !important;
+}
+
+.mat-expansion-indicator::after,
+.mat-expansion-indicator {
+  color: white !important;
+  display: none;
+}
+.dashboard-expansion-panel mat-panel-title {
+  color: white !important;
+}
+
+.dashboard-expansion-panel mat-nav-list mat-icon {
+  margin-right: 7px;
 }
