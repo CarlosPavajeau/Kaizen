@@ -1,6 +1,6 @@
 .footer {
   overflow: hidden;
-  padding: 20px 10px 10px 10px;
+  padding: 20px 10px 10px;
   padding-top: 30px;
   background: #162250;
 }
@@ -20,8 +20,8 @@ footer span {
 
 .footer-section ul {
   list-style: none;
-  margin: 0px;
-  padding: 0px;
+  margin: 0;
+  padding: 0;
 }
 
 .footer-section ul li {
