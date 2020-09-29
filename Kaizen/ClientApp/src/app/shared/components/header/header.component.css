@@ -110,6 +110,7 @@ div {
   }
 
   .header-intro .header-logo img {
+    margin-top: 6rem;
     width: 250px;
     height: 250px;
   }

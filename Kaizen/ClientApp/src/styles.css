@@ -298,6 +298,104 @@ table {
   z-index: 1;
 }
 
+app-header + article {
+  padding: 3.2rem;
+  padding: 32px;
+  background: #142454;
+}
+
+.our-services-article {
+  padding: 3.2rem;
+  padding: 32px;
+  background: #142454;
+}
+
+.home-rows {
+  overflow: hidden;
+}
+
+.home-row {
+  background: #162250;
+  max-width: 920px;
+  margin: 32px auto;
+  padding: 15px;
+  border-radius: 15px;
+}
+
+div[layout="row"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.home-row .promo-img,
+.home-row .text-container {
+  max-width: 50%;
+}
+
+.home-row .promo-img {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+}
+
+.home-row .promo-img > div > img,
+.home-row .promo-img > div {
+  width: 100%;
+  height: 100%;
+}
+
+.text-headline {
+  font-size: 1.7rem;
+  font-weight: 500;
+  text-align: center;
+  color: #f7f7f2;
+  margin-top: 10px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  line-height: 1.2;
+}
+
+.text-body {
+  color: #f7f7f2 !important;
+}
+
+.our-services {
+  padding-top: 10px;
+}
+
+@media (max-width: 600px) {
+  .home-rows {
+    margin: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  div[layout="row"] {
+    display: block;
+  }
+
+  .home-row .promo-img,
+  .home-row .text-container {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .home-row .promo-img-container:nth-child(2n),
+  .home-row .text-container:nth-child(2n) {
+    flex-direction: column-reverse;
+  }
+
+  .home-row .text-block {
+    padding: 0;
+  }
+}
+
+hr {
+  border-top: 1px solid transparent;
+}
+
 /*Animaciones bonitas UwU*/
 
 .animated {

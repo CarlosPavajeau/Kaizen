@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DashboardLayoutComponent } from '@app/shared/layouts/dashboard-layout/dashboard-layout.component';
+import { DefaultLayoutComponent } from '@app/shared/layouts/default-layout/default-layout.component';
 import { AdminOrOfficeEmployeeGuard } from '@core/guards/admin-or-office-employee.guard';
 import { AdminGuard } from '@core/guards/admin.guard';
 import { AuthGuard } from '@core/guards/auth.guard';
@@ -13,6 +15,7 @@ import { ClientsComponent } from './components/clients/clients.component';
 const routes: Routes = [
   {
     path: '',
+    component: DashboardLayoutComponent,
     children: [
       { path: '', component: ClientsComponent, canActivate: [ AuthGuard, AdminGuard ] },
       { path: 'register', component: ClientRegisterComponent, canActivate: [ ClientRegisterGuard ] },
@@ -32,6 +35,11 @@ const routes: Routes = [
         canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
       }
     ]
+  },
+  {
+    path: 'new',
+    component: DefaultLayoutComponent,
+    children: [ { path: 'register', component: ClientRegisterComponent, canActivate: [ ClientRegisterGuard ] } ]
   }
 ];
 

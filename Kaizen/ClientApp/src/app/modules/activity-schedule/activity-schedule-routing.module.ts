@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DashboardLayoutComponent } from '@app/shared/layouts/dashboard-layout/dashboard-layout.component';
 import { AdminOrOfficeEmployeeGuard } from '@core/guards/admin-or-office-employee.guard';
 import { AuthGuard } from '@core/guards/auth.guard';
 import { ActivityDetailComponent } from './components/activity-detail/activity-detail.component';
@@ -11,6 +12,7 @@ import { WorkScheduleComponent } from './components/work-schedule/work-schedule.
 const routes: Routes = [
   {
     path: '',
+    component: DashboardLayoutComponent,
     children: [
       { path: '', component: ActivityScheduleComponent, canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ] },
       {
