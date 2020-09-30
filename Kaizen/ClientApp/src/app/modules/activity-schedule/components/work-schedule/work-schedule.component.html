@@ -1,16 +1,14 @@
 <section class="container">
   <div>
-    <h1 class="text-center">
-      Actividades pendientes
-    </h1>
+    <h1 class="text-center">Actividades pendientes</h1>
     <br />
     <h3>
-      Tienes pendiente un total de {{ pendingActivities.length }} actividades
+      Tienes pendiente un total de {{ pendingActivities?.length }} actividades
       pendiente para el dia de hoy.
     </h3>
   </div>
   <mat-divider></mat-divider>
-  <div style="padding-top: 1.5rem;">
+  <div style="padding-top: 1.5rem">
     <mat-accordion>
       <mat-expansion-panel *ngFor="let activity of pendingActivities">
         <mat-expansion-panel-header>

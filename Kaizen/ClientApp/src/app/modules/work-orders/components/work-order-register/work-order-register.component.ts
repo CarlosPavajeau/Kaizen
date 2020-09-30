@@ -12,6 +12,8 @@ import { WorkOrderState } from '@modules/work-orders/models/work-order-state';
 import { WorkOrderService } from '@modules/work-orders/service/work-order.service';
 import { DigitalSignatureComponent } from '@shared/components/digital-signature/digital-signature.component';
 import { NotificationsService } from '@shared/services/notifications.service';
+import { of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-work-order-register',
@@ -63,9 +65,12 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
     this.activateRoute.queryParamMap.subscribe((queryParams) => {
       const activityCode = +queryParams.get('activity');
 
-      this.workOrderService.getWorkOrderOfActivity(activityCode).subscribe((workOrder) => {
-        this.workOrder = workOrder;
-      });
+      this.workOrderService
+        .getWorkOrderOfActivity(activityCode)
+        .pipe(catchError(() => of(null)))
+        .subscribe((workOrder) => {
+          this.workOrder = workOrder;
+        });
 
       this.activityService.getActivity(activityCode).subscribe((activity) => {
         this.activity = activity;
