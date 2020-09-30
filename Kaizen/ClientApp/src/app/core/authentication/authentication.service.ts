@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { CookieService } from 'ngx-cookie-service';
-
-import { AUTH_API_URL } from '@global/endpoints';
+import { Injectable } from '@angular/core';
 import { LoginRequest } from '@core/models/login-request';
 import { User } from '@core/models/user';
+import { AUTH_API_URL } from '@global/endpoints';
+import { CookieService } from 'ngx-cookie-service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +24,7 @@ export class AuthenticationService {
 
   logoutUser(): void {
     this.removeUser();
+    localStorage.removeItem('current_person');
   }
 
   removeUser(): void {
