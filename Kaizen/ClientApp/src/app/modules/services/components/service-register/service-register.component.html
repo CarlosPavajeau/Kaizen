@@ -1,7 +1,7 @@
 <div class="container">
   <mat-card>
     <mat-card-header>
-      <mat-card-title><h1>Registro de equipo</h1></mat-card-title>
+      <mat-card-title><h1>Registro de servicio</h1></mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <mat-horizontal-stepper [linear]="true">
@@ -90,9 +90,7 @@
           <ng-template matStepLabel>Equipos necesarios</ng-template>
           <app-select-equipments #selectEquipments></app-select-equipments>
           <div class="form-buttons">
-            <button matStepperPrevious mat-raised-button>
-              Regresar
-            </button>
+            <button matStepperPrevious mat-raised-button>Regresar</button>
             <button matStepperNext mat-raised-button class="royal_azure">
               Siguiente
             </button>
@@ -102,9 +100,7 @@
           <ng-template matStepLabel>Empleados aptos</ng-template>
           <app-select-employees #selectEmployees></app-select-employees>
           <div class="form-buttons">
-            <button matStepperPrevious mat-raised-button>
-              Regresar
-            </button>
+            <button matStepperPrevious mat-raised-button>Regresar</button>
             <button
               mat-raised-button
               (click)="onSubmit()"
