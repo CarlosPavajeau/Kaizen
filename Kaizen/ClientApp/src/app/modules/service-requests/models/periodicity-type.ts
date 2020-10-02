@@ -21,7 +21,7 @@ export const PERIODICITIES: Periodicity[] = [
   { name: 'BiMensual', type: PeriodicityType.BiMonthly },
   { name: 'Trimestral', type: PeriodicityType.Trimester },
   { name: 'Cuatrimestral', type: PeriodicityType.Quarter },
-  { name: 'Quimensual', type: PeriodicityType.Quinquemestre },
+  { name: 'Quinquemestral', type: PeriodicityType.Quinquemestre },
   { name: 'Semestral', type: PeriodicityType.Biannual },
   { name: 'Anual', type: PeriodicityType.Annual },
   { name: 'Casual', type: PeriodicityType.Casual }
