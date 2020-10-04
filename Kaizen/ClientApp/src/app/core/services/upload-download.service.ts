@@ -1,8 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpEvent } from '@angular/common/http';
+import { FileResponse } from '@core/models/file-response';
+import { UPLOAD_DOWNLOAD_API_URL } from '@global/endpoints';
 import { Observable } from 'rxjs';
-import { UPLOAD_DOWNLOAD_API_URL } from '@app/global/endpoints';
-import { FileResponse } from '../models/file-response';
 
 @Injectable({
   providedIn: 'root'

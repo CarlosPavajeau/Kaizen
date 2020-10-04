@@ -36,8 +36,6 @@ export class DashboardLayoutComponent implements OnInit {
 
     this.userRole = this.authService.getUserRole();
     this.menuOptions = DASHBOARS_CARDS[this.userRole];
-
-    console.log(this.menuOptions);
   }
 
   closeSidenav(): void {

@@ -1,22 +1,24 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { SharedModule } from '@app/shared/shared.module';
 import { ClientScheduleComponent } from './client-schedule.component';
 
 describe('ClientScheduleComponent', () => {
   let component: ClientScheduleComponent;
   let fixture: ComponentFixture<ClientScheduleComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ClientScheduleComponent ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        imports: [ HttpClientTestingModule, SharedModule ],
+        declarations: [ ClientScheduleComponent ]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ClientScheduleComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

@@ -1,22 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { SharedModule } from '@app/shared/shared.module';
+import { ActivityScheduleModule } from '../../activity-schedule.module';
 import { ActivityButtonComponent } from './activity-button.component';
 
 describe('ActivityButtonComponent', () => {
   let component: ActivityButtonComponent;
   let fixture: ComponentFixture<ActivityButtonComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ ActivityButtonComponent ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        imports: [ SharedModule, ActivityScheduleModule ],
+        declarations: [ ActivityButtonComponent ]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ActivityButtonComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

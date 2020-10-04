@@ -1,8 +1,7 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { AUTH_API_URL } from '@global/endpoints';
-import { CheckEntityExistsService } from '@core/services/check-entity-exists.service';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { CheckEntityExistsService } from '@core/services/check-entity-exists.service';
+import { AUTH_API_URL } from '@global/endpoints';
 
 @Injectable({
   providedIn: 'root'

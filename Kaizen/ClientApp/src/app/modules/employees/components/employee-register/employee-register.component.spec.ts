@@ -1,17 +1,31 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { AppModule } from '@app/app.module';
+import { UserModule } from '@app/modules/users/user.module';
+import { SharedModule } from '@app/shared/shared.module';
 import { EmployeeRegisterComponent } from './employee-register.component';
 
 describe('EmployeeRegisterComponent', () => {
   let component: EmployeeRegisterComponent;
   let fixture: ComponentFixture<EmployeeRegisterComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ EmployeeRegisterComponent ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          HttpClientTestingModule,
+          SharedModule,
+          RouterTestingModule,
+          AppModule,
+          UserModule,
+          ReactiveFormsModule
+        ],
+        declarations: [ EmployeeRegisterComponent ]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EmployeeRegisterComponent);

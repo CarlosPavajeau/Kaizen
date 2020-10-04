@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { AppModule } from '@app/app.module';
 import { DashboardLayoutComponent } from './dashboard-layout.component';
 
 describe('DashboardLayoutComponent', () => {
@@ -8,15 +8,14 @@ describe('DashboardLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DashboardLayoutComponent ]
-    })
-    .compileComponents();
+      declarations: [ DashboardLayoutComponent ],
+      imports: [ AppModule ]
+    }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DashboardLayoutComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

@@ -1,6 +1,6 @@
-import { AuthenticationService } from '@core/authentication/authentication.service';
 import { EventEmitter, Injectable, OnDestroy, OnInit, Output } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
+import { AuthenticationService } from '@core/authentication/authentication.service';
 
 @Injectable({
   providedIn: 'root'
