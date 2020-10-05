@@ -31,7 +31,7 @@
     "core-js": "^3.6.5",
     "jquery": "^3.5.1",
     "moment": "^2.29.0",
-    "ngx-cookie-service": "^10.0.1",
+    "ngx-cookie-service": "^10.1.1",
     "ngx-material-file-input": "^2.1.1",
     "oidc-client": "^1.9.1",
     "popper.js": "^1.16.0",
