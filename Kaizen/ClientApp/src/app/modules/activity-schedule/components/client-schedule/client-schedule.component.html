@@ -9,8 +9,20 @@
     </h3>
   </div>
   <mat-divider></mat-divider>
-  <div style="padding-top: 1.5rem;">
-    <mat-accordion>
+  <div class="pt-3">
+    <div *ngIf="pendingActivities?.length <= 0">
+      <div>
+        <img
+          src="/assets/images/relax_people.svg"
+          alt="Empty list"
+          class="center-block-content"
+        />
+        <h4 class="text-center empty-list-text">
+          No hay solicitudes pendientes
+        </h4>
+      </div>
+    </div>
+    <mat-accordion *ngIf="pendingActivities?.length > 0">
       <mat-expansion-panel *ngFor="let activity of pendingActivities">
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -27,7 +39,7 @@
           </mat-list>
         </div>
         <mat-divider></mat-divider>
-        <div style="margin-top: 1rem;">
+        <div style="margin-top: 1rem">
           <h2>Empleados asignados</h2>
           <mat-list>
             <mat-list-item *ngFor="let employee of activity.employees">

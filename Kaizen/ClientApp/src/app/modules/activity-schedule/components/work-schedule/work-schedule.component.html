@@ -8,8 +8,20 @@
     </h3>
   </div>
   <mat-divider></mat-divider>
-  <div style="padding-top: 1.5rem">
-    <mat-accordion>
+  <div class="pt-3">
+    <div *ngIf="pendingActivities?.length <= 0">
+      <div>
+        <img
+          src="/assets/images/relax_people.svg"
+          alt="Empty list"
+          class="center-block-content"
+        />
+        <h4 class="text-center empty-list-text">
+          No hay solicitudes pendientes
+        </h4>
+      </div>
+    </div>
+    <mat-accordion *ngIf="pendingActivities?.length > 0">
       <mat-expansion-panel *ngFor="let activity of pendingActivities">
         <mat-expansion-panel-header>
           <mat-panel-title>

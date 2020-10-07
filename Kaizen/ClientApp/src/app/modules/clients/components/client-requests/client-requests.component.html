@@ -8,14 +8,26 @@
     </h3>
   </div>
   <mat-divider></mat-divider>
-  <div style="padding-top: 1.5rem;">
-    <mat-accordion>
+  <div class="pt-3">
+    <div *ngIf="clientRequests?.length <= 0">
+      <div>
+        <img
+          src="/assets/images/relax_people.svg"
+          alt="Empty list"
+          class="center-block-content"
+        />
+        <h4 class="text-center empty-list-text">
+          No hay solicitudes pendientes
+        </h4>
+      </div>
+    </div>
+    <mat-accordion *ngIf="clientRequests?.length > 0">
       <mat-expansion-panel *ngFor="let clientRequest of clientRequests">
         <mat-expansion-panel-header>
-          <mat-panel-title
-            >Solicitud de {{ clientRequest.firstName }}
-            {{ clientRequest.lastName }}</mat-panel-title
-          >
+          <mat-panel-title>
+            Solicitud de {{ clientRequest.firstName }}
+            {{ clientRequest.lastName }}
+          </mat-panel-title>
           <mat-panel-description>
             Esta solicitud está pendiente
             <mat-icon
@@ -23,8 +35,9 @@
               [matTooltip]="'Click para ver más información'"
               [matTooltipShowDelay]="300"
               [matTooltipPosition]="'above'"
-              >info</mat-icon
             >
+              info
+            </mat-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
         <h4>
@@ -32,10 +45,10 @@
           <strong>{{ clientRequest.id }}</strong> llamado
           {{ clientRequest.firstName }} {{ clientRequest.secondName }}
           {{ clientRequest.lastName }} {{ clientRequest.secondLastName }}
-          <span *ngIf="clientRequest.tradeName"
-            >, con nombre comercial
-            <strong>{{ clientRequest.tradeName }}</strong></span
-          >
+          <span *ngIf="clientRequest.tradeName">
+            , con nombre comercial
+            <strong>{{ clientRequest.tradeName }}</strong>
+          </span>
           tiene pendiente su solicitud.
           <hr />
           Tiene como télefono de contacto

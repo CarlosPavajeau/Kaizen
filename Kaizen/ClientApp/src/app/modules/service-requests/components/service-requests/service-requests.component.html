@@ -3,12 +3,24 @@
     <h1 class="text-center">Solicitudes de servicio</h1>
     <br />
     <h3>
-      Están pendientes {{ serviceRequests.length }} solicitudes de servicio
+      Están pendientes {{ serviceRequests?.length }} solicitudes de servicio
     </h3>
   </div>
   <mat-divider></mat-divider>
-  <div style="padding-top: 1.5rem;">
-    <mat-accordion>
+  <div class="pt-3">
+    <div *ngIf="serviceRequests?.length <= 0">
+      <div>
+        <img
+          src="/assets/images/relax_people.svg"
+          alt="Empty list"
+          class="center-block-content"
+        />
+        <h4 class="text-center empty-list-text">
+          No hay solicitudes pendientes
+        </h4>
+      </div>
+    </div>
+    <mat-accordion *ngIf="serviceRequests?.length > 0">
       <mat-expansion-panel *ngFor="let serviceRequest of serviceRequests">
         <mat-expansion-panel-header>
           <mat-panel-title
