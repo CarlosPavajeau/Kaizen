@@ -19,9 +19,7 @@ namespace Kaizen.Domain.Extensions
 
             IDataProvider dataProvider = dataProviders.SingleOrDefault(x => x.Provider.ToString() == dataProviderConfig);
 
-            dataProvider.RegisterDbContext(services, connectionStringConfig);
-
-            return services;
+            return dataProvider.RegisterDbContext(services, connectionStringConfig);
         }
 
         private static IEnumerable<T> GetImplementationsOf<T>(this Assembly assembly)

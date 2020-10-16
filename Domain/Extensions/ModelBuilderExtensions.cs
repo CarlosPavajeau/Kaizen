@@ -13,6 +13,7 @@ namespace Kaizen.Domain.Extensions
             builder.ApplyConfiguration(new IdentityRoleConfiguration());
             builder.ApplyConfiguration(new ClientConfiguration());
             builder.ApplyConfiguration(new EmployeeChargeConfiguration());
+            builder.ApplyConfiguration(new EmployeeConfig());
             builder.ApplyConfiguration(new ServiceTypesConfiguration());
             builder.ApplyConfiguration(new ProductServiceConfig());
             builder.ApplyConfiguration(new EmployeeServiceConfig());
@@ -23,7 +24,6 @@ namespace Kaizen.Domain.Extensions
             builder.ApplyConfiguration(new ActivityEmployeeConfig());
             builder.ApplyConfiguration(new ActivityServiceConfig());
             builder.ApplyConfiguration(new WorkOrderConfig());
-            builder.ApplyConfiguration(new EmployeeConfig());
             builder.ApplyConfiguration(new SectorConfig());
         }
     }

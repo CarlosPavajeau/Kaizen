@@ -6,13 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200611234143_UpdateEntities.cs" />
-    <Compile Remove="Migrations\20200611234143_UpdateEntities.Designer.cs" />
-    <Compile Remove="Migrations\20200611234505_UpdateEntities.cs" />
-    <Compile Remove="Migrations\20200611234505_UpdateEntities.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.8" />

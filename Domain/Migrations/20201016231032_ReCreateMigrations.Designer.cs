@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kaizen.Domain.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200528200053_AddProductPresentationAndPrice")]
-    partial class AddProductPresentationAndPrice
+    [Migration("20201016231032_ReCreateMigrations")]
+    partial class ReCreateMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("Kaizen.Domain.Entities.Activity", b =>
@@ -39,13 +39,15 @@ namespace Kaizen.Domain.Migrations
                         .HasDefaultValue(8);
 
                     b.Property<int>("State")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.HasKey("Code");
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("Activity");
+                    b.ToTable("Activities");
                 });
 
             modelBuilder.Entity("Kaizen.Domain.Entities.ActivityEmployee", b =>
@@ -137,12 +139,18 @@ namespace Kaizen.Domain.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.HasIndex("NormalizedEmail")
                         .HasName("EmailIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasName("UserNameIndex");
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique();
 
                     b.ToTable("AspNetUsers");
                 });
@@ -211,7 +219,6 @@ namespace Kaizen.Domain.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("varchar(191) CHARACTER SET utf8mb4")
                         .HasMaxLength(191);
 
@@ -220,7 +227,8 @@ namespace Kaizen.Domain.Migrations
                     b.HasIndex("NIT")
                         .IsUnique();
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Clients");
                 });
@@ -284,7 +292,6 @@ namespace Kaizen.Domain.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ContractCode")
-                        .IsRequired()
                         .HasColumnType("varchar(30) CHARACTER SET utf8mb4")
                         .HasMaxLength(30);
 
@@ -313,15 +320,17 @@ namespace Kaizen.Domain.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(191) CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(191) CHARACTER SET utf8mb4")
+                        .HasMaxLength(191);
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("ContractCode");
+                    b.HasAlternateKey("UserId");
 
                     b.HasIndex("ChargeId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("ContractCode")
+                        .IsUnique();
 
                     b.ToTable("Employees");
                 });
@@ -369,16 +378,11 @@ namespace Kaizen.Domain.Migrations
                         new
                         {
                             Id = 6,
-                            Charge = "Técnico Operativo Lider"
-                        },
-                        new
-                        {
-                            Id = 7,
                             Charge = "Técnico Operativo"
                         },
                         new
                         {
-                            Id = 8,
+                            Id = 7,
                             Charge = "Aprendiz"
                         });
                 });
@@ -510,6 +514,70 @@ namespace Kaizen.Domain.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("Kaizen.Domain.Entities.ProductInvoice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClientId")
+                        .HasColumnType("varchar(10) CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("GenerationDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<decimal>("IVA")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("SubTotal")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("ProductInvoices");
+                });
+
+            modelBuilder.Entity("Kaizen.Domain.Entities.ProductInvoiceDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("Amount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductCode")
+                        .HasColumnType("varchar(15) CHARACTER SET utf8mb4");
+
+                    b.Property<int?>("ProductInvoiceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProductName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductCode");
+
+                    b.HasIndex("ProductInvoiceId");
+
+                    b.ToTable("ProductInvoiceDetails");
+                });
+
             modelBuilder.Entity("Kaizen.Domain.Entities.ProductService", b =>
                 {
                     b.Property<string>("ServiceCode")
@@ -525,6 +593,69 @@ namespace Kaizen.Domain.Migrations
                     b.HasIndex("ProductCode");
 
                     b.ToTable("ProductsServices");
+                });
+
+            modelBuilder.Entity("Kaizen.Domain.Entities.Sector", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
+                        .HasMaxLength(40);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Sectors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Industrial"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Comercial"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Alimentos"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Portuario"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Hotelero"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Salud"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Residencial"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Educativo"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Name = "Transporte"
+                        });
                 });
 
             modelBuilder.Entity("Kaizen.Domain.Entities.Service", b =>
@@ -548,6 +679,67 @@ namespace Kaizen.Domain.Migrations
                     b.HasIndex("ServiceTypeId");
 
                     b.ToTable("Services");
+                });
+
+            modelBuilder.Entity("Kaizen.Domain.Entities.ServiceInvoice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClientId")
+                        .HasColumnType("varchar(10) CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime>("GenerationDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<decimal>("IVA")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("SubTotal")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("ServiceInvoices");
+                });
+
+            modelBuilder.Entity("Kaizen.Domain.Entities.ServiceInvoiceDetail", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ServiceCode")
+                        .HasColumnType("varchar(15) CHARACTER SET utf8mb4");
+
+                    b.Property<int?>("ServiceInvoiceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ServiceName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ServiceCode");
+
+                    b.HasIndex("ServiceInvoiceId");
+
+                    b.ToTable("ServiceInvoiceDetails");
                 });
 
             modelBuilder.Entity("Kaizen.Domain.Entities.ServiceRequest", b =>
@@ -620,27 +812,27 @@ namespace Kaizen.Domain.Migrations
                         new
                         {
                             Id = 2,
-                            Name = "Saneamiento"
+                            Name = "Desinfección de ambientes y superficies"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Limpieza de espacios"
+                            Name = "Captura y reubicación de animales"
                         },
                         new
                         {
                             Id = 4,
-                            Name = "Lavado y desinfección de tanques de agua"
+                            Name = "Matenimiento de sistemas y equipos"
                         },
                         new
                         {
                             Id = 5,
-                            Name = "Captura y rehabilidación de animales domesticos"
+                            Name = "Jardinería"
                         },
                         new
                         {
                             Id = 6,
-                            Name = "Jardineria"
+                            Name = "Suministro, instalación y mantenimiento de equipos"
                         });
                 });
 
@@ -656,6 +848,9 @@ namespace Kaizen.Domain.Migrations
                     b.Property<DateTime>("ArrivalTime")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("ClientSignature")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("DepatureTime")
                         .HasColumnType("datetime(6)");
 
@@ -669,10 +864,8 @@ namespace Kaizen.Domain.Migrations
                         .HasColumnType("varchar(500) CHARACTER SET utf8mb4")
                         .HasMaxLength(500);
 
-                    b.Property<string>("Sector")
-                        .IsRequired()
-                        .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
-                        .HasMaxLength(40);
+                    b.Property<int>("SectorId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Validity")
                         .HasColumnType("datetime(6)");
@@ -687,6 +880,8 @@ namespace Kaizen.Domain.Migrations
                     b.HasAlternateKey("ActivityCode");
 
                     b.HasIndex("EmployeeId");
+
+                    b.HasIndex("SectorId");
 
                     b.ToTable("WorkOrders");
                 });
@@ -897,9 +1092,7 @@ namespace Kaizen.Domain.Migrations
                 {
                     b.HasOne("Kaizen.Domain.Entities.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Kaizen.Domain.Entities.ClientAddress", b =>
@@ -930,9 +1123,7 @@ namespace Kaizen.Domain.Migrations
 
                     b.HasOne("Kaizen.Domain.Entities.EmployeeContract", "EmployeeContract")
                         .WithMany()
-                        .HasForeignKey("ContractCode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ContractCode");
 
                     b.HasOne("Kaizen.Domain.Entities.ApplicationUser", "User")
                         .WithMany()
@@ -971,6 +1162,24 @@ namespace Kaizen.Domain.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Kaizen.Domain.Entities.ProductInvoice", b =>
+                {
+                    b.HasOne("Kaizen.Domain.Entities.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId");
+                });
+
+            modelBuilder.Entity("Kaizen.Domain.Entities.ProductInvoiceDetail", b =>
+                {
+                    b.HasOne("Kaizen.Domain.Entities.Product", "Detail")
+                        .WithMany()
+                        .HasForeignKey("ProductCode");
+
+                    b.HasOne("Kaizen.Domain.Entities.ProductInvoice", null)
+                        .WithMany("ProductInvoiceDetails")
+                        .HasForeignKey("ProductInvoiceId");
+                });
+
             modelBuilder.Entity("Kaizen.Domain.Entities.ProductService", b =>
                 {
                     b.HasOne("Kaizen.Domain.Entities.Product", "Product")
@@ -993,6 +1202,24 @@ namespace Kaizen.Domain.Migrations
                         .HasForeignKey("ServiceTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Kaizen.Domain.Entities.ServiceInvoice", b =>
+                {
+                    b.HasOne("Kaizen.Domain.Entities.Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId");
+                });
+
+            modelBuilder.Entity("Kaizen.Domain.Entities.ServiceInvoiceDetail", b =>
+                {
+                    b.HasOne("Kaizen.Domain.Entities.Service", "Detail")
+                        .WithMany()
+                        .HasForeignKey("ServiceCode");
+
+                    b.HasOne("Kaizen.Domain.Entities.ServiceInvoice", null)
+                        .WithMany("ServiceInvoiceDetails")
+                        .HasForeignKey("ServiceInvoiceId");
                 });
 
             modelBuilder.Entity("Kaizen.Domain.Entities.ServiceRequest", b =>
@@ -1030,6 +1257,12 @@ namespace Kaizen.Domain.Migrations
                     b.HasOne("Kaizen.Domain.Entities.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId");
+
+                    b.HasOne("Kaizen.Domain.Entities.Sector", "Sector")
+                        .WithMany()
+                        .HasForeignKey("SectorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
