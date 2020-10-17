@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Kaizen.Domain.Migrations
 {
-    public partial class ReCreateMigrations : Migration
+    public partial class StartNewMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -357,20 +357,22 @@ namespace Kaizen.Domain.Migrations
                 name: "ClientAddresses",
                 columns: table => new
                 {
-                    ClientId = table.Column<string>(maxLength: 10, nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     City = table.Column<string>(maxLength: 40, nullable: true),
                     Neighborhood = table.Column<string>(maxLength: 40, nullable: true),
-                    Street = table.Column<string>(maxLength: 40, nullable: true)
+                    Street = table.Column<string>(maxLength: 40, nullable: true),
+                    ClientId = table.Column<string>(maxLength: 10, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClientAddresses", x => x.ClientId);
+                    table.PrimaryKey("PK_ClientAddresses", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ClientAddresses_Clients_ClientId",
                         column: x => x.ClientId,
                         principalTable: "Clients",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -824,6 +826,12 @@ namespace Kaizen.Domain.Migrations
                 name: "IX_AspNetUsers_PhoneNumber",
                 table: "AspNetUsers",
                 column: "PhoneNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientAddresses_ClientId",
+                table: "ClientAddresses",
+                column: "ClientId",
                 unique: true);
 
             migrationBuilder.CreateIndex(

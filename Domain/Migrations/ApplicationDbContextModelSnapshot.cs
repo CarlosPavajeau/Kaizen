@@ -233,13 +233,17 @@ namespace Kaizen.Domain.Migrations
 
             modelBuilder.Entity("Kaizen.Domain.Entities.ClientAddress", b =>
                 {
-                    b.Property<string>("ClientId")
-                        .HasColumnType("varchar(10) CHARACTER SET utf8mb4")
-                        .HasMaxLength(10);
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
                     b.Property<string>("City")
                         .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
                         .HasMaxLength(40);
+
+                    b.Property<string>("ClientId")
+                        .HasColumnType("varchar(10) CHARACTER SET utf8mb4")
+                        .HasMaxLength(10);
 
                     b.Property<string>("Neighborhood")
                         .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
@@ -249,7 +253,10 @@ namespace Kaizen.Domain.Migrations
                         .HasColumnType("varchar(40) CHARACTER SET utf8mb4")
                         .HasMaxLength(40);
 
-                    b.HasKey("ClientId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId")
+                        .IsUnique();
 
                     b.ToTable("ClientAddresses");
                 });
@@ -1097,9 +1104,7 @@ namespace Kaizen.Domain.Migrations
                 {
                     b.HasOne("Kaizen.Domain.Entities.Client", "Client")
                         .WithOne("ClientAddress")
-                        .HasForeignKey("Kaizen.Domain.Entities.ClientAddress", "ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Kaizen.Domain.Entities.ClientAddress", "ClientId");
                 });
 
             modelBuilder.Entity("Kaizen.Domain.Entities.ContactPerson", b =>

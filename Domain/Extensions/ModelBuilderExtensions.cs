@@ -12,6 +12,7 @@ namespace Kaizen.Domain.Extensions
             builder.ApplyConfiguration(new IdentityUserTokenConfiguration());
             builder.ApplyConfiguration(new IdentityRoleConfiguration());
             builder.ApplyConfiguration(new ClientConfiguration());
+            builder.ApplyConfiguration(new ClientAddressConfig());
             builder.ApplyConfiguration(new EmployeeChargeConfiguration());
             builder.ApplyConfiguration(new EmployeeConfig());
             builder.ApplyConfiguration(new ServiceTypesConfiguration());
