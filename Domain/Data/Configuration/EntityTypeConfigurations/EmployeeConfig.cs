@@ -10,7 +10,7 @@ namespace Kaizen.Domain.Data.Configuration.EntityTypeConfigurations
         {
             builder.HasIndex(e => e.ContractCode).IsUnique();
             builder.Property("UserId").HasMaxLength(191);
-            builder.HasAlternateKey(e => e.UserId);
+            builder.HasIndex(p => p.UserId).IsUnique();
             builder.Property(e => e.State).HasDefaultValue(EmployeeState.Active);
         }
     }

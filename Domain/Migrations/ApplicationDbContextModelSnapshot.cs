@@ -324,17 +324,17 @@ namespace Kaizen.Domain.Migrations
                         .HasDefaultValue(0);
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("varchar(191) CHARACTER SET utf8mb4")
                         .HasMaxLength(191);
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("UserId");
-
                     b.HasIndex("ChargeId");
 
                     b.HasIndex("ContractCode")
+                        .IsUnique();
+
+                    b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("Employees");
@@ -1130,9 +1130,7 @@ namespace Kaizen.Domain.Migrations
 
                     b.HasOne("Kaizen.Domain.Entities.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Kaizen.Domain.Entities.EmployeeService", b =>

@@ -282,7 +282,7 @@ namespace Kaizen.Domain.Migrations
                     SecondName = table.Column<string>(maxLength: 20, nullable: true),
                     LastName = table.Column<string>(maxLength: 20, nullable: false),
                     SecondLastName = table.Column<string>(maxLength: 20, nullable: true),
-                    UserId = table.Column<string>(maxLength: 191, nullable: false),
+                    UserId = table.Column<string>(maxLength: 191, nullable: true),
                     ChargeId = table.Column<int>(nullable: false),
                     ContractCode = table.Column<string>(maxLength: 30, nullable: true),
                     State = table.Column<int>(nullable: false, defaultValue: 0)
@@ -290,7 +290,6 @@ namespace Kaizen.Domain.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.Id);
-                    table.UniqueConstraint("AK_Employees_UserId", x => x.UserId);
                     table.ForeignKey(
                         name: "FK_Employees_EmployeeCharges_ChargeId",
                         column: x => x.ChargeId,
@@ -308,7 +307,7 @@ namespace Kaizen.Domain.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -860,6 +859,12 @@ namespace Kaizen.Domain.Migrations
                 name: "IX_Employees_ContractCode",
                 table: "Employees",
                 column: "ContractCode",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_UserId",
+                table: "Employees",
+                column: "UserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
