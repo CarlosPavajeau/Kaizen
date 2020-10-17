@@ -24,6 +24,7 @@ jobs:
         run: |
           mysql --version
           sudo apt-get install -y mysql-client mysql-server
+          sudo /etc/init.d/mysql start
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
