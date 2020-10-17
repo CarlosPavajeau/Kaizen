@@ -2,13 +2,13 @@ version: 2.1
 
 orbs:
   win: circleci/windows@2.4.0
+    docker:
+      - image: circleci/mysql
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ROOT_PASSWORD: ''
+          MYSQL_DATABASE: kaizen_test
   node: circleci/node@3.0.1
-  docker:
-    - image: circleci/mysql:8
-      environment:
-        MYSQL_ALLOW_EMPTY_PASSWORD: yes
-        MYSQL_ROOT_PASSWORD: ""
-        MYSQL_DATABASE: kaizen_test
 
 jobs:
   build:
