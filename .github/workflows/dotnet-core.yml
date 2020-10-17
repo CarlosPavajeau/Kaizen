@@ -26,6 +26,8 @@ jobs:
 
       - name: Setup MySQL
         uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql root password: ''
 
       - name: Verify MySQL connection
         run: |
