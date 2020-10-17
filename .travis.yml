@@ -4,9 +4,20 @@ matrix:
       solution: Kaisen.sln
       mono: none
       dotnet: 3.1.101
+
+      services:
+        - mysql
+
+      before_install:
+        - git config user.email "travis@build.bot" && git config user.name "Travis CI"
+
+      install:
+       - mysql -uroot -e 'CREATE DATABASE kaizen_test;'
+
       script:
         - dotnet restore
         - dotnet build --configuration Release --no-restore
+        - dotnet test --no-restore --verbosity normal
     - language: node_js
       node_js:
         - "12.16.1"
