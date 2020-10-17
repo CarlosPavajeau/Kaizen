@@ -9,31 +9,21 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     services:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_USER: root
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
           MYSQL_DATABASE: kaizen_test
         ports:
           - 3306
-
     steps:
       - name: checkout
         uses: actions/checkout@v2
-
-      - name: Setup MySQL
-        uses: mirromutth/mysql-action@v1.1
-        with:
-          mysql root password: ''
-
       - name: Verify MySQL connection
         run: |
           mysql --version
           sudo apt-get install -y mysql-client mysql-server
-
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
