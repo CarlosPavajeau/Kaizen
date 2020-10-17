@@ -2,23 +2,37 @@ name: .NET Core
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:5.7
+      env:
+        MYSQL_ROOT_PASSWORD: ''
+        MYSQL_ALLOW_EMPTY_PASSWORD: yes
+        MYSQL_DATABASE: kaizen_test
+      ports:
+        - 3306
+
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.101
-    - name: Install dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-      
+      - name: Verify MySQL connection
+      - run: |
+          sudo apt-get install -y mysql-client
+          mysql -uroot -e "SHOW DATABASES"
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.101
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+      - name: Test
+        run: dotnet test --no-restore --verbosity normal
