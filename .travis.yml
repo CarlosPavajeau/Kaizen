@@ -12,11 +12,8 @@ matrix:
         - git config user.email "travis@build.bot" && git config user.name "Travis CI"
 
       install:
-       - mysql -uroot -e 'CREATE DATABASE IF NOT EXISTS kaizen_test;'
-       - mysql -uroot -e 'CREATE USER 'kaizen'@'localhost' IDENTIFIED BY 'kaizen';'
-       - mysql -uroot -e 'GRANT USAGE ON *.* TO 'kaizen'@'localhost';'
-       - mysql -uroot -e 'GRANT ALL PRIVILEGES ON `kaizen_test`.* TO 'kaizen'@'localhost' WITH GRANT OPTION;'
-       - sudo service mysql restart
+       - mysql -uroot -e 'CREATE DATABASE mysql_test;'
+       - mysql -uroot < sql/create_mysql.sql
 
       script:
         - dotnet restore
