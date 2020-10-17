@@ -29,8 +29,7 @@ jobs:
       - name: Verify MySQL connection
         run: |
           mysql --version
-          sudo apt-get install -y mysql-server
-          mysql -h127.0.0.1 -uroot -e "SHOW DATABASES"
+          sudo apt-get install -y mysql-client mysql-server
 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
