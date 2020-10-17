@@ -6,12 +6,20 @@ orbs:
 
 jobs:
   build:
+    docker:
+      - image: circleci/mysql:8
+        environment:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ROOT_PASSWORD: ''
+          MYSQL_DATABASE: kaizen_test
+
     executor: win/default
 
     steps:
       - checkout
       - run: dotnet restore
       - run: dotnet build --configuration Release --no-restore
+      - run: dotnet test --no-restore --verbosity normal
 
   build_angular:
     executor: node/default
