@@ -13,7 +13,7 @@ namespace Infrastructure.Test.Repositories
     [TestFixture]
     public class ClientRepositoryTest : BaseRepositoryTest
     {
-        IClientsRepository clientsRepository;
+        private IClientsRepository clientsRepository;
         private ApplicationDbContext dbContext;
 
         [OneTimeSetUp]
@@ -87,7 +87,7 @@ namespace Infrastructure.Test.Repositories
 
                 Assert.Pass();
             }
-            catch (Exception)
+            catch (DbUpdateException)
             {
                 Assert.Fail();
             }
@@ -103,7 +103,29 @@ namespace Infrastructure.Test.Repositories
                 Assert.AreEqual("12345678", client.Id);
                 Assert.AreEqual("Manolo", client.FirstName);
             }
-            catch (Exception)
+            catch (DbUpdateException)
+            {
+                Assert.Fail();
+            }
+        }
+
+        [Test]
+        public async Task UpdateClient()
+        {
+            try
+            {
+                Client client = await clientsRepository.FindByIdAsync("12345678");
+                Assert.IsNotNull(client);
+
+                client.SecondName = "Jesus";
+                clientsRepository.Update(client);
+
+                await dbContext.SaveChangesAsync();
+
+                client = await clientsRepository.FindByIdAsync("12345678");
+                Assert.AreEqual("Jesus", client.SecondName);
+            }
+            catch (DbUpdateException)
             {
                 Assert.Fail();
             }
