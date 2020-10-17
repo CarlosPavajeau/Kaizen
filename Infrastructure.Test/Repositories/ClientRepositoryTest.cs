@@ -16,9 +16,11 @@ namespace Infrastructure.Test.Repositories
         private IClientsRepository clientsRepository;
         private ApplicationDbContext dbContext;
 
-        [OneTimeSetUp]
+        [SetUp]
         public void InitRepository()
         {
+            DetachAllEntities();
+
             clientsRepository = ServiceProvider.GetService<IClientsRepository>();
             dbContext = ServiceProvider.GetService<ApplicationDbContext>();
         }

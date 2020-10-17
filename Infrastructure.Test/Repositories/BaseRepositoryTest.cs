@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Kaizen.Domain.Data;
 using Kaizen.Domain.Data.Configuration;
 using Kaizen.Domain.Extensions;
@@ -35,6 +36,25 @@ namespace Infrastructure.Test.Repositories
 
             ServiceProvider = services.BuildServiceProvider();
             ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
+        }
+
+        protected void DetachAllEntities()
+        {
+            ApplicationDbContext dbContext = ServiceProvider.GetService<ApplicationDbContext>();
+            dbContext.ChangeTracker.Entries()
+                .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified || e.State == EntityState.Deleted)
+                .ToList()
+                .ForEach(e =>
+                {
+                    try
+                    {
+                        e.State = EntityState.Detached;
+                    }
+                    catch (Exception)
+                    {
+                        // Ignore exception
+                    }
+                });
         }
     }
 }
