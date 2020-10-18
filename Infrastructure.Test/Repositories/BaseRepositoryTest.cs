@@ -7,6 +7,8 @@ using Kaizen.Infrastructure.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Moq;
 using NUnit.Framework;
 
 namespace Infrastructure.Test.Repositories
@@ -33,6 +35,14 @@ namespace Infrastructure.Test.Repositories
             services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
             services.AddEntityFramework(configuration);
             services.ConfigureRepositories();
+            services.AddIdentityConfig();
+            services.AddLogging();
+            services.ConfigureApplicationServices();
+            services.ConfigureMailTemplates();
+            services.LoadMailSettings(configuration);
+
+            Mock<IHostEnvironment> mockHostingEnvironment = new Mock<IHostEnvironment>();
+            services.AddSingleton(mockHostingEnvironment.Object);
 
             ServiceProvider = services.BuildServiceProvider();
             ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
