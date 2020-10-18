@@ -11,7 +11,7 @@ using NUnit.Framework;
 namespace Infrastructure.Test.Repositories
 {
     [TestFixture]
-    public class EmployeeRepositoryTest : BaseRepositoryTest
+    public class EmployeesRepositoryTest : BaseRepositoryTest
     {
         private IEmployeesRepository employeesRepository;
         private ApplicationDbContext dbContext;
