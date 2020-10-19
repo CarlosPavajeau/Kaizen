@@ -188,6 +188,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
   mapClient(user_id: string): Client {
     const client: Client = {
       ...this.clientForm.value,
+      ...this.contactPersonForm.value,
       contactPeople: [
         {
           name: this.contact_people_controls['person_name_1'].value,
