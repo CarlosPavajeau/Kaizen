@@ -23,10 +23,18 @@ matrix:
       node_js:
         - "12.16.1"
 
+      addons:
+        apt:
+          sources:
+            - google-chrome
+          packages:
+            - google-chrome-stable
+
       before_script:
         - npm install -g @angular/cli
 
       script:
         - cd Kaizen/ClientApp
         - npm install
-        - ng build --prod
+        - npm run build build -- --prod
+        - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI

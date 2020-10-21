@@ -23,6 +23,9 @@ jobs:
       - run:
           name: Building
           command: cd Kaizen/ClientApp && npm run build
+      - run:
+          name: Testing
+          command: cd Kaizen/ClientApp && npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
 
 workflows:
   build_app:
