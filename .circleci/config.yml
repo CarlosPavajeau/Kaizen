@@ -21,15 +21,15 @@ jobs:
       - checkout
       - run: cd Kaizen/ClientApp
       - restore_cache:
-          key: Kaizen-{{ .Branch }}-{{ checksum "package.json" }}
+          key: Kaizen-{{ .Branch }}-{{ checksum "Kaizen/ClientApp/package.json" }}
       - run: npm install
       - save_cache:
-          key: Kaizen-{{ .Branch }}-{{ checksum "package.json" }}
+          key: Kaizen-{{ .Branch }}-{{ checksum "Kaizen/ClientApp/package.json" }}
           paths:
-            - "node_modules"
+            - "Kaizen/ClientApp/node_modules"
       - run:
           name: Build and Test
-          command: npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
+          command: cd Kaizen/ClientApp && npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
 
 workflows:
   build_app:
