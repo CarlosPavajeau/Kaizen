@@ -22,7 +22,7 @@ jobs:
       - run: cd Kaizen/ClientApp
       - restore_cache:
           key: Kaizen-{{ .Branch }}-{{ checksum "Kaizen/ClientApp/package.json" }}
-      - run: npm install
+      - run: cd Kaizen/ClientApp && npm install
       - save_cache:
           key: Kaizen-{{ .Branch }}-{{ checksum "Kaizen/ClientApp/package.json" }}
           paths:
