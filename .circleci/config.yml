@@ -19,7 +19,6 @@ jobs:
       - image: circleci/node:12-browsers
     steps:
       - checkout
-      - run: cd Kaizen/ClientApp
       - restore_cache:
           key: Kaizen-{{ .Branch }}-{{ checksum "Kaizen/ClientApp/package.json" }}
       - run: cd Kaizen/ClientApp && npm install
