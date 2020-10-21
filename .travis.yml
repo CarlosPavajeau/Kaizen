@@ -36,5 +36,5 @@ matrix:
       script:
         - cd Kaizen/ClientApp
         - npm install
-        - npm run build build -- --prod
+        - npm run build -- --prod
         - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
