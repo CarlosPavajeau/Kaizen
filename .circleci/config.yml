@@ -14,13 +14,13 @@ jobs:
       - run: dotnet build --configuration Release --no-restore
 
   build_angular:
-    working_directory: ~/Kaizen/ClientApp
+    working_directory: ~/Kaizen/Kaizen/ClientApp
     docker:
       - image: circleci/node:12-browsers
     steps:
       - checkout
-      - run: ls
-      - run: ls Kaizen
+      - run: ls && pwd
+      - run: ls Kaizen && pwd
       - restore_cache:
           key: Kaizen-{{ .Branch }}-{{ checksum "package.json" }}
       - run: npm install
