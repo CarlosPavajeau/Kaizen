@@ -14,15 +14,21 @@ jobs:
       - run: dotnet build --configuration Release --no-restore
 
   build_angular:
-    executor: node/default
-
+    working_directory: ~/Kaizen
+    docker:
+      - image: circleci/node:12-browsers
     steps:
       - checkout
-      - node/install-packages:
-          app-dir: ~/project/Kaizen/ClientApp
+      - restore_cache:
+          key: Kaizen-{{ .Branch }}-{{ checksum "Kaizen/ClientApp/package.json" }}
+      - run: cd Kaizen/ClientApp && npm install
+      - save_cache:
+          key: Kaizen-{{ .Branch }}-{{ checksum "Kaizen/ClientApp/package.json" }}
+          paths:
+            - "Kaizen/ClientApp/node_modules"
       - run:
-          name: Building
-          command: cd Kaizen/ClientApp && npm run build
+          name: Build and Test
+          command: cd Kaizen/ClientApp && npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
 
 workflows:
   build_app:

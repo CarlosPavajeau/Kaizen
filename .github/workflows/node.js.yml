@@ -26,3 +26,4 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: cd Kaizen/ClientApp && npm ci
     - run: cd Kaizen/ClientApp && npm run build --if-present
+    - run: cd Kaizen/ClientApp && npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
