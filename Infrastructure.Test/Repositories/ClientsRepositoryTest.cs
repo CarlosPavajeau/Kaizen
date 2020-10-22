@@ -11,6 +11,7 @@ using NUnit.Framework;
 namespace Infrastructure.Test.Repositories
 {
     [TestFixture]
+    [Order(0)]
     public class ClientsRepositoryTest : BaseRepositoryTest
     {
         private IClientsRepository clientsRepository;

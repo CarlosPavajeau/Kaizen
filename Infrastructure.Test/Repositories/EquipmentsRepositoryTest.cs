@@ -10,6 +10,7 @@ using NUnit.Framework;
 namespace Infrastructure.Test.Repositories
 {
     [TestFixture]
+    [Order(2)]
     public class EquipmentsRepositoryTest : BaseRepositoryTest
     {
         private IEquipmentsRepository equipmentsRepository;
