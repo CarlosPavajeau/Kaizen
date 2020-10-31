@@ -10,7 +10,7 @@ namespace Kaizen.Domain.Entities
         [Required, MaxLength(20)]
         public string ClientType { get; set; }
         [MaxLength(50)]
-        public string BusninessName { get; set; }
+        public string BusinessName { get; set; }
         [MaxLength(50)]
         public string TradeName { get; set; }
         [Required, MaxLength(10)]

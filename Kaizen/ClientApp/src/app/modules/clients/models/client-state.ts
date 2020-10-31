@@ -1,6 +1,6 @@
 export enum ClientState {
   Pending,
-  Acceptep,
+  Accepted,
   Rejected,
   Active,
   Casual,

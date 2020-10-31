@@ -15,7 +15,7 @@ namespace Kaizen.Domain.Entities
         [DataType(DataType.Date)]
         public DateTime ExecutionDate { get; set; }
         public DateTime ArrivalTime { get; set; }
-        public DateTime DepatureTime { get; set; }
+        public DateTime DepartureTime { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime Validity { get; set; }

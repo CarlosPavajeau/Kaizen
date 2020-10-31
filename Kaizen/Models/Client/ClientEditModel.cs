@@ -11,7 +11,7 @@ namespace Kaizen.Models.Client
         public string ClientType { get; set; }
 
         public string NIT { get; set; }
-        public string BusninessName { get; set; }
+        public string BusinessName { get; set; }
 
         [Required(ErrorMessage = "El nombre comercial es requerido")]
         public string TradeName { get; set; }

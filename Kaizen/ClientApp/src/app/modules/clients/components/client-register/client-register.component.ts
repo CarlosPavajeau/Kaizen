@@ -181,7 +181,9 @@ export class ClientRegisterComponent implements OnInit, IForm {
       this.clientForm.valid &&
       this.contactPersonForm.valid &&
       this.ubicationForm.valid &&
-      (this.controls['clientType'].value === 'JuridicPerson' ? this.legalPersonForm.valid : true)
+      (
+        this.controls['clientType'].value === 'JuridicPerson' ? this.legalPersonForm.valid :
+        true)
     );
   }
 
@@ -201,7 +203,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
       ],
       clientAddress: { ...this.ubicationForm.value },
       nit: this.legal_controls['NIT'].value,
-      busninessName: this.legal_controls['businessName'].value,
+      businessName: this.legal_controls['businessName'].value,
       userId: user_id,
       state: ClientState.Pending
     };

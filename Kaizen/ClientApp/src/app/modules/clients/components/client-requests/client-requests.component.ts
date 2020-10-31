@@ -36,7 +36,7 @@ export class ClientRequestsComponent implements OnInit {
   }
 
   acceptClient(client: Client): void {
-    client.state = ClientState.Acceptep;
+    client.state = ClientState.Accepted;
     this.proccessClient(client);
   }
 

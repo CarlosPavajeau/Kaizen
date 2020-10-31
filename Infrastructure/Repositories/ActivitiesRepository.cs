@@ -68,7 +68,7 @@ namespace Kaizen.Infrastructure.Repositories
                 PeriodicityType.BiMonthly => 60,
                 PeriodicityType.Trimester => 90,
                 PeriodicityType.Quarter => 120,
-                PeriodicityType.Quinquemestre => 150,
+                PeriodicityType.FiveMonths => 150,
                 PeriodicityType.Biannual => 180,
                 PeriodicityType.Annual => 360,
                 _ => -1,

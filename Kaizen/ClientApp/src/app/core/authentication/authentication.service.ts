@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  readonly USER_LOCALSTORAGE_KEY = 'currentUser';
+  readonly USER_LOCAL_STORAGE_KEY = 'currentUser';
 
   constructor(private http: HttpClient, private cookieService: CookieService) {}
 
@@ -28,7 +28,7 @@ export class AuthenticationService {
   }
 
   removeUser(): void {
-    localStorage.removeItem(this.USER_LOCALSTORAGE_KEY);
+    localStorage.removeItem(this.USER_LOCAL_STORAGE_KEY);
     this.cookieService.delete('user_token');
   }
 
@@ -36,7 +36,7 @@ export class AuthenticationService {
     this.cookieService.set('user_token', user.token, 365, '/', null, true);
     user.token = undefined;
     const user_str = JSON.stringify(user);
-    localStorage.setItem(this.USER_LOCALSTORAGE_KEY, user_str);
+    localStorage.setItem(this.USER_LOCAL_STORAGE_KEY, user_str);
   }
 
   getToken(): string {
@@ -44,7 +44,7 @@ export class AuthenticationService {
   }
 
   getCurrentUser(): User {
-    const user_str = localStorage.getItem(this.USER_LOCALSTORAGE_KEY);
+    const user_str = localStorage.getItem(this.USER_LOCAL_STORAGE_KEY);
     if (user_str === null || user_str === undefined) {
       return null;
     } else {

@@ -7,7 +7,7 @@ export interface WorkOrder {
   code?: number;
   workOrderState: WorkOrderState;
   arrivalTime: Date;
-  depatureTime?: Date;
+  departureTime?: Date;
   observations?: string;
   sectorId: number;
   executionDate: Date;

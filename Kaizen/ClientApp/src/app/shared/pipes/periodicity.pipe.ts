@@ -21,8 +21,8 @@ export class PeriodicityPipe implements PipeTransform {
         return 'Mensual';
       case PeriodicityType.Quarter:
         return 'Cuatrimestral';
-      case PeriodicityType.Quinquemestre:
-        return 'Quimensual';
+      case PeriodicityType.FiveMonths:
+        return 'Quinquemestre';
       case PeriodicityType.Trimester:
         return 'Trimestral';
     }

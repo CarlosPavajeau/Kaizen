@@ -27,7 +27,7 @@ export class ClientRequestDetailComponent implements OnInit {
   }
 
   acceptClient(): void {
-    this.proccessClient(ClientState.Acceptep);
+    this.proccessClient(ClientState.Accepted);
   }
 
   rejectClient(): void {

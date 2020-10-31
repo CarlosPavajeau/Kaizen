@@ -10,7 +10,7 @@ namespace Kaizen.Models.WorkOrder
         public WorkOrderState WorkOrderState { get; set; }
 
         [Required(ErrorMessage = "La fecha de salida es requerida")]
-        public DateTime DepatureTime { get; set; }
+        public DateTime DepartureTime { get; set; }
 
         [Required(ErrorMessage = "La fecha de válidez es requerida")]
         public DateTime Validity { get; set; }

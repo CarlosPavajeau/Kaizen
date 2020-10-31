@@ -7,7 +7,7 @@ namespace Kaizen.Domain.Entities
         BiMonthly,
         Trimester,
         Quarter,
-        Quinquemestre,
+        FiveMonths,
         Biannual,
         Annual,
         Casual

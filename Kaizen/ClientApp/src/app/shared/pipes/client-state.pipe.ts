@@ -9,7 +9,7 @@ export class ClientStatePipe implements PipeTransform {
     switch (value) {
       case ClientState.Pending:
         return 'Pendiente';
-      case ClientState.Acceptep:
+      case ClientState.Accepted:
         return 'Aceptado';
       case ClientState.Rejected:
         return 'Rechazado';

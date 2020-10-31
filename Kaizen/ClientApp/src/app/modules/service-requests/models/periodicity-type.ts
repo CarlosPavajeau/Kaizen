@@ -4,7 +4,7 @@ export enum PeriodicityType {
   BiMonthly,
   Trimester,
   Quarter,
-  Quinquemestre,
+  FiveMonths,
   Biannual,
   Annual,
   Casual
@@ -21,7 +21,7 @@ export const PERIODICITIES: Periodicity[] = [
   { name: 'BiMensual', type: PeriodicityType.BiMonthly },
   { name: 'Trimestral', type: PeriodicityType.Trimester },
   { name: 'Cuatrimestral', type: PeriodicityType.Quarter },
-  { name: 'Quinquemestral', type: PeriodicityType.Quinquemestre },
+  { name: 'Quinquemestre', type: PeriodicityType.FiveMonths },
   { name: 'Semestral', type: PeriodicityType.Biannual },
   { name: 'Anual', type: PeriodicityType.Annual },
   { name: 'Casual', type: PeriodicityType.Casual }
