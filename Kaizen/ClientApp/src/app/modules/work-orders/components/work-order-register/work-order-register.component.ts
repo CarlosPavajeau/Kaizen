@@ -169,7 +169,7 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
       const departureTime = this.controls['departureTime'].value;
       const date = new Date();
       const departureTimeISO = new Date(
-        `${date.getFullYear()}-${zeroPad(date.getMonth() + 1, 2)}-${zeroPad(date.getDate(), 2)}T${depatureTime}:00Z`
+        `${date.getFullYear()}-${zeroPad(date.getMonth() + 1, 2)}-${zeroPad(date.getDate(), 2)}T${departureTime}:00Z`
       );
       this.workOrder.departureTime = departureTimeISO;
 
