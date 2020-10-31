@@ -23,7 +23,8 @@ jobs:
       - name: Verify MySQL connection
         run: |
           mysql --version
-          sudo apt-get install -y mysql-client mysql-server
+          sudo apt update
+          sudo apt install -y mysql-client mysql-server
           sudo /etc/init.d/mysql start
           mysql -h 127.0.0.1 -uroot -proot < sql/create_mysql.sql
       - name: Setup .NET Core
