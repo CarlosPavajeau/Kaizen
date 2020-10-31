@@ -51,7 +51,7 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
   initForm(): void {
     this.workOrderForm = this.formBuilder.group({
       arrivalTime: [ '', [ Validators.required ] ],
-      depatureTime: [ '', [ Validators.required ] ],
+      departureTime: [ '', [ Validators.required ] ],
       sector: [ '', [ Validators.required ] ],
       observations: [ '', [ Validators.required, Validators.maxLength(500), Validators.minLength(30) ] ]
     });
@@ -101,7 +101,7 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
         employeeId: employee.id,
         sectorId: +this.controls['sector'].value,
         executionDate: executionDate,
-        depatureTime: date,
+        departureTime: date,
         validity: date
       };
 
@@ -166,12 +166,12 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
     if (validForm) {
       this.workOrder.observations = this.controls['observations'].value;
 
-      const depatureTime = this.controls['depatureTime'].value;
+      const departureTime = this.controls['departureTime'].value;
       const date = new Date();
-      const depatureTimeISO = new Date(
+      const departureTimeISO = new Date(
         `${date.getFullYear()}-${zeroPad(date.getMonth() + 1, 2)}-${zeroPad(date.getDate(), 2)}T${depatureTime}:00Z`
       );
-      this.workOrder.depatureTime = depatureTimeISO;
+      this.workOrder.departureTime = departureTimeISO;
 
       this.workOrder.workOrderState = WorkOrderState.Valid;
 

@@ -53,7 +53,7 @@
         <form [formGroup]="workOrderForm">
           <div
             class="form-element"
-            style="margin-top: 3rem; align-items: center;"
+            style="margin-top: 3rem; align-items: center"
           >
             <h4 class="text-center">Firma del cliente</h4>
             <app-digital-signature #digitalSignature></app-digital-signature>
@@ -97,9 +97,9 @@
           <div class="form-element">
             <mat-form-field>
               <mat-label>Hora de salida</mat-label>
-              <input type="time" matInput formControlName="depatureTime" />
+              <input type="time" matInput formControlName="departureTime" />
               <mat-hint>Digite la hora de salida</mat-hint>
-              <mat-error *ngIf="controls['depatureTime'].hasError('required')">
+              <mat-error *ngIf="controls['departureTime'].hasError('required')">
                 Debe registrar su hora de salida
               </mat-error>
             </mat-form-field>
