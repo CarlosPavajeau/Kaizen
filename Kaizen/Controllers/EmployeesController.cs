@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Kaizen.Core.Exceptions.User;
+using Kaizen.Core.Security;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.Models.Employee;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,12 +21,17 @@ namespace Kaizen.Controllers
     public class EmployeesController : ControllerBase
     {
         private readonly IEmployeesRepository _employeesRepository;
+        private readonly IApplicationUserRepository _applicationUserRepository;
         private readonly IUnitWork _unitWork;
         private readonly IMapper _mapper;
+        private readonly ITokenGenerator _tokenGenerator;
 
-        public EmployeesController(IEmployeesRepository employeesRepository, IUnitWork unitWork, IMapper mapper)
+        public EmployeesController(IEmployeesRepository employeesRepository, IApplicationUserRepository applicationUserRepository,
+                                   ITokenGenerator tokenGenerator, IUnitWork unitWork, IMapper mapper)
         {
             _employeesRepository = employeesRepository;
+            _applicationUserRepository = applicationUserRepository;
+            _tokenGenerator = tokenGenerator;
             _unitWork = unitWork;
             _mapper = mapper;
         }
@@ -118,10 +125,6 @@ namespace Kaizen.Controllers
         [HttpPost]
         public async Task<ActionResult<EmployeeViewModel>> PostEmployee(EmployeeInputModel employeeModel)
         {
-            ApplicationUser applicationUser = await _unitWork.ApplicationUsers.FindByIdAsync(employeeModel.UserId);
-            if (applicationUser is null)
-                throw new UserDoesNotExists();
-
             EmployeeCharge employeeCharge = await _employeesRepository.GetAllEmployeeCharges()
                 .Where(c => c.Id == employeeModel.ChargeId)
                 .FirstOrDefaultAsync();
@@ -130,8 +133,37 @@ namespace Kaizen.Controllers
                 return BadRequest("El cargo del empleado no se encuentra registrado.");
 
             Employee employee = _mapper.Map<Employee>(employeeModel);
-            employee.User = applicationUser;
             employee.EmployeeCharge = employeeCharge;
+
+            IdentityResult result = await _applicationUserRepository.CreateAsync(employee.User, employeeModel.User.Password);
+            if (!result.Succeeded)
+            {
+                return GetIdentityResultErrors(result);
+            }
+
+            string employeeRole;
+            switch (employee.EmployeeCharge.Id)
+            {
+                case 1:
+                    employeeRole = "Administrator";
+                    break;
+                case 5:
+                    employeeRole = "OfficeEmployee";
+                    break;
+                case 6:
+                case 7:
+                    employeeRole = "TechnicalEmployee";
+                    break;
+                default:
+                    employeeRole = "Employee";
+                    break;
+            }
+
+            IdentityResult roleResult = await _applicationUserRepository.AddToRoleAsync(employee.User, employeeRole);
+            if (!roleResult.Succeeded)
+            {
+                return GetIdentityResultErrors(roleResult);
+            }
 
             _employeesRepository.Insert(employee);
 
@@ -152,6 +184,17 @@ namespace Kaizen.Controllers
             }
 
             return _mapper.Map<EmployeeViewModel>(employee);
+        }
+
+        private ActionResult<EmployeeViewModel> GetIdentityResultErrors(IdentityResult identityResult)
+        {
+            foreach (IdentityError error in identityResult.Errors)
+                ModelState.AddModelError(error.Code, error.Description);
+
+            return BadRequest(new ValidationProblemDetails(ModelState)
+            {
+                Status = StatusCodes.Status400BadRequest
+            });
         }
 
         // DELETE: api/Employees/5

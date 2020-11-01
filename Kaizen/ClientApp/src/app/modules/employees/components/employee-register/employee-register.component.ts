@@ -4,14 +4,12 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { IForm } from '@core/models/form';
 import { User } from '@core/models/user';
-import { ADMINISTRATOR_ROLE, EMPLOYEE_ROLE, OFFICE_EMPLOYEE_ROLE, TECHNICAL_EMPLOYEE_ROLE } from '@global/roles';
 import { Employee } from '@modules/employees/models/employee';
 import { EmployeeCharge } from '@modules/employees/models/employee-charge';
 import { EmployeeService } from '@modules/employees/services/employee.service';
 import { NotificationsService } from '@shared/services/notifications.service';
 import { alphabeticCharacters, numericCharacters } from '@shared/validators/characters-validators';
 import { EmployeeExistsValidator } from '@shared/validators/employee-exists-validator';
-import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-employee-register',
@@ -107,48 +105,30 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
   onSubmit(user: User): void {
     if (user && this.employeeForm.valid && this.contactForm.valid && this.contractForm.valid) {
       this.savingData = true;
+
       user.email = this.contact_controls['email'].value;
       user.phonenumber = this.contact_controls['phonenumber'].value;
 
-      const employeeChargeId = +this.controls['employeeCharge'].value;
-      let role: string;
-      if (employeeChargeId === 1 || employeeChargeId === 2) {
-        role = ADMINISTRATOR_ROLE;
-      } else if (employeeChargeId === 5) {
-        role = OFFICE_EMPLOYEE_ROLE;
-      } else if ([ 6, 7, 8 ].includes(employeeChargeId)) {
-        role = TECHNICAL_EMPLOYEE_ROLE;
-      } else {
-        role = EMPLOYEE_ROLE;
-      }
-      user.role = role;
+      const employee: Employee = this.mapEmployee(user);
 
-      this.authService
-        .registerUser(user)
-        .pipe(
-          switchMap((userRegister: User) => {
-            const employee: Employee = this.mapEmployee(userRegister.id);
-            return this.employeeService.saveEmployee(employee);
-          })
-        )
-        .subscribe((employeeRegister) => {
-          this.notificationsService.showSuccessMessage(
-            `El empleado ${employeeRegister.firstName} ${employeeRegister.lastName} fue registrado con éxito`,
-            () => {
-              this.router.navigateByUrl('/employees');
-            }
-          );
-        });
+      this.employeeService.saveEmployee(employee).subscribe((employeeRegister) => {
+        this.notificationsService.showSuccessMessage(
+          `El empleado ${employeeRegister.firstName} ${employeeRegister.lastName} fue registrado con éxito`,
+          () => {
+            this.router.navigateByUrl('/employees');
+          }
+        );
+      });
     }
   }
 
-  mapEmployee(userId: string): Employee {
+  mapEmployee(user: User): Employee {
     return {
       ...this.employeeForm.value,
       chargeId: +this.controls['employeeCharge'].value,
       contractCode: this.contract_controls['contractCode'].value,
       employeeContract: { ...this.contractForm.value },
-      userId: userId
+      user: user
     };
   }
 }

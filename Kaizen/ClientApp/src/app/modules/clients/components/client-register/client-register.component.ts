@@ -4,13 +4,11 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { IForm } from '@core/models/form';
 import { User } from '@core/models/user';
-import { CLIENT_ROLE } from '@global/roles';
 import { Client } from '@modules/clients/models/client';
 import { ClientState } from '@modules/clients/models/client-state';
 import { ClientService } from '@modules/clients/services/client.service';
 import { NotificationsService } from '@shared/services/notifications.service';
 import { alphabeticCharacters, numericCharacters } from '@shared/validators/characters-validators';
-import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-client-register',
@@ -144,35 +142,30 @@ export class ClientRegisterComponent implements OnInit, IForm {
   onSubmit(user: User): void {
     if (user && this.allFormsValid()) {
       this.savingData = true;
+
       user.email = this.contact_controls['email'].value;
       user.phonenumber = this.contact_controls['firstPhonenumber'].value;
-      user.role = CLIENT_ROLE;
 
-      this.authService
-        .registerUser(user)
-        .pipe(
-          switchMap((userRegister: User) => {
-            const client: Client = this.mapClient(userRegister.id);
-            return this.clientService.saveClient(client);
-          })
-        )
-        .subscribe((clientRegister) => {
-          if (this.authService.userLoggedIn()) {
-            this.notificationsService.showSuccessMessage(
-              `Cliente ${clientRegister.firstName} ${clientRegister.lastName} registrado con éxito.`,
-              () => {
-                this.router.navigateByUrl('/clients');
-              }
-            );
-          } else {
-            this.notificationsService.showSuccessMessage(
-              `Sus datos fueron registrados correctamente y su solicitud fue enviada. Espere nuestra respuesta.`,
-              () => {
-                window.location.reload();
-              }
-            );
-          }
-        });
+      const client: Client = this.mapClient(user);
+
+      this.clientService.saveClient(client).subscribe((clientRegister) => {
+        if (this.authService.userLoggedIn()) {
+          this.notificationsService.showSuccessMessage(
+            `Cliente ${clientRegister.firstName} ${clientRegister.lastName} registrado con éxito.`,
+            () => {
+              this.router.navigateByUrl('/clients');
+            }
+          );
+        } else {
+          this.notificationsService.showSuccessMessage(
+            `Sus datos fueron registrados correctamente y su solicitud fue enviada. Espere nuestra respuesta.`,
+            () => {
+              this.authService.setCurrentUser(clientRegister.user);
+              window.location.reload();
+            }
+          );
+        }
+      });
     }
   }
 
@@ -187,7 +180,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
     );
   }
 
-  mapClient(user_id: string): Client {
+  mapClient(user: User): Client {
     const client: Client = {
       ...this.clientForm.value,
       ...this.contactPersonForm.value,
@@ -204,7 +197,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
       clientAddress: { ...this.ubicationForm.value },
       nit: this.legal_controls['NIT'].value,
       businessName: this.legal_controls['businessName'].value,
-      userId: user_id,
+      user: user,
       state: ClientState.Pending
     };
 

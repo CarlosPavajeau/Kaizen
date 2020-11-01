@@ -1,6 +1,6 @@
 namespace Kaizen.Models.ApplicationUser
 {
-    public class ApplicationUserViewModel : ApplicationUserInputModel
+    public class ApplicationUserViewModel
     {
         public ApplicationUserViewModel()
         {

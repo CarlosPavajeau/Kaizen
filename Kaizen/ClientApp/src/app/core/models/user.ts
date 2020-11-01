@@ -5,5 +5,4 @@ export interface User {
   phonenumber?: string;
   password?: string;
   token?: string;
-  role?: string;
 }

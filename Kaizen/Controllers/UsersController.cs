@@ -93,9 +93,6 @@ namespace Kaizen.Controllers
             return _mapper.Map<ApplicationUserViewModel>(user);
         }
 
-        // POST: api/Users
-        [AllowAnonymous]
-        [HttpPost]
         public async Task<ActionResult<ApplicationUserViewModel>> PostUser([FromBody] ApplicationUserInputModel applicationUserModel)
         {
             ApplicationUser user = _mapper.Map<ApplicationUser>(applicationUserModel);
@@ -107,7 +104,7 @@ namespace Kaizen.Controllers
                 goto IdentityErrors;
             }
 
-            IdentityResult roleResult = await _userRepository.AddToRoleAsync(user, applicationUserModel.Role);
+            IdentityResult roleResult = await _userRepository.AddToRoleAsync(user, "");
             if (!roleResult.Succeeded)
             {
                 SetIdentityResultErrors(roleResult);
@@ -116,7 +113,7 @@ namespace Kaizen.Controllers
 
             return await GenerateAuthenticateUser(user);
 
-        IdentityErrors:
+            IdentityErrors:
             return BadRequest(new ValidationProblemDetails(ModelState)
             {
                 Status = StatusCodes.Status400BadRequest
@@ -144,7 +141,7 @@ namespace Kaizen.Controllers
             return await GenerateAuthenticateUser(user);
         }
 
-        private async Task<ActionResult<ApplicationUserViewModel>> GenerateAuthenticateUser(ApplicationUser user)
+        public async Task<ActionResult<ApplicationUserViewModel>> GenerateAuthenticateUser(ApplicationUser user)
         {
             ApplicationUserViewModel userView = _mapper.Map<ApplicationUserViewModel>(user);
             string role = await _userRepository.GetUserRoleAsync(user);

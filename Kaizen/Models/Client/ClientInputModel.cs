@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Kaizen.Models.ApplicationUser;
 
 namespace Kaizen.Models.Client
 {
@@ -7,7 +8,6 @@ namespace Kaizen.Models.Client
         [Required(ErrorMessage = "El número de identificación es requerido")]
         public string Id { get; set; }
 
-        [Required(ErrorMessage = "El id de usuario es requerido")]
-        public string UserId { get; set; }
+        public ApplicationUserInputModel User { get; set; }
     }
 }

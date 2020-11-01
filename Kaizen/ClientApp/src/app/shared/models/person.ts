@@ -1,3 +1,5 @@
+import { User } from '@app/core/models/user';
+
 export interface Person {
   id: string;
   firstName: string;
@@ -5,5 +7,5 @@ export interface Person {
   lastName: string;
   secondLastName?: string;
 
-  userId?: string;
+  user?: User;
 }
