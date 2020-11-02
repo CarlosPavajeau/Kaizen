@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Kaizen.Core.Security;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.Models.Employee;
@@ -24,14 +23,11 @@ namespace Kaizen.Controllers
         private readonly IApplicationUserRepository _applicationUserRepository;
         private readonly IUnitWork _unitWork;
         private readonly IMapper _mapper;
-        private readonly ITokenGenerator _tokenGenerator;
 
-        public EmployeesController(IEmployeesRepository employeesRepository, IApplicationUserRepository applicationUserRepository,
-                                   ITokenGenerator tokenGenerator, IUnitWork unitWork, IMapper mapper)
+        public EmployeesController(IEmployeesRepository employeesRepository, IApplicationUserRepository applicationUserRepository, IUnitWork unitWork, IMapper mapper)
         {
             _employeesRepository = employeesRepository;
             _applicationUserRepository = applicationUserRepository;
-            _tokenGenerator = tokenGenerator;
             _unitWork = unitWork;
             _mapper = mapper;
         }

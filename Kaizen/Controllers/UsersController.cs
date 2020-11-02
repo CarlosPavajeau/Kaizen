@@ -93,33 +93,6 @@ namespace Kaizen.Controllers
             return _mapper.Map<ApplicationUserViewModel>(user);
         }
 
-        public async Task<ActionResult<ApplicationUserViewModel>> PostUser([FromBody] ApplicationUserInputModel applicationUserModel)
-        {
-            ApplicationUser user = _mapper.Map<ApplicationUser>(applicationUserModel);
-
-            IdentityResult createResult = await _userRepository.CreateAsync(user, applicationUserModel.Password);
-            if (!createResult.Succeeded)
-            {
-                SetIdentityResultErrors(createResult);
-                goto IdentityErrors;
-            }
-
-            IdentityResult roleResult = await _userRepository.AddToRoleAsync(user, "");
-            if (!roleResult.Succeeded)
-            {
-                SetIdentityResultErrors(roleResult);
-                goto IdentityErrors;
-            }
-
-            return await GenerateAuthenticateUser(user);
-
-            IdentityErrors:
-            return BadRequest(new ValidationProblemDetails(ModelState)
-            {
-                Status = StatusCodes.Status400BadRequest
-            });
-        }
-
         private void SetIdentityResultErrors(IdentityResult identityResult)
         {
             foreach (IdentityError error in identityResult.Errors)
@@ -141,7 +114,7 @@ namespace Kaizen.Controllers
             return await GenerateAuthenticateUser(user);
         }
 
-        public async Task<ActionResult<ApplicationUserViewModel>> GenerateAuthenticateUser(ApplicationUser user)
+        private async Task<ActionResult<ApplicationUserViewModel>> GenerateAuthenticateUser(ApplicationUser user)
         {
             ApplicationUserViewModel userView = _mapper.Map<ApplicationUserViewModel>(user);
             string role = await _userRepository.GetUserRoleAsync(user);
