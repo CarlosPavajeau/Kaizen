@@ -14,9 +14,19 @@ namespace Kaizen.Infrastructure.Repositories
         {
         }
 
+        public override async Task<WorkOrder> FindByIdAsync(int id)
+        {
+            return await ApplicationDbContext.WorkOrders
+                .Include(w => w.Sector).Include(w => w.Employee)
+                .Where(w => w.Code == id)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<WorkOrder> FindByActivityCodeAsync(int activityCode)
         {
-            return await ApplicationDbContext.WorkOrders.Where(w => w.ActivityCode == activityCode)
+            return await ApplicationDbContext.WorkOrders
+                .Include(w => w.Sector).Include(w => w.Employee)
+                .Where(w => w.ActivityCode == activityCode)
                 .FirstOrDefaultAsync();
         }
 

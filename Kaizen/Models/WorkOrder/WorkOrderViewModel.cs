@@ -9,5 +9,6 @@ namespace Kaizen.Models.WorkOrder
 
         public EmployeeViewModel Employee { get; set; }
         public ActivityViewModel Activity { get; set; }
+        public SectorViewModel Sector { get; set; }
     }
 }

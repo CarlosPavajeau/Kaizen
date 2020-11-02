@@ -15,10 +15,8 @@ namespace Kaizen.Models.WorkOrder
         [Required(ErrorMessage = "La fecha de válidez es requerida")]
         public DateTime Validity { get; set; }
 
-        [Required(ErrorMessage = "La firma del cliente es requerida")]
         public string ClientSignature { get; set; }
 
-        [Required(ErrorMessage = "Las observaciones son requeridas")]
         public string Observations { get; set; }
     }
 }
