@@ -19,19 +19,15 @@
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="arrivalTime">
-          <mat-header-cell *matHeaderCellDef>
-            Hora de llegada
-          </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> Hora de llegada </mat-header-cell>
           <mat-cell *matCellDef="let workOrder">
             {{ workOrder.arrivalTime | date: "h:mm a" }}
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="depatureTime">
-          <mat-header-cell *matHeaderCellDef>
-            Hora de salida
-          </mat-header-cell>
+          <mat-header-cell *matHeaderCellDef> Hora de salida </mat-header-cell>
           <mat-cell *matCellDef="let workOrder">
-            {{ workOrder.depatureTime | date: "h:mm a" }}
+            {{ workOrder.departureTime | date: "h:mm a" }}
           </mat-cell>
         </ng-container>
         <ng-container matColumnDef="options">

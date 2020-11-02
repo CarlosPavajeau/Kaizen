@@ -28,6 +28,8 @@ import { ErrorDialogComponent } from './components/error-dialog/error-dialog.com
 import { SelectDateModalComponent } from './components/select-date-modal/select-date-modal.component';
 import { SuccessDialogComponent } from './components/success-dialog/success-dialog.component';
 import { LoadingButtonDirective } from './directives/loading-button.directive';
+import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
+import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
 import { ActivityStatePipe } from './pipes/activity-state.pipe';
 import { ClientStatePipe } from './pipes/client-state.pipe';
 import { FilterEmployeesPipe } from './pipes/filter-employees.pipe';
@@ -37,14 +39,15 @@ import { InvoiceStatePipe } from './pipes/invoice-state.pipe';
 import { PaymentMethodPipe } from './pipes/payment-method.pipe';
 import { PeriodicityPipe } from './pipes/periodicity.pipe';
 import { ServiceRequestStatePipe } from './pipes/service-request-state.pipe';
-import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
-import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
+import { WorkOrderStatePipe } from './pipes/work-order-state.pipe';
 
 @NgModule({
   declarations: [
     AboutComponent,
     ConfirmDialogComponent,
     DashboardCardComponent,
+    DashboardLayoutComponent,
+    DefaultLayoutComponent,
     DigitalSignatureComponent,
     ErrorDialogComponent,
     FooterComponent,
@@ -74,8 +77,7 @@ import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-l
     PaymentMethodPipe,
     PeriodicityPipe,
     ServiceRequestStatePipe,
-    DefaultLayoutComponent,
-    DashboardLayoutComponent
+    WorkOrderStatePipe
   ],
   imports: [ CommonModule, FlexLayoutModule, FormsModule, MaterialModule, ReactiveFormsModule, RouterModule ],
   exports: [
@@ -112,7 +114,8 @@ import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-l
     MonthBitPipe,
     PaymentMethodPipe,
     PeriodicityPipe,
-    ServiceRequestStatePipe
+    ServiceRequestStatePipe,
+    WorkOrderStatePipe
   ],
   providers: [ NotificationsService, HttpErrorHandlerService ]
 })

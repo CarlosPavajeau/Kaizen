@@ -162,7 +162,7 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
   }
 
   saveWorkOrder(): void {
-    const validForm = this.controls['observations'].valid && this.controls['depatureTime'].valid;
+    const validForm = this.controls['observations'].valid && this.controls['departureTime'].valid;
     if (validForm) {
       this.workOrder.observations = this.controls['observations'].value;
 

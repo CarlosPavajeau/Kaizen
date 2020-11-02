@@ -1,1 +1,31 @@
-<p>work-order-detail works!</p>
+<div *ngIf="workOrder" class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title class="text-center">
+        Información de la orden de trabajo N°
+        {{ workOrder.code }}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>Estado: {{ workOrder.workOrderState | workOrderState }}</p>
+      <p>Hora de llegada: {{ workOrder.arrivalTime | date: "h:mm a" }}</p>
+      <p>Hora de salida: {{ workOrder.departureTime | date: "h:mm a" }}</p>
+      <p>Obsevaciones: {{ workOrder.observations }}</p>
+      <p>Fecha de ejecución: {{ workOrder.executionDate | date }}</p>
+      <p>
+        Empleado que generó la orden: {{ workOrder?.employee?.firstName }}
+        {{ workOrder?.employee?.secondName }}
+        {{ workOrder?.employee?.lastName }}
+        {{ workOrder?.employee?.secondLastName }}
+      </p>
+      <p>Sector: {{ workOrder?.sector?.name }}</p>
+      <p>Firma del cliente</p>
+      <div>
+        <img
+          src="data:image/png;base64,{{ workOrder.clientSignature }}"
+          alt="Client signature"
+        />
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

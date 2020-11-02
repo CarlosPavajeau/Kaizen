@@ -64,6 +64,11 @@ export const DASHBOARS_CARDS: { [role: string]: DashboardCard[] } = {
         { title: 'Ver actividades', iconName: 'explore', url: '/activity_schedule' },
         { title: 'Solicitudes de servicio', url: '/service_requests/', iconName: 'pending' }
       ]
+    },
+    {
+      title: 'Ordenes de trabajo',
+      iconName: 'assignment',
+      url: '/work_orders'
     }
   ],
   TechnicalEmployee: [
