@@ -41,7 +41,7 @@
             <div class="form-element form-select">
               <mat-form-field>
                 <mat-label>Tipo de servicio</mat-label>
-                <mat-select required formControlName="serviceType">
+                <mat-select required formControlName="serviceTypeId">
                   <mat-option
                     *ngFor="let serviceType of serviceTypes"
                     [value]="serviceType.id"
@@ -49,7 +49,9 @@
                     {{ serviceType.name }}
                   </mat-option>
                 </mat-select>
-                <mat-error *ngIf="controls['serviceType'].hasError('required')">
+                <mat-error
+                  *ngIf="controls['serviceTypeId'].hasError('required')"
+                >
                   Debe seleccionar el tipo de servicio
                 </mat-error>
               </mat-form-field>

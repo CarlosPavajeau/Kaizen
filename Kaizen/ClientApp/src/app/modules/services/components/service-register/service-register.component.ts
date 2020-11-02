@@ -52,7 +52,7 @@ export class ServiceRegisterComponent implements OnInit, IForm {
     this.serviceForm = this.formBuilder.group({
       code: [ '', [ Validators.required ] ],
       name: [ '', [ Validators.required ] ],
-      serviceType: [ '', [ Validators.required ] ],
+      serviceTypeId: [ '', [ Validators.required ] ],
       cost: [ '', [ Validators.required ] ]
     });
   }
