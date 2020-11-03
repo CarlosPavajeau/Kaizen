@@ -21,7 +21,7 @@ import { ClientsFilterPipe } from '@shared/pipes/clients-filter.pipe';
 import { MonthBitPipe } from '@shared/pipes/month-bit.pipe';
 import { HttpErrorHandlerService } from '@shared/services/http-error-handler.service';
 import { NotificationsService } from '@shared/services/notifications.service';
-import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { MatFileInputModule } from 'mat-file-input';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { DigitalSignatureComponent } from './components/digital-signature/digital-signature.component';
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
@@ -101,7 +101,7 @@ import { WorkOrderStatePipe } from './pipes/work-order-state.pipe';
 
     CommonModule,
     MaterialModule,
-    MaterialFileInputModule,
+    MatFileInputModule,
     FlexLayoutModule,
 
     ActivityStatePipe,
