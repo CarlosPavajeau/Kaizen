@@ -1,0 +1,95 @@
+<div class="container" *ngIf="serviceInvoice">
+  <mat-card>
+    <mat-card-header class="center-text">
+      <mat-card-title>
+        Pago de factura de servicio N° {{ serviceInvoice.id }}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-card>
+        <mat-card-content>
+          <p>
+            Total a pagar:
+            {{ serviceInvoice.total | currency: "COP":"symbol-narrow" }}
+          </p>
+        </mat-card-content>
+      </mat-card>
+      <div class="mt-5">
+        <form [formGroup]="payForm">
+          <div class="form-element">
+            <mat-form-field>
+              <mat-label>Número de tarjeta</mat-label>
+              <input matInput type="text" formControlName="cardNumber" />
+              <mat-hint>Digite su número de tarjeta</mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="form-element">
+            <mat-form-field>
+              <mat-label>Mes y año de vencimiento</mat-label>
+              <input
+                matInput
+                [matDatepicker]="picker"
+                formControlName="cardExpirationDate"
+              />
+              <mat-datepicker-toggle
+                matSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="form-element">
+            <mat-form-field>
+              <mat-label>Código de seguridad</mat-label>
+              <input matInput formControlName="securityCode" />
+              <mat-hint>Digite el código de seguridad de su tarjeta</mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="form-element">
+            <mat-form-field>
+              <mat-label>Tipo de documento</mat-label>
+              <mat-select id="docType" formControlName="docType">
+                <mat-option [value]="'CC'">C.C.</mat-option>
+                <mat-option [value]="'CE'">C.E.</mat-option>
+                <mat-option [value]="'NIT'">NIT</mat-option>
+                <mat-option [value]="'Otro'">Otro</mat-option>
+              </mat-select>
+              <mat-hint>Selecione su tipo de documento</mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="form-element">
+            <mat-form-field>
+              <mat-label>Número de documento</mat-label>
+              <input type="text" matInput formControlName="docNumber" />
+              <mat-hint>Digite su número de documento</mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="form-element">
+            <mat-form-field>
+              <mat-label>Nombre y apellidos</mat-label>
+              <input matInput formControlName="cardholderName" />
+              <mat-hint>Digite su nombre completo</mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="form-element">
+            <mat-form-field>
+              <mat-label>Email</mat-label>
+              <input type="email" matInput formControlName="email" />
+              <mat-hint>Digite su dirección de email</mat-hint>
+            </mat-form-field>
+          </div>
+        </form>
+        <div class="form-buttons">
+          <button
+            mat-raised-button
+            class="royal_azure"
+            (click)="onSubmit()"
+            [appLoadingButton]="paymentInProcess"
+          >
+            Pagar factura de servicio
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
