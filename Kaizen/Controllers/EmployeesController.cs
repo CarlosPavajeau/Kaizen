@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
+using Kaizen.Extensions;
 using Kaizen.Models.Employee;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -124,7 +124,6 @@ namespace Kaizen.Controllers
             EmployeeCharge employeeCharge = await _employeesRepository.GetAllEmployeeCharges()
                 .Where(c => c.Id == employeeModel.ChargeId)
                 .FirstOrDefaultAsync();
-
             if (employeeCharge is null)
                 return BadRequest("El cargo del empleado no se encuentra registrado.");
 
@@ -133,33 +132,11 @@ namespace Kaizen.Controllers
 
             IdentityResult result = await _applicationUserRepository.CreateAsync(employee.User, employeeModel.User.Password);
             if (!result.Succeeded)
-            {
-                return GetIdentityResultErrors(result);
-            }
+                return this.IdentityResultErrors(result);
 
-            string employeeRole;
-            switch (employee.EmployeeCharge.Id)
-            {
-                case 1:
-                    employeeRole = "Administrator";
-                    break;
-                case 5:
-                    employeeRole = "OfficeEmployee";
-                    break;
-                case 6:
-                case 7:
-                    employeeRole = "TechnicalEmployee";
-                    break;
-                default:
-                    employeeRole = "Employee";
-                    break;
-            }
-
-            IdentityResult roleResult = await _applicationUserRepository.AddToRoleAsync(employee.User, employeeRole);
+            IdentityResult roleResult = await _applicationUserRepository.AddToRoleAsync(employee.User, GetEmployeeRole(employee));
             if (!roleResult.Succeeded)
-            {
-                return GetIdentityResultErrors(roleResult);
-            }
+                return this.IdentityResultErrors(roleResult);
 
             _employeesRepository.Insert(employee);
 
@@ -182,15 +159,20 @@ namespace Kaizen.Controllers
             return _mapper.Map<EmployeeViewModel>(employee);
         }
 
-        private ActionResult<EmployeeViewModel> GetIdentityResultErrors(IdentityResult identityResult)
+        private static string GetEmployeeRole(Employee employee)
         {
-            foreach (IdentityError error in identityResult.Errors)
-                ModelState.AddModelError(error.Code, error.Description);
-
-            return BadRequest(new ValidationProblemDetails(ModelState)
+            switch (employee.EmployeeCharge.Id)
             {
-                Status = StatusCodes.Status400BadRequest
-            });
+                case 1:
+                    return "Administrator";
+                case 5:
+                    return "OfficeEmployee";
+                case 6:
+                case 7:
+                    return "TechnicalEmployee";
+                default:
+                    return "Employee";
+            }
         }
 
         // DELETE: api/Employees/5

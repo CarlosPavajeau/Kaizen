@@ -2,14 +2,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Kaizen.Core.Security;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Events;
 using Kaizen.Domain.Repositories;
 using Kaizen.Extensions;
 using Kaizen.Models.Client;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,14 +23,11 @@ namespace Kaizen.Controllers
         private readonly IApplicationUserRepository _applicationUserRepository;
         private readonly IUnitWork _unitWork;
         private readonly IMapper _mapper;
-        private readonly ITokenGenerator _tokenGenerator;
 
-        public ClientsController(IClientsRepository clientsRepository, IApplicationUserRepository applicationUserRepository,
-                                 ITokenGenerator tokenGenerator, IUnitWork unitWork, IMapper mapper)
+        public ClientsController(IClientsRepository clientsRepository, IApplicationUserRepository applicationUserRepository, IUnitWork unitWork, IMapper mapper)
         {
             _clientsRepository = clientsRepository;
             _applicationUserRepository = applicationUserRepository;
-            _tokenGenerator = tokenGenerator;
             _unitWork = unitWork;
             _mapper = mapper;
         }
@@ -122,19 +117,14 @@ namespace Kaizen.Controllers
 
             IdentityResult result = await _applicationUserRepository.CreateAsync(client.User, clientInput.User.Password);
             if (!result.Succeeded)
-            {
-                return GetIdentityResultErrors(result);
-            }
+                return this.IdentityResultErrors(result);
 
             IdentityResult roleResult = await _applicationUserRepository.AddToRoleAsync(client.User, "Client");
             if (!roleResult.Succeeded)
-            {
-                return GetIdentityResultErrors(roleResult);
-            }
+                return this.IdentityResultErrors(roleResult);
 
             string emailConfirmationLink = await GenerateEmailConfirmationLink(client.User);
             client.PublishEvent(new SavedPerson(client, emailConfirmationLink));
-
             _clientsRepository.Insert(client);
 
             try
@@ -153,20 +143,7 @@ namespace Kaizen.Controllers
                 }
             }
 
-            ClientViewModel clientViewModel = _mapper.Map<ClientViewModel>(client);
-            clientViewModel.User.Token = _tokenGenerator.GenerateToken(client.User.UserName, "Client");
-            return clientViewModel;
-        }
-
-        private ActionResult GetIdentityResultErrors(IdentityResult identityResult)
-        {
-            foreach (IdentityError error in identityResult.Errors)
-                ModelState.AddModelError(error.Code, error.Description);
-
-            return BadRequest(new ValidationProblemDetails(ModelState)
-            {
-                Status = StatusCodes.Status400BadRequest
-            });
+            return _mapper.Map<ClientViewModel>(client);
         }
 
         private async Task<string> GenerateEmailConfirmationLink(ApplicationUser user)

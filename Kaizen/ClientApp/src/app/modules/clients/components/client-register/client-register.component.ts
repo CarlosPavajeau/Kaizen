@@ -160,8 +160,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
           this.notificationsService.showSuccessMessage(
             `Sus datos fueron registrados correctamente y su solicitud fue enviada. Espere nuestra respuesta.`,
             () => {
-              this.authService.setCurrentUser(clientRegister.user);
-              window.location.reload();
+              this.router.navigateByUrl('/user/login');
             }
           );
         }
