@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
+import { environment } from '@base/environments/environment';
 import { PayModel } from '@modules/payments/models/pay';
 import { Observable } from 'rxjs';
 
@@ -12,7 +13,7 @@ const paymentMethod = new EventEmitter<string>();
 })
 export class PaymentService {
   constructor(private http: HttpClient) {
-    Mercadopago.setPublishableKey('PUBLIC_KEY');
+    Mercadopago.setPublishableKey(environment.mercadoPagoPublicKey);
   }
 
   tokenizeCard(payModel: PayModel): Observable<string> {
@@ -35,12 +36,12 @@ export class PaymentService {
       {
         bin: bin
       },
-      this.onGetPaymentMehod
+      this.onGetPaymentMethod
     );
     return paymentMethod.asObservable();
   }
 
-  private onGetPaymentMehod(status: number, response: any): void {
+  private onGetPaymentMethod(status: number, response: any): void {
     if (status === 200) {
       const paymentMethodId = response[0].id;
       paymentMethod.emit(paymentMethodId);
