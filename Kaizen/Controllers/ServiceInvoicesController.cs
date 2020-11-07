@@ -4,7 +4,10 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
+using Kaizen.Models.Base;
 using Kaizen.Models.ServiceInvoice;
+using MercadoPagoCore.Common;
+using MercadoPagoCore.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -85,6 +88,64 @@ namespace Kaizen.Controllers
             }
 
             return _mapper.Map<ServiceInvoiceViewModel>(serviceInvoice);
+        }
+
+        [HttpPost("[action]/{id}")]
+        public async Task<ActionResult<ServiceInvoiceViewModel>> Pay(int id, [FromBody] PaymentModel paymentModel)
+        {
+            ServiceInvoice serviceInvoice = await _serviceInvoicesRepository.FindByIdAsync(id);
+            if (serviceInvoice is null)
+                return NotFound($"No existe ninguna factura de servicio con el código { id }.");
+
+            serviceInvoice.CalculateTotal();
+
+            Payment payment = new Payment()
+            {
+                Token = paymentModel.Token,
+                PaymentMethodId = paymentModel.PaymentMethodId,
+                TransactionAmount = (float?)serviceInvoice.Total,
+                Description = $"Pay of service invoice {serviceInvoice.Id}",
+                Installments = 1,
+                Payer = new MercadoPagoCore.DataStructures.Payment.Payer
+                {
+                    FirstName = serviceInvoice.Client.FirstName,
+                    LastName = serviceInvoice.Client.LastName,
+                    Email = paymentModel.Email
+                }
+            };
+
+            if (payment.Save())
+            {
+                if (payment.Status == PaymentStatus.approved)
+                {
+                    serviceInvoice.State = InvoiceState.Paid;
+                    serviceInvoice.PaymentMethod = Domain.Entities.PaymentMethod.CreditCard;
+
+                    _serviceInvoicesRepository.Update(serviceInvoice);
+
+                    try
+                    {
+                        await _unitWork.SaveAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!ServiceInvoiceExists(id))
+                        {
+                            return NotFound($"Error de actualizacón. No existe ninguna factura de servicio con el código {id}.");
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+
+                    return _mapper.Map<ServiceInvoiceViewModel>(serviceInvoice);
+                }
+                else
+                    return BadRequest(payment.Errors.Value);
+            }
+
+            return BadRequest("El pago no pudo ser procesado.");
         }
 
         private bool ServiceInvoiceExists(int id)
