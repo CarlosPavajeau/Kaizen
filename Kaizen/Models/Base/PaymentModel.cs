@@ -8,5 +8,7 @@ namespace Kaizen.Models.Base
         public string Token { get; set; }
         [Required]
         public string PaymentMethodId { get; set; }
+        [Required]
+        public string Email { get; set; }
     }
 }
