@@ -3,6 +3,7 @@ using Kaizen.Domain.Extensions;
 using Kaizen.Extensions;
 using Kaizen.Infrastructure.Extensions;
 using MediatR;
+using MercadoPagoCore.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -31,6 +32,7 @@ namespace Kaizen
             services.AddEntityFramework(Configuration);
             services.ConfigureRepositories();
             services.AddIdentityConfig();
+            services.AddMercadoPagoCore(Configuration["MercadoPagoCore:AccessToken"]);
 
             services.AddJwtAuthentication(Configuration);
             services.ConfigureTokenGenerator();
