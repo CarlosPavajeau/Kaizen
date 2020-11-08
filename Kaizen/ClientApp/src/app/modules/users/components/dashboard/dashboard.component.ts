@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DashboardCard } from '@core/models/dashboard-card';
 import { AuthenticationService } from '@core/authentication/authentication.service';
-import { DASHBOARS_CARDS } from '@global/control-panel-cards';
+import { DashboardCard } from '@core/models/dashboard-card';
+import { DASHBOARDS_CARDS } from '@global/control-panel-cards';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,6 +15,6 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     const userRole = this.authService.getUserRole();
-    this.controlCards = DASHBOARS_CARDS[userRole];
+    this.controlCards = DASHBOARDS_CARDS[userRole];
   }
 }

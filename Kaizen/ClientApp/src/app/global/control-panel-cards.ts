@@ -1,6 +1,6 @@
 import { DashboardCard } from '@core/models/dashboard-card';
 
-export const DASHBOARS_CARDS: { [role: string]: DashboardCard[] } = {
+export const DASHBOARDS_CARDS: { [role: string]: DashboardCard[] } = {
   Client: [
     { title: 'Mis facturas', iconName: 'attach_money', url: '/payments/service_invoices' },
     { title: 'Solicitar un servicio', iconName: 'add_circle', url: '/service_requests/register' },

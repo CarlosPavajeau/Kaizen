@@ -2,7 +2,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
-import { DASHBOARS_CARDS } from '@app/global/control-panel-cards';
+import { DASHBOARDS_CARDS } from '@app/global/control-panel-cards';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { DashboardCard } from '@core/models/dashboard-card';
 import { Observable } from 'rxjs';
@@ -35,7 +35,7 @@ export class DashboardLayoutComponent implements OnInit {
       .pipe(map((result) => result.matches), shareReplay());
 
     this.userRole = this.authService.getUserRole();
-    this.menuOptions = DASHBOARS_CARDS[this.userRole];
+    this.menuOptions = DASHBOARDS_CARDS[this.userRole];
   }
 
   closeSidenav(): void {
