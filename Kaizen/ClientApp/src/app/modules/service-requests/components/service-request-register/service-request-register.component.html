@@ -66,9 +66,7 @@
                     {{ service.name }} : ${{ service.cost }}
                   </mat-option>
                 </mat-select>
-                <mat-hint>
-                  Elija los servicios a aplicar
-                </mat-hint>
+                <mat-hint> Elija los servicios a aplicar </mat-hint>
                 <mat-error
                   *ngIf="controls['serviceCodes'].hasError('required')"
                 >
@@ -92,9 +90,7 @@
                   [matTooltip]="'Como quieres recibir nuestras visitas'"
                   >info_outline</mat-icon
                 >
-                <mat-hint>
-                  Elija la periodicidad de las visitas
-                </mat-hint>
+                <mat-hint> Elija la periodicidad de las visitas </mat-hint>
                 <mat-error *ngIf="controls['periodicity'].hasError('required')">
                   La periodicidad de las visitas es requerida
                 </mat-error>
@@ -121,7 +117,7 @@
       <mat-icon
         color="primary"
         class="center-block-content mt-2 text-center mb-2"
-        style="width: 70px; height: 70px; font-size: 70px;"
+        style="width: 70px; height: 70px; font-size: 70px"
         >info</mat-icon
       >
     </div>
