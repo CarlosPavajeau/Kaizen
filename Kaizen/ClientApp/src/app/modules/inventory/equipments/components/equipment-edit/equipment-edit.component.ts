@@ -61,11 +61,11 @@ export class EquipmentEditComponent implements OnInit, IForm {
   }
 
   initForm(): void {
-    this.initEquimentBasicDataForm();
+    this.initEquipmentBasicDataForm();
     this.initEquipmentInInventoryForm();
   }
 
-  private initEquimentBasicDataForm(): void {
+  private initEquipmentBasicDataForm(): void {
     this.equipmentBasicDataForm = this.formBuilder.group({
       name: [ '', [ Validators.required, Validators.minLength(5), Validators.maxLength(50) ] ],
       maintenanceDate: [ '', [ Validators.required ] ],
