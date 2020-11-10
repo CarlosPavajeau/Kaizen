@@ -23,6 +23,8 @@ namespace Kaizen.Domain.Entities
         [DataType(DataType.Date)]
         public DateTime GenerationDate { get; set; }
 
+        public DateTime PaymentDate { get; set; }
+
         public void CalculateTotal()
         {
             Total = SubTotal * (1 + IVA);

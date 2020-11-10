@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -119,6 +120,7 @@ namespace Kaizen.Controllers
                 if (payment.Status == PaymentStatus.approved)
                 {
                     serviceInvoice.State = InvoiceState.Paid;
+                    serviceInvoice.PaymentDate = DateTime.Now;
                     serviceInvoice.PaymentMethod = Domain.Entities.PaymentMethod.CreditCard;
 
                     _serviceInvoicesRepository.Update(serviceInvoice);
@@ -141,11 +143,9 @@ namespace Kaizen.Controllers
 
                     return _mapper.Map<ServiceInvoiceViewModel>(serviceInvoice);
                 }
-                else
-                    return BadRequest(payment.Errors.Value);
             }
 
-            return BadRequest("El pago no pudo ser procesado.");
+            return BadRequest(payment.Errors.Value);
         }
 
         private bool ServiceInvoiceExists(int id)
