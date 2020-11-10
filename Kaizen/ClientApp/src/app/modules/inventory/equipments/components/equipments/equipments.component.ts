@@ -13,7 +13,7 @@ import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confir
   styleUrls: [ './equipments.component.css' ]
 })
 export class EquipmentsComponent implements OnInit, AfterViewInit {
-  equipments: Equipment[];
+  equipments: Equipment[] = [];
   dataSource: MatTableDataSource<Equipment> = new MatTableDataSource<Equipment>(this.equipments);
   displayedColumns: string[] = [ 'code', 'name', 'maintenanceDate', 'amount', 'price', 'options' ];
   @ViewChild(MatPaginator, { static: true })

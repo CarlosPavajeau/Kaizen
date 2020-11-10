@@ -11,7 +11,7 @@ import { EmployeeService } from '@modules/employees/services/employee.service';
   styleUrls: [ './employees.component.css' ]
 })
 export class EmployeesComponent implements OnInit, AfterViewInit {
-  employees: Employee[];
+  employees: Employee[] = [];
   dataSource: MatTableDataSource<Employee> = new MatTableDataSource<Employee>(this.employees);
   displayedColumns: string[] = [ 'id', 'name', 'employeeCharge', 'options' ];
   @ViewChild(MatPaginator, { static: true })

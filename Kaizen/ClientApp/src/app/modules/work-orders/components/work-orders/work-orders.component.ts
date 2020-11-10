@@ -13,7 +13,7 @@ import { WorkOrderService } from '@modules/work-orders/service/work-order.servic
 export class WorkOrdersComponent implements OnInit, AfterViewInit {
   workOrders: WorkOrder[] = [];
   dataSource: MatTableDataSource<WorkOrder> = new MatTableDataSource<WorkOrder>(this.workOrders);
-  displayedColumns: string[] = [ 'code', 'executionDate', 'arrivalTime', 'depatureTime', 'options' ];
+  displayedColumns: string[] = [ 'code', 'executionDate', 'arrivalTime', 'departureTime', 'options' ];
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;

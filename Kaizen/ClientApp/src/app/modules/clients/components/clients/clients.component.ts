@@ -11,7 +11,7 @@ import { ClientService } from '@modules/clients/services/client.service';
   styleUrls: [ './clients.component.css' ]
 })
 export class ClientsComponent implements OnInit, AfterViewInit {
-  clients: Client[];
+  clients: Client[] = [];
   dataSource: MatTableDataSource<Client> = new MatTableDataSource<Client>(this.clients);
   displayedColumns: string[] = [ 'id', 'name', 'clientType', 'phonenumber', 'options' ];
   @ViewChild(MatPaginator, { static: true })

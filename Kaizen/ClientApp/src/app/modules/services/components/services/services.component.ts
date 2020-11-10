@@ -11,7 +11,7 @@ import { ServiceService } from '@modules/services/services/service.service';
   styleUrls: [ './services.component.css' ]
 })
 export class ServicesComponent implements OnInit, AfterViewInit {
-  services: Service[];
+  services: Service[] = [];
   dataSource: MatTableDataSource<Service> = new MatTableDataSource<Service>(this.services);
   displayedColumns: string[] = [ 'code', 'name', 'type', 'cost', 'options' ];
   @ViewChild(MatPaginator, { static: true })

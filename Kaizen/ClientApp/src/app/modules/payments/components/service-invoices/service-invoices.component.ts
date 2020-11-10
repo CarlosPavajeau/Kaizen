@@ -14,7 +14,7 @@ import { Person } from '@shared/models/person';
   styleUrls: [ './service-invoices.component.css' ]
 })
 export class ServiceInvoicesComponent implements OnInit {
-  serviceInvoices: ServiceInvoice[];
+  serviceInvoices: ServiceInvoice[] = [];
   dataSource: MatTableDataSource<ServiceInvoice> = new MatTableDataSource<ServiceInvoice>(this.serviceInvoices);
   displayedColumns: string[] = [ 'id', 'state', 'iva', 'subtotal', 'total', 'actions' ];
   @ViewChild(MatPaginator, { static: true })

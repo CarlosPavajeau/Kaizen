@@ -11,7 +11,7 @@ import { ProductService } from '@modules/inventory/products/services/product.ser
   styleUrls: [ './products.component.css' ]
 })
 export class ProductsComponent implements OnInit, AfterViewInit {
-  products: Product[];
+  products: Product[] = [];
   dataSource: MatTableDataSource<Product> = new MatTableDataSource<Product>(this.products);
   displayedColumns: string[] = [ 'code', 'name', 'amount', 'presentation', 'price', 'months', 'options' ];
   @ViewChild(MatPaginator, { static: true })
