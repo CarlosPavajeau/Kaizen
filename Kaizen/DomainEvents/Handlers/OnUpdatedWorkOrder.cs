@@ -16,10 +16,12 @@ namespace Kaizen.DomainEvents.Handlers
         {
             private readonly IUnitWork _unitWork;
             private readonly IServiceInvoicesRepository _serviceInvoicesRepository;
-            public Handler(IUnitWork unitWork, IServiceInvoicesRepository serviceInvoicesRepository)
+            private readonly IStatisticsRepository _statisticsRepository;
+            public Handler(IUnitWork unitWork, IServiceInvoicesRepository serviceInvoicesRepository, IStatisticsRepository statisticsRepository)
             {
                 _unitWork = unitWork;
                 _serviceInvoicesRepository = serviceInvoicesRepository;
+                _statisticsRepository = statisticsRepository;
             }
 
             public async Task Handle(DomainEventNotification<UpdatedWorkOrder> notification, CancellationToken cancellationToken)
@@ -30,6 +32,8 @@ namespace Kaizen.DomainEvents.Handlers
                 {
                     Activity appliedActivity = await UpdateActivityToApplied(workOrder.ActivityCode);
                     GenerateInvoice(appliedActivity);
+
+                    await _statisticsRepository.RegisterNewAppliedActivity();
                     await _unitWork.SaveAsync();
                 }
             }

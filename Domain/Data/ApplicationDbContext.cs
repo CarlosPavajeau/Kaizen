@@ -49,5 +49,9 @@ namespace Kaizen.Domain.Data
         public DbSet<ServiceInvoiceDetail> ServiceInvoiceDetails { get; set; }
         public DbSet<ProductInvoice> ProductInvoices { get; set; }
         public DbSet<ProductInvoiceDetail> ProductInvoiceDetails { get; set; }
+
+        public DbSet<DayStatistics> DayStatistics { get; set; }
+        public DbSet<MonthStatistics> MonthStatistics { get; set; }
+        public DbSet<YearStatistics> YearStatistics { get; set; }
     }
 }
