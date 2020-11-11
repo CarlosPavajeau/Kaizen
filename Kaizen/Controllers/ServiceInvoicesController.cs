@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Kaizen.Domain.Entities;
+using Kaizen.Domain.Events;
 using Kaizen.Domain.Repositories;
 using Kaizen.Models.Base;
 using Kaizen.Models.ServiceInvoice;
@@ -123,6 +124,7 @@ namespace Kaizen.Controllers
                     serviceInvoice.PaymentDate = DateTime.Now;
                     serviceInvoice.PaymentMethod = Domain.Entities.PaymentMethod.CreditCard;
 
+                    serviceInvoice.PublishEvent(new PaidServiceInvoice(serviceInvoice));
                     _serviceInvoicesRepository.Update(serviceInvoice);
 
                     try
