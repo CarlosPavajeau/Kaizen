@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { SharedModule } from '@app/shared/shared.module';
 import { ActivityScheduleMonthComponent } from './activity-schedule-month.component';
 
@@ -7,7 +7,7 @@ describe('ActivityScehduleMonthComponent', () => {
   let fixture: ComponentFixture<ActivityScheduleMonthComponent>;
 
   beforeEach(
-    async(() => {
+    waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [ SharedModule ],
         declarations: [ ActivityScheduleMonthComponent ]

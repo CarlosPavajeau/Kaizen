@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { SharedModule } from '@app/shared/shared.module';
 import { ActivityScheduleModule } from '../../activity-schedule.module';
 import { ActivityButtonComponent } from './activity-button.component';
@@ -8,7 +8,7 @@ describe('ActivityButtonComponent', () => {
   let fixture: ComponentFixture<ActivityButtonComponent>;
 
   beforeEach(
-    async(() => {
+    waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [ SharedModule, ActivityScheduleModule ],
         declarations: [ ActivityButtonComponent ]

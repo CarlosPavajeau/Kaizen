@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from '@app/shared/shared.module';
 import { ServiceInvoicesComponent } from './service-invoices.component';
@@ -9,7 +9,7 @@ describe('ServiceInvoicesComponent', () => {
   let fixture: ComponentFixture<ServiceInvoicesComponent>;
 
   beforeEach(
-    async(() => {
+    waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [ HttpClientTestingModule, RouterTestingModule, SharedModule ],
         declarations: [ ServiceInvoicesComponent ]

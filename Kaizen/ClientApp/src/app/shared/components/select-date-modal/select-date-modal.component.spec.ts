@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { AppModule } from '@app/app.module';
@@ -9,7 +9,7 @@ describe('SelectDateModalComponent', () => {
   let fixture: ComponentFixture<SelectDateModalComponent>;
 
   beforeEach(
-    async(() => {
+    waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [ SelectDateModalComponent ],
         imports: [ AppModule, MatDialogModule, ReactiveFormsModule ],
