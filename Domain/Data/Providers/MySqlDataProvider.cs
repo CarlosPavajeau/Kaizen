@@ -1,6 +1,8 @@
-﻿using Kaizen.Domain.Data.Configuration;
+using System;
+using Kaizen.Domain.Data.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace Kaizen.Domain.Data.Providers
 {
@@ -11,7 +13,10 @@ namespace Kaizen.Domain.Data.Providers
         public ApplicationDbContext CreateDbContext(string connectionString)
         {
             DbContextOptionsBuilder<ApplicationDbContext> optionBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            optionBuilder.UseMySql(connectionString);
+            optionBuilder.UseMySql(connectionString, new MySqlServerVersion(new Version(5, 7, 17)),
+                mySqlOptions => mySqlOptions.CharSetBehavior(CharSetBehavior.NeverAppend))
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors();
 
             return new ApplicationDbContext(optionBuilder.Options);
         }
@@ -20,7 +25,10 @@ namespace Kaizen.Domain.Data.Providers
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseMySql(connectionString);
+                options.UseMySql(connectionString, new MySqlServerVersion(new Version(5, 7, 17)),
+                mySqlOptions => mySqlOptions.CharSetBehavior(CharSetBehavior.NeverAppend))
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors();
             });
 
             return services;
