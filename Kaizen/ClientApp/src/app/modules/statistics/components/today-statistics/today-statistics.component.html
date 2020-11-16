@@ -1,0 +1,71 @@
+<div class="container">
+  <h1 class="mat-h1 text-center">Estadísticas del día</h1>
+  <mat-grid-list cols="3" rowHeight="150px">
+    <mat-grid-tile>
+      <mat-card class="mat-elevation-z3">
+        <mat-card-header>
+          <mat-card-title>Clientes visitados</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="text-center">
+            <span>
+              <mat-icon>done</mat-icon>
+            </span>
+          </div>
+          <p class="text-center">
+            <span *ngIf="dayStatistics; else noStatistics">
+              {{ dayStatistics.clientsVisited }}
+            </span>
+            <ng-template #noStatistics>
+              <span>0</span>
+            </ng-template>
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card class="mat-elevation-z3">
+        <mat-card-header>
+          <mat-card-title>Actividades aplicadas</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="text-center">
+            <span>
+              <mat-icon>done</mat-icon>
+            </span>
+          </div>
+          <p class="text-center">
+            <span *ngIf="dayStatistics; else noStatistics">
+              {{ dayStatistics.appliedActivities }}
+            </span>
+            <ng-template #noStatistics>
+              <span>0</span>
+            </ng-template>
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card class="mat-elevation-z3">
+        <mat-card-header>
+          <mat-card-title>Ganancias del día</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="text-center">
+            <span>
+              <mat-icon>done</mat-icon>
+            </span>
+          </div>
+          <p class="text-center">
+            <span *ngIf="dayStatistics; else noStatistics">
+              {{ dayStatistics.profits }}
+            </span>
+            <ng-template #noStatistics>
+              <span>0</span>
+            </ng-template>
+          </p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

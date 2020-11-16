@@ -10,3 +10,4 @@ export const ACTIVITIES_API_URL = 'api/Activities';
 export const WORK_ORDERS_API_URL = 'api/WorkOrders';
 export const SERVICE_INVOICES_API_URL = 'api/ServiceInvoices';
 export const PRODUCT_INVOICES_API_URL = 'api/ProductInvoices';
+export const STATISTICS_API_URL = 'api/Statistics';

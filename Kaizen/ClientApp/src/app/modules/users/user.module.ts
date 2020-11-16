@@ -3,13 +3,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '@shared/shared.module';
 import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ForgottenPasswordComponent } from './components/forgotten-password/forgotten-password.component';
 import { ManageDataComponent } from './components/manage-data/manage-data.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { UserLoginComponent } from './components/user-login/user-login.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { UserRegisterComponent } from './components/user-register/user-register.component';
-import { UserRoutinModule } from './user-routing.module';
-import { ForgottenPasswordComponent } from './components/forgotten-password/forgotten-password.component';
-import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
+import { UserRoutingModule } from './user-routing.module';
 
 @NgModule({
   declarations: [
@@ -22,7 +22,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
     ForgottenPasswordComponent,
     ResetPasswordComponent
   ],
-  imports: [ FormsModule, ReactiveFormsModule, SharedModule, UserRoutinModule ],
+  imports: [ FormsModule, ReactiveFormsModule, SharedModule, UserRoutingModule ],
   exports: [ UserRegisterComponent ]
 })
 export class UserModule {}
