@@ -23,6 +23,12 @@
                   required
                 />
                 <mat-hint>Digite el código del producto</mat-hint>
+                <mat-error *ngIf="controls['code'].hasError('required')">
+                  El código del producto es necesario
+                </mat-error>
+                <mat-error *ngIf="controls['code'].hasError('productExists')">
+                  El código del producto ya está en uso
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="form-element">
@@ -35,6 +41,12 @@
                   formControlName="name"
                 />
                 <mat-hint>Digite el nombre del producto</mat-hint>
+                <mat-error *ngIf="controls['name'].hasError('required')">
+                  El nombre del producto es requerido
+                </mat-error>
+                <mat-error *ngIf="controls['name'].hasError('maxlength')">
+                  El nombre del producto no puede tener más de 40 caracteres
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="form-element">
@@ -46,6 +58,15 @@
                   formControlName="description"
                 ></textarea>
                 <mat-hint>Digite la descripción del producto</mat-hint>
+                <mat-error *ngIf="controls['description'].hasError('required')">
+                  La descripción del producto es requerida
+                </mat-error>
+                <mat-error
+                  *ngIf="controls['description'].hasError('maxlength')"
+                >
+                  La descripción del producto no puede tener más de 40
+                  caracteres
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="form-row">
@@ -59,9 +80,12 @@
                       placeholder="Ejemplo: 55"
                       formControlName="amount"
                     />
-                    <mat-hint
-                      >Digite la cantidad existente del producto</mat-hint
-                    >
+                    <mat-hint>
+                      Digite la cantidad existente del producto
+                    </mat-hint>
+                    <mat-error *ngIf="controls['amount'].hasError('required')">
+                      La cantidad del producto es requerida
+                    </mat-error>
                   </mat-form-field>
                 </div>
               </div>
@@ -76,6 +100,11 @@
                       formControlName="presentation"
                     />
                     <mat-hint>Digite la presentación del producto</mat-hint>
+                    <mat-error
+                      *ngIf="controls['presentation'].hasError('required')"
+                    >
+                      La presentación del producto es requerida
+                    </mat-error>
                   </mat-form-field>
                 </div>
               </div>
@@ -90,6 +119,9 @@
                   formControlName="price"
                 />
                 <mat-hint>Digite el precio de compra del producto</mat-hint>
+                <mat-error *ngIf="controls['price'].hasError('required')">
+                  El precio del producto es requerido
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="form-element">

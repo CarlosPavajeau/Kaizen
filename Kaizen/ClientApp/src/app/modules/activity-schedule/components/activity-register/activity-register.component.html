@@ -14,7 +14,6 @@
             [serviceRequestCode]="serviceRequestCode"
             (serviceRequestLoaded)="onLoadedServiceRequest($event)"
           ></app-service-request-detail>
-          <mat-divider></mat-divider>
         </div>
         <div>
           <form [formGroup]="activityForm">
@@ -157,10 +156,10 @@
             </div>
             <div
               *ngIf="techniciansAvailable.length > 0"
-              style="padding-top: 1rem;"
+              style="padding-top: 1rem"
             >
-              <h1>Asignación de empleados</h1>
-              <div class="form-element form-select">
+              <h2 class="mt-h2 text-center">Asignación de empleados</h2>
+              <div class="form-element">
                 <mat-form-field>
                   <mat-label>Técnicos a asignar</mat-label>
                   <mat-select formControlName="employeeCodes" multiple>
@@ -186,7 +185,9 @@
             </div>
           </form>
         </div>
-        <div class="form-buttons">
+      </mat-card-content>
+      <mat-card-actions>
+        <div class="form-buttons pt-3">
           <button
             *ngIf="techniciansAvailable.length > 0"
             mat-raised-button
@@ -216,7 +217,7 @@
             Sugerir otra fecha
           </button>
         </div>
-      </mat-card-content>
+      </mat-card-actions>
     </mat-card>
   </section>
 </div>

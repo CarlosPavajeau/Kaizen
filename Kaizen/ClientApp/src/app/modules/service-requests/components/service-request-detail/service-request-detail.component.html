@@ -1,29 +1,43 @@
 <section [ngClass]="{ container: !serviceRequestCode }">
   <div *ngIf="serviceRequest">
     <h1 class="text-center">Solicitud N° {{ serviceRequest.code }}</h1>
-    <h3>
+    <h2>
       Solicitud del servicio hecha por el cliente
       {{ serviceRequest.client.firstName }}
       {{ serviceRequest.client.secondName }}
       {{ serviceRequest.client.lastName }}
       {{ serviceRequest.client.secondLastName }}.
-    </h3>
-    <mat-divider></mat-divider>
-    <div style="padding-top: 1.5rem; padding-bottom: 1.5rem;">
-      <span>La solicitud fue hecha para aplicar los siguientes servicios:</span>
-      <div>
-        <mat-list>
-          <mat-list-item *ngFor="let service of serviceRequest.services">
-            <mat-icon style="margin-right: 7px;">label</mat-icon>
+    </h2>
+    <div class="pt-2 pb-3">
+      <mat-list>
+        <div mat-subheader>
+          La solicitud fue hecha para aplicar los siguientes servicios:
+        </div>
+        <mat-list-item *ngFor="let service of serviceRequest.services">
+          <mat-icon style="margin-right: 7px" color="primary"
+            >offline_bolt</mat-icon
+          >
+          <span>
             {{ service.code }} - {{ service.name }} :
             {{ service.cost | currency: "COP":"symbol-narrow" }}
-          </mat-list-item>
-        </mat-list>
+          </span>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </mat-list>
+      <div class="pt-4">
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Fecha de aplicación'">today</mat-icon>
+          <span style="font-size: 16px">
+            {{ serviceRequest.date | date: "MMMM d, y, h:mm a" }}
+          </span>
+        </div>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Periodicidad de visitas'">repeat</mat-icon>
+          <span style="font-size: 16px">
+            {{ serviceRequest.periodicity | periodicity }}.
+          </span>
+        </div>
       </div>
-      <span>
-        En la fecha {{ serviceRequest.date | date: "MMMM d, y, h:mm a" }}. Con
-        una periodicidad {{ serviceRequest.periodicity | periodicity }}.
-      </span>
     </div>
   </div>
 </section>

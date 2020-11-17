@@ -400,6 +400,16 @@ hr {
   color: var(--grullo);
 }
 
+.icon-text-container {
+  display: flex;
+  align-items: center;
+  margin: 10px 16px;
+}
+
+.icon-text-container > mat-icon {
+  margin-right: 7px;
+}
+
 /*Animaciones bonitas UwU*/
 
 .animated {

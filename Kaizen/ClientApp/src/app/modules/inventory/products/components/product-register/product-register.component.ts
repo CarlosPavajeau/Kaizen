@@ -10,7 +10,6 @@ import { UploadDownloadService } from '@core/services/upload-download.service';
 import { Product } from '@modules/inventory/products/models/product';
 import { ProductService } from '@modules/inventory/products/services/product.service';
 import { NotificationsService } from '@shared/services/notifications.service';
-import { ProductExistsValidator } from '@shared/validators/product-exists-validator';
 
 @Component({
   selector: 'app-product-register',
@@ -41,7 +40,6 @@ export class ProductRegisterComponent implements OnInit, IForm {
     private productService: ProductService,
     private uploadDownloadService: UploadDownloadService,
     private formBuilder: FormBuilder,
-    private productExistsValidator: ProductExistsValidator,
     private notificationService: NotificationsService,
     private router: Router
   ) {}
@@ -127,11 +125,11 @@ export class ProductRegisterComponent implements OnInit, IForm {
 
   private uploadDocuments() {
     const dataSheet = <File>this.documents_controls['dataSheet'].value.files[0];
-    const healtRegister = <File>this.documents_controls['healthRegister'].value.files[0];
+    const healthRegister = <File>this.documents_controls['healthRegister'].value.files[0];
     const safetySheet = <File>this.documents_controls['safetySheet'].value.files[0];
     const emergencyCard = <File>this.documents_controls['emergencyCard'].value.files[0];
 
-    const files = [ dataSheet, healtRegister, safetySheet, emergencyCard ];
+    const files = [ dataSheet, healthRegister, safetySheet, emergencyCard ];
     this.uploading = true;
 
     return this.uploadDownloadService.uploadFiles(files);
