@@ -13,7 +13,7 @@ namespace Kaizen.Domain.Data.Providers
         public ApplicationDbContext CreateDbContext(string connectionString)
         {
             DbContextOptionsBuilder<ApplicationDbContext> optionBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            optionBuilder.UseMySql(connectionString, new MySqlServerVersion(new Version(5, 7, 17)),
+            optionBuilder.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 20)),
                 mySqlOptions => mySqlOptions.CharSetBehavior(CharSetBehavior.NeverAppend))
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
@@ -25,7 +25,7 @@ namespace Kaizen.Domain.Data.Providers
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseMySql(connectionString, new MySqlServerVersion(new Version(5, 7, 17)),
+                options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 20)),
                 mySqlOptions => mySqlOptions.CharSetBehavior(CharSetBehavior.NeverAppend))
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
