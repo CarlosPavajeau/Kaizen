@@ -49,7 +49,7 @@ namespace Kaizen.Infrastructure.Repositories
             await ApplicationDbContext.SaveChangesAsync();
         }
 
-        private bool ActivityCanBeScheduled(List<string> activityEmployeeCodes, IEnumerable<Employee> availableEmployees)
+        private static bool ActivityCanBeScheduled(List<string> activityEmployeeCodes, IEnumerable<Employee> availableEmployees)
         {
             return activityEmployeeCodes.All(e => availableEmployees.Any(a => activityEmployeeCodes.Contains(a.Id)));
         }
@@ -59,7 +59,7 @@ namespace Kaizen.Infrastructure.Repositories
             return await _employeesRepository.GetTechniciansAvailable(date, serviceCodes);
         }
 
-        private int GetDayInterval(PeriodicityType periodicityType)
+        private static int GetDayInterval(PeriodicityType periodicityType)
         {
             return periodicityType switch
             {
