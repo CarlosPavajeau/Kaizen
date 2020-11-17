@@ -14,7 +14,7 @@ namespace Kaizen.DomainEvents.Handlers
     {
         public class Handler : INotificationHandler<DomainEventNotification<SavedPerson>>
         {
-            public readonly IMailService _mailService;
+            private readonly IMailService _mailService;
             private readonly IHubContext<ClientHub> _clientHub;
             private readonly IMailTemplate _mailTemplate;
             private readonly IStatisticsRepository _statisticsRepository;
