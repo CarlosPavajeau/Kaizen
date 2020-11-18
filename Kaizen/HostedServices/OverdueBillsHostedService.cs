@@ -35,15 +35,15 @@ namespace Kaizen.HostedServices
         {
             while (!cancellationToken.IsCancellationRequested)
             {
-                await FindAndReportExpiredProductInvoices();
+                await FindAndReportExpiredProductInvoices(cancellationToken);
 
-                await FindAndReportExpiredServiceInvoices();
+                await FindAndReportExpiredServiceInvoices(cancellationToken);
 
-                await Task.Delay(DELAY_TIME);
+                await Task.Delay(DELAY_TIME, cancellationToken);
             }
         }
 
-        private async Task FindAndReportExpiredProductInvoices()
+        private async Task FindAndReportExpiredProductInvoices(CancellationToken cancellationToken)
         {
             IEnumerable<ProductInvoice> productInvoices = await _productInvoicesRepository.GetPendingExpiredProductInvoices();
             foreach (ProductInvoice productInvoice in productInvoices)
@@ -54,10 +54,10 @@ namespace Kaizen.HostedServices
 
             await _unitWork.SaveAsync();
 
-            await _invoiceHub.Clients.Group("Administrator").SendAsync("OvedureProductBills", productInvoices);
+            await _invoiceHub.Clients.Group("Administrator").SendAsync("OvedureProductBills", productInvoices, cancellationToken: cancellationToken);
         }
 
-        private async Task FindAndReportExpiredServiceInvoices()
+        private async Task FindAndReportExpiredServiceInvoices(CancellationToken cancellationToken)
         {
             IEnumerable<ServiceInvoice> serviceInvoices = await _serviceInvoicesRepository.GetPendingExpiredServiceInvoices();
             foreach (ServiceInvoice serviceInvoice in serviceInvoices)
@@ -68,7 +68,7 @@ namespace Kaizen.HostedServices
 
             await _unitWork.SaveAsync();
 
-            await _invoiceHub.Clients.Group("Administrator").SendAsync("OvedureServiceBills", serviceInvoices);
+            await _invoiceHub.Clients.Group("Administrator").SendAsync("OvedureServiceBills", serviceInvoices, cancellationToken: cancellationToken);
         }
     }
 }

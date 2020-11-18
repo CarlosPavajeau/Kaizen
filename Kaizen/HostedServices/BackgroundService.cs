@@ -38,7 +38,19 @@ namespace Kaizen.HostedServices
 
         public void Dispose()
         {
-            _stoppingCts.Cancel();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_stoppingCts != null)
+                {
+                    _stoppingCts.Cancel();
+                }
+            }
         }
 
     }
