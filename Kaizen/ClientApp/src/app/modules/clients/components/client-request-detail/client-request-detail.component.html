@@ -5,72 +5,95 @@
       {{ clientRequest.lastName }}
     </h1>
     <hr />
-    <p>
+    <h2>
       El cliente
-      <strong
-        >{{ clientRequest.firstName }} {{ clientRequest.secondName }}
+      <strong>
+        {{ clientRequest.firstName }} {{ clientRequest.secondName }}
         {{ clientRequest.lastName }}
-        {{ clientRequest.secondLastName }}</strong
-      >
+        {{ clientRequest.secondLastName }}
+      </strong>
       identificado con C.C. <strong>{{ clientRequest.id }}</strong
-      >. Con números de teléfono móvil:
-      <strong>{{ clientRequest.firstPhoneNumber }}</strong>
-      <strong *ngIf="clientRequest.secondPhoneNumber"
-        >, {{ clientRequest.secondPhoneNumber }}</strong
+      >.
+    </h2>
+    <div class="icon-text-container">
+      <mat-icon [matTooltip]="'Teléfonos de contacto'">phone</mat-icon>
+      <span>{{ clientRequest.firstPhoneNumber }}</span>
+      <span *ngIf="clientRequest.secondPhoneNumber">
+        , {{ clientRequest.secondPhoneNumber }}
+      </span>
+    </div>
+    <div *ngIf="clientRequest.firstLandLine" class="icon-text-container">
+      <mat-icon [matTooltip]="'Números fijos de contacto'">dialpad</mat-icon>
+      <span>{{ clientRequest.firstLandLine }}</span>
+      <span *ngIf="clientRequest.secondLandLine">
+        , {{ clientRequest.secondLandLine }}
+      </span>
+    </div>
+    <div class="icon-text-container">
+      <mat-icon [matTooltip]="'Nombre comercial y tipo de persona'"
+        >business</mat-icon
       >
-      .
-      <span *ngIf="clientRequest.firstLandLine"
-        >Con números de teléfonos fijos:
-        <strong>{{ clientRequest.firstLandLine }}</strong>
-        <strong *ngIf="clientRequest.secondLandLine"
-          >, {{ clientRequest.secondLandLine }}</strong
-        >.
+      <span>
+        {{ clientRequest.tradeName }},
+        <span>
+          {{
+            clientRequest.clientType == "JuridicPerson"
+              ? "persona jurídica"
+              : "persona natural"
+          }}
+        </span>
       </span>
-      <br />
-      Con nombre comercial {{ clientRequest.tradeName }}, siendo este una
-      <span>{{
-        clientRequest.clientType == "JuridicPerson"
-          ? "Persona jurídica"
-          : "Persona natural"
-      }}</span>
-      <span *ngIf="clientRequest.clientType == 'JuridicPerson'">
-        , con NIT <strong>{{ clientRequest.nit }}</strong> y razón social
-        <strong>{{ clientRequest.busninessName }}</strong>
+    </div>
+    <div
+      class="icon-text-container"
+      *ngIf="clientRequest.clientType == 'JuridicPerson'"
+    >
+      <mat-icon [matTooltip]="'NIT y razón social'">gavel</mat-icon>
+      <span>{{ clientRequest.nit }}, {{ clientRequest.businessName }}</span>
+    </div>
+    <div class="icon-text-container" *ngIf="clientRequest.clientAddress">
+      <mat-icon [matTooltip]="'Dirección del cliente'">place</mat-icon>
+      <span>
+        {{ clientRequest.clientAddress.city }},
+        {{ clientRequest.clientAddress.neighborhood }},
+        {{ clientRequest.clientAddress.street }}
       </span>
-      . <br />
-      <span *ngIf="clientRequest.clientAddress">
-        Úbicado en la ciudad de
-        <strong>{{ clientRequest.clientAddress.city }}</strong> en el barrio
-        <strong>{{ clientRequest.clientAddress.neighborhood }}</strong>
-        en la calle <strong>{{ clientRequest.clientAddress.street }}</strong
-        >.
-      </span>
-      <span *ngIf="clientRequest.contactPeople">
-        Con las siguientes personas de contacto: <br />
-        <span *ngFor="let contactPerson of clientRequest.contactPeople">
-          Nombre: {{ contactPerson.name }}, Teléfono:
-          {{ contactPerson.phonenumber }} <br /> </span
-        >.
-      </span>
-      <br />
-      Tiene una solicitud pendiente para ser cliente.
-    </p>
-    <div class="center-block-content">
+    </div>
+    <h2 class="mt-4">Personas de contacto</h2>
+    <div>
+      <div
+        *ngFor="let contactPerson of clientRequest.contactPeople"
+        style="display: inline-block"
+      >
+        <div class="mr-2 ml-2 p-2 contact-people-card">
+          <div class="icon-text-container">
+            <mat-icon>person</mat-icon>
+            <span>{{ contactPerson.name }}</span>
+          </div>
+          <div class="icon-text-container">
+            <mat-icon>phone</mat-icon>
+            <span>{{ contactPerson.phonenumber }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr />
+    <div class="form-buttons center-flex-content">
       <button
-        mat-button
-        color="primary"
+        mat-raised-button
+        class="royal_azure mr-3"
         (click)="acceptClient()"
-        [appLoadingButton]="updatingClientResquest"
+        [appLoadingButton]="updatingClientRequest"
       >
-        Aceptar
+        Aceptar solicitud de cliente
       </button>
       <button
-        mat-button
+        mat-stroked-button
         color="warn"
         (click)="rejectClient()"
-        [appLoadingButton]="updatingClientResquest"
+        [appLoadingButton]="updatingClientRequest"
       >
-        Rechazar
+        Rechazar solicitud de cliente
       </button>
     </div>
   </div>

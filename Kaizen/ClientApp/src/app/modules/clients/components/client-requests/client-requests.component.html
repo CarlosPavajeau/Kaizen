@@ -40,7 +40,7 @@
             </mat-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <h4>
+        <h3 class="mat-h3">
           El cliente identificado con C.C.
           <strong>{{ clientRequest.id }}</strong> llamado
           {{ clientRequest.firstName }} {{ clientRequest.secondName }}
@@ -50,17 +50,20 @@
             <strong>{{ clientRequest.tradeName }}</strong>
           </span>
           tiene pendiente su solicitud.
-          <hr />
-          Tiene como télefono de contacto
-          <strong>{{ clientRequest.firstPhoneNumber }}</strong>
+        </h3>
+        <hr />
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Teléfono de contacto'">phone</mat-icon>
+          <span>{{ clientRequest.firstPhoneNumber }}</span>
+        </div>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Dirección del cliente'">place</mat-icon>
           <span *ngIf="clientRequest.clientAddress">
-            , úbicado en la ciudad de
-            {{ clientRequest.clientAddress.city }}, barrio
-            {{ clientRequest.clientAddress.neighborhood }}, calle
+            {{ clientRequest.clientAddress.city }},
+            {{ clientRequest.clientAddress.neighborhood }},
             {{ clientRequest.clientAddress.street }}
           </span>
-          .
-        </h4>
+        </div>
         <mat-action-row>
           <button
             mat-button

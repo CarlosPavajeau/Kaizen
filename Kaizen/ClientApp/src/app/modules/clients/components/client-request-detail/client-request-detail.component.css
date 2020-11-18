@@ -1,0 +1,8 @@
+.contact-people-card {
+  background-color: rgba(4, 141, 215, 0.1);
+  border-radius: 10px;
+}
+
+.contact-people-card .icon-text-container {
+  justify-content: center;
+}

@@ -410,6 +410,10 @@ hr {
   margin-right: 7px;
 }
 
+.icon-text-container span {
+  font-size: 17px;
+}
+
 /*Animaciones bonitas UwU*/
 
 .animated {

@@ -11,7 +11,7 @@ import { ClientService } from '@modules/clients/services/client.service';
 })
 export class ClientRequestDetailComponent implements OnInit {
   clientRequest: Client;
-  updatingClientResquest = false;
+  updatingClientRequest = false;
 
   constructor(private clientService: ClientService, private activeRoute: ActivatedRoute, private router: Router) {}
 
@@ -27,16 +27,16 @@ export class ClientRequestDetailComponent implements OnInit {
   }
 
   acceptClient(): void {
-    this.proccessClient(ClientState.Accepted);
+    this.processClient(ClientState.Accepted);
   }
 
   rejectClient(): void {
-    this.proccessClient(ClientState.Rejected);
+    this.processClient(ClientState.Rejected);
   }
 
-  proccessClient(state: ClientState): void {
+  processClient(state: ClientState): void {
     this.clientRequest.state = state;
-    this.updatingClientResquest = true;
+    this.updatingClientRequest = true;
     this.clientService.updateClient(this.clientRequest).subscribe((clientUpdate) => {
       this.router.navigateByUrl('/clients/requests');
     });
