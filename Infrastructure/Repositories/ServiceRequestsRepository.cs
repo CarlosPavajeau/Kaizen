@@ -25,7 +25,7 @@ namespace Kaizen.Infrastructure.Repositories
             return serviceRequest;
         }
 
-        private void MapServices(ServiceRequest serviceRequest)
+        private static void MapServices(ServiceRequest serviceRequest)
         {
             if (serviceRequest != null)
             {

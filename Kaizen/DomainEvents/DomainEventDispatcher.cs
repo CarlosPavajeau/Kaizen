@@ -21,7 +21,7 @@ namespace Kaizen.DomainEvents
             await _mediator.Publish(domainEventNotification);
         }
 
-        private INotification CreateDomainEventNotification(IDomainEvent domainEvent)
+        private static INotification CreateDomainEventNotification(IDomainEvent domainEvent)
         {
             Type genericDispatcherType = typeof(DomainEventNotification<>).MakeGenericType(domainEvent.GetType());
             return (INotification)Activator.CreateInstance(genericDispatcherType, domainEvent);

@@ -99,7 +99,7 @@ namespace Kaizen.Infrastructure.Extensions
                                 Id = "Bearer"
                             }
                         },
-                        new string [] {}
+                        Array.Empty<string>()
                     }
                 });
             });

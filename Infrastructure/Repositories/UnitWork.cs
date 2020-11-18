@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Kaizen.Core.Domain;
@@ -57,7 +58,19 @@ namespace Kaizen.Infrastructure.Repositories
 
         public void Dispose()
         {
-            _dbContext.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_dbContext != null)
+                {
+                    _dbContext.Dispose();
+                }
+            }
         }
 
         public async Task SaveAsync()
@@ -68,12 +81,12 @@ namespace Kaizen.Infrastructure.Repositories
 
         private async Task DispatchDomainEvents()
         {
-            var domainEventEntities = _dbContext.ChangeTracker.Entries<IEntity>()
+            IEntity[] domainEventEntities = _dbContext.ChangeTracker.Entries<IEntity>()
                 .Select(p => p.Entity)
                 .Where(p => p.DomainEvents.Any())
                 .ToArray();
 
-            foreach (var entity in domainEventEntities)
+            foreach (IEntity entity in domainEventEntities)
             {
                 while (entity.DomainEvents.TryTake(out IDomainEvent @event))
                     await _eventDispatcher.Dispatch(@event);

@@ -31,7 +31,7 @@ namespace Kaizen.DomainEvents.Handlers
             public async Task Handle(DomainEventNotification<SavedActivity> notification, CancellationToken cancellationToken)
             {
                 ActivityViewModel activityModel = _mapper.Map<ActivityViewModel>(notification.DomainEvent.Activity);
-                await _hubContext.Clients.Groups("Clients").SendAsync("NewActivity", activityModel);
+                await _hubContext.Clients.Groups("Clients").SendAsync("NewActivity", activityModel, cancellationToken: cancellationToken);
                 await _activitiesRepository.ScheduleActivities(notification.DomainEvent.Activity);
                 Client client = notification.DomainEvent.Activity.Client;
 

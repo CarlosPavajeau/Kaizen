@@ -48,7 +48,6 @@ namespace Kaizen.Controllers
             if (activity == null)
                 return NotFound($"No existe ninguna actividad con el código {id}.");
 
-
             return _mapper.Map<ActivityViewModel>(activity);
         }
 

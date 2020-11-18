@@ -25,7 +25,7 @@ namespace Kaizen.DomainEvents.Handlers
             public async Task Handle(DomainEventNotification<SavedServiceRequest> notification, CancellationToken cancellationToken)
             {
                 ServiceRequestViewModel serviceRequestModel = _mapper.Map<ServiceRequestViewModel>(notification.DomainEvent.ServiceRequest);
-                await _hubContext.Clients.Groups("Administrator", "OfficeEmployee").SendAsync("NewServiceRequest", serviceRequestModel);
+                await _hubContext.Clients.Groups("Administrator", "OfficeEmployee").SendAsync("NewServiceRequest", serviceRequestModel, cancellationToken: cancellationToken);
             }
         }
     }

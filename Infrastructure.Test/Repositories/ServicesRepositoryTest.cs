@@ -34,7 +34,7 @@ namespace Infrastructure.Test.Repositories
         public async Task CheckServiceTypes()
         {
             IEnumerable<ServiceType> serviceTypes = await servicesRepository.GetServiceTypesAsync();
-            Assert.IsTrue(serviceTypes.Count() > 0);
+            Assert.IsTrue(serviceTypes.Any());
         }
 
         [Test]

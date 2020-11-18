@@ -69,7 +69,7 @@ namespace Kaizen.Controllers
             return File(memory, GetContentType(file), downloadName);
         }
 
-        private string GetContentType(string file)
+        private static string GetContentType(string file)
         {
             FileExtensionContentTypeProvider provider = new FileExtensionContentTypeProvider();
             if (!provider.TryGetContentType(file, out string contentType))

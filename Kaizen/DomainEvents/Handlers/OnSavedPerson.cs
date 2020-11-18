@@ -36,7 +36,7 @@ namespace Kaizen.DomainEvents.Handlers
                                                           $"{notification.DomainEvent.EmailConfirmationLink}");
 
                 await _mailService.SendEmailAsync(savedPerson.User.Email, "Cliente Registrado", email, true);
-                await _clientHub.Clients.Groups("Administrator", "OfficeEmployee").SendAsync("NewPersonRequest");
+                await _clientHub.Clients.Groups("Administrator", "OfficeEmployee").SendAsync("NewPersonRequest", cancellationToken: cancellationToken);
                 await _statisticsRepository.RegisterNewClientRegister();
             }
         }

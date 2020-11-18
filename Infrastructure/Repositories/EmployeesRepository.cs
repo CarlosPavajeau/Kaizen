@@ -39,7 +39,7 @@ namespace Kaizen.Infrastructure.Repositories
             IEnumerable<string> occupiedEmployeesCodes = await GetOccupiedEmployeesCodes(date);
 
             return await GetAll().Include(e => e.EmployeesServices)
-                .Where(e => ((occupiedEmployeesCodes.Count() == 0) || !occupiedEmployeesCodes.Contains(e.Id)) &&
+                .Where(e => ((occupiedEmployeesCodes.Any()) || !occupiedEmployeesCodes.Contains(e.Id)) &&
                     TECHNICAL_EMPLOYEE_JOB_CODES.Contains(e.ChargeId) &&
                     e.EmployeesServices.Any(es => serviceCodes.Contains(es.ServiceCode)))
                 .ToListAsync();

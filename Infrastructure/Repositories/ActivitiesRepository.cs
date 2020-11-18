@@ -24,14 +24,16 @@ namespace Kaizen.Infrastructure.Repositories
                 return;
 
             int dayInterval = GetDayInterval(activity.Periodicity);
+            if (dayInterval == -1)
+                return;
+
             string[] activityServiceCodes = activity.ActivitiesServices.Select(s => s.ServiceCode).ToArray();
             List<string> activityEmployeeCodes = activity.ActivitiesEmployees.Select(a => a.EmployeeId).ToList();
 
-            Activity newActivity = activity.Clone() as Activity;
-            newActivity.Date = newActivity.Date.AddDays(dayInterval);
-
-            while (newActivity.Date < LIMIT_DATE)
+            DateTime newDate = activity.Date.AddDays(dayInterval);
+            while (newDate < LIMIT_DATE)
             {
+                Activity newActivity = activity.Clone() as Activity;
                 IEnumerable<Employee> availableEmployees = await GetTechniciansAvailable(newActivity.Date, activityServiceCodes);
                 bool canBeScheduled = ActivityCanBeScheduled(activityEmployeeCodes, availableEmployees);
                 while (!canBeScheduled)
@@ -42,8 +44,7 @@ namespace Kaizen.Infrastructure.Repositories
                 }
 
                 Insert(newActivity);
-                newActivity = newActivity.Clone() as Activity;
-                newActivity.Date = newActivity.Date.AddDays(dayInterval);
+                newDate = newDate.AddDays(dayInterval);
             }
 
             await ApplicationDbContext.SaveChangesAsync();
@@ -79,7 +80,8 @@ namespace Kaizen.Infrastructure.Repositories
         {
             return await ApplicationDbContext.Activities.Include(a => a.Client)
                 .Include(a => a.ActivitiesServices)
-                .ThenInclude(a => a.Service).Include(a => a.ActivitiesEmployees).ThenInclude(a => a.Employee)
+                .ThenInclude(a => a.Service)
+                .Include(a => a.ActivitiesEmployees).ThenInclude(a => a.Employee)
                 .Where(a => a.Code == id).FirstOrDefaultAsync();
         }
 

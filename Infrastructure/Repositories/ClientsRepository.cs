@@ -30,7 +30,9 @@ namespace Kaizen.Infrastructure.Repositories
 
         public async Task<IEnumerable<Client>> GetClientRequestsAsync()
         {
-            return await ApplicationDbContext.Clients.Where(c => c.State == ClientState.Pending).ToListAsync();
+            return await ApplicationDbContext.Clients
+                .Include(c => c.ClientAddress)
+                .Where(c => c.State == ClientState.Pending).ToListAsync();
         }
 
         public void UpdateClientAddress(ClientAddress clientAddress)

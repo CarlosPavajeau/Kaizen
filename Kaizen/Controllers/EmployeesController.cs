@@ -161,18 +161,13 @@ namespace Kaizen.Controllers
 
         private static string GetEmployeeRole(Employee employee)
         {
-            switch (employee.EmployeeCharge.Id)
+            return employee.EmployeeCharge.Id switch
             {
-                case 1:
-                    return "Administrator";
-                case 5:
-                    return "OfficeEmployee";
-                case 6:
-                case 7:
-                    return "TechnicalEmployee";
-                default:
-                    return "Employee";
-            }
+                1 => "Administrator",
+                5 => "OfficeEmployee",
+                6 or 7 => "TechnicalEmployee",
+                _ => "Employee",
+            };
         }
 
         // DELETE: api/Employees/5
