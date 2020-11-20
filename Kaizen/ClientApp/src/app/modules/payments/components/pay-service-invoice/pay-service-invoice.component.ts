@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepicker } from '@angular/material/datepicker';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IForm } from '@app/core/models/form';
 import { NotificationsService } from '@app/shared/services/notifications.service';
@@ -7,15 +11,44 @@ import { PayModel } from '@modules/payments/models/pay';
 import { ServiceInvoice } from '@modules/payments/models/service-invoice';
 import { PaymentService } from '@modules/payments/services/payment.service';
 import { ServiceInvoiceService } from '@modules/payments/services/service-invoice.service';
+import * as _moment from 'moment';
+// tslint:disable-next-line:no-duplicate-imports
+import { Moment } from 'moment';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+
+const moment = _moment;
+
+export const DATE_FORMATS = {
+  parse: {
+    dateInput: 'MM/YYYY'
+  },
+  display: {
+    dateInput: 'MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  }
+};
 
 @Component({
   selector: 'app-pay-service-invoice',
   templateUrl: './pay-service-invoice.component.html',
-  styleUrls: [ './pay-service-invoice.component.css' ]
+  styleUrls: [ './pay-service-invoice.component.css' ],
+  providers: [
+    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
+    // application's root module. We provide it at the component level here, due to limitations of
+    // our example generation script.
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [ MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS ]
+    },
+
+    { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS }
+  ]
 })
-export class PayServiceInvoiceComponent implements OnInit, IForm {
+export class PayServiceInvoiceComponent implements OnInit, IForm, OnDestroy {
   serviceInvoice: ServiceInvoice;
   payForm: FormGroup;
   payModel: PayModel;
@@ -31,20 +64,26 @@ export class PayServiceInvoiceComponent implements OnInit, IForm {
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
+    @Inject(DOCUMENT) private _document: Document
   ) {}
 
   ngOnInit(): void {
     this.initForm();
     this.loadData();
+    this._document.body.classList.add('royal_azure');
+  }
+
+  ngOnDestroy(): void {
+    this._document.body.classList.remove('royal_azure');
   }
 
   initForm(): void {
     this.payForm = this.formBuilder.group({
       cardNumber: [ '', [ Validators.required ] ],
       cardholderName: [ '', [ Validators.required ] ],
-      cardExpirationDate: [ '', [ Validators.required ] ],
-      securityCode: [ '', [ Validators.required ] ],
+      cardExpirationDate: [ moment(), [ Validators.required ] ],
+      securityCode: [ '', [ Validators.required, Validators.maxLength(3) ] ],
       docType: [ '', [ Validators.required ] ],
       docNumber: [ '', [ Validators.required ] ],
       email: [ '', [ Validators.required, Validators.email ] ]
@@ -56,6 +95,19 @@ export class PayServiceInvoiceComponent implements OnInit, IForm {
     this.serviceInvoiceService.getServiceInvoice(id).subscribe((serviceInvoice: ServiceInvoice) => {
       this.serviceInvoice = serviceInvoice;
     });
+  }
+
+  chosenYearHandler(normalizedYear: Moment) {
+    const ctrlValue = this.controls['cardExpirationDate'].value;
+    ctrlValue.year(normalizedYear.year());
+    this.controls['cardExpirationDate'].setValue(ctrlValue);
+  }
+
+  chosenMonthHandler(normalizedMonth: Moment, datepicker: MatDatepicker<Moment>) {
+    const ctrlValue = this.controls['cardExpirationDate'].value;
+    ctrlValue.month(normalizedMonth.month());
+    this.controls['cardExpirationDate'].setValue(ctrlValue);
+    datepicker.close();
   }
 
   onSubmit(): void {
@@ -73,9 +125,9 @@ export class PayServiceInvoiceComponent implements OnInit, IForm {
           switchMap((paymentMethod: string) => {
             this.payModel.paymentMethodId = paymentMethod;
 
-            const expirationDate = this.payForm.controls['cardExpirationDate'].value as Date;
-            this.payModel.cardExpirationMonth = (expirationDate.getMonth() + 1).toString();
-            this.payModel.cardExpirationYear = expirationDate.getFullYear().toString();
+            const expirationDate = this.payForm.controls['cardExpirationDate'].value as Moment;
+            this.payModel.cardExpirationMonth = (expirationDate.month() + 1).toString();
+            this.payModel.cardExpirationYear = expirationDate.year().toString();
             return this.paymentService.tokenizeCard(this.payModel);
           }),
           switchMap((cardToken: string) => {

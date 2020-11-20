@@ -1,95 +1,211 @@
 <div class="container" *ngIf="serviceInvoice">
-  <mat-card>
-    <mat-card-header class="center-text">
-      <mat-card-title>
-        Pago de factura de servicio N° {{ serviceInvoice.id }}
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <mat-card>
+  <mat-grid-list cols="3" rowHeight="650px">
+    <mat-grid-tile [colspan]="2">
+      <mat-card style="width: 90%" class="mat-elevation-z5">
+        <mat-card-header>
+          <mat-card-title> Pago de factura de servicio </mat-card-title>
+          <mat-card-subtitle>
+            Digite los datos de la tarjeta y del titular de la tarjeta para la
+            realización del pago
+          </mat-card-subtitle>
+        </mat-card-header>
         <mat-card-content>
-          <p>
-            Total a pagar:
-            {{ serviceInvoice.total | currency: "COP":"symbol-narrow" }}
-          </p>
+          <form [formGroup]="payForm" class="mb-4">
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Nombre y apellidos</mat-label>
+                <input matInput formControlName="cardholderName" />
+                <mat-hint>Digite su nombre completo</mat-hint>
+                <mat-error
+                  *ngIf="controls['cardholderName'].hasError('required')"
+                >
+                  Su nombre y apellidos son necesarios
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input type="email" matInput formControlName="email" />
+                <mat-hint>Digite su dirección de email</mat-hint>
+                <mat-error *ngIf="controls['email'].hasError('required')">
+                  Su dirección de email es necesaria
+                </mat-error>
+                <mat-error *ngIf="controls['email'].hasError('email')">
+                  Debe digitar una dirrección válida
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-row">
+              <div class="form-col">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Tipo de documento</mat-label>
+                    <mat-select id="docType" formControlName="docType">
+                      <mat-option [value]="'CC'">C.C.</mat-option>
+                      <mat-option [value]="'CE'">C.E.</mat-option>
+                      <mat-option [value]="'NIT'">NIT</mat-option>
+                      <mat-option [value]="'Otro'">Otro</mat-option>
+                    </mat-select>
+                    <mat-hint>Selecione su tipo de documento</mat-hint>
+                    <mat-error *ngIf="controls['docType'].hasError('required')">
+                      Debe seleccionar su tipo de documento
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="form-col">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Número de documento</mat-label>
+                    <input type="text" matInput formControlName="docNumber" />
+                    <mat-hint>Digite su número de documento</mat-hint>
+                    <mat-error
+                      *ngIf="controls['docNumber'].hasError('required')"
+                    >
+                      Su documento de identificación es necesario
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Número de tarjeta</mat-label>
+                <input matInput type="text" formControlName="cardNumber" />
+                <mat-hint>Digite su número de tarjeta</mat-hint>
+                <mat-error *ngIf="controls['cardNumber'].hasError('required')">
+                  Su número de tarjeta es necesario
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-row">
+              <div class="form-col">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Mes y año de vencimiento</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="picker"
+                      formControlName="cardExpirationDate"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="picker"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker
+                      #picker
+                      startView="multi-year"
+                      (yearSelected)="chosenYearHandler($event)"
+                      (monthSelected)="chosenMonthHandler($event, picker)"
+                    ></mat-datepicker>
+                    <mat-hint>
+                      Digite la fecha de expiración de la tarjeta
+                    </mat-hint>
+                    <mat-error
+                      *ngIf="
+                        controls['cardExpirationDate'].hasError('required')
+                      "
+                    >
+                      La fecha de expiración es necesaria
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="form-col">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Código de seguridad</mat-label>
+                    <input
+                      matInput
+                      formControlName="securityCode"
+                      maxlength="3"
+                    />
+                    <mat-hint>
+                      Digite el código de seguridad de su tarjeta
+                    </mat-hint>
+                    <mat-error
+                      *ngIf="controls['securityCode'].hasError('required')"
+                    >
+                      Su código de seguridad es necesario
+                    </mat-error>
+                    <mat-error
+                      *ngIf="controls['securityCode'].hasError('maxlength')"
+                    >
+                      El código de seguridad no puede exceder 3 caracteres
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </form>
         </mat-card-content>
       </mat-card>
-      <div class="mt-5">
-        <form [formGroup]="payForm">
-          <div class="form-element">
-            <mat-form-field>
-              <mat-label>Número de tarjeta</mat-label>
-              <input matInput type="text" formControlName="cardNumber" />
-              <mat-hint>Digite su número de tarjeta</mat-hint>
-            </mat-form-field>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card class="mat-elevation-z7">
+        <mat-card-header class="text-center">
+          <mat-card-title>
+            Pago de factura de servicio N° {{ serviceInvoice.id }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h3 class="text-center mat-h3">Servicios a facturar</h3>
+          <div>
+            <mat-list>
+              <mat-list-item
+                *ngFor="
+                  let serviceInvoiceDetail of serviceInvoice.serviceInvoiceDetails
+                "
+              >
+                <div class="icon-text-container">
+                  <mat-icon color="primary">offline_bolt</mat-icon>
+                  <span> {{ serviceInvoiceDetail.serviceName }}</span>
+                </div>
+              </mat-list-item>
+            </mat-list>
           </div>
-          <div class="form-element">
-            <mat-form-field>
-              <mat-label>Mes y año de vencimiento</mat-label>
-              <input
-                matInput
-                [matDatepicker]="picker"
-                formControlName="cardExpirationDate"
-              />
-              <mat-datepicker-toggle
-                matSuffix
-                [for]="picker"
-              ></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
+          <mat-divider [inset]="true"></mat-divider>
+          <div class="mt-5">
+            <div class="icon-text-container">
+              <mat-icon style="color: #138b3b">payments</mat-icon>
+              <span>
+                Sub total:
+                {{ serviceInvoice.subTotal | currency: "COP":"symbol-narrow" }}
+              </span>
+            </div>
+            <div class="icon-text-container">
+              <mat-icon style="color: #138b3b">shopping_bag</mat-icon>
+              <span> IVA: {{ serviceInvoice.iva * 100 }}% </span>
+            </div>
+            <div class="icon-text-container">
+              <mat-icon style="color: #138b3b">monetization_on</mat-icon>
+              <span>
+                Total a pagar:
+                <strong>
+                  {{ serviceInvoice.total | currency: "COP":"symbol-narrow" }}
+                </strong>
+              </span>
+            </div>
           </div>
-          <div class="form-element">
-            <mat-form-field>
-              <mat-label>Código de seguridad</mat-label>
-              <input matInput formControlName="securityCode" />
-              <mat-hint>Digite el código de seguridad de su tarjeta</mat-hint>
-            </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions>
+          <div class="form-buttons center-flex-content">
+            <button
+              style="width: 100%"
+              type="submit"
+              mat-raised-button
+              class="royal_azure"
+              (click)="onSubmit()"
+              [disabled]="!payForm.valid"
+              [appLoadingButton]="paymentInProcess"
+            >
+              <mat-icon>attach_money</mat-icon>
+              <span>Pagar factura de servicio</span>
+            </button>
           </div>
-          <div class="form-element">
-            <mat-form-field>
-              <mat-label>Tipo de documento</mat-label>
-              <mat-select id="docType" formControlName="docType">
-                <mat-option [value]="'CC'">C.C.</mat-option>
-                <mat-option [value]="'CE'">C.E.</mat-option>
-                <mat-option [value]="'NIT'">NIT</mat-option>
-                <mat-option [value]="'Otro'">Otro</mat-option>
-              </mat-select>
-              <mat-hint>Selecione su tipo de documento</mat-hint>
-            </mat-form-field>
-          </div>
-          <div class="form-element">
-            <mat-form-field>
-              <mat-label>Número de documento</mat-label>
-              <input type="text" matInput formControlName="docNumber" />
-              <mat-hint>Digite su número de documento</mat-hint>
-            </mat-form-field>
-          </div>
-          <div class="form-element">
-            <mat-form-field>
-              <mat-label>Nombre y apellidos</mat-label>
-              <input matInput formControlName="cardholderName" />
-              <mat-hint>Digite su nombre completo</mat-hint>
-            </mat-form-field>
-          </div>
-          <div class="form-element">
-            <mat-form-field>
-              <mat-label>Email</mat-label>
-              <input type="email" matInput formControlName="email" />
-              <mat-hint>Digite su dirección de email</mat-hint>
-            </mat-form-field>
-          </div>
-        </form>
-        <div class="form-buttons">
-          <button
-            mat-raised-button
-            class="royal_azure"
-            (click)="onSubmit()"
-            [appLoadingButton]="paymentInProcess"
-          >
-            Pagar factura de servicio
-          </button>
-        </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
 </div>
