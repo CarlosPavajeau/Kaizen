@@ -34,6 +34,8 @@ namespace Kaizen.Infrastructure.Repositories
             while (newDate < LIMIT_DATE)
             {
                 Activity newActivity = activity.Clone() as Activity;
+                newActivity.Date = newDate;
+
                 IEnumerable<Employee> availableEmployees = await GetTechniciansAvailable(newActivity.Date, activityServiceCodes);
                 bool canBeScheduled = ActivityCanBeScheduled(activityEmployeeCodes, availableEmployees);
                 while (!canBeScheduled)
