@@ -1,11 +1,13 @@
+import { Client } from '@modules/clients/models/client';
 import { InvoiceState } from './invoice-state';
 import { PaymentMethod } from './payment-method';
-import { Client } from '@modules/clients/models/client';
 
 export interface Invoice {
   id: number;
   state: InvoiceState;
   paymentMethod: PaymentMethod;
+  generationDate: Date;
+  paymentDate: Date;
 
   client?: Client;
 
