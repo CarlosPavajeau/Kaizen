@@ -12,6 +12,7 @@ namespace Kaizen.Models.ServiceInvoice
         public ClientViewModel Client { get; set; }
 
         public DateTime GenerationDate { get; set; }
+        public DateTime PaymentDate { get; set; }
 
         public decimal IVA { get; set; }
         public decimal SubTotal { get; set; }
