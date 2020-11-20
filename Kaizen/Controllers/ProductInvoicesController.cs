@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
+using Kaizen.Models.Base;
 using Kaizen.Models.ProductInvoice;
+using MercadoPagoCore.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -80,6 +83,63 @@ namespace Kaizen.Controllers
             return _mapper.Map<ProductInvoiceViewModel>(productInvoice);
         }
 
+        [HttpPost("[action]/{id}")]
+        public async Task<ActionResult<ProductInvoiceViewModel>> Pay(int id, [FromBody] PaymentModel paymentModel)
+        {
+            ProductInvoice productInvoice = await _productInvoicesRepository.FindByIdAsync(id);
+            if (productInvoice is null)
+                return NotFound($"No existe ninguna factura de producto con el código {id}");
+
+            productInvoice.CalculateTotal();
+
+            Payment payment = new Payment
+            {
+                Token = paymentModel.Token,
+                PaymentMethodId = paymentModel.PaymentMethodId,
+                TransactionAmount = (float?)productInvoice.Total,
+                Description = $"Pay or product invoice {id}",
+                Installments = 1,
+                Payer = new MercadoPagoCore.DataStructures.Payment.Payer
+                {
+                    FirstName = productInvoice.Client.FirstName,
+                    LastName = productInvoice.Client.LastName,
+                    Email = paymentModel.Email
+                }
+            };
+
+            if (payment.Save())
+            {
+                if (payment.Status == MercadoPagoCore.Common.PaymentStatus.approved)
+                {
+                    productInvoice.State = InvoiceState.Paid;
+                    productInvoice.PaymentDate = DateTime.Now;
+                    productInvoice.PaymentMethod = Domain.Entities.PaymentMethod.CreditCard;
+
+                    _productInvoicesRepository.Update(productInvoice);
+
+                    try
+                    {
+                        await _unitWork.SaveAsync();
+                    }
+                    catch (DbUpdateConcurrencyException)
+                    {
+                        if (!ProductInvoiceExists(id))
+                        {
+                            return NotFound($"Error de actualizacón. No existe ninguna factura de producto con el código {id}.");
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+
+                    return _mapper.Map<ProductInvoiceViewModel>(productInvoice);
+                }
+            }
+
+            return BadRequest(payment.Errors.Value);
+        }
+
         // POST: api/ProductInvoices
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
@@ -98,7 +158,7 @@ namespace Kaizen.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<ProductInvoiceViewModel>> DeleteProductInvoice(int id)
         {
-            var productInvoice = await _productInvoicesRepository.FindByIdAsync(id);
+            ProductInvoice productInvoice = await _productInvoicesRepository.FindByIdAsync(id);
             if (productInvoice == null)
                 return NotFound($"No existe ninguna factura de productos con el código { id }.");
 

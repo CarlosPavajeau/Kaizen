@@ -124,7 +124,7 @@ namespace Kaizen.Controllers
                     serviceInvoice.PaymentDate = DateTime.Now;
                     serviceInvoice.PaymentMethod = Domain.Entities.PaymentMethod.CreditCard;
 
-                    serviceInvoice.PublishEvent(new PaidServiceInvoice(serviceInvoice));
+                    serviceInvoice.PublishEvent(new PaidInvoice(serviceInvoice));
                     _serviceInvoicesRepository.Update(serviceInvoice);
 
                     try
