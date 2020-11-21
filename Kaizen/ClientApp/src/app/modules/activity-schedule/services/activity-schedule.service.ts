@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { buildIsoDate } from '@base/app/core/utils/date-utils';
 import { ACTIVITIES_API_URL } from '@global/endpoints';
 import { Activity } from '@modules/activity-schedule/models/activity';
 import { Observable } from 'rxjs';
@@ -19,8 +20,9 @@ export class ActivityScheduleService {
   }
 
   getPendingEmployeeActivities(employeeId: string): Observable<Activity[]> {
+    const today = new Date();
     return this.http.get<Activity[]>(
-      `${ACTIVITIES_API_URL}/EmployeeActivities/${employeeId}?date=${new Date().toISOString()}`
+      `${ACTIVITIES_API_URL}/EmployeeActivities/${employeeId}?date=${buildIsoDate(today, '00:00').toISOString()}`
     );
   }
 
