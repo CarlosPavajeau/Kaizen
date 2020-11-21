@@ -80,7 +80,9 @@ namespace Kaizen.Infrastructure.Repositories
 
         public override async Task<Activity> FindByIdAsync(int id)
         {
-            return await ApplicationDbContext.Activities.Include(a => a.Client)
+            return await ApplicationDbContext.Activities
+                .Include(a => a.Client)
+                .ThenInclude(a => a.ClientAddress)
                 .Include(a => a.ActivitiesServices)
                 .ThenInclude(a => a.Service)
                 .Include(a => a.ActivitiesEmployees).ThenInclude(a => a.Employee)
@@ -89,7 +91,17 @@ namespace Kaizen.Infrastructure.Repositories
 
         public async Task<IEnumerable<Activity>> GetPendingEmployeeActivities(string employeeId, DateTime date)
         {
-            return await GetAll().Include(a => a.ActivitiesEmployees).Include(a => a.Client)
+            return await GetAll().Include(a => a.ActivitiesEmployees)
+                .Include(a => a.Client)
+                .ThenInclude(a => a.ClientAddress)
+                .Include(a => a.ActivitiesServices)
+                .ThenInclude(a => a.Service)
+                .ThenInclude(a => a.ProductsServices)
+                .ThenInclude(a => a.Product)
+                .Include(a => a.ActivitiesServices)
+                .ThenInclude(a => a.Service)
+                .ThenInclude(a => a.EquipmentsServices)
+                .ThenInclude(a => a.Equipment)
                 .Where(a => a.State == ActivityState.Pending &&
                        a.Date.Month == date.Month && a.Date.Day == date.Day &&
                        a.ActivitiesEmployees.Select(a => a.EmployeeId).Contains(employeeId))
