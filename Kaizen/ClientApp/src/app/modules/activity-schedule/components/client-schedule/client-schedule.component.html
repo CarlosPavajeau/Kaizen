@@ -26,25 +26,40 @@
       <mat-expansion-panel *ngFor="let activity of pendingActivities">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            Actividad N°{{ activity.code }} en la fecha
-            {{ activity.date | date: "MMMM d, y, h:mm a" }}
+            <span>Actividad N°{{ activity.code }}</span>
           </mat-panel-title>
+          <mat-panel-description>
+            <div class="icon-text-container">
+              <mat-icon [matTooltip]="'Fecha de aplicación'">event</mat-icon>
+              <span>{{ activity.date | date: "MMMM d, y, h:mm a" }}</span>
+            </div>
+          </mat-panel-description>
         </mat-expansion-panel-header>
-        <div>
-          <h2>Servicios solicitados</h2>
+        <div class="p-2">
           <mat-list>
+            <div mat-subheader>Servicios a aplicar</div>
             <mat-list-item *ngFor="let service of activity.services">
-              {{ service.code }} - {{ service.name }}
+              <div class="icon-text-container">
+                <mat-icon color="primary"> offline_bolt </mat-icon>
+                <span>
+                  {{ service.name }}
+                </span>
+              </div>
             </mat-list-item>
           </mat-list>
         </div>
         <mat-divider></mat-divider>
-        <div style="margin-top: 1rem">
-          <h2>Empleados asignados</h2>
+        <div class="mt-4">
           <mat-list>
+            <div mat-subheader>Empleados asignados</div>
             <mat-list-item *ngFor="let employee of activity.employees">
-              {{ employee.id }} - {{ employee.firstName }}
-              {{ employee.lastName }}
+              <div class="icon-text-container">
+                <mat-icon>engineering</mat-icon>
+                <span>
+                  {{ employee.id }} - {{ employee.firstName }}
+                  {{ employee.lastName }}
+                </span>
+              </div>
             </mat-list-item>
           </mat-list>
         </div>

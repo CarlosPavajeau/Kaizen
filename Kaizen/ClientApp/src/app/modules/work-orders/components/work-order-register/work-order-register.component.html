@@ -1,41 +1,85 @@
-<section class="container">
+<section class="container" *ngIf="activity">
   <mat-card>
     <mat-card-header>
-      <mat-card-title><span>Registro de orden de trabajo</span></mat-card-title>
+      <mat-card-title>Registro de orden de trabajo</mat-card-title>
+      <mat-card-subtitle>Actividad N° {{ activity.code }}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <div *ngIf="activity">
-        <p>Actividad N° {{ activity.code }}</p>
-        <p>
-          Para el cliente {{ activity?.client?.firstName }}. En la fecha
-          {{ activity?.date | date: "MMMM d, y, h:mm a" }}
-        </p>
+      <div class="icon-text-container">
+        <mat-icon [matTooltip]="'Nombre del cliente a visitar'">
+          person
+        </mat-icon>
+        <span>
+          {{ activity.client.firstName }} {{ activity.client.secondName }}
+          {{ activity.client.lastName }} {{ activity.client.secondLastName }}
+        </span>
+      </div>
+      <div class="icon-text-container">
+        <mat-icon [matTooltip]="'Fecha de aplicación'">event</mat-icon>
+        <span>{{ activity.date | date: "MMMM d, y, h:mm a" }}</span>
+      </div>
+      <div class="icon-text-container">
+        <mat-icon [matTooltip]="'Dirección del cliente'">place</mat-icon>
+        <span>
+          {{ activity.client.clientAddress.city }},
+          {{ activity.client.clientAddress.neighborhood }},
+          {{ activity.client.clientAddress.street }}
+        </span>
+      </div>
+      <div class="icon-text-container">
+        <mat-icon [matTooltip]="'Teléfonos de contacto del cliente'">
+          phone
+        </mat-icon>
+        <span>
+          {{ activity.client.firstPhoneNumber }}
+          {{ activity.client.secondPhoneNumber }}
+        </span>
+      </div>
+      <div *ngIf="activity.client.firstLandLine" class="icon-text-container">
+        <mat-icon [matTooltip]="'Números fijos de contacto'">
+          dialpad
+        </mat-icon>
+        <span>{{ activity.client.firstLandLine }}</span>
+        <span *ngIf="activity.client.secondLandLine">
+          , {{ activity.client.secondLandLine }}
+        </span>
       </div>
       <div *ngIf="!workOrder">
         <form [formGroup]="workOrderForm">
-          <div class="form-element">
-            <mat-form-field>
-              <mat-label>Sector</mat-label>
-              <mat-select formControlName="sector">
-                <mat-option *ngFor="let sector of sectors" [value]="sector.id">
-                  {{ sector.name }}
-                </mat-option>
-              </mat-select>
-              <mat-hint>Elija el sector de aplicación</mat-hint>
-              <mat-error *ngIf="controls['sector'].hasError('required')">
-                El sector de aplicación es requerido
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="form-element">
-            <mat-form-field>
-              <mat-label>Hora de llegada</mat-label>
-              <input type="time" matInput formControlName="arrivalTime" />
-              <mat-hint>Digite la hora de llegada</mat-hint>
-              <mat-error *ngIf="controls['arrivalTime'].hasError('required')">
-                Se debe registrar la hora de llegada
-              </mat-error>
-            </mat-form-field>
+          <div class="form-row">
+            <div class="form-col">
+              <div class="form-element">
+                <mat-form-field>
+                  <mat-label>Sector</mat-label>
+                  <mat-select formControlName="sector">
+                    <mat-option
+                      *ngFor="let sector of sectors"
+                      [value]="sector.id"
+                    >
+                      {{ sector.name }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-hint>Elija el sector de aplicación</mat-hint>
+                  <mat-error *ngIf="controls['sector'].hasError('required')">
+                    El sector de aplicación es requerido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="form-col">
+              <div class="form-element">
+                <mat-form-field>
+                  <mat-label>Hora de llegada</mat-label>
+                  <input type="time" matInput formControlName="arrivalTime" />
+                  <mat-hint>Digite la hora de llegada</mat-hint>
+                  <mat-error
+                    *ngIf="controls['arrivalTime'].hasError('required')"
+                  >
+                    Se debe registrar la hora de llegada
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
           </div>
         </form>
         <div class="form-buttons">

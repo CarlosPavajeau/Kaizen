@@ -41,17 +41,28 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <h3 class="mat-h3">
-          El cliente identificado con C.C.
-          <strong>{{ clientRequest.id }}</strong> llamado
+          La persona identificada con C.C.
+          <strong>{{ clientRequest.id }}</strong> llamada
           {{ clientRequest.firstName }} {{ clientRequest.secondName }}
           {{ clientRequest.lastName }} {{ clientRequest.secondLastName }}
-          <span *ngIf="clientRequest.tradeName">
-            , con nombre comercial
-            <strong>{{ clientRequest.tradeName }}</strong>
-          </span>
-          tiene pendiente su solicitud.
+          ha hecho una solicitud para ser cliente de la empresa.
         </h3>
         <hr />
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Nombre comercial y tipo de persona'"
+            >business</mat-icon
+          >
+          <span>
+            {{ clientRequest.tradeName }},
+            <span>
+              {{
+                clientRequest.clientType == "JuridicPerson"
+                  ? "persona jurídica"
+                  : "persona natural"
+              }}
+            </span>
+          </span>
+        </div>
         <div class="icon-text-container">
           <mat-icon [matTooltip]="'Teléfono de contacto'">phone</mat-icon>
           <span>{{ clientRequest.firstPhoneNumber }}</span>

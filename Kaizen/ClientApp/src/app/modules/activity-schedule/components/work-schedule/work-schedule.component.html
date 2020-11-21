@@ -24,15 +24,90 @@
     <mat-accordion *ngIf="pendingActivities?.length > 0">
       <mat-expansion-panel *ngFor="let activity of pendingActivities">
         <mat-expansion-panel-header>
-          <mat-panel-title>
-            Actividad N° {{ activity.code }} en la fecha
-            {{ activity.date | date: "MMMM d, y, h:mm a" }}
-          </mat-panel-title>
+          <mat-panel-title> Actividad N° {{ activity.code }} </mat-panel-title>
+          <mat-panel-description>
+            <div class="icon-text-container">
+              <mat-icon [matTooltip]="'Fecha de aplicación'">event</mat-icon>
+              <span>{{ activity.date | date: "MMMM d, y, h:mm a" }}</span>
+            </div>
+          </mat-panel-description>
         </mat-expansion-panel-header>
-        <h4>
-          Actividad N° {{ activity.code }} hecha por el cliente
-          {{ activity.client.firstName }} {{ activity.client.lastName }}.
-        </h4>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Nombre del cliente a visitar'">
+            person
+          </mat-icon>
+          <span>
+            {{ activity.client.firstName }} {{ activity.client.secondName }}
+            {{ activity.client.lastName }} {{ activity.client.secondLastName }}
+          </span>
+        </div>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Nombre comercial y tipo de persona'"
+            >business</mat-icon
+          >
+          <span>
+            {{ activity.client.tradeName }},
+            <span>
+              {{
+                activity.client.clientType == "JuridicPerson"
+                  ? "persona jurídica"
+                  : "persona natural"
+              }}
+            </span>
+          </span>
+        </div>
+        <div
+          class="icon-text-container"
+          *ngIf="activity.client.clientType == 'JuridicPerson'"
+        >
+          <mat-icon [matTooltip]="'NIT y razón social'">gavel</mat-icon>
+          <span>
+            {{ activity.client.nit }}, {{ activity.client.businessName }}
+          </span>
+        </div>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Dirección del cliente'">place</mat-icon>
+          <span>
+            {{ activity.client.clientAddress.city }},
+            {{ activity.client.clientAddress.neighborhood }},
+            {{ activity.client.clientAddress.street }}
+          </span>
+        </div>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Teléfonos de contacto del cliente'">
+            phone
+          </mat-icon>
+          <span>
+            {{ activity.client.firstPhoneNumber }}
+            {{ activity.client.secondPhoneNumber }}
+          </span>
+        </div>
+        <div *ngIf="activity.client.firstLandLine" class="icon-text-container">
+          <mat-icon [matTooltip]="'Números fijos de contacto'">
+            dialpad
+          </mat-icon>
+          <span>{{ activity.client.firstLandLine }}</span>
+          <span *ngIf="activity.client.secondLandLine">
+            , {{ activity.client.secondLandLine }}
+          </span>
+        </div>
+        <div>
+          <mat-list>
+            <div mat-subheader>Se deben aplicar los siguietes servicios</div>
+            <mat-list-item *ngFor="let service of activity.services">
+              <div matLine>
+                <div class="icon-text-container">
+                  <mat-icon style="margin-right: 7px" color="primary">
+                    offline_bolt
+                  </mat-icon>
+                  <span>{{ service.name }} </span>
+                </div>
+              </div>
+              <mat-icon>visibility</mat-icon>
+              <mat-divider></mat-divider>
+            </mat-list-item>
+          </mat-list>
+        </div>
         <mat-action-row>
           <a
             mat-raised-button

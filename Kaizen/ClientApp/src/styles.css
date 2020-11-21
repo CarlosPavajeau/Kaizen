@@ -414,6 +414,14 @@ hr {
   font-size: 17px;
 }
 
+mat-panel-description .icon-text-container {
+  margin: 0;
+}
+
+mat-panel-description .icon-text-container span {
+  font-size: 15px;
+}
+
 /*Animaciones bonitas UwU*/
 
 .animated {
