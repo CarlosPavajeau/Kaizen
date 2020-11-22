@@ -2,19 +2,58 @@
   <div *ngIf="product">
     <mat-card>
       <mat-card-header>
-        <mat-card-title>
-          Información del producto
-        </mat-card-title>
+        <mat-card-title> {{ product.name }} </mat-card-title>
+        <mat-card-subtitle>
+          Código de producto: {{ product.code }}
+        </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <p>Código: {{ product.code }}</p>
-        <p>Nombre: {{ product.name }}</p>
-        <p>Cantidad: {{ product.amount }}</p>
-        <p>Presentación: {{ product.presentation }}</p>
-        <p>Precio: {{ product.price | currency: "COP":"symbol-narrow" }}</p>
-        <p>Meses de aplicación: {{ product.applicationMonths | monthBit }}</p>
-        <p>Descripción: {{ product.description }}</p>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Cantidad de producto en inventario'">
+            all_inbox
+          </mat-icon>
+          <span>{{ product.amount }}</span>
+        </div>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Presentación del producto'">
+            assignment
+          </mat-icon>
+          <span>{{ product.presentation }}</span>
+        </div>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Precio del producto'">
+            monetization_on
+          </mat-icon>
+          <span>
+            {{ product.price | currency: "COP":"symbol-narrow" }}
+          </span>
+        </div>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Meses de aplicación del producto'">
+            date_range
+          </mat-icon>
+          <span>
+            {{ product.applicationMonths | monthBit }}
+          </span>
+        </div>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Descripción del producto'">
+            description
+          </mat-icon>
+          <span>
+            {{ product.description }}
+          </span>
+        </div>
       </mat-card-content>
+      <mat-card-actions>
+        <a
+          mat-raised-button
+          class="royal_azure"
+          routerLink="/inventory/products/edit/{{ product.code }}"
+        >
+          Editar producto
+        </a>
+      </mat-card-actions>
     </mat-card>
   </div>
 </div>

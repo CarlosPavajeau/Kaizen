@@ -2,53 +2,78 @@
   <div *ngIf="service">
     <mat-card>
       <mat-card-header>
-        <h1 style="margin: 0 auto 16px;">Información del servicio</h1>
+        <mat-card-title>{{ service.name }}</mat-card-title>
+        <mat-card-subtitle>Código: {{ service.code }}</mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Precio del servicio'">
+            monetization_on
+          </mat-icon>
+          <span>{{ service.cost | currency: "COP":"symbol-narrow" }}</span>
+        </div>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Tipo de servicio'">
+            batch_prediction
+          </mat-icon>
+          <span>{{ service.serviceType.name }}</span>
+        </div>
         <div>
-          <h3>
-            Código: <span>{{ service.code }}</span>
-          </h3>
-          <h3>
-            Nombre: <span>{{ service.name }}</span>
-          </h3>
-          <h3>
-            Precio:
-            <span>{{ service.cost | currency: "COP":"symbol-narrow" }}</span>
-          </h3>
-          <h3>
-            Tipo de servicio: <span>{{ service.serviceType.name }}</span>
-          </h3>
-          <h2 class="text-center">Productos utilizados</h2>
           <mat-list>
+            <div matSubheader>Productos utilizados</div>
             <mat-list-item
               *ngFor="let product of service.products; last as last"
             >
-              {{ product.code }} - {{ product.name }}
+              <div class="icon-text-container">
+                <mat-icon>eco</mat-icon>
+                <span>{{ product.code }} - {{ product.name }}</span>
+              </div>
               <mat-divider *ngIf="!last"></mat-divider>
             </mat-list-item>
           </mat-list>
-          <h2 class="text-center">Equipos utilizados</h2>
+        </div>
+        <div>
           <mat-list>
+            <div matSubheader>Equipos utilizados</div>
             <mat-list-item
               *ngFor="let equipment of service.equipments; last as last"
             >
-              {{ equipment.code }} - {{ equipment.name }}
+              <div class="icon-text-container">
+                <mat-icon>construction</mat-icon>
+                <span>{{ equipment.code }} - {{ equipment.name }}</span>
+              </div>
               <mat-divider *ngIf="!last"></mat-divider>
             </mat-list-item>
           </mat-list>
-          <h2 class="text-center">Empleados asignados</h2>
+        </div>
+        <div>
           <mat-list>
+            <div matSubheader>Empleados asignados</div>
             <mat-list-item
               *ngFor="let employee of service.employees; last as last"
             >
-              {{ employee.id }} - {{ employee.firstName }}
-              {{ employee.lastName }}
+              <div class="icon-text-container">
+                <mat-icon>engineering</mat-icon>
+                <span>
+                  {{ employee.id }} - {{ employee.firstName }}
+                  {{ employee.secondName }} {{ employee.lastName }}
+                  {{ employee.secondLastName }}
+                </span>
+              </div>
               <mat-divider *ngIf="!last"></mat-divider>
             </mat-list-item>
           </mat-list>
         </div>
       </mat-card-content>
+      <mat-card-actions>
+        <a
+          mat-raised-button
+          class="royal_azure"
+          routerLink="/services/edit/{{ service.code }}"
+        >
+          Editar servicio
+        </a>
+      </mat-card-actions>
     </mat-card>
   </div>
 </section>

@@ -2,43 +2,87 @@
   <div *ngIf="client">
     <mat-card>
       <mat-card-header>
-        <h1 style="margin: 0 auto 16px;">Información del cliente</h1>
+        <mat-card-title>
+          Información del cliente {{ client.firstName }} {{ client.secondName }}
+          {{ client.lastName }}
+          {{ client.secondLastName }}
+        </mat-card-title>
+        <mat-card-subtitle>
+          Identificación del cliente: {{ client.id }}
+        </mat-card-subtitle>
       </mat-card-header>
+
       <mat-card-content>
-        <p>Identificación: {{ client.id }}</p>
-        <p>
-          Nombre: {{ client.firstName }} {{ client.secondName }}
-          {{ client.lastName }} {{ client.secondLastName }}
-        </p>
-        <p>Nombre comercial: {{ client.tradeName }}</p>
-        <p>
-          Tipo de cliente:
-          {{
-            client.clientType === "NaturalPerson"
-              ? "Persona natural"
-              : "Persona jurídica"
-          }}
-        </p>
-        <p *ngIf="client.nit">NIT: {{ client.nit }}</p>
-        <p *ngIf="client.busninessName">
-          Razón social: {{ client.busninessName }}
-        </p>
-        <p>Primer numéro de teléfono: {{ client.firstPhoneNumber }}</p>
-        <p *ngIf="client.secondPhoneNumber">
-          Segundo numéro de teléfono: {{ client.secondPhoneNumber }}
-        </p>
-        <p *ngIf="client.firstLandLine">
-          Primer número fijo: {{ client.firstLandLine }}
-        </p>
-        <p *ngIf="client.secondLandLine">
-          Segundo número fijo: {{ client.secondLandLine }}
-        </p>
-        <p *ngIf="client.clientAddress">
-          Dirección: {{ client.clientAddress.city }},
-          {{ client.clientAddress.neighborhood }},
-          {{ client.clientAddress.street }}
-        </p>
-        <p>Estado: {{ client.state | clientState }}.</p>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Nombre comercial y tipo de persona'">
+            business
+          </mat-icon>
+          <span>
+            {{ client.tradeName }},
+            <span>
+              {{
+                client.clientType == "JuridicPerson"
+                  ? "persona jurídica"
+                  : "persona natural"
+              }}
+            </span>
+          </span>
+        </div>
+        <div
+          class="icon-text-container"
+          *ngIf="client.clientType == 'JuridicPerson'"
+        >
+          <mat-icon [matTooltip]="'NIT y razón social'">gavel</mat-icon>
+          <span>{{ client.nit }}, {{ client.businessName }}</span>
+        </div>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Teléfonos de contacto'">phone</mat-icon>
+          <span>{{ client.firstPhoneNumber }}</span>
+          <span *ngIf="client.secondPhoneNumber">
+            , {{ client.secondPhoneNumber }}
+          </span>
+        </div>
+        <div *ngIf="client.firstLandLine" class="icon-text-container">
+          <mat-icon [matTooltip]="'Números fijos de contacto'"
+            >dialpad</mat-icon
+          >
+          <span>{{ client.firstLandLine }}</span>
+          <span *ngIf="client.secondLandLine">
+            , {{ client.secondLandLine }}
+          </span>
+        </div>
+        <div class="icon-text-container" *ngIf="client.clientAddress">
+          <mat-icon [matTooltip]="'Dirección del cliente'">place</mat-icon>
+          <span>
+            {{ client.clientAddress.city }},
+            {{ client.clientAddress.neighborhood }},
+            {{ client.clientAddress.street }}
+          </span>
+        </div>
+        <div *ngIf="client.contactPeople?.length > 0">
+          <h2 class="mt-4">Personas de contacto</h2>
+          <div>
+            <div
+              *ngFor="let contactPerson of client.contactPeople"
+              style="display: inline-block"
+            >
+              <div class="mr-2 ml-2 p-2 contact-people-card">
+                <div class="icon-text-container">
+                  <mat-icon>person</mat-icon>
+                  <span>{{ contactPerson.name }}</span>
+                </div>
+                <div class="icon-text-container">
+                  <mat-icon>phone</mat-icon>
+                  <span>{{ contactPerson.phonenumber }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Estado del cliente'">fact_check</mat-icon>
+          <span>{{ client.state | clientState }}</span>
+        </div>
       </mat-card-content>
     </mat-card>
   </div>

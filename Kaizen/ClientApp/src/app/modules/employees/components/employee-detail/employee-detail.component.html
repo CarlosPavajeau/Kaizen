@@ -3,22 +3,45 @@
     <mat-card>
       <mat-card-header>
         <mat-card-title>
-          Información del empleado
+          Empleado {{ employee.firstName }} {{ employee.secondName }}
+          {{ employee.lastName }} {{ employee.secondLastName }}
         </mat-card-title>
+        <mat-card-subtitle>
+          Identificado con {{ employee.id }}
+        </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <p>Identificación: {{ employee.id }}</p>
-        <p>
-          Nombre: {{ employee.firstName }} {{ employee.secondName }}
-          {{ employee.lastName }} {{ employee.secondLastName }}
-        </p>
-        <p *ngIf="employee.employeeCharge">
-          Cargo del empleado: {{ employee.employeeCharge.charge }}
-        </p>
-        <p *ngIf="employee.employeeContract">
-          Código de contrato: {{ employee.employeeContract.contractCode }}
-        </p>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Cargo del empleado'">engineering</mat-icon>
+          <span>{{ employee.employeeCharge.charge }}</span>
+        </div>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Código de contrato del empleado'">
+            assignment
+          </mat-icon>
+          <span>{{ employee.employeeContract.contractCode }}</span>
+        </div>
+        <div class="icon-text-container">
+          <mat-icon
+            [matTooltip]="'Fecha de iniciación y finalización del contrato'"
+          >
+            date_range
+          </mat-icon>
+          <span>
+            {{ employee.employeeContract.startDate | date: "MMMM d, y" }} -
+            {{ employee.employeeContract.endDate | date: "MMMM d, y" }}
+          </span>
+        </div>
       </mat-card-content>
+      <mat-card-actions>
+        <a
+          mat-raised-button
+          class="royal_azure"
+          routerLink="/employees/edit/{{ employee.id }}"
+        >
+          Editar empleado
+        </a>
+      </mat-card-actions>
     </mat-card>
   </div>
 </div>

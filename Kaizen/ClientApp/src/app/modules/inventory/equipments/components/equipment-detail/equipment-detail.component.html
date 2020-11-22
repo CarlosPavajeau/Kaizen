@@ -3,20 +3,53 @@
     <mat-card>
       <mat-card-header>
         <mat-card-title>
-          Información del equipo
+          {{ equipment.name }}
         </mat-card-title>
+        <mat-card-subtitle>
+          Código de equipo: {{ equipment.code }}
+        </mat-card-subtitle>
       </mat-card-header>
       <mat-card-content>
-        <p>Código: {{ equipment.code }}</p>
-        <p>Nombre: {{ equipment.name }}</p>
-        <p>
-          Fecha de compra/mantenimiento:
-          {{ equipment.maintenanceDate | date: "MMMM d, y hh:mm a" }}
-        </p>
-        <p>Cantidad: {{ equipment.amount }}</p>
-        <p>Precio: {{ equipment.price | currency: "COP":"symbol-narrow" }}</p>
-        <p>Descripción: {{ equipment.description }}</p>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Fecha de compra/mantenimiento'"
+            >event</mat-icon
+          >
+          <span>
+            {{ equipment.maintenanceDate | date: "MMMM d, y hh:mm a" }}
+          </span>
+        </div>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Cantidad de equipos en inventario'">
+            all_inbox
+          </mat-icon>
+          <span>{{ equipment.amount }}</span>
+        </div>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Precio del equipo'">
+            monetization_on
+          </mat-icon>
+          <span>
+            {{ equipment.price | currency: "COP":"symbol-narrow" }}
+          </span>
+        </div>
+        <div class="icon-text-container">
+          <mat-icon [matTooltip]="'Descripción del equipo'">
+            description
+          </mat-icon>
+          <span>
+            {{ equipment.description }}
+          </span>
+        </div>
       </mat-card-content>
+      <mat-card-actions>
+        <a
+          mat-raised-button
+          class="royal_azure"
+          routerLink="/inventory/equipments/edit/{{ equipment.code }}"
+        >
+          Editar Equipo
+        </a>
+      </mat-card-actions>
     </mat-card>
   </div>
 </div>
