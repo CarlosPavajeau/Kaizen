@@ -6,7 +6,7 @@ import { buildIsoDate } from '@core/utils/date-utils';
 @Component({
   selector: 'app-select-date-modal',
   templateUrl: './select-date-modal.component.html',
-  styleUrls: [ './select-date-modal.component.css' ]
+  styleUrls: [ './select-date-modal.component.scss' ]
 })
 export class SelectDateModalComponent implements OnInit {
   dateForm: FormGroup;

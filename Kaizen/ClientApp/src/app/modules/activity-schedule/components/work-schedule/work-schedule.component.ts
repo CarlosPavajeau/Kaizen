@@ -6,7 +6,7 @@ import { Employee } from '@modules/employees/models/employee';
 @Component({
   selector: 'app-work-schedule',
   templateUrl: './work-schedule.component.html',
-  styleUrls: [ './work-schedule.component.css' ]
+  styleUrls: [ './work-schedule.component.scss' ]
 })
 export class WorkScheduleComponent implements OnInit {
   employee: Employee;

@@ -10,7 +10,7 @@ import { EquipmentExistsValidator } from '@shared/validators/equipment-exists-va
 @Component({
   selector: 'app-equipment-register',
   templateUrl: './equipment-register.component.html',
-  styleUrls: [ './equipment-register.component.css' ]
+  styleUrls: [ './equipment-register.component.scss' ]
 })
 export class EquipmentRegisterComponent implements OnInit, IForm {
   equipmentForm: FormGroup;

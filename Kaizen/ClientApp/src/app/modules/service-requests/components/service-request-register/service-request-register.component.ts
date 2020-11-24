@@ -18,7 +18,7 @@ import { catchError } from 'rxjs/operators';
 @Component({
   selector: 'app-service-request-register',
   templateUrl: './service-request-register.component.html',
-  styleUrls: [ './service-request-register.component.css' ]
+  styleUrls: [ './service-request-register.component.scss' ]
 })
 export class ServiceRequestRegisterComponent implements OnInit, IForm {
   serviceRequestForm: FormGroup;

@@ -20,7 +20,7 @@ import { catchError } from 'rxjs/operators';
 @Component({
   selector: 'app-manage-data',
   templateUrl: './manage-data.component.html',
-  styleUrls: [ './manage-data.component.css' ]
+  styleUrls: [ './manage-data.component.scss' ]
 })
 export class ManageDataComponent implements OnInit, IForm {
   changePasswordForm: FormGroup;

@@ -8,7 +8,7 @@ import { ProductService } from '@modules/inventory/products/services/product.ser
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrls: [ './products.component.css' ]
+  styleUrls: [ './products.component.scss' ]
 })
 export class ProductsComponent implements OnInit, AfterViewInit {
   products: Product[] = [];

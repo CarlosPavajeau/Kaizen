@@ -11,7 +11,7 @@ import { map, shareReplay } from 'rxjs/operators';
 @Component({
   selector: 'app-dashboard-layout',
   templateUrl: './dashboard-layout.component.html',
-  styleUrls: [ './dashboard-layout.component.css' ]
+  styleUrls: [ './dashboard-layout.component.scss' ]
 })
 export class DashboardLayoutComponent implements OnInit {
   isHandset$: Observable<boolean>;

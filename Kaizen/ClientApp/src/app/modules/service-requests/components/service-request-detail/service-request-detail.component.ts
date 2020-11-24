@@ -7,7 +7,7 @@ import { ServiceRequestService } from '@modules/service-requests/services/servic
 @Component({
   selector: 'app-service-request-detail',
   templateUrl: './service-request-detail.component.html',
-  styleUrls: [ './service-request-detail.component.css' ]
+  styleUrls: [ './service-request-detail.component.scss' ]
 })
 export class ServiceRequestDetailComponent implements OnInit {
   serviceRequest: ServiceRequest;

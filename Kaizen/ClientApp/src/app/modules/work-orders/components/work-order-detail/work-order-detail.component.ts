@@ -6,7 +6,7 @@ import { WorkOrderService } from '@modules/work-orders/service/work-order.servic
 @Component({
   selector: 'app-work-order-detail',
   templateUrl: './work-order-detail.component.html',
-  styleUrls: [ './work-order-detail.component.css' ]
+  styleUrls: [ './work-order-detail.component.scss' ]
 })
 export class WorkOrderDetailComponent implements OnInit {
   workOrder: WorkOrder;

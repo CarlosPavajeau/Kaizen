@@ -6,7 +6,7 @@ import { ActivityScheduleService } from '@modules/activity-schedule/services/act
 @Component({
   selector: 'app-client-schedule',
   templateUrl: './client-schedule.component.html',
-  styleUrls: [ './client-schedule.component.css' ]
+  styleUrls: [ './client-schedule.component.scss' ]
 })
 export class ClientScheduleComponent implements OnInit {
   client: Client;

@@ -6,7 +6,7 @@ import { ServiceService } from '@modules/services/services/service.service';
 @Component({
   selector: 'app-service-detail',
   templateUrl: './service-detail.component.html',
-  styleUrls: [ './service-detail.component.css' ]
+  styleUrls: [ './service-detail.component.scss' ]
 })
 export class ServiceDetailComponent implements OnInit {
   service: Service;

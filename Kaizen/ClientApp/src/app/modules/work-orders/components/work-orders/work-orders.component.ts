@@ -8,7 +8,7 @@ import { WorkOrderService } from '@modules/work-orders/service/work-order.servic
 @Component({
   selector: 'app-work-orders',
   templateUrl: './work-orders.component.html',
-  styleUrls: [ './work-orders.component.css' ]
+  styleUrls: [ './work-orders.component.scss' ]
 })
 export class WorkOrdersComponent implements OnInit, AfterViewInit {
   workOrders: WorkOrder[] = [];

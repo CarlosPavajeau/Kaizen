@@ -18,7 +18,7 @@ import { catchError } from 'rxjs/operators';
 @Component({
   selector: 'app-work-order-register',
   templateUrl: './work-order-register.component.html',
-  styleUrls: [ './work-order-register.component.css' ]
+  styleUrls: [ './work-order-register.component.scss' ]
 })
 export class WorkOrderRegisterComponent implements OnInit, IForm {
   workOrderForm: FormGroup;

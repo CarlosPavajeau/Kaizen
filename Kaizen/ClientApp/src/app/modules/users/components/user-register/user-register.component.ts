@@ -6,7 +6,7 @@ import { UserExistsValidator } from '@shared/validators/user-exists-validator';
 @Component({
   selector: 'app-user-register',
   templateUrl: './user-register.component.html',
-  styleUrls: [ './user-register.component.css' ]
+  styleUrls: [ './user-register.component.scss' ]
 })
 export class UserRegisterComponent implements OnInit {
   registerForm: FormGroup;

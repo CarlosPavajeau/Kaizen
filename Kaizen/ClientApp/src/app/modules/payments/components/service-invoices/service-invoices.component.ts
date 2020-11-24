@@ -11,7 +11,7 @@ import { Person } from '@shared/models/person';
 @Component({
   selector: 'app-service-invoices',
   templateUrl: './service-invoices.component.html',
-  styleUrls: [ './service-invoices.component.css' ]
+  styleUrls: [ './service-invoices.component.scss' ]
 })
 export class ServiceInvoicesComponent implements OnInit {
   serviceInvoices: ServiceInvoice[] = [];

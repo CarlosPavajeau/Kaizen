@@ -13,7 +13,7 @@ import { NotificationsService } from '@shared/services/notifications.service';
 @Component({
   selector: 'app-service-register',
   templateUrl: './service-register.component.html',
-  styleUrls: [ './service-register.component.css' ]
+  styleUrls: [ './service-register.component.scss' ]
 })
 export class ServiceRegisterComponent implements OnInit, IForm {
   serviceTypes: ServiceType[] = [];

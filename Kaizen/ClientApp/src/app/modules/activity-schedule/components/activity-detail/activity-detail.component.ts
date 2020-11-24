@@ -6,7 +6,7 @@ import { ActivityScheduleService } from '@modules/activity-schedule/services/act
 @Component({
   selector: 'app-activity-detail',
   templateUrl: './activity-detail.component.html',
-  styleUrls: [ './activity-detail.component.css' ]
+  styleUrls: [ './activity-detail.component.scss' ]
 })
 export class ActivityDetailComponent implements OnInit {
   activity: Activity;

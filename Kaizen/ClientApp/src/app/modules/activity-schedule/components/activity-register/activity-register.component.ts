@@ -24,7 +24,7 @@ import { NotificationsService } from '@shared/services/notifications.service';
 @Component({
   selector: 'app-activity-register',
   templateUrl: './activity-register.component.html',
-  styleUrls: [ './activity-register.component.css' ]
+  styleUrls: [ './activity-register.component.scss' ]
 })
 export class ActivityRegisterComponent implements OnInit, IForm {
   serviceRequest: ServiceRequest;

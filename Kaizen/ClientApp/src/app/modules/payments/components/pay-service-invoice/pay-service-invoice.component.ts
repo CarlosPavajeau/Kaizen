@@ -34,7 +34,7 @@ export const DATE_FORMATS = {
 @Component({
   selector: 'app-pay-service-invoice',
   templateUrl: './pay-service-invoice.component.html',
-  styleUrls: [ './pay-service-invoice.component.css' ],
+  styleUrls: [ './pay-service-invoice.component.scss' ],
   providers: [
     // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
     // application's root module. We provide it at the component level here, due to limitations of

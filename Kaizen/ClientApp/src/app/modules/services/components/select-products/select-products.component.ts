@@ -9,7 +9,7 @@ import { delay } from 'rxjs/operators';
 @Component({
   selector: 'app-select-products',
   templateUrl: './select-products.component.html',
-  styleUrls: [ './select-products.component.css' ]
+  styleUrls: [ './select-products.component.scss' ]
 })
 export class SelectProductsComponent implements OnInit, IForm {
   products: Product[] = [];

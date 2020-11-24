@@ -5,7 +5,7 @@ import { DayStatistics } from '../../models/statistics';
 @Component({
   selector: 'app-today-statistics',
   templateUrl: './today-statistics.component.html',
-  styleUrls: [ './today-statistics.component.css' ]
+  styleUrls: [ './today-statistics.component.scss' ]
 })
 export class TodayStatisticsComponent implements OnInit {
   dayStatistics: DayStatistics;

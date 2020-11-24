@@ -14,7 +14,7 @@ import { NotificationsService } from '@shared/services/notifications.service';
 @Component({
   selector: 'app-product-register',
   templateUrl: './product-register.component.html',
-  styleUrls: [ './product-register.component.css' ]
+  styleUrls: [ './product-register.component.scss' ]
 })
 export class ProductRegisterComponent implements OnInit, IForm {
   allMonths: MonthBit[];

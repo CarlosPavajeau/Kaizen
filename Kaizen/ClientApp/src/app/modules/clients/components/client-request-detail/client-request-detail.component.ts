@@ -7,7 +7,7 @@ import { ClientService } from '@modules/clients/services/client.service';
 @Component({
   selector: 'app-client-request-detail',
   templateUrl: './client-request-detail.component.html',
-  styleUrls: [ './client-request-detail.component.css' ]
+  styleUrls: [ './client-request-detail.component.scss' ]
 })
 export class ClientRequestDetailComponent implements OnInit {
   clientRequest: Client;

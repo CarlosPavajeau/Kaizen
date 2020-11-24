@@ -8,7 +8,7 @@ import { ServiceService } from '@modules/services/services/service.service';
 @Component({
   selector: 'app-services',
   templateUrl: './services.component.html',
-  styleUrls: [ './services.component.css' ]
+  styleUrls: [ './services.component.scss' ]
 })
 export class ServicesComponent implements OnInit, AfterViewInit {
   services: Service[] = [];

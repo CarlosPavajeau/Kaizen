@@ -6,7 +6,7 @@ import { ServiceInvoiceService } from '@modules/payments/services/service-invoic
 @Component({
   selector: 'app-service-invoice-detail',
   templateUrl: './service-invoice-detail.component.html',
-  styleUrls: [ './service-invoice-detail.component.css' ]
+  styleUrls: [ './service-invoice-detail.component.scss' ]
 })
 export class ServiceInvoiceDetailComponent implements OnInit {
   serviceInvoice: ServiceInvoice;

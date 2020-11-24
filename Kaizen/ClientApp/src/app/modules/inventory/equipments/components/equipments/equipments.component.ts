@@ -10,7 +10,7 @@ import { ConfirmDialogComponent } from '@shared/components/confirm-dialog/confir
 @Component({
   selector: 'app-equipments',
   templateUrl: './equipments.component.html',
-  styleUrls: [ './equipments.component.css' ]
+  styleUrls: [ './equipments.component.scss' ]
 })
 export class EquipmentsComponent implements OnInit, AfterViewInit {
   equipments: Equipment[] = [];

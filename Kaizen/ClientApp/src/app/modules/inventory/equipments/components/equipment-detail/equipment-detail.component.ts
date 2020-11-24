@@ -6,7 +6,7 @@ import { EquipmentService } from '@modules/inventory/equipments/services/equipme
 @Component({
   selector: 'app-equipment-detail',
   templateUrl: './equipment-detail.component.html',
-  styleUrls: [ './equipment-detail.component.css' ]
+  styleUrls: [ './equipment-detail.component.scss' ]
 })
 export class EquipmentDetailComponent implements OnInit {
   equipment: Equipment;

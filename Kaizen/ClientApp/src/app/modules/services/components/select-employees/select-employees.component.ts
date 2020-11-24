@@ -9,7 +9,7 @@ import { delay } from 'rxjs/operators';
 @Component({
   selector: 'app-select-employees',
   templateUrl: './select-employees.component.html',
-  styleUrls: [ './select-employees.component.css' ]
+  styleUrls: [ './select-employees.component.scss' ]
 })
 export class SelectEmployeesComponent implements OnInit, IForm {
   employees: Employee[] = [];

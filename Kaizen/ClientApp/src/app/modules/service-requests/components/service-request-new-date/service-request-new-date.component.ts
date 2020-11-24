@@ -11,7 +11,7 @@ import { NotificationsService } from '@shared/services/notifications.service';
 @Component({
   selector: 'app-service-request-new-date',
   templateUrl: './service-request-new-date.component.html',
-  styleUrls: [ './service-request-new-date.component.css' ]
+  styleUrls: [ './service-request-new-date.component.scss' ]
 })
 export class ServiceRequestNewDateComponent implements OnInit {
   serviceRequest: ServiceRequest;

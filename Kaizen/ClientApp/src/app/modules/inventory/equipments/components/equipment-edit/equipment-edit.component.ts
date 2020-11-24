@@ -9,7 +9,7 @@ import { NotificationsService } from '@shared/services/notifications.service';
 @Component({
   selector: 'app-equipment-edit',
   templateUrl: './equipment-edit.component.html',
-  styleUrls: [ './equipment-edit.component.css' ]
+  styleUrls: [ './equipment-edit.component.scss' ]
 })
 export class EquipmentEditComponent implements OnInit, IForm {
   equipment: Equipment;

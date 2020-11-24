@@ -6,7 +6,7 @@ import { Moment } from 'moment';
 @Component({
   selector: 'app-activity-schedule-day',
   templateUrl: './activity-schedule-day.component.html',
-  styleUrls: [ './activity-schedule-day.component.css' ]
+  styleUrls: [ './activity-schedule-day.component.scss' ]
 })
 export class ActivityScheduleDayComponent implements OnInit {
   @Input() selectedDate: Moment;

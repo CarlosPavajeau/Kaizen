@@ -8,7 +8,7 @@ import { EmployeeService } from '@modules/employees/services/employee.service';
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
-  styleUrls: [ './employees.component.css' ]
+  styleUrls: [ './employees.component.scss' ]
 })
 export class EmployeesComponent implements OnInit, AfterViewInit {
   employees: Employee[] = [];

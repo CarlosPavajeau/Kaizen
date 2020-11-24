@@ -13,7 +13,7 @@ import { filter, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'app-service-request-process',
   templateUrl: './service-request-process.component.html',
-  styleUrls: [ './service-request-process.component.css' ]
+  styleUrls: [ './service-request-process.component.scss' ]
 })
 export class ServiceRequestProcessComponent implements OnInit {
   serviceRequest: ServiceRequest;

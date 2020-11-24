@@ -14,7 +14,7 @@ import { NotificationsService } from '@shared/services/notifications.service';
 @Component({
   selector: 'app-service-edit',
   templateUrl: './service-edit.component.html',
-  styleUrls: [ './service-edit.component.css' ]
+  styleUrls: [ './service-edit.component.scss' ]
 })
 export class ServiceEditComponent implements OnInit, IForm {
   service: Service;

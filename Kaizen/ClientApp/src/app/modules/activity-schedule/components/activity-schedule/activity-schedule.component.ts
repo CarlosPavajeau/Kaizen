@@ -9,7 +9,7 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-activity-schedule',
   templateUrl: './activity-schedule.component.html',
-  styleUrls: [ './activity-schedule.component.css' ]
+  styleUrls: [ './activity-schedule.component.scss' ]
 })
 export class ActivityScheduleComponent implements OnInit {
   readonly activityScheduleViewNames: string[] = [ 'Mes', 'Semana', 'Día' ];
