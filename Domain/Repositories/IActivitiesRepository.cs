@@ -12,5 +12,6 @@ namespace Kaizen.Domain.Repositories
         Task<IEnumerable<Activity>> GetPendingEmployeeActivities(string employeeId, DateTime date);
 
         Task<IEnumerable<Activity>> GetPendingClientActivities(string clientId);
+        Task<IEnumerable<Activity>> GetAppliedClientActivities(string clinetId);
     }
 }

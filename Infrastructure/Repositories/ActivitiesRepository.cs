@@ -108,12 +108,22 @@ namespace Kaizen.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Activity>> GetPendingClientActivities(string clientId)
+        private async Task<IEnumerable<Activity>> GetClientActivities(string clientId, ActivityState state = ActivityState.Pending)
         {
             return await GetAll().Include(a => a.ActivitiesServices).ThenInclude(a => a.Service)
-                .Include(a => a.ActivitiesEmployees).ThenInclude(a => a.Employee)
-                .Where(a => a.State == ActivityState.Pending && a.ClientId == clientId)
-                .ToListAsync();
+               .Include(a => a.ActivitiesEmployees).ThenInclude(a => a.Employee)
+               .Where(a => a.State == state && a.ClientId == clientId)
+               .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Activity>> GetPendingClientActivities(string clientId)
+        {
+            return await GetClientActivities(clientId);
+        }
+
+        public async Task<IEnumerable<Activity>> GetAppliedClientActivities(string clientId)
+        {
+            return await GetClientActivities(clientId, ActivityState.Applied);
         }
     }
 }

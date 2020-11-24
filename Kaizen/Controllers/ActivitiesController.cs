@@ -65,6 +65,13 @@ namespace Kaizen.Controllers
             return Ok(_mapper.Map<IEnumerable<ActivityViewModel>>(activities));
         }
 
+        [HttpGet("[action]/{clientId}")]
+        public async Task<ActionResult<IEnumerable<ActivityViewModel>>> AppliedClientActivities(string clientId)
+        {
+            IEnumerable<Activity> activities = await _activitiesRepository.GetAppliedClientActivities(clientId);
+            return Ok(_mapper.Map<IEnumerable<ActivityViewModel>>(activities));
+        }
+
         // PUT: api/Activities/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
