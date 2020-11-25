@@ -36,6 +36,7 @@ import { FilterEmployeesPipe } from './pipes/filter-employees.pipe';
 import { FilterEquipmentsPipe } from './pipes/filter-equipments.pipe';
 import { FilterProductsPipe } from './pipes/filter-products.pipe';
 import { InvoiceStatePipe } from './pipes/invoice-state.pipe';
+import { ObservableWithStatusPipe } from './pipes/observable-with-status.pipe';
 import { PaymentMethodPipe } from './pipes/payment-method.pipe';
 import { PeriodicityPipe } from './pipes/periodicity.pipe';
 import { ServiceRequestStatePipe } from './pipes/service-request-state.pipe';
@@ -73,6 +74,7 @@ import { WorkOrderStatePipe } from './pipes/work-order-state.pipe';
     FilterEquipmentsPipe,
     FilterProductsPipe,
     InvoiceStatePipe,
+    ObservableWithStatusPipe,
     MonthBitPipe,
     PaymentMethodPipe,
     PeriodicityPipe,
@@ -111,6 +113,7 @@ import { WorkOrderStatePipe } from './pipes/work-order-state.pipe';
     FilterEquipmentsPipe,
     FilterProductsPipe,
     InvoiceStatePipe,
+    ObservableWithStatusPipe,
     MonthBitPipe,
     PaymentMethodPipe,
     PeriodicityPipe,
