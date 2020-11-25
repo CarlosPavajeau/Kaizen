@@ -59,12 +59,27 @@
               <mat-form-field>
                 <mat-label>Servicios a aplicar</mat-label>
                 <mat-select formControlName="serviceCodes" multiple>
-                  <mat-option
-                    *ngFor="let service of services"
-                    [value]="service.code"
+                  <ng-container
+                    *ngIf="services$ | observableWithStatus | async as obs"
+                    [ngSwitch]="obs.status"
                   >
-                    {{ service.name }} : ${{ service.cost }}
-                  </mat-option>
+                    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+                      <mat-option>
+                        <div class="loading-option">
+                          <mat-spinner [diameter]="20"></mat-spinner>
+                          <span>Cargando servicios...</span>
+                        </div>
+                      </mat-option>
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="ObsStatus.Success">
+                      <mat-option
+                        *ngFor="let service of obs.value"
+                        [value]="service.code"
+                      >
+                        {{ service.name }} : ${{ service.cost }}
+                      </mat-option>
+                    </ng-template>
+                  </ng-container>
                 </mat-select>
                 <mat-hint> Elija los servicios a aplicar </mat-hint>
                 <mat-error

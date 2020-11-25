@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '@core/authentication/authentication.service';
 import { IForm } from '@core/models/form';
 import { buildIsoDate } from '@core/utils/date-utils';
 import { Client } from '@modules/clients/models/client';
@@ -11,8 +10,9 @@ import { ServiceRequestState } from '@modules/service-requests/models/service-re
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
 import { Service } from '@modules/services/models/service';
 import { ServiceService } from '@modules/services/services/service.service';
+import { ObservableStatus } from '@shared/models/observable-with-status';
 import { NotificationsService } from '@shared/services/notifications.service';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Component({
@@ -21,8 +21,10 @@ import { catchError } from 'rxjs/operators';
   styleUrls: [ './service-request-register.component.scss' ]
 })
 export class ServiceRequestRegisterComponent implements OnInit, IForm {
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
   serviceRequestForm: FormGroup;
-  services: Service[];
+  services$: Observable<Service[]>;
   periodicities: Periodicity[];
   serviceRequest: ServiceRequest;
   private clientId: string;
@@ -36,7 +38,6 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
   constructor(
     private serviceRequestService: ServiceRequestService,
     private serviceService: ServiceService,
-    private authService: AuthenticationService,
     private notificationService: NotificationsService,
     private formBuilder: FormBuilder,
     private router: Router
@@ -49,6 +50,7 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
 
   private loadData(): void {
     const client: Client = JSON.parse(localStorage.getItem('current_person'));
+
     this.serviceRequestService
       .getPendingServiceRequest(client.id)
       .pipe(
@@ -66,9 +68,7 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
     this.periodicities = PERIODICITIES;
     this.clientId = client.id;
 
-    this.serviceService.getServices().subscribe((services) => {
-      this.services = services;
-    });
+    this.services$ = this.serviceService.getServices();
   }
 
   initForm(): void {
