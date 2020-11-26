@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Client } from '@modules/clients/models/client';
 import { ClientState } from '@modules/clients/models/client-state';
 import { ClientService } from '@modules/clients/services/client.service';
@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
   templateUrl: './client-requests.component.html',
   styleUrls: [ './client-requests.component.scss' ]
 })
-export class ClientRequestsComponent implements OnInit, OnDestroy {
+export class ClientRequestsComponent implements OnInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;
 
   clientRequests: Client[];
@@ -32,10 +32,6 @@ export class ClientRequestsComponent implements OnInit, OnDestroy {
       this.clientRequests.push(newClient);
       this.notificationsService.addMessage(`Se ha registrado un nuevo cliente`, 'Ok', 'left');
     });
-  }
-
-  ngOnDestroy(): void {
-    this.newClientSignalr.signalReceived.unsubscribe();
   }
 
   private loadClientRequests(): void {
