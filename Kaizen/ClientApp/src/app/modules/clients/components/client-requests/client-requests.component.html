@@ -1,107 +1,132 @@
 <section class="container">
-  <div>
-    <h1 class="text-center">Solicitudes de clientes</h1>
-    <br />
-    <h3>
-      Están pendientes {{ clientRequests?.length }} solicitudes de clientes.
-      Puede revisarlas para luego aceptar o rechazar a cualquier cliente.
-    </h3>
-  </div>
-  <mat-divider></mat-divider>
-  <div class="pt-3">
-    <div *ngIf="clientRequests?.length <= 0">
-      <div>
-        <img
-          src="/assets/images/relax_people.svg"
-          alt="Empty list"
-          class="center-block-content"
-        />
-        <h4 class="text-center empty-list-text">
-          No hay solicitudes pendientes
-        </h4>
+  <ng-container
+    *ngIf="clientRequests$ | observableWithStatus | async as obs"
+    [ngSwitch]="obs.status"
+  >
+    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+      <div class="center-block-content pt-5">
+        <div class="center-flex-content">
+          <mat-spinner></mat-spinner>
+        </div>
+        <h4 class="text-center mt-4 empty-list-text">Cargando solicitudes</h4>
       </div>
-    </div>
-    <mat-accordion *ngIf="clientRequests?.length > 0">
-      <mat-expansion-panel *ngFor="let clientRequest of clientRequests">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            Solicitud de {{ clientRequest.firstName }}
-            {{ clientRequest.lastName }}
-          </mat-panel-title>
-          <mat-panel-description>
-            Esta solicitud está pendiente
-            <mat-icon
-              color="warn"
-              [matTooltip]="'Click para ver más información'"
-              [matTooltipShowDelay]="300"
-              [matTooltipPosition]="'above'"
-            >
-              info
-            </mat-icon>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <h3 class="mat-h3">
-          La persona identificada con C.C.
-          <strong>{{ clientRequest.id }}</strong> llamada
-          {{ clientRequest.firstName }} {{ clientRequest.secondName }}
-          {{ clientRequest.lastName }} {{ clientRequest.secondLastName }}
-          ha hecho una solicitud para ser cliente de la empresa.
-        </h3>
-        <hr />
-        <div class="icon-text-container">
-          <mat-icon [matTooltip]="'Nombre comercial y tipo de persona'"
-            >business</mat-icon
-          >
-          <span>
-            {{ clientRequest.tradeName }},
-            <span>
-              {{
-                clientRequest.clientType == "JuridicPerson"
-                  ? "persona jurídica"
-                  : "persona natural"
-              }}
-            </span>
-          </span>
+    </ng-template>
+    <ng-template [ngSwitchCase]="ObsStatus.Success">
+      <div class="pt-4">
+        <div *ngIf="clientRequests?.length <= 0">
+          <div>
+            <img
+              src="/assets/images/relax_people.svg"
+              alt="Empty list"
+              class="center-block-content"
+            />
+            <h4 class="text-center empty-list-text">
+              No hay solicitudes pendientes
+            </h4>
+          </div>
         </div>
-        <div class="icon-text-container">
-          <mat-icon [matTooltip]="'Teléfono de contacto'">phone</mat-icon>
-          <span>{{ clientRequest.firstPhoneNumber }}</span>
+        <div *ngIf="clientRequests?.length > 0">
+          <div>
+            <h1 class="text-center">Solicitudes de clientes</h1>
+            <br />
+            <h3>
+              Están pendientes {{ clientRequests?.length }} solicitudes de
+              clientes. Puede revisarlas para luego aceptar o rechazar a
+              cualquier cliente.
+            </h3>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="pt-4">
+            <mat-accordion>
+              <mat-expansion-panel *ngFor="let clientRequest of clientRequests">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Solicitud de {{ clientRequest.firstName }}
+                    {{ clientRequest.lastName }}
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Esta solicitud está pendiente
+                    <mat-icon
+                      color="warn"
+                      [matTooltip]="'Click para ver más información'"
+                      [matTooltipShowDelay]="300"
+                      [matTooltipPosition]="'above'"
+                    >
+                      info
+                    </mat-icon>
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <h3 class="mat-h3">
+                  La persona identificada con C.C.
+                  <strong>{{ clientRequest.id }}</strong> llamada
+                  {{ clientRequest.firstName }} {{ clientRequest.secondName }}
+                  {{ clientRequest.lastName }}
+                  {{ clientRequest.secondLastName }}
+                  ha hecho una solicitud para ser cliente de la empresa.
+                </h3>
+                <hr />
+                <div class="icon-text-container">
+                  <mat-icon [matTooltip]="'Nombre comercial y tipo de persona'"
+                    >business</mat-icon
+                  >
+                  <span>
+                    {{ clientRequest.tradeName }},
+                    <span>
+                      {{
+                        clientRequest.clientType == "JuridicPerson"
+                          ? "persona jurídica"
+                          : "persona natural"
+                      }}
+                    </span>
+                  </span>
+                </div>
+                <div class="icon-text-container">
+                  <mat-icon [matTooltip]="'Teléfono de contacto'"
+                    >phone</mat-icon
+                  >
+                  <span>{{ clientRequest.firstPhoneNumber }}</span>
+                </div>
+                <div class="icon-text-container">
+                  <mat-icon [matTooltip]="'Dirección del cliente'"
+                    >place</mat-icon
+                  >
+                  <span *ngIf="clientRequest.clientAddress">
+                    {{ clientRequest.clientAddress.city }},
+                    {{ clientRequest.clientAddress.neighborhood }},
+                    {{ clientRequest.clientAddress.street }}
+                  </span>
+                </div>
+                <mat-action-row>
+                  <button
+                    mat-button
+                    color="primary"
+                    (click)="acceptClient(clientRequest)"
+                    [appLoadingButton]="updatingClientRequest"
+                  >
+                    Aceptar
+                  </button>
+                  <button
+                    mat-button
+                    color="warn"
+                    (click)="rejectClient(clientRequest)"
+                    [appLoadingButton]="updatingClientRequest"
+                  >
+                    Rechazar
+                  </button>
+                  <a
+                    *ngIf="!updatingClientRequest"
+                    mat-button
+                    class="royal_azure"
+                    routerLink="/clients/requests/{{ clientRequest.id }}"
+                  >
+                    Ver más información
+                  </a>
+                </mat-action-row>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
         </div>
-        <div class="icon-text-container">
-          <mat-icon [matTooltip]="'Dirección del cliente'">place</mat-icon>
-          <span *ngIf="clientRequest.clientAddress">
-            {{ clientRequest.clientAddress.city }},
-            {{ clientRequest.clientAddress.neighborhood }},
-            {{ clientRequest.clientAddress.street }}
-          </span>
-        </div>
-        <mat-action-row>
-          <button
-            mat-button
-            color="primary"
-            (click)="acceptClient(clientRequest)"
-            [appLoadingButton]="updatingClientResquest"
-          >
-            Aceptar
-          </button>
-          <button
-            mat-button
-            color="warn"
-            (click)="rejectClient(clientRequest)"
-            [appLoadingButton]="updatingClientResquest"
-          >
-            Rechazar
-          </button>
-          <a
-            *ngIf="!updatingClientResquest"
-            mat-button
-            class="royal_azure"
-            routerLink="/clients/requests/{{ clientRequest.id }}"
-          >
-            Ver más información
-          </a>
-        </mat-action-row>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </div>
+      </div>
+    </ng-template>
+  </ng-container>
 </section>
