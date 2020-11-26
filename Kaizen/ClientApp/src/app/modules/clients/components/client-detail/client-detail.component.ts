@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Client } from '@modules/clients/models/client';
 import { ClientService } from '@modules/clients/services/client.service';
+import { ObservableStatus } from '@shared/models/observable-with-status';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-client-detail',
@@ -9,7 +11,9 @@ import { ClientService } from '@modules/clients/services/client.service';
   styleUrls: [ './client-detail.component.scss' ]
 })
 export class ClientDetailComponent implements OnInit {
-  client: Client;
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
+  client$: Observable<Client>;
 
   constructor(private clientService: ClientService, private activatedRoute: ActivatedRoute) {}
 
@@ -19,9 +23,6 @@ export class ClientDetailComponent implements OnInit {
 
   private loadData(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-
-    this.clientService.getClient(id).subscribe((client) => {
-      this.client = client;
-    });
+    this.client$ = this.clientService.getClient(id);
   }
 }

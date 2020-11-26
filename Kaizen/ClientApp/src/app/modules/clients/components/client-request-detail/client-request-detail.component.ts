@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Client } from '@modules/clients/models/client';
 import { ClientState } from '@modules/clients/models/client-state';
 import { ClientService } from '@modules/clients/services/client.service';
+import { ObservableStatus } from '@shared/models/observable-with-status';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-client-request-detail',
@@ -10,7 +12,9 @@ import { ClientService } from '@modules/clients/services/client.service';
   styleUrls: [ './client-request-detail.component.scss' ]
 })
 export class ClientRequestDetailComponent implements OnInit {
-  clientRequest: Client;
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
+  clientRequest$: Observable<Client>;
   updatingClientRequest = false;
 
   constructor(private clientService: ClientService, private activeRoute: ActivatedRoute, private router: Router) {}
@@ -21,23 +25,21 @@ export class ClientRequestDetailComponent implements OnInit {
 
   private loadClientRequest(): void {
     const id = this.activeRoute.snapshot.paramMap.get('id');
-    this.clientService.getClient(id).subscribe((client) => {
-      this.clientRequest = client;
-    });
+    this.clientRequest$ = this.clientService.getClient(id);
   }
 
-  acceptClient(): void {
-    this.processClient(ClientState.Accepted);
+  acceptClient(client: Client): void {
+    this.processClient(client, ClientState.Accepted);
   }
 
-  rejectClient(): void {
-    this.processClient(ClientState.Rejected);
+  rejectClient(client: Client): void {
+    this.processClient(client, ClientState.Rejected);
   }
 
-  processClient(state: ClientState): void {
-    this.clientRequest.state = state;
+  processClient(client: Client, state: ClientState): void {
+    client.state = state;
     this.updatingClientRequest = true;
-    this.clientService.updateClient(this.clientRequest).subscribe((clientUpdate) => {
+    this.clientService.updateClient(client).subscribe((clientUpdate) => {
       this.router.navigateByUrl('/clients/requests');
     });
   }
