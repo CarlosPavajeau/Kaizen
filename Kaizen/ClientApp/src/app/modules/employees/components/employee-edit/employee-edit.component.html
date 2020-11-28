@@ -1,94 +1,125 @@
 <section class="container">
-  <div *ngIf="employee">
-    <h1 class="text-center">
-      Edición de los datos del empleado {{ employee?.firstName }}
-      {{ employee?.lastName }}
-    </h1>
-    <mat-tab-group mat-stretch-tabs>
-      <mat-tab>
-        <ng-template mat-tab-label>Cargo y contrato del empleado</ng-template>
-        <ng-template matTabContent>
-          <form [formGroup]="employeeContractForm">
-            <ng-template matStepLabel>Datos de contrato</ng-template>
-            <div class="form-element">
-              <mat-form-field>
-                <mat-label>Código de contrato</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  formControlName="contractCode"
-                  placeholder="Ejemplo: 3242AAR4"
-                />
-                <mat-hint>Digite el código de contrato del empleado</mat-hint>
-              </mat-form-field>
-            </div>
-            <div class="form-element form-select">
-              <mat-form-field>
-                <mat-label>Fecha de inicio del contrato</mat-label>
-                <input
-                  matInput
-                  [matDatepicker]="startDate"
-                  formControlName="startDate"
-                />
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="startDate"
-                ></mat-datepicker-toggle>
-                <mat-datepicker #startDate></mat-datepicker>
-                <mat-hint>Seleccione la fecha de inicio del contrato</mat-hint>
-              </mat-form-field>
-            </div>
-            <div class="form-element form-select">
-              <mat-form-field>
-                <mat-label>Fecha de finalización del contrato</mat-label>
-                <input
-                  matInput
-                  [matDatepicker]="endDate"
-                  formControlName="endDate"
-                />
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="endDate"
-                ></mat-datepicker-toggle>
-                <mat-datepicker #endDate></mat-datepicker>
-                <mat-hint
-                  >Seleccione la fecha de finalización del contrato</mat-hint
-                >
-              </mat-form-field>
-            </div>
-            <div class="form-element form-select">
-              <mat-form-field>
-                <mat-label>Cargo del empleado</mat-label>
-                <mat-select required formControlName="employeeCharge">
-                  <mat-option
-                    *ngFor="let employeeCharge of employeeCharges"
-                    [value]="employeeCharge.id"
-                    >{{ employeeCharge.charge }}</mat-option
-                  >
-                </mat-select>
-                <mat-error
-                  *ngIf="controls['employeeCharge'].hasError('required')"
-                >
-                  El cargo del empleado es requerido
-                </mat-error>
-                <mat-hint>
-                  Seleccione el cargo del empleado
-                </mat-hint>
-              </mat-form-field>
-            </div>
-          </form>
-          <div class="form-buttons">
-            <button
-              mat-raised-button
-              class="royal_azure"
-              (click)="updateChargeAndContract()"
-              [appLoadingButton]="updatingEmployee"
+  <ng-container
+    *ngIf="employee$ | observableWithStatus | async as obs"
+    [ngSwitch]="obs.status"
+  >
+    <ng-template [ngSwitchCase]="ObsStatus.Loading"> </ng-template>
+    <ng-template [ngSwitchCase]="ObsStatus.Success">
+      <div *ngIf="obs.value as employee">
+        <h1 class="text-center">
+          Edición de los datos del empleado {{ employee?.firstName }}
+          {{ employee?.lastName }}
+        </h1>
+        <mat-tab-group mat-stretch-tabs>
+          <mat-tab>
+            <ng-template mat-tab-label
+              >Cargo y contrato del empleado</ng-template
             >
-              Actualizar cargo y contrato de empleado
-            </button>
-          </div>
-        </ng-template>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
+            <ng-template matTabContent>
+              <form [formGroup]="employeeContractForm">
+                <ng-template matStepLabel>Datos de contrato</ng-template>
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Código de contrato</mat-label>
+                    <input
+                      type="text"
+                      matInput
+                      formControlName="contractCode"
+                      placeholder="Ejemplo: 3242AAR4"
+                    />
+                    <mat-hint
+                      >Digite el código de contrato del empleado</mat-hint
+                    >
+                  </mat-form-field>
+                </div>
+                <div class="form-element form-select">
+                  <mat-form-field>
+                    <mat-label>Fecha de inicio del contrato</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="startDate"
+                      formControlName="startDate"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="startDate"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #startDate></mat-datepicker>
+                    <mat-hint
+                      >Seleccione la fecha de inicio del contrato</mat-hint
+                    >
+                  </mat-form-field>
+                </div>
+                <div class="form-element form-select">
+                  <mat-form-field>
+                    <mat-label>Fecha de finalización del contrato</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="endDate"
+                      formControlName="endDate"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="endDate"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #endDate></mat-datepicker>
+                    <mat-hint
+                      >Seleccione la fecha de finalización del
+                      contrato</mat-hint
+                    >
+                  </mat-form-field>
+                </div>
+                <div class="form-element form-select">
+                  <mat-form-field>
+                    <mat-label>Cargo del empleado</mat-label>
+                    <mat-select required formControlName="employeeCharge">
+                      <ng-container
+                        *ngIf="
+                          employeeCharges$ | observableWithStatus | async as obs
+                        "
+                        [ngSwitch]="obs.status"
+                      >
+                        <ng-template [ngSwitchCase]="ObsStatus.Loading">
+                          <mat-option>
+                            <div class="loading-option">
+                              <mat-spinner [diameter]="20"></mat-spinner>
+                              <span>Cargando cargos de empleado...</span>
+                            </div>
+                          </mat-option>
+                        </ng-template>
+                        <ng-template [ngSwitchCase]="ObsStatus.Success">
+                          <mat-option
+                            *ngFor="let employeeCharge of obs.value"
+                            [value]="employeeCharge.id"
+                          >
+                            {{ employeeCharge.charge }}
+                          </mat-option>
+                        </ng-template>
+                      </ng-container>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="controls['employeeCharge'].hasError('required')"
+                    >
+                      El cargo del empleado es requerido
+                    </mat-error>
+                    <mat-hint> Seleccione el cargo del empleado </mat-hint>
+                  </mat-form-field>
+                </div>
+              </form>
+              <div class="form-buttons">
+                <button
+                  mat-raised-button
+                  class="royal_azure"
+                  (click)="updateChargeAndContract(employee)"
+                  [appLoadingButton]="updatingEmployee"
+                >
+                  Actualizar cargo y contrato de empleado
+                </button>
+              </div>
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </ng-template>
+  </ng-container>
 </section>

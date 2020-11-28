@@ -179,11 +179,29 @@
                 <mat-form-field>
                   <mat-label>Cargo del empleado</mat-label>
                   <mat-select required formControlName="employeeCharge">
-                    <mat-option
-                      *ngFor="let employeeCharge of employeeCharges"
-                      [value]="employeeCharge.id"
-                      >{{ employeeCharge.charge }}</mat-option
+                    <ng-container
+                      *ngIf="
+                        employeeCharges$ | observableWithStatus | async as obs
+                      "
+                      [ngSwitch]="obs.status"
                     >
+                      <ng-template [ngSwitchCase]="ObsStatus.Loading">
+                        <mat-option>
+                          <div class="loading-option">
+                            <mat-spinner [diameter]="20"></mat-spinner>
+                            <span>Cargando cargos de empleado...</span>
+                          </div>
+                        </mat-option>
+                      </ng-template>
+                      <ng-template [ngSwitchCase]="ObsStatus.Success">
+                        <mat-option
+                          *ngFor="let employeeCharge of obs.value"
+                          [value]="employeeCharge.id"
+                        >
+                          {{ employeeCharge.charge }}
+                        </mat-option>
+                      </ng-template>
+                    </ng-container>
                   </mat-select>
                   <mat-error
                     *ngIf="controls['employeeCharge'].hasError('required')"

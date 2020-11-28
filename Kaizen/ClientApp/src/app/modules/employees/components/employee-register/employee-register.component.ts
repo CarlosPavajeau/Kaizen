@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthenticationService } from '@core/authentication/authentication.service';
 import { IForm } from '@core/models/form';
 import { User } from '@core/models/user';
 import { Employee } from '@modules/employees/models/employee';
 import { EmployeeCharge } from '@modules/employees/models/employee-charge';
 import { EmployeeService } from '@modules/employees/services/employee.service';
+import { ObservableStatus } from '@shared/models/observable-with-status';
 import { NotificationsService } from '@shared/services/notifications.service';
 import { alphabeticCharacters, numericCharacters } from '@shared/validators/characters-validators';
-import { EmployeeExistsValidator } from '@shared/validators/employee-exists-validator';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-employee-register',
@@ -17,10 +17,13 @@ import { EmployeeExistsValidator } from '@shared/validators/employee-exists-vali
   styleUrls: [ './employee-register.component.scss' ]
 })
 export class EmployeeRegisterComponent implements OnInit, IForm {
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
   employeeForm: FormGroup;
   contactForm: FormGroup;
   contractForm: FormGroup;
-  employeeCharges: EmployeeCharge[];
+
+  employeeCharges$: Observable<EmployeeCharge[]>;
   savingData = false;
 
   public get controls(): { [key: string]: AbstractControl } {
@@ -38,8 +41,6 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
   constructor(
     private employeeService: EmployeeService,
     private formBuilder: FormBuilder,
-    private authService: AuthenticationService,
-    private employeeValidator: EmployeeExistsValidator,
     private notificationsService: NotificationsService,
     private router: Router
   ) {}
@@ -50,9 +51,7 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
   }
 
   loadEmployeeCharges() {
-    this.employeeService.getEmployeeCharges().subscribe((employeeCharges) => {
-      this.employeeCharges = employeeCharges;
-    });
+    this.employeeCharges$ = this.employeeService.getEmployeeCharges();
   }
 
   initForm(): void {

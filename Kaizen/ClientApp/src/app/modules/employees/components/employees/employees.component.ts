@@ -4,6 +4,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Employee } from '@modules/employees/models/employee';
 import { EmployeeService } from '@modules/employees/services/employee.service';
+import { ObservableStatus } from '@shared/models/observable-with-status';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-employees',
@@ -11,11 +13,17 @@ import { EmployeeService } from '@modules/employees/services/employee.service';
   styleUrls: [ './employees.component.scss' ]
 })
 export class EmployeesComponent implements OnInit, AfterViewInit {
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
   employees: Employee[] = [];
+  employees$: Observable<Employee[]>;
+
   dataSource: MatTableDataSource<Employee> = new MatTableDataSource<Employee>(this.employees);
   displayedColumns: string[] = [ 'id', 'name', 'employeeCharge', 'options' ];
+
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
+
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private employeeService: EmployeeService) {}
@@ -25,7 +33,8 @@ export class EmployeesComponent implements OnInit, AfterViewInit {
   }
 
   private loadEmployees() {
-    this.employeeService.getEmployees().subscribe((employees) => {
+    this.employees$ = this.employeeService.getEmployees();
+    this.employees$.subscribe((employees) => {
       this.employees = employees;
       this.dataSource.data = this.employees;
     });

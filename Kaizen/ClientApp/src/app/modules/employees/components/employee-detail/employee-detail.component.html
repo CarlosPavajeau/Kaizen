@@ -1,47 +1,64 @@
 <div class="container">
-  <div *ngIf="employee">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>
-          Empleado {{ employee.firstName }} {{ employee.secondName }}
-          {{ employee.lastName }} {{ employee.secondLastName }}
-        </mat-card-title>
-        <mat-card-subtitle>
-          Identificado con {{ employee.id }}
-        </mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="icon-text-container">
-          <mat-icon [matTooltip]="'Cargo del empleado'">engineering</mat-icon>
-          <span>{{ employee.employeeCharge.charge }}</span>
+  <ng-container
+    *ngIf="employee$ | observableWithStatus | async as obs"
+    [ngSwitch]="obs.status"
+  >
+    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+      <div class="center-block-content pt-5">
+        <div class="center-flex-content">
+          <mat-spinner></mat-spinner>
         </div>
-        <div class="icon-text-container">
-          <mat-icon [matTooltip]="'Código de contrato del empleado'">
-            assignment
-          </mat-icon>
-          <span>{{ employee.employeeContract.contractCode }}</span>
-        </div>
-        <div class="icon-text-container">
-          <mat-icon
-            [matTooltip]="'Fecha de iniciación y finalización del contrato'"
-          >
-            date_range
-          </mat-icon>
-          <span>
-            {{ employee.employeeContract.startDate | date: "MMMM d, y" }} -
-            {{ employee.employeeContract.endDate | date: "MMMM d, y" }}
-          </span>
-        </div>
-      </mat-card-content>
-      <mat-card-actions>
-        <a
-          mat-raised-button
-          class="royal_azure"
-          routerLink="/employees/edit/{{ employee.id }}"
-        >
-          Editar empleado
-        </a>
-      </mat-card-actions>
-    </mat-card>
-  </div>
+        <h4 class="text-center mt-4 empty-list-text">Cargando empleado...</h4>
+      </div>
+    </ng-template>
+    <ng-template [ngSwitchCase]="ObsStatus.Success">
+      <div *ngIf="obs.value as employee">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>
+              Empleado {{ employee.firstName }} {{ employee.secondName }}
+              {{ employee.lastName }} {{ employee.secondLastName }}
+            </mat-card-title>
+            <mat-card-subtitle>
+              Identificado con {{ employee.id }}
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="icon-text-container">
+              <mat-icon [matTooltip]="'Cargo del empleado'"
+                >engineering</mat-icon
+              >
+              <span>{{ employee.employeeCharge.charge }}</span>
+            </div>
+            <div class="icon-text-container">
+              <mat-icon [matTooltip]="'Código de contrato del empleado'">
+                assignment
+              </mat-icon>
+              <span>{{ employee.employeeContract.contractCode }}</span>
+            </div>
+            <div class="icon-text-container">
+              <mat-icon
+                [matTooltip]="'Fecha de iniciación y finalización del contrato'"
+              >
+                date_range
+              </mat-icon>
+              <span>
+                {{ employee.employeeContract.startDate | date: "MMMM d, y" }} -
+                {{ employee.employeeContract.endDate | date: "MMMM d, y" }}
+              </span>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <a
+              mat-raised-button
+              class="royal_azure"
+              routerLink="/employees/edit/{{ employee.id }}"
+            >
+              Editar empleado
+            </a>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </ng-template>
+  </ng-container>
 </div>

@@ -1,81 +1,96 @@
 <section class="container">
-  <div class="text-center">
-    <h1>Empleados de la Empresa</h1>
-  </div>
-  <div class="center-block-content">
-    <div class="form-element search-field">
-      <mat-form-field>
-        <mat-label>Buscar empleado</mat-label>
-        <input
-          matInput
-          #search
-          type="text"
-          placeholder="Buscar un empleado"
-          (keyup)="applyFilter($event.target.value)"
-        />
-      </mat-form-field>
-    </div>
-    <div>
-      <table
-        mat-table
-        [dataSource]="dataSource"
-        matSort
-        class="mat-elevation-z6"
-      >
-        <ng-container matColumnDef="id">
-          <mat-header-cell *matHeaderCellDef mat-sort-header
-            >Identificación</mat-header-cell
+  <ng-container
+    *ngIf="employees$ | observableWithStatus | async as obs"
+    [ngSwitch]="obs.status"
+  >
+    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+      <div class="center-block-content pt-5">
+        <div class="center-flex-content">
+          <mat-spinner></mat-spinner>
+        </div>
+        <h4 class="text-center mt-4 empty-list-text">Cargando empleados...</h4>
+      </div>
+    </ng-template>
+    <ng-template [ngSwitchCase]="ObsStatus.Success">
+      <div class="text-center">
+        <h1>Empleados de la Empresa</h1>
+      </div>
+      <div class="center-block-content">
+        <div class="form-element search-field">
+          <mat-form-field>
+            <mat-label>Buscar empleado</mat-label>
+            <input
+              matInput
+              #search
+              type="text"
+              placeholder="Buscar un empleado"
+              (keyup)="applyFilter($event.target.value)"
+            />
+          </mat-form-field>
+        </div>
+        <div>
+          <table
+            mat-table
+            [dataSource]="dataSource"
+            matSort
+            class="mat-elevation-z6"
           >
-          <mat-cell *matCellDef="let employee">{{ employee.id }}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="name">
-          <mat-header-cell *matHeaderCellDef mat-sort-header
-            >Nombre completo</mat-header-cell
-          >
-          <mat-cell *matCellDef="let employee"
-            >{{ employee.firstName }} {{ employee.secondName }}
-            {{ employee.lastName }} {{ employee.secondLastName }}</mat-cell
-          >
-        </ng-container>
-        <ng-container matColumnDef="employeeCharge">
-          <mat-header-cell *matHeaderCellDef mat-sort-header
-            >Cargo del empleado</mat-header-cell
-          >
-          <mat-cell *matCellDef="let employee">{{
-            employee.employeeCharge.charge
-          }}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="options">
-          <mat-header-cell *matHeaderCellDef>
-            Opciones
-          </mat-header-cell>
-          <mat-cell *matCellDef="let employee">
-            <a
-              mat-icon-button
-              routerLink="/employees/{{ employee.id }}"
-              [matTooltip]="'Ver más información'"
-            >
-              <mat-icon>visibility</mat-icon>
-            </a>
-            <a
-              mat-icon-button
-              routerLink="/employees/edit/{{ employee.id }}"
-              [matTooltip]="'Editar empleado'"
-            >
-              <mat-icon>edit</mat-icon>
-            </a>
-            <a mat-icon-button [matTooltip]="'Eliminar empleado'">
-              <mat-icon>delete</mat-icon>
-            </a>
-          </mat-cell>
-        </ng-container>
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-      </table>
-      <mat-paginator
-        [pageSizeOptions]="[15, 30, 50, 100]"
-        showFirstLastButtons
-      ></mat-paginator>
-    </div>
-  </div>
+            <ng-container matColumnDef="id">
+              <mat-header-cell *matHeaderCellDef mat-sort-header
+                >Identificación</mat-header-cell
+              >
+              <mat-cell *matCellDef="let employee">{{ employee.id }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef mat-sort-header
+                >Nombre completo</mat-header-cell
+              >
+              <mat-cell *matCellDef="let employee"
+                >{{ employee.firstName }} {{ employee.secondName }}
+                {{ employee.lastName }} {{ employee.secondLastName }}</mat-cell
+              >
+            </ng-container>
+            <ng-container matColumnDef="employeeCharge">
+              <mat-header-cell *matHeaderCellDef mat-sort-header
+                >Cargo del empleado</mat-header-cell
+              >
+              <mat-cell *matCellDef="let employee">{{
+                employee.employeeCharge.charge
+              }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="options">
+              <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
+              <mat-cell *matCellDef="let employee">
+                <a
+                  mat-icon-button
+                  routerLink="/employees/{{ employee.id }}"
+                  [matTooltip]="'Ver más información'"
+                >
+                  <mat-icon>visibility</mat-icon>
+                </a>
+                <a
+                  mat-icon-button
+                  routerLink="/employees/edit/{{ employee.id }}"
+                  [matTooltip]="'Editar empleado'"
+                >
+                  <mat-icon>edit</mat-icon>
+                </a>
+                <a mat-icon-button [matTooltip]="'Eliminar empleado'">
+                  <mat-icon>delete</mat-icon>
+                </a>
+              </mat-cell>
+            </ng-container>
+            <mat-header-row
+              *matHeaderRowDef="displayedColumns"
+            ></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+          </table>
+          <mat-paginator
+            [pageSizeOptions]="[15, 30, 50, 100]"
+            showFirstLastButtons
+          ></mat-paginator>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
 </section>

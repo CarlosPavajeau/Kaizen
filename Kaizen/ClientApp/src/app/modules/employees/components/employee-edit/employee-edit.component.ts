@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationsService } from '@app/shared/services/notifications.service';
 import { IForm } from '@core/models/form';
 import { Employee } from '@modules/employees/models/employee';
 import { EmployeeCharge } from '@modules/employees/models/employee-charge';
 import { EmployeeContract } from '@modules/employees/models/employee-contract';
 import { EmployeeService } from '@modules/employees/services/employee.service';
+import { ObservableStatus } from '@shared/models/observable-with-status';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-employee-edit',
@@ -14,9 +16,12 @@ import { EmployeeService } from '@modules/employees/services/employee.service';
   styleUrls: [ './employee-edit.component.scss' ]
 })
 export class EmployeeEditComponent implements OnInit, IForm {
-  employee: Employee;
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
   employeeContractForm: FormGroup;
-  employeeCharges: EmployeeCharge[];
+
+  employee$: Observable<Employee>;
+  employeeCharges$: Observable<EmployeeCharge[]>;
 
   updatingEmployee = false;
 
@@ -28,7 +33,8 @@ export class EmployeeEditComponent implements OnInit, IForm {
     private employeeService: EmployeeService,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -38,21 +44,18 @@ export class EmployeeEditComponent implements OnInit, IForm {
 
   private loadData(): void {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-    this.employeeService.getEmployee(id).subscribe((employee) => {
-      this.employee = employee;
-      console.log(this.employee);
-      this.afterLoadEmployee();
-    });
+    this.employee$ = this.employeeService.getEmployee(id);
+    this.employeeCharges$ = this.employeeService.getEmployeeCharges();
 
-    this.employeeService.getEmployeeCharges().subscribe((employeeCharges) => {
-      this.employeeCharges = employeeCharges;
+    this.employee$.subscribe((employee) => {
+      this.afterLoadEmployee(employee);
     });
   }
 
-  private afterLoadEmployee(): void {
+  private afterLoadEmployee(employee: Employee): void {
     this.employeeContractForm.setValue({
-      ...this.employee.employeeContract,
-      employeeCharge: this.employee.employeeCharge.id
+      ...employee.employeeContract,
+      employeeCharge: employee.employeeCharge.id
     });
   }
 
@@ -65,24 +68,24 @@ export class EmployeeEditComponent implements OnInit, IForm {
     });
   }
 
-  updateChargeAndContract(): void {
+  updateChargeAndContract(employee: Employee): void {
     if (this.employeeContractForm.valid) {
       const employeeContract: EmployeeContract = {
         ...this.employeeContractForm.value
       };
 
-      this.employee.chargeId = +this.controls['employeeCharge'].value;
-      this.employee.employeeContract = employeeContract;
-      this.employee.contractCode = employeeContract.contractCode;
+      employee.chargeId = +this.controls['employeeCharge'].value;
+      employee.employeeContract = employeeContract;
+      employee.contractCode = employeeContract.contractCode;
 
       this.updatingEmployee = true;
-      this.employeeService.updateEmployee(this.employee).subscribe((updatedEmployee) => {
+      this.employeeService.updateEmployee(employee).subscribe((updatedEmployee) => {
         if (updatedEmployee) {
           this.notificationsService.showSuccessMessage(
             `Los datos del empleado ${updatedEmployee.firstName} ${updatedEmployee.lastName} fueron actualizados con éxito.`,
             () => {
-              this.employee = updatedEmployee;
               this.updatingEmployee = false;
+              this.router.navigateByUrl('/employees');
             }
           );
         }
