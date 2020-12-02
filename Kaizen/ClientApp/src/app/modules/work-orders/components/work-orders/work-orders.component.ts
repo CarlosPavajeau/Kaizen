@@ -4,8 +4,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { WorkOrder } from '@modules/work-orders/models/work-order';
 import { WorkOrderService } from '@modules/work-orders/service/work-order.service';
+import { ObservableStatus } from '@shared/models/observable-with-status';
 import { Observable } from 'rxjs';
-import { ObservableStatus } from 'shared/models/observable-with-status';
 
 @Component({
   selector: 'app-work-orders',
