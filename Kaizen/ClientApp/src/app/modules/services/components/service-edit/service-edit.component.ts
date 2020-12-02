@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IForm } from '@core/models/form';
 import { SelectEmployeesComponent } from '@modules/services/components/select-employees/select-employees.component';
 import { SelectEquipmentsComponent } from '@modules/services/components/select-equipments/select-equipments.component';
@@ -9,7 +9,9 @@ import { SelectProductsComponent } from '@modules/services/components/select-pro
 import { Service } from '@modules/services/models/service';
 import { ServiceType } from '@modules/services/models/service-type';
 import { ServiceService } from '@modules/services/services/service.service';
+import { ObservableStatus } from '@shared/models/observable-with-status';
 import { NotificationsService } from '@shared/services/notifications.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-service-edit',
@@ -17,8 +19,10 @@ import { NotificationsService } from '@shared/services/notifications.service';
   styleUrls: [ './service-edit.component.scss' ]
 })
 export class ServiceEditComponent implements OnInit, IForm {
-  service: Service;
-  serviceTypes: ServiceType[];
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
+  service$: Observable<Service>;
+  serviceTypes$: Observable<ServiceType[]>;
 
   basicDataForm: FormGroup;
 
@@ -36,7 +40,8 @@ export class ServiceEditComponent implements OnInit, IForm {
     private serviceService: ServiceService,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -45,50 +50,33 @@ export class ServiceEditComponent implements OnInit, IForm {
   }
 
   private loadData(): void {
+    this.serviceTypes$ = this.serviceService.getServiceTypes();
+
     const code = this.activatedRoute.snapshot.paramMap.get('code');
-    this.serviceService.getService(code).subscribe((service) => {
-      this.service = service;
-      this.afterLoadService();
-    });
-
-    this.serviceService.getServiceTypes().subscribe((serviceTypes) => {
-      this.serviceTypes = serviceTypes;
+    this.service$ = this.serviceService.getService(code);
+    this.service$.subscribe((service) => {
+      this.afterLoadService(service);
     });
   }
 
-  private afterLoadService(): void {
+  private afterLoadService(service: Service): void {
     this.basicDataForm.setValue({
-      name: this.service.name,
-      serviceType: this.service.serviceTypeId,
-      cost: this.service.cost
+      name: service.name,
+      serviceType: service.serviceTypeId,
+      cost: service.cost
     });
-
-    console.log(this.selectEquipments);
   }
 
-  equipmentTab(): void {
-    console.log('Equipment');
-  }
-
-  selectedTabChange(event: MatTabChangeEvent): void {
+  selectedTabChange(event: MatTabChangeEvent, service: Service): void {
     switch (event.index) {
       case 1:
-        const selectedEquipments = this.selectEquipments.equipments.filter((e) => {
-          return this.service.equipments.map((eq) => eq.code).indexOf(e.code) !== -1;
-        });
-        this.selectEquipments.setValue(selectedEquipments);
+        this.selectEquipments.setValue(service.equipments);
         break;
       case 2:
-        const selectedProducts = this.selectProducts.products.filter((p) => {
-          return this.service.products.map((pro) => pro.code).indexOf(p.code) !== -1;
-        });
-        this.selectProducts.setValue(selectedProducts);
+        this.selectProducts.setValue(service.products);
         break;
       case 3:
-        const selectedEmployees = this.selectEmployees.employees.filter((e) => {
-          return this.service.employees.map((em) => em.id).indexOf(e.id) !== -1;
-        });
-        this.selectEmployees.setValue(selectedEmployees);
+        this.selectEmployees.setValue(service.employees);
         break;
     }
   }
@@ -101,49 +89,49 @@ export class ServiceEditComponent implements OnInit, IForm {
     });
   }
 
-  updateBasicData(): void {
+  updateBasicData(service: Service): void {
     if (this.basicDataForm.valid) {
-      this.service.name = this.controls['name'].value;
-      this.service.serviceTypeId = +this.controls['serviceType'].value;
-      this.service.cost = +this.controls['cost'].value;
+      service.name = this.controls['name'].value;
+      service.serviceTypeId = +this.controls['serviceType'].value;
+      service.cost = +this.controls['cost'].value;
 
-      this.updateService();
+      this.updateService(service);
     }
   }
 
-  updateEquipments(): void {
+  updateEquipments(service: Service): void {
     if (this.selectEquipments.valid) {
-      this.service.equipmentCodes = this.selectEquipments.value;
+      service.equipmentCodes = this.selectEquipments.value;
 
-      this.updateService();
+      this.updateService(service);
     }
   }
 
-  updateProducts(): void {
+  updateProducts(service: Service): void {
     if (this.selectProducts.valid) {
-      this.service.productCodes = this.selectProducts.value;
+      service.productCodes = this.selectProducts.value;
 
-      this.updateService();
+      this.updateService(service);
     }
   }
 
-  updateEmployees(): void {
+  updateEmployees(service: Service): void {
     if (this.selectEmployees.valid) {
-      this.service.employeeCodes = this.selectEmployees.value;
+      service.employeeCodes = this.selectEmployees.value;
 
-      this.updateService();
+      this.updateService(service);
     }
   }
 
-  private updateService(): void {
+  private updateService(service: Service): void {
     this.updatingService = true;
-    this.serviceService.updateService(this.service).subscribe((serviceUpdated) => {
+    this.serviceService.updateService(service).subscribe((serviceUpdated) => {
       if (serviceUpdated) {
         this.notificationsService.showSuccessMessage(
-          `Datos del servicio ${this.service.name} actualizados con éxito.`,
+          `Datos del servicio ${service.name} actualizados con éxito.`,
           () => {
-            this.service = serviceUpdated;
             this.updatingService = false;
+            this.router.navigateByUrl('/services');
           }
         );
       }

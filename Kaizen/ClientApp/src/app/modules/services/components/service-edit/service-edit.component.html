@@ -1,123 +1,157 @@
 <section class="container">
-  <div *ngIf="service">
-    <h1 class="text-center">
-      Edición de los datos del servicio {{ service.name }}
-    </h1>
-    <mat-tab-group
-      mat-stretch-tabs
-      (selectedTabChange)="selectedTabChange($event)"
-    >
-      <mat-tab>
-        <ng-template mat-tab-label>Datos básicos</ng-template>
-        <ng-template matTabContent>
-          <form [formGroup]="basicDataForm">
-            <div class="form-element">
-              <mat-form-field>
-                <mat-label>Nombre</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  placeholder="Ejemplo: Control de roedores"
-                  formControlName="name"
-                />
-                <mat-hint>Digite el nombre del servicio</mat-hint>
-                <mat-error *ngIf="controls['name'].hasError('required')">
-                  El nombre del servicio es requerido
-                </mat-error>
-              </mat-form-field>
-            </div>
-            <div class="form-element form-select">
-              <mat-form-field>
-                <mat-label>Tipo de servicio</mat-label>
-                <mat-select required formControlName="serviceType">
-                  <mat-option
-                    *ngFor="let serviceType of serviceTypes"
-                    [value]="serviceType.id"
-                  >
-                    {{ serviceType.name }}
-                  </mat-option>
-                </mat-select>
-                <mat-error *ngIf="controls['serviceType'].hasError('required')">
-                  Debe seleccionar el tipo de servicio
-                </mat-error>
-              </mat-form-field>
-            </div>
-            <div class="form-element">
-              <mat-form-field>
-                <mat-label>Costo</mat-label>
-                <input
-                  type="number"
-                  matInput
-                  placeholder="Ejemplo: 30000$"
-                  formControlName="cost"
-                />
-                <mat-hint>Digite el costo del servicio</mat-hint>
-                <mat-error *ngIf="controls['cost'].hasError('required')">
-                  El precio del servicio es requerido
-                </mat-error>
-              </mat-form-field>
-            </div>
-          </form>
-          <div class="form-buttons">
-            <button
-              mat-raised-button
-              class="royal_azure"
-              (click)="updateBasicData()"
-              [appLoadingButton]="updatingService"
-            >
-              Actualizar datos básicos
-            </button>
-          </div>
-        </ng-template>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>Equipos asignados</ng-template>
-        <ng-template matTabContent>
-          <app-select-equipments #selectEquipments></app-select-equipments>
-          <div class="form-buttons">
-            <button
-              mat-raised-button
-              class="royal_azure"
-              (click)="updateEquipments()"
-              [appLoadingButton]="updatingService"
-            >
-              Actualizar equipos asignados
-            </button>
-          </div>
-        </ng-template>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>Productos asignados</ng-template>
-        <ng-template matTabContent>
-          <app-select-products #selectProducts></app-select-products>
-          <div class="form-buttons">
-            <button
-              mat-raised-button
-              class="royal_azure"
-              (click)="updateProducts()"
-              [appLoadingButton]="updatingService"
-            >
-              Actualizar productos asignados
-            </button>
-          </div>
-        </ng-template>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>Empleados asignados</ng-template>
-        <ng-template matTabContent>
-          <app-select-employees #selectEmployees></app-select-employees>
-          <div class="form-buttons">
-            <button
-              mat-raised-button
-              class="royal_azure"
-              (click)="updateEmployees()"
-              [appLoadingButton]="updatingService"
-            >
-              Actualizar empleados asignados
-            </button>
-          </div>
-        </ng-template>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
+  <ng-container
+    *ngIf="service$ | observableWithStatus | async as obs"
+    [ngSwitch]="obs.status"
+  >
+    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+      <div class="center-block-content pt-5">
+        <div class="center-flex-content">
+          <mat-spinner></mat-spinner>
+        </div>
+        <h4 class="text-center mt-4 empty-list-text">Cargando servicio...</h4>
+      </div>
+    </ng-template>
+    <ng-template [ngSwitchCase]="ObsStatus.Success">
+      <div *ngIf="obs.value as service">
+        <h1 class="text-center">
+          Edición de los datos del servicio {{ service.name }}
+        </h1>
+        <mat-tab-group
+          mat-stretch-tabs
+          (selectedTabChange)="selectedTabChange($event)"
+        >
+          <mat-tab>
+            <ng-template mat-tab-label>Datos básicos</ng-template>
+            <ng-template matTabContent>
+              <form [formGroup]="basicDataForm">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Nombre</mat-label>
+                    <input
+                      type="text"
+                      matInput
+                      placeholder="Ejemplo: Control de roedores"
+                      formControlName="name"
+                    />
+                    <mat-hint>Digite el nombre del servicio</mat-hint>
+                    <mat-error *ngIf="controls['name'].hasError('required')">
+                      El nombre del servicio es requerido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="form-element form-select">
+                  <mat-form-field>
+                    <mat-label>Tipo de servicio</mat-label>
+                    <mat-select required formControlName="serviceTypeId">
+                      <ng-container
+                        *ngIf="
+                          serviceTypes$ | observableWithStatus | async as obs
+                        "
+                        [ngSwitch]="obs.status"
+                      >
+                        <ng-template [ngSwitchCase]="ObsStatus.Loading">
+                          <mat-option>
+                            <div class="loading-option">
+                              <mat-spinner [diameter]="20"></mat-spinner>
+                              <span>Cargando tipos de servicio...</span>
+                            </div>
+                          </mat-option>
+                        </ng-template>
+                        <ng-template [ngSwitchCase]="ObsStatus.Success">
+                          <mat-option
+                            *ngFor="let serviceType of obs.value"
+                            [value]="serviceType.id"
+                          >
+                            {{ serviceType.name }}
+                          </mat-option>
+                        </ng-template>
+                      </ng-container>
+                    </mat-select>
+                    <mat-error
+                      *ngIf="controls['serviceTypeId'].hasError('required')"
+                    >
+                      Debe seleccionar el tipo de servicio
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Costo</mat-label>
+                    <input
+                      type="number"
+                      matInput
+                      placeholder="Ejemplo: 30000$"
+                      formControlName="cost"
+                    />
+                    <mat-hint>Digite el costo del servicio</mat-hint>
+                    <mat-error *ngIf="controls['cost'].hasError('required')">
+                      El precio del servicio es requerido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </form>
+              <div class="form-buttons">
+                <button
+                  mat-raised-button
+                  class="royal_azure"
+                  (click)="updateBasicData(service)"
+                  [appLoadingButton]="updatingService"
+                >
+                  Actualizar datos básicos
+                </button>
+              </div>
+            </ng-template>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>Equipos asignados</ng-template>
+            <ng-template matTabContent>
+              <app-select-equipments #selectEquipments></app-select-equipments>
+              <div class="form-buttons">
+                <button
+                  mat-raised-button
+                  class="royal_azure"
+                  (click)="updateEquipments(service)"
+                  [appLoadingButton]="updatingService"
+                >
+                  Actualizar equipos asignados
+                </button>
+              </div>
+            </ng-template>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>Productos asignados</ng-template>
+            <ng-template matTabContent>
+              <app-select-products #selectProducts></app-select-products>
+              <div class="form-buttons">
+                <button
+                  mat-raised-button
+                  class="royal_azure"
+                  (click)="updateProducts(service)"
+                  [appLoadingButton]="updatingService"
+                >
+                  Actualizar productos asignados
+                </button>
+              </div>
+            </ng-template>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>Empleados asignados</ng-template>
+            <ng-template matTabContent>
+              <app-select-employees #selectEmployees></app-select-employees>
+              <div class="form-buttons">
+                <button
+                  mat-raised-button
+                  class="royal_azure"
+                  (click)="updateEmployees(service)"
+                  [appLoadingButton]="updatingService"
+                >
+                  Actualizar empleados asignados
+                </button>
+              </div>
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </ng-template>
+  </ng-container>
 </section>

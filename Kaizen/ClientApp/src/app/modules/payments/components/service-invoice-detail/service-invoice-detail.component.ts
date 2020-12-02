@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ServiceInvoice } from '@modules/payments/models/service-invoice';
 import { ServiceInvoiceService } from '@modules/payments/services/service-invoice.service';
+import { ObservableStatus } from '@shared/models/observable-with-status';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-service-invoice-detail',
@@ -9,7 +11,9 @@ import { ServiceInvoiceService } from '@modules/payments/services/service-invoic
   styleUrls: [ './service-invoice-detail.component.scss' ]
 })
 export class ServiceInvoiceDetailComponent implements OnInit {
-  serviceInvoice: ServiceInvoice;
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
+  serviceInvoice$: Observable<ServiceInvoice>;
 
   constructor(private serviceInvoiceService: ServiceInvoiceService, private activatedRoute: ActivatedRoute) {}
 
@@ -19,9 +23,6 @@ export class ServiceInvoiceDetailComponent implements OnInit {
 
   private loadData(): void {
     const id = +this.activatedRoute.snapshot.paramMap.get('id');
-    this.serviceInvoiceService.getServiceInvoice(id).subscribe((serviceInvoice: ServiceInvoice) => {
-      this.serviceInvoice = serviceInvoice;
-      console.log(serviceInvoice);
-    });
+    this.serviceInvoice$ = this.serviceInvoiceService.getServiceInvoice(id);
   }
 }

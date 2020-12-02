@@ -4,7 +4,9 @@ import { ActivityScheduleMonthComponent } from '@modules/activity-schedule/compo
 import { Activity } from '@modules/activity-schedule/models/activity';
 import { ActivityScheduleView } from '@modules/activity-schedule/models/activity-schedule-view';
 import { ActivityScheduleService } from '@modules/activity-schedule/services/activity-schedule.service';
+import { ObservableStatus } from '@shared/models/observable-with-status';
 import * as moment from 'moment';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-activity-schedule',
@@ -12,11 +14,15 @@ import * as moment from 'moment';
   styleUrls: [ './activity-schedule.component.scss' ]
 })
 export class ActivityScheduleComponent implements OnInit {
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+  public ScheduleView: typeof ActivityScheduleView = ActivityScheduleView;
+
   readonly activityScheduleViewNames: string[] = [ 'Mes', 'Semana', 'Día' ];
-  readonly previusMessages: string[] = [ 'Mes anterior', 'Semana anterior', 'Día anterior' ];
+  readonly previousMessages: string[] = [ 'Mes anterior', 'Semana anterior', 'Día anterior' ];
   readonly nextMessages: string[] = [ 'Mes siguiente', 'Semana siguiente', 'Día siguiente' ];
 
   activities: Activity[] = [];
+  activities$: Observable<Activity[]>;
   currentDate = moment();
   selectedDate: moment.Moment = this.currentDate.clone();
   view: ActivityScheduleView = ActivityScheduleView.Month;
@@ -31,7 +37,8 @@ export class ActivityScheduleComponent implements OnInit {
   }
 
   private loadData(): void {
-    this.activityScheduleService.getActivities().subscribe((activities) => {
+    this.activities$ = this.activityScheduleService.getActivities();
+    this.activities$.subscribe((activities) => {
       this.activities = activities;
       this.onLoadData();
     });
@@ -66,17 +73,17 @@ export class ActivityScheduleComponent implements OnInit {
     }
   }
 
-  previusDate(): void {
+  previousDate(): void {
     switch (this.view) {
       case ActivityScheduleView.Month: {
-        this.scheduleMonth.previusMonth();
+        this.scheduleMonth.previousMonth();
         break;
       }
       case ActivityScheduleView.Week: {
         break;
       }
       case ActivityScheduleView.Day: {
-        this.scheduleDay.previusDay();
+        this.scheduleDay.previousDay();
         break;
       }
     }

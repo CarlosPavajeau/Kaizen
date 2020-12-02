@@ -89,7 +89,7 @@ export class ActivityScheduleMonthComponent implements OnInit {
     this.changeSelectedMonth(+1);
   }
 
-  previusMonth(): void {
+  previousMonth(): void {
     this.changeSelectedMonth(-1);
   }
 

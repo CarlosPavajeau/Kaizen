@@ -1,108 +1,137 @@
-<div class="container" *ngIf="serviceInvoice">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>
-        Factura de servicio N° {{ serviceInvoice.id }}
-      </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="pt-3">
-        <div class="icon-text-container">
-          <mat-icon [matTooltip]="'Fecha de generación de factura'">
-            date_range
-          </mat-icon>
-          <span>
-            {{ serviceInvoice.generationDate | date: "MMMM d, y, h:mm a" }}
-          </span>
+<div class="container">
+  <ng-container
+    *ngIf="serviceInvoice$ | observableWithStatus | async as obs"
+    [ngSwitch]="obs.status"
+  >
+    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+      <div class="center-block-content pt-5">
+        <div class="center-flex-content">
+          <mat-spinner></mat-spinner>
         </div>
-        <div class="icon-text-container">
-          <mat-icon [matTooltip]="'Estado de factura'"> more </mat-icon>
-          <span>
-            {{ serviceInvoice.state | invoiceState }}
-          </span>
-        </div>
-        <div *ngIf="serviceInvoice.state == 2">
-          <div class="icon-text-container">
-            <mat-icon [matTooltip]="'Método de pago'"> payments </mat-icon>
-            <span>
-              {{ serviceInvoice.paymentMethod | paymentMethod }}
-            </span>
-          </div>
-          <div class="icon-text-container">
-            <mat-icon [matTooltip]="'Fecha de pago'"> receipt_long </mat-icon>
-            <span>
-              {{ serviceInvoice.paymentDate | date: "MMMM d, y, h:mm a" }}
-            </span>
-          </div>
-        </div>
+        <h4 class="text-center mt-4 empty-list-text">
+          Cargando factura de servicio...
+        </h4>
       </div>
-      <div class="pt-3">
-        <div class="icon-text-container">
-          <mat-icon [matTooltip]="'Cliente'">person</mat-icon>
-          <span>
-            {{ serviceInvoice.client.id }},
-            {{ serviceInvoice.client.firstName }}
-            {{ serviceInvoice.client?.secondName }}
-            {{ serviceInvoice.client.lastName }}
-            {{ serviceInvoice.client?.secondLastName }},
-            {{ serviceInvoice.client.tradeName }}
-          </span>
-        </div>
-      </div>
-      <div class="pt-2 pb-3">
-        <mat-list>
-          <div mat-subheader>Se facturan los siguientes servicios</div>
-          <mat-list-item
-            *ngFor="let detail of serviceInvoice.serviceInvoiceDetails"
+    </ng-template>
+    <ng-template [ngSwitchCase]="ObsStatus.Success">
+      <div *ngIf="obs.value as serviceInvoice">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>
+              Factura de servicio N° {{ serviceInvoice.id }}
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="pt-3">
+              <div class="icon-text-container">
+                <mat-icon [matTooltip]="'Fecha de generación de factura'">
+                  date_range
+                </mat-icon>
+                <span>
+                  {{
+                    serviceInvoice.generationDate | date: "MMMM d, y, h:mm a"
+                  }}
+                </span>
+              </div>
+              <div class="icon-text-container">
+                <mat-icon [matTooltip]="'Estado de factura'"> more </mat-icon>
+                <span>
+                  {{ serviceInvoice.state | invoiceState }}
+                </span>
+              </div>
+              <div *ngIf="serviceInvoice.state == 2">
+                <div class="icon-text-container">
+                  <mat-icon [matTooltip]="'Método de pago'">
+                    payments
+                  </mat-icon>
+                  <span>
+                    {{ serviceInvoice.paymentMethod | paymentMethod }}
+                  </span>
+                </div>
+                <div class="icon-text-container">
+                  <mat-icon [matTooltip]="'Fecha de pago'">
+                    receipt_long
+                  </mat-icon>
+                  <span>
+                    {{ serviceInvoice.paymentDate | date: "MMMM d, y, h:mm a" }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="pt-3">
+              <div class="icon-text-container">
+                <mat-icon [matTooltip]="'Cliente'">person</mat-icon>
+                <span>
+                  {{ serviceInvoice.client.id }},
+                  {{ serviceInvoice.client.firstName }}
+                  {{ serviceInvoice.client?.secondName }}
+                  {{ serviceInvoice.client.lastName }}
+                  {{ serviceInvoice.client?.secondLastName }},
+                  {{ serviceInvoice.client.tradeName }}
+                </span>
+              </div>
+            </div>
+            <div class="pt-2 pb-3">
+              <mat-list>
+                <div mat-subheader>Se facturan los siguientes servicios</div>
+                <mat-list-item
+                  *ngFor="let detail of serviceInvoice.serviceInvoiceDetails"
+                >
+                  <mat-icon style="margin-right: 7px" color="primary"
+                    >offline_bolt</mat-icon
+                  >
+                  <span>
+                    {{ detail.serviceName }}
+                  </span>
+                  <mat-divider></mat-divider>
+                </mat-list-item>
+              </mat-list>
+            </div>
+            <div class="mt-5">
+              <div class="icon-text-container">
+                <mat-icon style="color: #138b3b">payments</mat-icon>
+                <span>
+                  Sub total:
+                  {{
+                    serviceInvoice.subTotal | currency: "COP":"symbol-narrow"
+                  }}
+                </span>
+              </div>
+              <div class="icon-text-container">
+                <mat-icon style="color: #138b3b">shopping_bag</mat-icon>
+                <span> IVA: {{ serviceInvoice.iva * 100 }}% </span>
+              </div>
+              <div class="icon-text-container">
+                <mat-icon style="color: #138b3b">monetization_on</mat-icon>
+                <span>
+                  Total a pagar:
+                  <strong>
+                    {{ serviceInvoice.total | currency: "COP":"symbol-narrow" }}
+                  </strong>
+                </span>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions
+            *ngIf="serviceInvoice.state == 0 || serviceInvoice.state == 1"
           >
-            <mat-icon style="margin-right: 7px" color="primary"
-              >offline_bolt</mat-icon
-            >
-            <span>
-              {{ detail.serviceName }}
-            </span>
-            <mat-divider></mat-divider>
-          </mat-list-item>
-        </mat-list>
+            <div class="form-buttons center-flex-content">
+              <a
+                style="width: 90%"
+                type="submit"
+                mat-raised-button
+                class="royal_azure"
+                routerLink="/payments/pay/service_invoice/{{
+                  serviceInvoice.id
+                }}"
+              >
+                <mat-icon>attach_money</mat-icon>
+                <span>Pagar factura de servicio</span>
+              </a>
+            </div>
+          </mat-card-actions>
+        </mat-card>
       </div>
-      <div class="mt-5">
-        <div class="icon-text-container">
-          <mat-icon style="color: #138b3b">payments</mat-icon>
-          <span>
-            Sub total:
-            {{ serviceInvoice.subTotal | currency: "COP":"symbol-narrow" }}
-          </span>
-        </div>
-        <div class="icon-text-container">
-          <mat-icon style="color: #138b3b">shopping_bag</mat-icon>
-          <span> IVA: {{ serviceInvoice.iva * 100 }}% </span>
-        </div>
-        <div class="icon-text-container">
-          <mat-icon style="color: #138b3b">monetization_on</mat-icon>
-          <span>
-            Total a pagar:
-            <strong>
-              {{ serviceInvoice.total | currency: "COP":"symbol-narrow" }}
-            </strong>
-          </span>
-        </div>
-      </div>
-    </mat-card-content>
-    <mat-card-actions
-      *ngIf="serviceInvoice.state == 0 || serviceInvoice.state == 1"
-    >
-      <div class="form-buttons center-flex-content">
-        <a
-          style="width: 90%"
-          type="submit"
-          mat-raised-button
-          class="royal_azure"
-          routerLink="/payments/pay/service_invoice/{{ serviceInvoice.id }}"
-        >
-          <mat-icon>attach_money</mat-icon>
-          <span>Pagar factura de servicio</span>
-        </a>
-      </div>
-    </mat-card-actions>
-  </mat-card>
+    </ng-template>
+  </ng-container>
 </div>

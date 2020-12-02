@@ -7,23 +7,38 @@
   <mat-slide-toggle color="primary" formControlName="showSelectedProducts">
     Mostrar seleccionados
   </mat-slide-toggle>
-  <mat-selection-list
-    *ngIf="!(controls['showSelectedProducts'].valueChanges | async)"
-    #productsListSelection="matSelectionList"
-    formControlName="productCodes"
-    (selectionChange)="onSelectProduct($event)"
+  <ng-container
+    *ngIf="products$ | observableWithStatus | async as obs"
+    [ngSwitch]="obs.status"
   >
-    <mat-list-option
-      *ngFor="
-        let product of products
-          | filterProducts: (controls['productCode'].valueChanges | async)
-      "
-      [value]="product"
-      color="primary"
-    >
-      {{ product.code }} - {{ product.name }}
-    </mat-list-option>
-  </mat-selection-list>
+    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+      <div class="center-block-content pt-5">
+        <div class="center-flex-content">
+          <mat-spinner></mat-spinner>
+        </div>
+        <h4 class="text-center mt-4 empty-list-text">Cargando productos...</h4>
+      </div>
+    </ng-template>
+    <ng-template [ngSwitchCase]="ObsStatus.Success">
+      <mat-selection-list
+        *ngIf="!(controls['showSelectedProducts'].valueChanges | async)"
+        #productsListSelection="matSelectionList"
+        formControlName="productCodes"
+        (selectionChange)="onSelectProduct($event)"
+      >
+        <mat-list-option
+          *ngFor="
+            let product of obs.value
+              | filterProducts: (controls['productCode'].valueChanges | async)
+          "
+          [value]="product"
+          color="primary"
+        >
+          {{ product.code }} - {{ product.name }}
+        </mat-list-option>
+      </mat-selection-list>
+    </ng-template>
+  </ng-container>
   <mat-list *ngIf="controls['showSelectedProducts'].valueChanges | async">
     <mat-list-item *ngFor="let product of selectedProducts">
       {{ product.code }} - {{ product.name }}

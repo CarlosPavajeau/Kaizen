@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { WorkOrder } from '@modules/work-orders/models/work-order';
 import { WorkOrderService } from '@modules/work-orders/service/work-order.service';
+import { ObservableStatus } from '@shared/models/observable-with-status';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-work-order-detail',
@@ -9,7 +11,9 @@ import { WorkOrderService } from '@modules/work-orders/service/work-order.servic
   styleUrls: [ './work-order-detail.component.scss' ]
 })
 export class WorkOrderDetailComponent implements OnInit {
-  workOrder: WorkOrder;
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
+  workOrder$: Observable<WorkOrder>;
 
   constructor(private workOrderService: WorkOrderService, private activatedRoute: ActivatedRoute) {}
 
@@ -19,8 +23,6 @@ export class WorkOrderDetailComponent implements OnInit {
 
   private loadData(): void {
     const code = +this.activatedRoute.snapshot.paramMap.get('code');
-    this.workOrderService.getWorkOrder(code).subscribe((workOrder) => {
-      this.workOrder = workOrder;
-    });
+    this.workOrder$ = this.workOrderService.getWorkOrder(code);
   }
 }

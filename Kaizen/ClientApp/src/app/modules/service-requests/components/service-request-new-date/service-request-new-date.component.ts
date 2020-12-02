@@ -6,7 +6,9 @@ import { ServiceRequest } from '@modules/service-requests/models/service-request
 import { ServiceRequestState } from '@modules/service-requests/models/service-request-state';
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
 import { SelectDateModalComponent } from '@shared/components/select-date-modal/select-date-modal.component';
+import { ObservableStatus } from '@shared/models/observable-with-status';
 import { NotificationsService } from '@shared/services/notifications.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-service-request-new-date',
@@ -14,7 +16,9 @@ import { NotificationsService } from '@shared/services/notifications.service';
   styleUrls: [ './service-request-new-date.component.scss' ]
 })
 export class ServiceRequestNewDateComponent implements OnInit {
-  serviceRequest: ServiceRequest;
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
+  serviceRequest$: Observable<ServiceRequest>;
 
   updatingServiceRequest = false;
 
@@ -31,33 +35,30 @@ export class ServiceRequestNewDateComponent implements OnInit {
 
   private loadData(): void {
     const client: Client = JSON.parse(localStorage.getItem('current_person'));
-
-    this.serviceRequestService.getPendingServiceRequest(client.id).subscribe((pendingRequest) => {
-      this.serviceRequest = pendingRequest;
-    });
+    this.serviceRequest$ = this.serviceRequestService.getPendingServiceRequest(client.id);
   }
 
-  suggestAnotherDate(): void {
+  suggestAnotherDate(serviceRequest: ServiceRequest): void {
     const dateRef = this.dateDialog.open(SelectDateModalComponent, {
       width: '700px'
     });
 
     dateRef.afterClosed().subscribe((date) => {
       if (date) {
-        this.serviceRequest.date = date;
-        this.acceptSuggestedDate();
+        serviceRequest.date = date;
+        this.acceptSuggestedDate(serviceRequest);
       }
     });
   }
 
-  acceptSuggestedDate(): void {
-    this.serviceRequest.state = ServiceRequestState.Pending;
-    this.updateServiceRequest();
+  acceptSuggestedDate(serviceRequest: ServiceRequest): void {
+    serviceRequest.state = ServiceRequestState.Pending;
+    this.updateServiceRequest(serviceRequest);
   }
 
-  private updateServiceRequest(): void {
+  private updateServiceRequest(serviceRequest: ServiceRequest): void {
     this.updatingServiceRequest = true;
-    this.serviceRequestService.updateServiceRequest(this.serviceRequest).subscribe((serviceRequestUpdate) => {
+    this.serviceRequestService.updateServiceRequest(serviceRequest).subscribe((serviceRequestUpdate) => {
       this.notificationsService.showSuccessMessage(
         'Fecha de la solicitud del servicio modificada con éxito. Espere nuestra respuesta.',
         () => {

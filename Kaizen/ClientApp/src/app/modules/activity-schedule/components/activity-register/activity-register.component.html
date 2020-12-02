@@ -148,55 +148,80 @@
                   mat-raised-button
                   class="royal_azure"
                   (click)="loadTechniciansAvailable()"
-                  [appLoadingButton]="loadingtechniciansAvailable"
+                  [appLoadingButton]="loadingTechniciansAvailable"
                 >
                   Buscar técnicos disponibles
                 </button>
               </div>
             </div>
-            <div
-              *ngIf="techniciansAvailable.length > 0"
-              style="padding-top: 1rem"
-            >
-              <h2 class="mt-h2 text-center">Asignación de empleados</h2>
-              <div class="form-element">
-                <mat-form-field>
-                  <mat-label>Técnicos a asignar</mat-label>
-                  <mat-select formControlName="employeeCodes" multiple>
-                    <mat-option
-                      *ngFor="let employee of techniciansAvailable"
-                      [value]="employee.id"
-                    >
-                      {{ employee.id }} - {{ employee.firstName }}
-                      {{ employee.lastName }}
-                    </mat-option>
-                  </mat-select>
-                  <mat-hint>
-                    Selecciones los empleados que aplicaran los servicios
-                    solicitados
-                  </mat-hint>
-                  <mat-error
-                    *ngIf="controls['employeeCodes'].hasError('required')"
-                  >
-                    Debe asignar por lo menos un técnico
-                  </mat-error>
-                </mat-form-field>
-              </div>
+            <div *ngIf="techniciansAvailable$">
+              <ng-container
+                *ngIf="
+                  techniciansAvailable$ | observableWithStatus | async as obs
+                "
+                [ngSwitch]="obs.status"
+              >
+                <ng-template [ngSwitchCase]="ObsStatus.Loading"></ng-template>
+                <ng-template [ngSwitchCase]="ObsStatus.Success">
+                  <div *ngIf="obs.value as techniciansAvailable">
+                    <div *ngIf="techniciansAvailable.length > 0" class="pt-3">
+                      <h2 class="mt-h2 text-center">Asignación de empleados</h2>
+                      <div class="form-element">
+                        <mat-form-field>
+                          <mat-label>Técnicos a asignar</mat-label>
+                          <mat-select formControlName="employeeCodes" multiple>
+                            <mat-option
+                              *ngFor="let employee of techniciansAvailable"
+                              [value]="employee.id"
+                            >
+                              {{ employee.id }} - {{ employee.firstName }}
+                              {{ employee.lastName }}
+                            </mat-option>
+                          </mat-select>
+                          <mat-hint>
+                            Selecciones los empleados que aplicaran los
+                            servicios solicitados
+                          </mat-hint>
+                          <mat-error
+                            *ngIf="
+                              controls['employeeCodes'].hasError('required')
+                            "
+                          >
+                            Debe asignar por lo menos un técnico
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div *ngIf="techniciansAvailable.length <= 0" class="pt-3">
+                      <h3>No hay tecnicos disponibles</h3>
+                    </div>
+                  </div>
+                </ng-template>
+              </ng-container>
             </div>
           </form>
         </div>
       </mat-card-content>
       <mat-card-actions>
-        <div class="form-buttons pt-3">
-          <button
-            *ngIf="techniciansAvailable.length > 0"
-            mat-raised-button
-            class="royal_azure mr-5"
-            (click)="onSubmit()"
-            [appLoadingButton]="savingData"
+        <div *ngIf="techniciansAvailable$">
+          <ng-container
+            *ngIf="techniciansAvailable$ | observableWithStatus | async as obs"
+            [ngSwitch]="obs.status"
           >
-            Agendar actividad
-          </button>
+            <ng-template [ngSwitchCase]="ObsStatus.Success">
+              <button
+                *ngIf="obs.value.length > 0"
+                mat-raised-button
+                class="royal_azure mr-5"
+                (click)="onSubmit()"
+                [appLoadingButton]="savingData"
+              >
+                Agendar actividad
+              </button>
+            </ng-template>
+          </ng-container>
+        </div>
+        <div class="form-buttons pt-3">
           <button
             *ngIf="fromServiceRequest"
             mat-stroked-button

@@ -3,7 +3,9 @@ import { ServiceRequestState } from '@app/modules/service-requests/models/servic
 import { ServiceRequest } from '@modules/service-requests/models/service-request';
 import { NewServiceRequestSignalrService } from '@modules/service-requests/services/new-service-request-signalr.service';
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
+import { ObservableStatus } from '@shared/models/observable-with-status';
 import { NotificationsService } from '@shared/services/notifications.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-service-requests',
@@ -11,7 +13,10 @@ import { NotificationsService } from '@shared/services/notifications.service';
   styleUrls: [ './service-requests.component.scss' ]
 })
 export class ServiceRequestsComponent implements OnInit {
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
   serviceRequests: ServiceRequest[] = [];
+  serviceRequests$: Observable<ServiceRequest[]>;
 
   constructor(
     private serviceRequestService: ServiceRequestService,
@@ -30,7 +35,8 @@ export class ServiceRequestsComponent implements OnInit {
   }
 
   private loadServiceRequests(): void {
-    this.serviceRequestService.getServiceRequests().subscribe((serviceRequests) => {
+    this.serviceRequests$ = this.serviceRequestService.getServiceRequests();
+    this.serviceRequests$.subscribe((serviceRequests) => {
       this.serviceRequests = serviceRequests;
     });
   }

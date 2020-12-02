@@ -4,6 +4,8 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { WorkOrder } from '@modules/work-orders/models/work-order';
 import { WorkOrderService } from '@modules/work-orders/service/work-order.service';
+import { Observable } from 'rxjs';
+import { ObservableStatus } from 'shared/models/observable-with-status';
 
 @Component({
   selector: 'app-work-orders',
@@ -11,11 +13,16 @@ import { WorkOrderService } from '@modules/work-orders/service/work-order.servic
   styleUrls: [ './work-orders.component.scss' ]
 })
 export class WorkOrdersComponent implements OnInit, AfterViewInit {
-  workOrders: WorkOrder[] = [];
-  dataSource: MatTableDataSource<WorkOrder> = new MatTableDataSource<WorkOrder>(this.workOrders);
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
+  workOrders$: Observable<WorkOrder[]>;
+  dataSource: MatTableDataSource<WorkOrder> = new MatTableDataSource<WorkOrder>([]);
+
   displayedColumns: string[] = [ 'code', 'executionDate', 'arrivalTime', 'departureTime', 'options' ];
+
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
+
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private workOrderService: WorkOrderService) {}
@@ -25,8 +32,8 @@ export class WorkOrdersComponent implements OnInit, AfterViewInit {
   }
 
   private loadData(): void {
-    this.workOrderService.getWorkOrders().subscribe((workOrders) => {
-      this.workOrders = workOrders;
+    this.workOrders$ = this.workOrderService.getWorkOrders();
+    this.workOrders$.subscribe((workOrders) => {
       this.dataSource.data = workOrders;
     });
   }

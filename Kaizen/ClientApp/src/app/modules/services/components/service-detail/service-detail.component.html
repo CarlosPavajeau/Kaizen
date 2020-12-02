@@ -1,79 +1,94 @@
 <section class="container">
-  <div *ngIf="service">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>{{ service.name }}</mat-card-title>
-        <mat-card-subtitle>Código: {{ service.code }}</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="icon-text-container">
-          <mat-icon [matTooltip]="'Precio del servicio'">
-            monetization_on
-          </mat-icon>
-          <span>{{ service.cost | currency: "COP":"symbol-narrow" }}</span>
+  <ng-container
+    *ngIf="service$ | observableWithStatus | async as obs"
+    [ngSwitch]="obs.status"
+  >
+    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+      <div class="center-block-content pt-5">
+        <div class="center-flex-content">
+          <mat-spinner></mat-spinner>
         </div>
-        <div class="icon-text-container">
-          <mat-icon [matTooltip]="'Tipo de servicio'">
-            batch_prediction
-          </mat-icon>
-          <span>{{ service.serviceType.name }}</span>
-        </div>
-        <div>
-          <mat-list>
-            <div matSubheader>Productos utilizados</div>
-            <mat-list-item
-              *ngFor="let product of service.products; last as last"
+        <h4 class="text-center mt-4 empty-list-text">Cargando servicio...</h4>
+      </div>
+    </ng-template>
+    <ng-template [ngSwitchCase]="ObsStatus.Success">
+      <div *ngIf="obs.value as service">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>{{ service.name }}</mat-card-title>
+            <mat-card-subtitle>Código: {{ service.code }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="icon-text-container">
+              <mat-icon [matTooltip]="'Precio del servicio'">
+                monetization_on
+              </mat-icon>
+              <span>{{ service.cost | currency: "COP":"symbol-narrow" }}</span>
+            </div>
+            <div class="icon-text-container">
+              <mat-icon [matTooltip]="'Tipo de servicio'">
+                batch_prediction
+              </mat-icon>
+              <span>{{ service.serviceType.name }}</span>
+            </div>
+            <div>
+              <mat-list>
+                <div matSubheader>Productos utilizados</div>
+                <mat-list-item
+                  *ngFor="let product of service.products; last as last"
+                >
+                  <div class="icon-text-container">
+                    <mat-icon>eco</mat-icon>
+                    <span>{{ product.code }} - {{ product.name }}</span>
+                  </div>
+                  <mat-divider *ngIf="!last"></mat-divider>
+                </mat-list-item>
+              </mat-list>
+            </div>
+            <div>
+              <mat-list>
+                <div matSubheader>Equipos utilizados</div>
+                <mat-list-item
+                  *ngFor="let equipment of service.equipments; last as last"
+                >
+                  <div class="icon-text-container">
+                    <mat-icon>construction</mat-icon>
+                    <span>{{ equipment.code }} - {{ equipment.name }}</span>
+                  </div>
+                  <mat-divider *ngIf="!last"></mat-divider>
+                </mat-list-item>
+              </mat-list>
+            </div>
+            <div>
+              <mat-list>
+                <div matSubheader>Empleados asignados</div>
+                <mat-list-item
+                  *ngFor="let employee of service.employees; last as last"
+                >
+                  <div class="icon-text-container">
+                    <mat-icon>engineering</mat-icon>
+                    <span>
+                      {{ employee.id }} - {{ employee.firstName }}
+                      {{ employee.secondName }} {{ employee.lastName }}
+                      {{ employee.secondLastName }}
+                    </span>
+                  </div>
+                  <mat-divider *ngIf="!last"></mat-divider>
+                </mat-list-item>
+              </mat-list>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <a
+              mat-raised-button
+              class="royal_azure"
+              routerLink="/services/edit/{{ service.code }}"
             >
-              <div class="icon-text-container">
-                <mat-icon>eco</mat-icon>
-                <span>{{ product.code }} - {{ product.name }}</span>
-              </div>
-              <mat-divider *ngIf="!last"></mat-divider>
-            </mat-list-item>
-          </mat-list>
-        </div>
-        <div>
-          <mat-list>
-            <div matSubheader>Equipos utilizados</div>
-            <mat-list-item
-              *ngFor="let equipment of service.equipments; last as last"
-            >
-              <div class="icon-text-container">
-                <mat-icon>construction</mat-icon>
-                <span>{{ equipment.code }} - {{ equipment.name }}</span>
-              </div>
-              <mat-divider *ngIf="!last"></mat-divider>
-            </mat-list-item>
-          </mat-list>
-        </div>
-        <div>
-          <mat-list>
-            <div matSubheader>Empleados asignados</div>
-            <mat-list-item
-              *ngFor="let employee of service.employees; last as last"
-            >
-              <div class="icon-text-container">
-                <mat-icon>engineering</mat-icon>
-                <span>
-                  {{ employee.id }} - {{ employee.firstName }}
-                  {{ employee.secondName }} {{ employee.lastName }}
-                  {{ employee.secondLastName }}
-                </span>
-              </div>
-              <mat-divider *ngIf="!last"></mat-divider>
-            </mat-list-item>
-          </mat-list>
-        </div>
-      </mat-card-content>
-      <mat-card-actions>
-        <a
-          mat-raised-button
-          class="royal_azure"
-          routerLink="/services/edit/{{ service.code }}"
-        >
-          Editar servicio
-        </a>
-      </mat-card-actions>
-    </mat-card>
-  </div>
+              Editar servicio
+            </a>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </ng-template>
+  </ng-container>
 </section>

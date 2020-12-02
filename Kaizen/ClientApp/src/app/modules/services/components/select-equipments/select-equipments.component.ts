@@ -4,6 +4,8 @@ import { MatSelectionList, MatSelectionListChange } from '@angular/material/list
 import { IForm } from '@core/models/form';
 import { Equipment } from '@modules/inventory/equipments/models/equipment';
 import { EquipmentService } from '@modules/inventory/equipments/services/equipment.service';
+import { ObservableStatus } from '@shared/models/observable-with-status';
+import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 @Component({
@@ -12,7 +14,10 @@ import { delay } from 'rxjs/operators';
   styleUrls: [ './select-equipments.component.scss' ]
 })
 export class SelectEquipmentsComponent implements OnInit, IForm {
-  equipments: Equipment[] = [];
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
+  equipments$: Observable<Equipment[]>;
+
   selectedEquipments: Equipment[] = [];
 
   selectEquipmentsForm: FormGroup;
@@ -30,9 +35,7 @@ export class SelectEquipmentsComponent implements OnInit, IForm {
   }
 
   private loadData(): void {
-    this.equipmentService.getEquipments().subscribe((equipments) => {
-      this.equipments = equipments;
-    });
+    this.equipments$ = this.equipmentService.getEquipments();
   }
 
   initForm(): void {

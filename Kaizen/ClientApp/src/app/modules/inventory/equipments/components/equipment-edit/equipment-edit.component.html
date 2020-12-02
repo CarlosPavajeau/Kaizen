@@ -1,146 +1,168 @@
 <section class="container">
-  <div *ngIf="equipment">
-    <h1 class="text-center">
-      Edición del equipo {{ equipment.name }} identificado con el código
-      {{ equipment.code }}
-    </h1>
-    <mat-tab-group mat-stretch-tabs>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon>create</mat-icon>
-          Datos básicos
-        </ng-template>
-        <ng-template matTabContent>
-          <form [formGroup]="equipmentBasicDataForm">
-            <div class="form-element">
-              <mat-form-field>
-                <mat-label>Nombre</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  placeholder="Ejemplo: Rociador"
-                  formControlName="name"
-                />
-                <mat-hint>Digite el nombre del equipo</mat-hint>
-                <mat-error *ngIf="controls['name'].hasError('required')"
-                  >El nombre del equipo es requerido</mat-error
+  <ng-container
+    *ngIf="equipment$ | observableWithStatus | async as obs"
+    [ngSwitch]="obs.status"
+  >
+    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+      <div class="center-block-content pt-5">
+        <div class="center-flex-content">
+          <mat-spinner></mat-spinner>
+        </div>
+        <h4 class="text-center mt-4 empty-list-text">Cargando equipo...</h4>
+      </div>
+    </ng-template>
+    <ng-template [ngSwitchCase]="ObsStatus.Success">
+      <div *ngIf="obs.value as equipment">
+        <h1 class="text-center">
+          Edición del equipo {{ equipment.name }} identificado con el código
+          {{ equipment.code }}
+        </h1>
+        <mat-tab-group mat-stretch-tabs>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon>create</mat-icon>
+              Datos básicos
+            </ng-template>
+            <ng-template matTabContent>
+              <form [formGroup]="equipmentBasicDataForm">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Nombre</mat-label>
+                    <input
+                      type="text"
+                      matInput
+                      placeholder="Ejemplo: Rociador"
+                      formControlName="name"
+                    />
+                    <mat-hint>Digite el nombre del equipo</mat-hint>
+                    <mat-error *ngIf="controls['name'].hasError('required')"
+                      >El nombre del equipo es requerido</mat-error
+                    >
+                    <mat-error *ngIf="controls['name'].hasError('minlength')"
+                      >Debe digitar mínimo 5 caracteres</mat-error
+                    >
+                    <mat-error *ngIf="controls['name'].hasError('maxlength')"
+                      >Debe digitar máximo 50 caracteres</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <div class="form-element form-select">
+                  <mat-form-field>
+                    <mat-label>Elija una fecha</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="datePicker"
+                      formControlName="maintenanceDate"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="datePicker"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker #datePicker></mat-datepicker>
+                    <mat-hint
+                      >Seleccione la fecha del último mantenimiento o la fecha
+                      de compra del equipo</mat-hint
+                    >
+                    <mat-error
+                      *ngIf="controls['maintenanceDate'].hasError('required')"
+                      >Fecha requerida</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Descripción</mat-label>
+                    <textarea
+                      matInput
+                      placeholder="Descripción del equipo"
+                      formControlName="description"
+                    ></textarea>
+                    <mat-hint>Digite una breve descripción del equipo</mat-hint>
+                    <mat-error
+                      *ngIf="controls['description'].hasError('required')"
+                      >La descripción del equipo es requerida</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+              </form>
+              <div class="form-buttons">
+                <button
+                  mat-raised-button
+                  class="royal_azure"
+                  (click)="updateEquipmentBasicData()"
+                  [appLoadingButton]="updatingEquipment"
                 >
-                <mat-error *ngIf="controls['name'].hasError('minlength')"
-                  >Debe digitar mínimo 5 caracteres</mat-error
+                  Actualizar datos básicos
+                </button>
+              </div>
+            </ng-template>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon>layers</mat-icon>
+              Datos de inventario
+            </ng-template>
+            <ng-template matTabContent>
+              <form [formGroup]="equipmentInInventoryForm">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Cantidad</mat-label>
+                    <input
+                      type="number"
+                      matInput
+                      placeholder="Ejemplo: 22"
+                      formControlName="amount"
+                    />
+                    <mat-hint
+                      >Digite la cantidad de equipos disponibles</mat-hint
+                    >
+                    <mat-error
+                      *ngIf="
+                        equipmentInInventoryControls['amount'].hasError(
+                          'required'
+                        )
+                      "
+                    >
+                      La cantidad de equipos es requerida
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Precio</mat-label>
+                    <input
+                      type="number"
+                      matInput
+                      placeholder="Ejemplo: 30000$"
+                      formControlName="price"
+                    />
+                    <mat-hint>Digite el precio de compra del equipo</mat-hint>
+                    <mat-error
+                      *ngIf="
+                        equipmentInInventoryControls['price'].hasError(
+                          'required'
+                        )
+                      "
+                    >
+                      El precio de compra es requerido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </form>
+              <div class="form-buttons">
+                <button
+                  mat-raised-button
+                  class="royal_azure"
+                  (click)="updateEquipmentInInventory()"
+                  [appLoadingButton]="updatingEquipment"
                 >
-                <mat-error *ngIf="controls['name'].hasError('maxlength')"
-                  >Debe digitar máximo 50 caracteres</mat-error
-                >
-              </mat-form-field>
-            </div>
-            <div class="form-element form-select">
-              <mat-form-field>
-                <mat-label>Elija una fecha</mat-label>
-                <input
-                  matInput
-                  [matDatepicker]="datePicker"
-                  formControlName="maintenanceDate"
-                />
-                <mat-datepicker-toggle
-                  matSuffix
-                  [for]="datePicker"
-                ></mat-datepicker-toggle>
-                <mat-datepicker #datePicker></mat-datepicker>
-                <mat-hint
-                  >Seleccione la fecha del último mantenimiento o la fecha de
-                  compra del equipo</mat-hint
-                >
-                <mat-error
-                  *ngIf="controls['maintenanceDate'].hasError('required')"
-                  >Fecha requerida</mat-error
-                >
-              </mat-form-field>
-            </div>
-            <div class="form-element">
-              <mat-form-field>
-                <mat-label>Descripción</mat-label>
-                <textarea
-                  matInput
-                  placeholder="Descripción del equipo"
-                  formControlName="description"
-                ></textarea>
-                <mat-hint>Digite una breve descripción del equipo</mat-hint>
-                <mat-error *ngIf="controls['description'].hasError('required')"
-                  >La descripción del equipo es requerida</mat-error
-                >
-              </mat-form-field>
-            </div>
-          </form>
-          <div class="form-buttons">
-            <button
-              mat-raised-button
-              class="royal_azure"
-              (click)="updateEquipmentBasicData()"
-              [appLoadingButton]="updatingEquipment"
-            >
-              Actualizar datos básicos
-            </button>
-          </div>
-        </ng-template>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon>layers</mat-icon>
-          Datos de inventario
-        </ng-template>
-        <ng-template matTabContent>
-          <form [formGroup]="equipmentInInventoryForm">
-            <div class="form-element">
-              <mat-form-field>
-                <mat-label>Cantidad</mat-label>
-                <input
-                  type="number"
-                  matInput
-                  placeholder="Ejemplo: 22"
-                  formControlName="amount"
-                />
-                <mat-hint>Digite la cantidad de equipos disponibles</mat-hint>
-                <mat-error
-                  *ngIf="
-                    equipmentInInventoryControls['amount'].hasError('required')
-                  "
-                >
-                  La cantidad de equipos es requerida
-                </mat-error>
-              </mat-form-field>
-            </div>
-            <div class="form-element">
-              <mat-form-field>
-                <mat-label>Precio</mat-label>
-                <input
-                  type="number"
-                  matInput
-                  placeholder="Ejemplo: 30000$"
-                  formControlName="price"
-                />
-                <mat-hint>Digite el precio de compra del equipo</mat-hint>
-                <mat-error
-                  *ngIf="
-                    equipmentInInventoryControls['price'].hasError('required')
-                  "
-                >
-                  El precio de compra es requerido
-                </mat-error>
-              </mat-form-field>
-            </div>
-          </form>
-          <div class="form-buttons">
-            <button
-              mat-raised-button
-              class="royal_azure"
-              (click)="updateEquipmentInInventory()"
-              [appLoadingButton]="updatingEquipment"
-            >
-              Actualizar datos de inventario
-            </button>
-          </div>
-        </ng-template>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
+                  Actualizar datos de inventario
+                </button>
+              </div>
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </ng-template>
+  </ng-container>
 </section>

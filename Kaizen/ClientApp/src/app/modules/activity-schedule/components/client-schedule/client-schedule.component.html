@@ -1,78 +1,99 @@
 <section class="container">
-  <div>
-    <h1 class="text-center">Visitas pendientes</h1>
-    <br />
-    <h3>
-      Estimado cliente, tiene pendiente
-      {{ pendingActivities?.length }} actividades en el vigante año
-      {{ date | date: "yyyy" }}.
-    </h3>
-  </div>
-  <mat-divider></mat-divider>
-  <div class="pt-3">
-    <div *ngIf="pendingActivities?.length <= 0">
-      <div>
-        <img
-          src="/assets/images/relax_people.svg"
-          alt="Empty list"
-          class="center-block-content"
-        />
-        <h4 class="text-center empty-list-text">
-          No hay solicitudes pendientes
+  <ng-container
+    *ngIf="pendingActivities$ | observableWithStatus | async as obs"
+    [ngSwitch]="obs.status"
+  >
+    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+      <div class="center-block-content pt-5">
+        <div class="center-flex-content">
+          <mat-spinner></mat-spinner>
+        </div>
+        <h4 class="text-center mt-4 empty-list-text">
+          Cargando actividades pendientes...
         </h4>
       </div>
-    </div>
-    <mat-accordion *ngIf="pendingActivities?.length > 0">
-      <mat-expansion-panel *ngFor="let activity of pendingActivities">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <span>Actividad N°{{ activity.code }}</span>
-          </mat-panel-title>
-          <mat-panel-description>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Fecha de aplicación'">event</mat-icon>
-              <span>{{ activity.date | date: "MMMM d, y, h:mm a" }}</span>
-            </div>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <div class="p-2">
-          <mat-list>
-            <div mat-subheader>Servicios a aplicar</div>
-            <mat-list-item *ngFor="let service of activity.services">
-              <div class="icon-text-container">
-                <mat-icon color="primary"> offline_bolt </mat-icon>
-                <span>
-                  {{ service.name }}
-                </span>
-              </div>
-            </mat-list-item>
-          </mat-list>
+    </ng-template>
+    <ng-template [ngSwitchCase]="ObsStatus.Success">
+      <div *ngIf="obs.value as pendingActivities">
+        <div>
+          <h1 class="text-center">Visitas pendientes</h1>
+          <br />
+          <h3>
+            Estimado cliente, tiene pendiente
+            {{ pendingActivities?.length }} actividades en el vigante año
+            {{ date | date: "yyyy" }}.
+          </h3>
         </div>
         <mat-divider></mat-divider>
-        <div class="mt-4">
-          <mat-list>
-            <div mat-subheader>Empleados asignados</div>
-            <mat-list-item *ngFor="let employee of activity.employees">
-              <div class="icon-text-container">
-                <mat-icon>engineering</mat-icon>
-                <span>
-                  {{ employee.id }} - {{ employee.firstName }}
-                  {{ employee.lastName }}
-                </span>
+        <div class="pt-3">
+          <div *ngIf="pendingActivities?.length <= 0">
+            <div>
+              <img
+                src="/assets/images/relax_people.svg"
+                alt="Empty list"
+                class="center-block-content"
+              />
+              <h4 class="text-center empty-list-text">
+                No hay solicitudes pendientes
+              </h4>
+            </div>
+          </div>
+          <mat-accordion *ngIf="pendingActivities?.length > 0">
+            <mat-expansion-panel *ngFor="let activity of pendingActivities">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span>Actividad N°{{ activity.code }}</span>
+                </mat-panel-title>
+                <mat-panel-description>
+                  <div class="icon-text-container">
+                    <mat-icon [matTooltip]="'Fecha de aplicación'"
+                      >event</mat-icon
+                    >
+                    <span>{{ activity.date | date: "MMMM d, y, h:mm a" }}</span>
+                  </div>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div class="p-2">
+                <mat-list>
+                  <div mat-subheader>Servicios a aplicar</div>
+                  <mat-list-item *ngFor="let service of activity.services">
+                    <div class="icon-text-container">
+                      <mat-icon color="primary"> offline_bolt </mat-icon>
+                      <span>
+                        {{ service.name }}
+                      </span>
+                    </div>
+                  </mat-list-item>
+                </mat-list>
               </div>
-            </mat-list-item>
-          </mat-list>
+              <mat-divider></mat-divider>
+              <div class="mt-4">
+                <mat-list>
+                  <div mat-subheader>Empleados asignados</div>
+                  <mat-list-item *ngFor="let employee of activity.employees">
+                    <div class="icon-text-container">
+                      <mat-icon>engineering</mat-icon>
+                      <span>
+                        {{ employee.id }} - {{ employee.firstName }}
+                        {{ employee.lastName }}
+                      </span>
+                    </div>
+                  </mat-list-item>
+                </mat-list>
+              </div>
+              <mat-action-row>
+                <a
+                  mat-raised-button
+                  class="royal_azure"
+                  [routerLink]="['/activity_schedule/', activity.code]"
+                >
+                  Ver más información
+                </a>
+              </mat-action-row>
+            </mat-expansion-panel>
+          </mat-accordion>
         </div>
-        <mat-action-row>
-          <a
-            mat-raised-button
-            class="royal_azure"
-            [routerLink]="['/activity_schedule/', activity.code]"
-          >
-            Ver más información
-          </a>
-        </mat-action-row>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </div>
+      </div>
+    </ng-template>
+  </ng-container>
 </section>

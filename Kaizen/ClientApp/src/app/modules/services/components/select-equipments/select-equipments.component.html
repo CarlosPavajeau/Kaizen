@@ -7,23 +7,39 @@
   <mat-slide-toggle color="primary" formControlName="showSelectedEquipments">
     Mostrar seleccionados
   </mat-slide-toggle>
-  <mat-selection-list
-    *ngIf="!(controls['showSelectedEquipments'].valueChanges | async)"
-    #equipmentsListSelection="matSelectionList"
-    formControlName="equipmentCodes"
-    (selectionChange)="onSelectEquipment($event)"
+  <ng-container
+    *ngIf="equipments$ | observableWithStatus | async as obs"
+    [ngSwitch]="obs.status"
   >
-    <mat-list-option
-      *ngFor="
-        let equipment of equipments
-          | filterEquipments: (controls['equipmentCode'].valueChanges | async)
-      "
-      [value]="equipment"
-      color="primary"
-    >
-      {{ equipment.code }} - {{ equipment.name }}
-    </mat-list-option>
-  </mat-selection-list>
+    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+      <div class="center-block-content pt-5">
+        <div class="center-flex-content">
+          <mat-spinner></mat-spinner>
+        </div>
+        <h4 class="text-center mt-4 empty-list-text">Cargando equipos...</h4>
+      </div>
+    </ng-template>
+    <ng-template [ngSwitchCase]="ObsStatus.Success">
+      <mat-selection-list
+        *ngIf="!(controls['showSelectedEquipments'].valueChanges | async)"
+        #equipmentsListSelection="matSelectionList"
+        formControlName="equipmentCodes"
+        (selectionChange)="onSelectEquipment($event)"
+      >
+        <mat-list-option
+          *ngFor="
+            let equipment of obs.value
+              | filterEquipments
+                : (controls['equipmentCode'].valueChanges | async)
+          "
+          [value]="equipment"
+          color="primary"
+        >
+          {{ equipment.code }} - {{ equipment.name }}
+        </mat-list-option>
+      </mat-selection-list>
+    </ng-template>
+  </ng-container>
   <mat-list *ngIf="controls['showSelectedEquipments'].valueChanges | async">
     <mat-list-item *ngFor="let equipment of selectedEquipments">
       {{ equipment.code }} - {{ equipment.name }}

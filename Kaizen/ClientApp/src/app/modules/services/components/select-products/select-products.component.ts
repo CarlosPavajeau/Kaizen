@@ -4,6 +4,8 @@ import { MatSelectionList, MatSelectionListChange } from '@angular/material/list
 import { IForm } from '@core/models/form';
 import { Product } from '@modules/inventory/products/models/product';
 import { ProductService } from '@modules/inventory/products/services/product.service';
+import { ObservableStatus } from '@shared/models/observable-with-status';
+import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 @Component({
@@ -12,7 +14,10 @@ import { delay } from 'rxjs/operators';
   styleUrls: [ './select-products.component.scss' ]
 })
 export class SelectProductsComponent implements OnInit, IForm {
-  products: Product[] = [];
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
+  products$: Observable<Product[]>;
+
   selectedProducts: Product[] = [];
 
   selectProductsForm: FormGroup;
@@ -30,9 +35,7 @@ export class SelectProductsComponent implements OnInit, IForm {
   }
 
   private loadData(): void {
-    this.productService.getProducts().subscribe((products) => {
-      this.products = products;
-    });
+    this.products$ = this.productService.getProducts();
   }
 
   initForm(): void {

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Product } from '@modules/inventory/products/models/product';
 import { ProductService } from '@modules/inventory/products/services/product.service';
+import { ObservableStatus } from '@shared/models/observable-with-status';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-detail',
@@ -9,7 +11,9 @@ import { ProductService } from '@modules/inventory/products/services/product.ser
   styleUrls: [ './product-detail.component.scss' ]
 })
 export class ProductDetailComponent implements OnInit {
-  product: Product;
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
+  product$: Observable<Product>;
 
   constructor(private productService: ProductService, private activatedRoute: ActivatedRoute) {}
 
@@ -19,8 +23,6 @@ export class ProductDetailComponent implements OnInit {
 
   private loadData(): void {
     const code = this.activatedRoute.snapshot.paramMap.get('code');
-    this.productService.getProduct(code).subscribe((product) => {
-      this.product = product;
-    });
+    this.product$ = this.productService.getProduct(code);
   }
 }

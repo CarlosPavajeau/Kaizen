@@ -7,7 +7,9 @@ import { ServiceRequest } from '@modules/service-requests/models/service-request
 import { ServiceRequestState } from '@modules/service-requests/models/service-request-state';
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
 import { SelectDateModalComponent } from '@shared/components/select-date-modal/select-date-modal.component';
+import { ObservableStatus } from '@shared/models/observable-with-status';
 import { NotificationsService } from '@shared/services/notifications.service';
+import { Observable } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 
 @Component({
@@ -16,8 +18,11 @@ import { filter, switchMap } from 'rxjs/operators';
   styleUrls: [ './service-request-process.component.scss' ]
 })
 export class ServiceRequestProcessComponent implements OnInit {
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
   serviceRequest: ServiceRequest;
-  techniciansAvailable: Employee[] = [];
+  techniciansAvailable$: Observable<Employee[]>;
+
   serviceRequestCode: number;
 
   updatingServiceRequest = false;
@@ -43,11 +48,7 @@ export class ServiceRequestProcessComponent implements OnInit {
   onLoadedServiceRequest(serviceRequest: ServiceRequest): void {
     this.serviceRequest = serviceRequest;
     const serviceCodes = serviceRequest.services.map((service) => service.code);
-    this.employeeService
-      .getTechniciansAvailable(serviceRequest.date, serviceCodes)
-      .subscribe((techniciansAvailable) => {
-        this.techniciansAvailable = techniciansAvailable;
-      });
+    this.techniciansAvailable$ = this.employeeService.getTechniciansAvailable(serviceRequest.date, serviceCodes);
   }
 
   cancelServiceRequest(): void {

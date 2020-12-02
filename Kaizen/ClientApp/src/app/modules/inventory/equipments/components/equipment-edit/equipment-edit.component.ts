@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { IForm } from '@core/models/form';
 import { Equipment } from '@modules/inventory/equipments/models/equipment';
 import { EquipmentService } from '@modules/inventory/equipments/services/equipment.service';
+import { ObservableStatus } from '@shared/models/observable-with-status';
 import { NotificationsService } from '@shared/services/notifications.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-equipment-edit',
@@ -12,7 +14,9 @@ import { NotificationsService } from '@shared/services/notifications.service';
   styleUrls: [ './equipment-edit.component.scss' ]
 })
 export class EquipmentEditComponent implements OnInit, IForm {
-  equipment: Equipment;
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
+  equipment$: Observable<Equipment>;
 
   equipmentBasicDataForm: FormGroup;
   equipmentInInventoryForm: FormGroup;
@@ -31,7 +35,8 @@ export class EquipmentEditComponent implements OnInit, IForm {
     private equipmentService: EquipmentService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-    private notificationsService: NotificationsService
+    private notificationsService: NotificationsService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -41,22 +46,22 @@ export class EquipmentEditComponent implements OnInit, IForm {
 
   private loadData(): void {
     const code = this.activatedRoute.snapshot.paramMap.get('code');
-    this.equipmentService.getEquipment(code).subscribe((equipment) => {
-      this.equipment = equipment;
-      this.afterLoadEquipment();
+    this.equipment$ = this.equipmentService.getEquipment(code);
+    this.equipment$.subscribe((equipment) => {
+      this.afterLoadEquipment(equipment);
     });
   }
 
-  private afterLoadEquipment(): void {
+  private afterLoadEquipment(equipment: Equipment): void {
     this.equipmentBasicDataForm.setValue({
-      name: this.equipment.name,
-      maintenanceDate: this.equipment.maintenanceDate,
-      description: this.equipment.description
+      name: equipment.name,
+      maintenanceDate: equipment.maintenanceDate,
+      description: equipment.description
     });
 
     this.equipmentInInventoryForm.setValue({
-      amount: this.equipment.amount,
-      price: this.equipment.price
+      amount: equipment.amount,
+      price: equipment.price
     });
   }
 
@@ -80,24 +85,24 @@ export class EquipmentEditComponent implements OnInit, IForm {
     });
   }
 
-  updateEquipmentBasicData(): void {
+  updateEquipmentBasicData(equipment: Equipment): void {
     if (this.equipmentBasicDataForm.valid) {
-      this.equipment.name = this.controls['name'].value;
-      this.equipment.maintenanceDate = this.controls['maintenanceDate'].value;
-      this.equipment.description = this.controls['description'].value;
+      equipment.name = this.controls['name'].value;
+      equipment.maintenanceDate = this.controls['maintenanceDate'].value;
+      equipment.description = this.controls['description'].value;
 
-      this.updateEquipment();
+      this.updateEquipment(equipment);
     }
   }
 
-  private updateEquipment(): void {
+  private updateEquipment(equipment: Equipment): void {
     this.updatingEquipment = true;
-    this.equipmentService.updateEquipment(this.equipment).subscribe((upgradedEquipment) => {
+    this.equipmentService.updateEquipment(equipment).subscribe((upgradedEquipment) => {
       if (upgradedEquipment) {
         this.notificationsService.showSuccessMessage(
-          `Se actualizaron correctamente los datos del equipo identificado con el código ${this.equipment.code}.`,
+          `Se actualizaron correctamente los datos del equipo identificado con el código ${equipment.code}.`,
           () => {
-            this.equipment = upgradedEquipment;
+            this.router.navigateByUrl('/equipments');
             this.updatingEquipment = false;
           }
         );
@@ -105,12 +110,12 @@ export class EquipmentEditComponent implements OnInit, IForm {
     });
   }
 
-  updateEquipmentInInventory(): void {
+  updateEquipmentInInventory(equipment: Equipment): void {
     if (this.equipmentInInventoryForm.valid) {
-      this.equipment.amount = this.equipmentInInventoryControls['amount'].value;
-      this.equipment.price = +this.equipmentInInventoryControls['price'].value;
+      equipment.amount = this.equipmentInInventoryControls['amount'].value;
+      equipment.price = +this.equipmentInInventoryControls['price'].value;
 
-      this.updateEquipment();
+      this.updateEquipment(equipment);
     }
   }
 }

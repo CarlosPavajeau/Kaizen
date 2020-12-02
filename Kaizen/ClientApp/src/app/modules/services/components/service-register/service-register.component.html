@@ -42,12 +42,27 @@
               <mat-form-field>
                 <mat-label>Tipo de servicio</mat-label>
                 <mat-select required formControlName="serviceTypeId">
-                  <mat-option
-                    *ngFor="let serviceType of serviceTypes"
-                    [value]="serviceType.id"
+                  <ng-container
+                    *ngIf="serviceTypes$ | observableWithStatus | async as obs"
+                    [ngSwitch]="obs.status"
                   >
-                    {{ serviceType.name }}
-                  </mat-option>
+                    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+                      <mat-option>
+                        <div class="loading-option">
+                          <mat-spinner [diameter]="20"></mat-spinner>
+                          <span>Cargando tipos de servicio...</span>
+                        </div>
+                      </mat-option>
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="ObsStatus.Success">
+                      <mat-option
+                        *ngFor="let serviceType of obs.value"
+                        [value]="serviceType.id"
+                      >
+                        {{ serviceType.name }}
+                      </mat-option>
+                    </ng-template>
+                  </ng-container>
                 </mat-select>
                 <mat-error
                   *ngIf="controls['serviceTypeId'].hasError('required')"

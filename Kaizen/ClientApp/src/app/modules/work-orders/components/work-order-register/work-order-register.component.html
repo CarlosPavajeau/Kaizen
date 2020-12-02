@@ -1,192 +1,280 @@
-<section class="container" *ngIf="activity">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>Registro de orden de trabajo</mat-card-title>
-      <mat-card-subtitle>Actividad N° {{ activity.code }}</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="icon-text-container">
-        <mat-icon [matTooltip]="'Nombre del cliente a visitar'">
-          person
-        </mat-icon>
-        <span>
-          {{ activity.client.firstName }} {{ activity.client.secondName }}
-          {{ activity.client.lastName }} {{ activity.client.secondLastName }}
-        </span>
-      </div>
-      <div class="icon-text-container">
-        <mat-icon [matTooltip]="'Fecha de aplicación'">event</mat-icon>
-        <span>{{ activity.date | date: "MMMM d, y, h:mm a" }}</span>
-      </div>
-      <div class="icon-text-container">
-        <mat-icon [matTooltip]="'Dirección del cliente'">place</mat-icon>
-        <span>
-          {{ activity.client.clientAddress.city }},
-          {{ activity.client.clientAddress.neighborhood }},
-          {{ activity.client.clientAddress.street }}
-        </span>
-      </div>
-      <div class="icon-text-container">
-        <mat-icon [matTooltip]="'Teléfonos de contacto del cliente'">
-          phone
-        </mat-icon>
-        <span>
-          {{ activity.client.firstPhoneNumber }}
-          {{ activity.client.secondPhoneNumber }}
-        </span>
-      </div>
-      <div *ngIf="activity.client.firstLandLine" class="icon-text-container">
-        <mat-icon [matTooltip]="'Números fijos de contacto'">
-          dialpad
-        </mat-icon>
-        <span>{{ activity.client.firstLandLine }}</span>
-        <span *ngIf="activity.client.secondLandLine">
-          , {{ activity.client.secondLandLine }}
-        </span>
-      </div>
-      <div *ngIf="!workOrder">
-        <form [formGroup]="workOrderForm">
-          <div class="form-row">
-            <div class="form-col">
-              <div class="form-element">
-                <mat-form-field>
-                  <mat-label>Sector</mat-label>
-                  <mat-select formControlName="sector">
-                    <mat-option
-                      *ngFor="let sector of sectors"
-                      [value]="sector.id"
-                    >
-                      {{ sector.name }}
-                    </mat-option>
-                  </mat-select>
-                  <mat-hint>Elija el sector de aplicación</mat-hint>
-                  <mat-error *ngIf="controls['sector'].hasError('required')">
-                    El sector de aplicación es requerido
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="form-col">
-              <div class="form-element">
-                <mat-form-field>
-                  <mat-label>Hora de llegada</mat-label>
-                  <input type="time" matInput formControlName="arrivalTime" />
-                  <mat-hint>Digite la hora de llegada</mat-hint>
-                  <mat-error
-                    *ngIf="controls['arrivalTime'].hasError('required')"
-                  >
-                    Se debe registrar la hora de llegada
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
-        </form>
-        <div class="form-buttons">
-          <button
-            mat-raised-button
-            class="royal_azure"
-            (click)="generateWorkOrder()"
-            [appLoadingButton]="savingOrUpdatingData"
-          >
-            Generar orden de trabajo
-          </button>
+<section class="container">
+  <ng-container
+    *ngIf="activity$ | observableWithStatus | async as obs"
+    [ngSwitch]="obs.status"
+  >
+    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+      <div class="center-block-content pt-5">
+        <div class="center-flex-content">
+          <mat-spinner></mat-spinner>
         </div>
+        <h4 class="text-center mt-4 empty-list-text">Cargando actividad...</h4>
       </div>
-      <div *ngIf="workOrder && workOrder.workOrderState == 0">
-        <form [formGroup]="workOrderForm">
-          <div
-            class="form-element"
-            style="margin-top: 3rem; align-items: center"
-          >
-            <h4 class="text-center">Firma del cliente</h4>
-            <app-digital-signature #digitalSignature></app-digital-signature>
-            <mat-hint>Por favor digite la firma del cliente</mat-hint>
-            <mat-error *ngIf="digitalSignature.isEmpty">
-              La firma del cliente es obligatoria
-            </mat-error>
-          </div>
-          <div class="form-buttons">
-            <button
-              mat-button
-              color="primary"
-              (click)="clearSignaturePad()"
-              [appLoadingButton]="savingOrUpdatingData"
+    </ng-template>
+    <ng-template [ngSwitchCase]="ObsStatus.Success">
+      <div *ngIf="obs.value as activity">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Registro de orden de trabajo</mat-card-title>
+            <mat-card-subtitle
+              >Actividad N° {{ activity.code }}</mat-card-subtitle
             >
-              Limpiar firma
-            </button>
-          </div>
-        </form>
-        <div class="form-buttons">
-          <button
-            mat-raised-button
-            class="royal_azure mr-4"
-            (click)="confirmWorkOrder()"
-            [appLoadingButton]="savingOrUpdatingData"
-          >
-            Confirmar orden de trabajo
-          </button>
-          <button
-            mat-stroked-button
-            color="warn"
-            (click)="cancelWorkOrder()"
-            [appLoadingButton]="savingOrUpdatingData"
-          >
-            Cancelar orden de trabajo
-          </button>
-        </div>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="icon-text-container">
+              <mat-icon [matTooltip]="'Nombre del cliente a visitar'">
+                person
+              </mat-icon>
+              <span>
+                {{ activity.client.firstName }} {{ activity.client.secondName }}
+                {{ activity.client.lastName }}
+                {{ activity.client.secondLastName }}
+              </span>
+            </div>
+            <div class="icon-text-container">
+              <mat-icon [matTooltip]="'Fecha de aplicación'">event</mat-icon>
+              <span>{{ activity.date | date: "MMMM d, y, h:mm a" }}</span>
+            </div>
+            <div class="icon-text-container">
+              <mat-icon [matTooltip]="'Dirección del cliente'">place</mat-icon>
+              <span>
+                {{ activity.client.clientAddress.city }},
+                {{ activity.client.clientAddress.neighborhood }},
+                {{ activity.client.clientAddress.street }}
+              </span>
+            </div>
+            <div class="icon-text-container">
+              <mat-icon [matTooltip]="'Teléfonos de contacto del cliente'">
+                phone
+              </mat-icon>
+              <span>
+                {{ activity.client.firstPhoneNumber }}
+                {{ activity.client.secondPhoneNumber }}
+              </span>
+            </div>
+            <div
+              *ngIf="activity.client.firstLandLine"
+              class="icon-text-container"
+            >
+              <mat-icon [matTooltip]="'Números fijos de contacto'">
+                dialpad
+              </mat-icon>
+              <span>{{ activity.client.firstLandLine }}</span>
+              <span *ngIf="activity.client.secondLandLine">
+                , {{ activity.client.secondLandLine }}
+              </span>
+            </div>
+            <ng-container
+              *ngIf="workOrder$ | observableWithStatus | async as obs"
+              [ngSwitch]="obs.status"
+            >
+              <ng-template [ngSwitchCase]="ObsStatus.Loading">
+                <div class="center-block-content pt-5">
+                  <div class="center-flex-content">
+                    <mat-spinner></mat-spinner>
+                  </div>
+                  <h4 class="text-center mt-4 empty-list-text">
+                    Cargando orden de trabajo registrada...
+                  </h4>
+                </div>
+              </ng-template>
+              <ng-template [ngSwitchCase]="ObsStatus.Success">
+                <div *ngIf="!workOrder">
+                  <form [formGroup]="workOrderForm">
+                    <div class="form-row">
+                      <div class="form-col">
+                        <div class="form-element">
+                          <mat-form-field>
+                            <mat-label>Sector</mat-label>
+                            <mat-select formControlName="sector">
+                              <ng-container
+                                *ngIf="
+                                  sectors$ | observableWithStatus | async as obs
+                                "
+                                [ngSwitch]="obs.status"
+                              >
+                                <ng-template [ngSwitchCase]="ObsStatus.Loading">
+                                  <mat-option>
+                                    <div class="loading-option">
+                                      <mat-spinner
+                                        [diameter]="20"
+                                      ></mat-spinner>
+                                      <span>Cargando sectores...</span>
+                                    </div>
+                                  </mat-option>
+                                </ng-template>
+                                <ng-template [ngSwitchCase]="ObsStatus.Success">
+                                  <mat-option
+                                    *ngFor="let sector of obs.value"
+                                    [value]="sector.id"
+                                  >
+                                    {{ sector.name }}
+                                  </mat-option>
+                                </ng-template>
+                              </ng-container>
+                            </mat-select>
+                            <mat-hint>Elija el sector de aplicación</mat-hint>
+                            <mat-error
+                              *ngIf="controls['sector'].hasError('required')"
+                            >
+                              El sector de aplicación es requerido
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      <div class="form-col">
+                        <div class="form-element">
+                          <mat-form-field>
+                            <mat-label>Hora de llegada</mat-label>
+                            <input
+                              type="time"
+                              matInput
+                              formControlName="arrivalTime"
+                            />
+                            <mat-hint>Digite la hora de llegada</mat-hint>
+                            <mat-error
+                              *ngIf="
+                                controls['arrivalTime'].hasError('required')
+                              "
+                            >
+                              Se debe registrar la hora de llegada
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                  <div class="form-buttons">
+                    <button
+                      mat-raised-button
+                      class="royal_azure"
+                      (click)="generateWorkOrder(activity)"
+                      [appLoadingButton]="savingOrUpdatingData"
+                    >
+                      Generar orden de trabajo
+                    </button>
+                  </div>
+                </div>
+                <div
+                  *ngIf="
+                    workOrder &&
+                    workOrder.workOrderState == WorkOrderState.Generated
+                  "
+                >
+                  <form [formGroup]="workOrderForm">
+                    <div
+                      class="form-element"
+                      style="margin-top: 3rem; align-items: center"
+                    >
+                      <h4 class="text-center">Firma del cliente</h4>
+                      <app-digital-signature
+                        #digitalSignature
+                      ></app-digital-signature>
+                      <mat-hint>Por favor digite la firma del cliente</mat-hint>
+                      <mat-error *ngIf="digitalSignature.isEmpty">
+                        La firma del cliente es obligatoria
+                      </mat-error>
+                    </div>
+                    <div class="form-buttons">
+                      <button
+                        mat-button
+                        color="primary"
+                        (click)="clearSignaturePad()"
+                        [appLoadingButton]="savingOrUpdatingData"
+                      >
+                        Limpiar firma
+                      </button>
+                    </div>
+                  </form>
+                  <div class="form-buttons">
+                    <button
+                      mat-raised-button
+                      class="royal_azure mr-4"
+                      (click)="confirmWorkOrder()"
+                      [appLoadingButton]="savingOrUpdatingData"
+                    >
+                      Confirmar orden de trabajo
+                    </button>
+                    <button
+                      mat-stroked-button
+                      color="warn"
+                      (click)="cancelWorkOrder()"
+                      [appLoadingButton]="savingOrUpdatingData"
+                    >
+                      Cancelar orden de trabajo
+                    </button>
+                  </div>
+                </div>
+                <div
+                  *ngIf="
+                    workOrder &&
+                    workOrder.workOrderState == WorkOrderState.Confirmed
+                  "
+                >
+                  <form [formGroup]="workOrderForm">
+                    <div class="form-element">
+                      <mat-form-field>
+                        <mat-label>Hora de salida</mat-label>
+                        <input
+                          type="time"
+                          matInput
+                          formControlName="departureTime"
+                        />
+                        <mat-hint>Digite la hora de salida</mat-hint>
+                        <mat-error
+                          *ngIf="controls['departureTime'].hasError('required')"
+                        >
+                          Debe registrar su hora de salida
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="form-element">
+                      <mat-form-field>
+                        <mat-label>Observaciones</mat-label>
+                        <textarea
+                          matInput
+                          #observations
+                          formControlName="observations"
+                          maxlength="500"
+                        ></textarea>
+                        <mat-hint align="start"
+                          >Escriba las obsevaciones de la orden de
+                          trabajo</mat-hint
+                        >
+                        <mat-hint align="end"
+                          >{{ observations.value.length }} /
+                          {{ observations.maxLength }}</mat-hint
+                        >
+                        <mat-error
+                          align="start"
+                          *ngIf="controls['observations'].hasError('required')"
+                        >
+                          El registro de las observaciones es requerido
+                        </mat-error>
+                        <mat-error
+                          *ngIf="controls['observations'].hasError('minlength')"
+                        >
+                          Debe digitar minímo 30 caracteres
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </form>
+                  <div class="form-buttons">
+                    <button
+                      mat-raised-button
+                      class="royal_azure"
+                      (click)="saveWorkOrder()"
+                      [appLoadingButton]="savingOrUpdatingData"
+                    >
+                      Registrar orden de trabajo
+                    </button>
+                  </div>
+                </div>
+              </ng-template>
+            </ng-container>
+          </mat-card-content>
+        </mat-card>
       </div>
-      <div *ngIf="workOrder && workOrder.workOrderState == 1">
-        <form [formGroup]="workOrderForm">
-          <div class="form-element">
-            <mat-form-field>
-              <mat-label>Hora de salida</mat-label>
-              <input type="time" matInput formControlName="departureTime" />
-              <mat-hint>Digite la hora de salida</mat-hint>
-              <mat-error *ngIf="controls['departureTime'].hasError('required')">
-                Debe registrar su hora de salida
-              </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="form-element">
-            <mat-form-field>
-              <mat-label>Observaciones</mat-label>
-              <textarea
-                matInput
-                #observations
-                formControlName="observations"
-                maxlength="500"
-              ></textarea>
-              <mat-hint align="start"
-                >Escriba las obsevaciones de la orden de trabajo</mat-hint
-              >
-              <mat-hint align="end"
-                >{{ observations.value.length }} /
-                {{ observations.maxLength }}</mat-hint
-              >
-              <mat-error
-                align="start"
-                *ngIf="controls['observations'].hasError('required')"
-              >
-                El registro de las observaciones es requerido
-              </mat-error>
-              <mat-error *ngIf="controls['observations'].hasError('minlength')">
-                Debe digitar minímo 30 caracteres
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </form>
-        <div class="form-buttons">
-          <button
-            mat-raised-button
-            class="royal_azure"
-            (click)="saveWorkOrder()"
-            [appLoadingButton]="savingOrUpdatingData"
-          >
-            Registrar orden de trabajo
-          </button>
-        </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
+    </ng-template>
+  </ng-container>
 </section>

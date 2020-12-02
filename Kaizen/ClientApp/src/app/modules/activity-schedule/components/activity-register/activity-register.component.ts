@@ -19,7 +19,9 @@ import { ServiceRequestService } from '@modules/service-requests/services/servic
 import { Service } from '@modules/services/models/service';
 import { ServiceService } from '@modules/services/services/service.service';
 import { SelectDateModalComponent } from '@shared/components/select-date-modal/select-date-modal.component';
+import { ObservableStatus } from '@shared/models/observable-with-status';
 import { NotificationsService } from '@shared/services/notifications.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-activity-register',
@@ -27,14 +29,18 @@ import { NotificationsService } from '@shared/services/notifications.service';
   styleUrls: [ './activity-register.component.scss' ]
 })
 export class ActivityRegisterComponent implements OnInit, IForm {
-  serviceRequest: ServiceRequest;
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
   serviceRequestCode: number;
-  techniciansAvailable: Employee[] = [];
+
+  serviceRequest: ServiceRequest;
+  techniciansAvailable$: Observable<Employee[]>;
+
   activityForm: FormGroup;
 
   savingData = false;
-  loadingtechniciansAvailable = false;
   fromServiceRequest = false;
+  loadingTechniciansAvailable = false;
 
   services: Service[];
   periodicities: Periodicity[];
@@ -95,28 +101,19 @@ export class ActivityRegisterComponent implements OnInit, IForm {
   onLoadedServiceRequest(serviceRequest: ServiceRequest): void {
     this.serviceRequest = serviceRequest;
     const serviceCodes = this.serviceRequest.services.map((s) => s.code);
-    this.employeeService
-      .getTechniciansAvailable(this.serviceRequest.date, serviceCodes)
-      .subscribe((techniciansAvailable) => {
-        this.techniciansAvailable = techniciansAvailable;
-      });
+    this.techniciansAvailable$ = this.employeeService.getTechniciansAvailable(this.serviceRequest.date, serviceCodes);
   }
 
   loadTechniciansAvailable(): void {
     const validForm = this.controls['serviceCodes'].valid && this.controls['date'].valid && this.controls['time'].valid;
     if (validForm) {
-      this.techniciansAvailable = [];
       this.controls['employeeCodes'].reset();
       const serviceCodes = this.controls['serviceCodes'].value;
       const time = this.controls['time'].value;
       const date = this.controls['date'].value as Date;
       const isoDate = buildIsoDate(date, time);
 
-      this.loadingtechniciansAvailable = true;
-      this.employeeService.getTechniciansAvailable(isoDate, serviceCodes).subscribe((techniciansAvailable) => {
-        this.techniciansAvailable = techniciansAvailable;
-        this.loadingtechniciansAvailable = false;
-      });
+      this.techniciansAvailable$ = this.employeeService.getTechniciansAvailable(isoDate, serviceCodes);
     }
   }
 

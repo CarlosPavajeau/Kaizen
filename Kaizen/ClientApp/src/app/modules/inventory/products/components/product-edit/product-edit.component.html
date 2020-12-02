@@ -1,129 +1,148 @@
 <section class="container">
-  <div *ngIf="product">
-    <h1 class="text-center">
-      Edición del producto {{ product.name }} identificado con el código
-      {{ product.code }}
-    </h1>
-    <mat-tab-group mat-stretch-tabs>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon>create</mat-icon>
-          Datos básicos
-        </ng-template>
-        <ng-template matTabContent>
-          <form [formGroup]="productForm">
-            <div class="form-element">
-              <mat-form-field>
-                <mat-label>Nombre</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  placeholder="Ejemplo: Pesticida"
-                  formControlName="name"
-                />
-                <mat-hint>Digite el nombre del producto</mat-hint>
-              </mat-form-field>
-            </div>
-            <div class="form-element">
-              <mat-form-field>
-                <mat-label>Descripción</mat-label>
-                <textarea
-                  matInput
-                  placeholder="Descripción del producto"
-                  formControlName="description"
-                ></textarea>
-                <mat-hint>Digite la descripción del producto</mat-hint>
-              </mat-form-field>
-            </div>
-            <div class="form-element">
-              <mat-form-field>
-                <mat-label>Meses de aplicación</mat-label>
-                <mat-select
-                  #monthSelect="matSelect"
-                  formControlName="applicationMonths"
-                  (selectionChange)="onSelectMonth($event)"
-                  multiple
+  <ng-container
+    *ngIf="product$ | observableWithStatus | async as obs"
+    [ngSwitch]="obs.status"
+  >
+    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+      <div class="center-block-content pt-5">
+        <div class="center-flex-content">
+          <mat-spinner></mat-spinner>
+        </div>
+        <h4 class="text-center mt-4 empty-list-text">Cargando producto...</h4>
+      </div>
+    </ng-template>
+    <ng-template [ngSwitchCase]="ObsStatus.Success">
+      <div *ngIf="obs.value as product">
+        <h1 class="text-center">
+          Edición del producto {{ product.name }} identificado con el código
+          {{ product.code }}
+        </h1>
+        <mat-tab-group mat-stretch-tabs>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon>create</mat-icon>
+              Datos básicos
+            </ng-template>
+            <ng-template matTabContent>
+              <form [formGroup]="productForm">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Nombre</mat-label>
+                    <input
+                      type="text"
+                      matInput
+                      placeholder="Ejemplo: Pesticida"
+                      formControlName="name"
+                    />
+                    <mat-hint>Digite el nombre del producto</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Descripción</mat-label>
+                    <textarea
+                      matInput
+                      placeholder="Descripción del producto"
+                      formControlName="description"
+                    ></textarea>
+                    <mat-hint>Digite la descripción del producto</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Meses de aplicación</mat-label>
+                    <mat-select
+                      #monthSelect="matSelect"
+                      formControlName="applicationMonths"
+                      (selectionChange)="onSelectMonth($event)"
+                      multiple
+                    >
+                      <mat-option
+                        *ngFor="let month of allMonths"
+                        [value]="month.value"
+                      >
+                        {{ month.name }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-hint>
+                      Seleccione los meses de aplicación del producto
+                    </mat-hint>
+                    <mat-error
+                      *ngIf="controls['applicationMonths'].hasError('required')"
+                    >
+                      Meses de aplicación requeridos
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </form>
+              <div class="form-buttons">
+                <button
+                  mat-raised-button
+                  class="royal_azure"
+                  (click)="updateProductBasicData(product)"
+                  [appLoadingButton]="uploadingProduct"
                 >
-                  <mat-option
-                    *ngFor="let month of allMonths"
-                    [value]="month.value"
-                  >
-                    {{ month.name }}
-                  </mat-option>
-                </mat-select>
-                <mat-hint>
-                  Seleccione los meses de aplicación del producto
-                </mat-hint>
-                <mat-error
-                  *ngIf="controls['applicationMonths'].hasError('required')"
+                  Actualizar datos básicos
+                </button>
+              </div>
+            </ng-template>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon>layers</mat-icon>
+              Datos de inventario
+            </ng-template>
+            <ng-template matTabContent>
+              <form [formGroup]="productInInventoryForm">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Cantidad</mat-label>
+                    <input type="number" matInput formControlName="amount" />
+                    <mat-hint>
+                      Digite la cantidad existente del producto
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Presentación</mat-label>
+                    <input
+                      type="text"
+                      matInput
+                      formControlName="presentation"
+                    />
+                    <mat-hint>Digite la presentación del producto</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Precio</mat-label>
+                    <input type="number" matInput formControlName="price" />
+                    <mat-hint>Digite el precio de compra del producto</mat-hint>
+                  </mat-form-field>
+                </div>
+              </form>
+              <div class="form-buttons">
+                <button
+                  mat-raised-button
+                  class="royal_azure"
+                  (click)="updateProductInInventory(product)"
+                  [appLoadingButton]="uploadingProduct"
                 >
-                  Meses de aplicación requeridos
-                </mat-error>
-              </mat-form-field>
-            </div>
-          </form>
-          <div class="form-buttons">
-            <button
-              mat-raised-button
-              class="royal_azure"
-              (click)="updateProductBasicData()"
-              [appLoadingButton]="uploadingProduct"
-            >
-              Actualizar datos básicos
-            </button>
-          </div>
-        </ng-template>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon>layers</mat-icon>
-          Datos de inventario
-        </ng-template>
-        <ng-template matTabContent>
-          <form [formGroup]="productInInventoryForm">
-            <div class="form-element">
-              <mat-form-field>
-                <mat-label>Cantidad</mat-label>
-                <input type="number" matInput formControlName="amount" />
-                <mat-hint>
-                  Digite la cantidad existente del producto
-                </mat-hint>
-              </mat-form-field>
-            </div>
-            <div class="form-element">
-              <mat-form-field>
-                <mat-label>Presentación</mat-label>
-                <input type="text" matInput formControlName="presentation" />
-                <mat-hint>Digite la presentación del producto</mat-hint>
-              </mat-form-field>
-            </div>
-            <div class="form-element">
-              <mat-form-field>
-                <mat-label>Precio</mat-label>
-                <input type="number" matInput formControlName="price" />
-                <mat-hint>Digite el precio de compra del producto</mat-hint>
-              </mat-form-field>
-            </div>
-          </form>
-          <div class="form-buttons">
-            <button
-              mat-raised-button
-              class="royal_azure"
-              (click)="updateProductInInventory()"
-              [appLoadingButton]="uploadingProduct"
-            >
-              Actualizar datos de inventario
-            </button>
-          </div>
-        </ng-template>
-      </mat-tab>
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon>description</mat-icon>
-          Documentos del producto
-        </ng-template>
-        <ng-template matTabContent></ng-template>
-      </mat-tab>
-    </mat-tab-group>
-  </div>
+                  Actualizar datos de inventario
+                </button>
+              </div>
+            </ng-template>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <mat-icon>description</mat-icon>
+              Documentos del producto
+            </ng-template>
+            <ng-template matTabContent></ng-template>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </ng-template>
+  </ng-container>
 </section>

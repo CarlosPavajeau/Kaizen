@@ -11,8 +11,9 @@ import { WorkOrder } from '@modules/work-orders/models/work-order';
 import { WorkOrderState } from '@modules/work-orders/models/work-order-state';
 import { WorkOrderService } from '@modules/work-orders/service/work-order.service';
 import { DigitalSignatureComponent } from '@shared/components/digital-signature/digital-signature.component';
+import { ObservableStatus } from '@shared/models/observable-with-status';
 import { NotificationsService } from '@shared/services/notifications.service';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Component({
@@ -21,10 +22,15 @@ import { catchError } from 'rxjs/operators';
   styleUrls: [ './work-order-register.component.scss' ]
 })
 export class WorkOrderRegisterComponent implements OnInit, IForm {
-  workOrderForm: FormGroup;
-  sectors: Sector[] = [];
-  activity: Activity;
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+  public WorkOrderState: typeof WorkOrderState = WorkOrderState;
+
+  sectors$: Observable<Sector[]>;
+  activity$: Observable<Activity>;
+  workOrder$: Observable<WorkOrder>;
   workOrder: WorkOrder;
+
+  workOrderForm: FormGroup;
 
   @ViewChild('digitalSignature') digitalSignature: DigitalSignatureComponent;
 
@@ -58,27 +64,20 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
   }
 
   private loadData(): void {
-    this.workOrderService.getSectors().subscribe((sectors) => {
-      this.sectors = sectors;
-    });
+    this.sectors$ = this.workOrderService.getSectors();
 
     this.activateRoute.queryParamMap.subscribe((queryParams) => {
       const activityCode = +queryParams.get('activity');
+      this.activity$ = this.activityService.getActivity(activityCode);
 
-      this.workOrderService
-        .getWorkOrderOfActivity(activityCode)
-        .pipe(catchError(() => of(null)))
-        .subscribe((workOrder) => {
-          this.workOrder = workOrder;
-        });
-
-      this.activityService.getActivity(activityCode).subscribe((activity) => {
-        this.activity = activity;
+      this.workOrder$ = this.workOrderService.getWorkOrderOfActivity(activityCode).pipe(catchError(() => of(null)));
+      this.workOrder$.subscribe((workOrder) => {
+        this.workOrder = workOrder;
       });
     });
   }
 
-  generateWorkOrder(): void {
+  generateWorkOrder(activity: Activity): void {
     const validForm = this.controls['arrivalTime'].valid && this.controls['sector'].valid;
     if (validForm) {
       const arrivalTime = this.controls['arrivalTime'].value;
@@ -97,7 +96,7 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
       const workOrder: WorkOrder = {
         workOrderState: WorkOrderState.Generated,
         arrivalTime: arrivalTimeISO,
-        activityCode: this.activity.code,
+        activityCode: activity.code,
         employeeId: employee.id,
         sectorId: +this.controls['sector'].value,
         executionDate: executionDate,

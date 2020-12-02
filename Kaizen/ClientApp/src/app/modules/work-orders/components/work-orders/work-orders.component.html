@@ -1,54 +1,79 @@
 <section class="container">
-  <div class="text-center">
-    <h1>Ordenes de trabajo</h1>
-  </div>
-  <div class="center-block-content">
-    <div></div>
-    <div>
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z6">
-        <ng-container matColumnDef="code">
-          <mat-header-cell *matHeaderCellDef>Código</mat-header-cell>
-          <mat-cell *matCellDef="let workOrder">{{ workOrder.code }}</mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="executionDate">
-          <mat-header-cell *matHeaderCellDef>
-            Fecha de ejecución
-          </mat-header-cell>
-          <mat-cell *matCellDef="let workOrder">
-            {{ workOrder.executionDate | date: "MMMM d, y" }}
-          </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="arrivalTime">
-          <mat-header-cell *matHeaderCellDef> Hora de llegada </mat-header-cell>
-          <mat-cell *matCellDef="let workOrder">
-            {{ workOrder.arrivalTime | date: "h:mm a" }}
-          </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="departureTime">
-          <mat-header-cell *matHeaderCellDef> Hora de salida </mat-header-cell>
-          <mat-cell *matCellDef="let workOrder">
-            {{ workOrder.departureTime | date: "h:mm a" }}
-          </mat-cell>
-        </ng-container>
-        <ng-container matColumnDef="options">
-          <mat-header-cell *matHeaderCellDef>Opciones</mat-header-cell>
-          <mat-cell *matCellDef="let workOrder">
-            <a
-              mat-icon-button
-              routerLink="/work_orders/{{ workOrder.code }}"
-              [matTooltip]="'Ver más información'"
-            >
-              <mat-icon>visibility</mat-icon>
-            </a>
-          </mat-cell>
-        </ng-container>
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-      </table>
-      <mat-paginator
-        [pageSizeOptions]="[15, 30, 50, 100]"
-        showFirstLastButtons
-      ></mat-paginator>
-    </div>
-  </div>
+  <ng-container
+    *ngIf="workOrders$ | observableWithStatus | async as obs"
+    [ngSwitch]="obs.status"
+  >
+    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+      <div class="center-block-content pt-5">
+        <div class="center-flex-content">
+          <mat-spinner></mat-spinner>
+        </div>
+        <h4 class="text-center mt-4 empty-list-text">
+          Cargando órdenes de trabajo...
+        </h4>
+      </div>
+    </ng-template>
+    <ng-template [ngSwitchCase]="ObsStatus.Success">
+      <div class="text-center">
+        <h1>Ordenes de trabajo</h1>
+      </div>
+      <div class="center-block-content">
+        <div></div>
+        <div>
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z6">
+            <ng-container matColumnDef="code">
+              <mat-header-cell *matHeaderCellDef>Código</mat-header-cell>
+              <mat-cell *matCellDef="let workOrder">{{
+                workOrder.code
+              }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="executionDate">
+              <mat-header-cell *matHeaderCellDef>
+                Fecha de ejecución
+              </mat-header-cell>
+              <mat-cell *matCellDef="let workOrder">
+                {{ workOrder.executionDate | date: "MMMM d, y" }}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="arrivalTime">
+              <mat-header-cell *matHeaderCellDef>
+                Hora de llegada
+              </mat-header-cell>
+              <mat-cell *matCellDef="let workOrder">
+                {{ workOrder.arrivalTime | date: "h:mm a" }}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="departureTime">
+              <mat-header-cell *matHeaderCellDef>
+                Hora de salida
+              </mat-header-cell>
+              <mat-cell *matCellDef="let workOrder">
+                {{ workOrder.departureTime | date: "h:mm a" }}
+              </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="options">
+              <mat-header-cell *matHeaderCellDef>Opciones</mat-header-cell>
+              <mat-cell *matCellDef="let workOrder">
+                <a
+                  mat-icon-button
+                  routerLink="/work_orders/{{ workOrder.code }}"
+                  [matTooltip]="'Ver más información'"
+                >
+                  <mat-icon>visibility</mat-icon>
+                </a>
+              </mat-cell>
+            </ng-container>
+            <mat-header-row
+              *matHeaderRowDef="displayedColumns"
+            ></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+          </table>
+          <mat-paginator
+            [pageSizeOptions]="[15, 30, 50, 100]"
+            showFirstLastButtons
+          ></mat-paginator>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
 </section>

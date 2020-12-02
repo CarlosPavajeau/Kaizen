@@ -55,7 +55,7 @@ export class ActivityScheduleDayComponent implements OnInit {
     this.changeDay(+1);
   }
 
-  previusDay(): void {
+  previousDay(): void {
     this.changeDay(-1);
   }
 

@@ -11,10 +11,11 @@ import { PayModel } from '@modules/payments/models/pay';
 import { ServiceInvoice } from '@modules/payments/models/service-invoice';
 import { PaymentService } from '@modules/payments/services/payment.service';
 import { ServiceInvoiceService } from '@modules/payments/services/service-invoice.service';
+import { ObservableStatus } from '@shared/models/observable-with-status';
 import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
 import { Moment } from 'moment';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 const moment = _moment;
@@ -36,9 +37,6 @@ export const DATE_FORMATS = {
   templateUrl: './pay-service-invoice.component.html',
   styleUrls: [ './pay-service-invoice.component.scss' ],
   providers: [
-    // `MomentDateAdapter` can be automatically provided by importing `MomentDateModule` in your
-    // application's root module. We provide it at the component level here, due to limitations of
-    // our example generation script.
     {
       provide: DateAdapter,
       useClass: MomentDateAdapter,
@@ -49,8 +47,13 @@ export const DATE_FORMATS = {
   ]
 })
 export class PayServiceInvoiceComponent implements OnInit, IForm, OnDestroy {
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
   serviceInvoice: ServiceInvoice;
+  serviceInvoice$: Observable<ServiceInvoice>;
+
   payForm: FormGroup;
+
   payModel: PayModel;
   paymentInProcess = false;
 
@@ -92,7 +95,8 @@ export class PayServiceInvoiceComponent implements OnInit, IForm, OnDestroy {
 
   private loadData(): void {
     const id = +this.activatedRoute.snapshot.paramMap.get('id');
-    this.serviceInvoiceService.getServiceInvoice(id).subscribe((serviceInvoice: ServiceInvoice) => {
+    this.serviceInvoice$ = this.serviceInvoiceService.getServiceInvoice(id);
+    this.serviceInvoice$.subscribe((serviceInvoice) => {
       this.serviceInvoice = serviceInvoice;
     });
   }

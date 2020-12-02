@@ -3,74 +3,98 @@
     [serviceRequestCode]="serviceRequestCode"
     (serviceRequestLoaded)="onLoadedServiceRequest($event)"
   ></app-service-request-detail>
-  <div *ngIf="techniciansAvailable.length > 0">
-    <div>
-      <mat-list>
-        <div mat-subheader>
-          Los técnicos disponibles para realizar esta actividad son:
+  <div *ngIf="techniciansAvailable$">
+    <ng-container
+      *ngIf="techniciansAvailable$ | observableWithStatus | async as obs"
+      [ngSwitch]="obs.status"
+    >
+      <ng-template [ngSwitchCase]="ObsStatus.Loading">
+        <div class="center-block-content pt-5">
+          <div class="center-flex-content">
+            <mat-spinner></mat-spinner>
+          </div>
+          <h4 class="text-center mt-4 empty-list-text">
+            Cargando técnicos disponibles...
+          </h4>
         </div>
-        <mat-list-item *ngFor="let technician of techniciansAvailable">
-          <mat-icon style="margin-right: 7px">engineering</mat-icon>
-          <span>
-            {{ technician.id }} - {{ technician.firstName }}
-            {{ technician.lastName }}
-          </span>
-        </mat-list-item>
-      </mat-list>
-    </div>
-    <div class="mt-4">
-      <a
-        *ngIf="!updatingServiceRequest"
-        mat-raised-button
-        class="royal_azure mr-5"
-        routerLink="/activity_schedule/register"
-        [queryParams]="{ serviceRequest: serviceRequest.code }"
-      >
-        Proceder a reservar actividad
-      </a>
-      <button
-        mat-stroked-button
-        color="warn"
-        class="mr-5"
-        (click)="cancelServiceRequest()"
-        [appLoadingButton]="updatingServiceRequest"
-      >
-        Cancelar solicitud
-      </button>
-      <button
-        mat-stroked-button
-        color="primary"
-        (click)="suggestAnotherDate()"
-        [appLoadingButton]="updatingServiceRequest"
-      >
-        Sugerir otra fecha
-      </button>
-    </div>
-  </div>
-  <div style="padding-top: 1.5rem" *ngIf="techniciansAvailable.length == 0">
-    <div>
-      <h2>
-        No existen técnicos disponibles para realizar los servicios solicitados
-        por el cliente.
-      </h2>
-    </div>
-    <div>
-      <button
-        mat-raised-button
-        class="royal_azure mr-5"
-        (click)="suggestAnotherDate()"
-        [appLoadingButton]="updatingServiceRequest"
-      >
-        Sugerir otra fecha
-      </button>
-      <button
-        mat-stroked-button
-        color="warn"
-        (click)="cancelServiceRequest()"
-        [appLoadingButton]="updatingServiceRequest"
-      >
-        Cancelar solicitud
-      </button>
-    </div>
+      </ng-template>
+      <ng-template [ngSwitchCase]="ObsStatus.Success">
+        <div *ngIf="obs.value as techniciansAvailable">
+          <div *ngIf="techniciansAvailable.length > 0">
+            <div>
+              <mat-list>
+                <div mat-subheader>
+                  Los técnicos disponibles para realizar esta actividad son:
+                </div>
+                <mat-list-item *ngFor="let technician of techniciansAvailable">
+                  <mat-icon style="margin-right: 7px">engineering</mat-icon>
+                  <span>
+                    {{ technician.id }} - {{ technician.firstName }}
+                    {{ technician.lastName }}
+                  </span>
+                </mat-list-item>
+              </mat-list>
+            </div>
+            <div class="mt-4">
+              <a
+                *ngIf="!updatingServiceRequest"
+                mat-raised-button
+                class="royal_azure mr-5"
+                routerLink="/activity_schedule/register"
+                [queryParams]="{ serviceRequest: serviceRequest.code }"
+              >
+                Proceder a reservar actividad
+              </a>
+              <button
+                mat-stroked-button
+                color="warn"
+                class="mr-5"
+                (click)="cancelServiceRequest()"
+                [appLoadingButton]="updatingServiceRequest"
+              >
+                Cancelar solicitud
+              </button>
+              <button
+                mat-stroked-button
+                color="primary"
+                (click)="suggestAnotherDate()"
+                [appLoadingButton]="updatingServiceRequest"
+              >
+                Sugerir otra fecha
+              </button>
+            </div>
+          </div>
+          <div
+            style="padding-top: 1.5rem"
+            *ngIf="techniciansAvailable.length == 0"
+          >
+            <div>
+              <h2>
+                No existen técnicos disponibles para realizar los servicios
+                solicitados por el cliente.
+              </h2>
+            </div>
+            <div>
+              <button
+                mat-raised-button
+                class="royal_azure mr-5"
+                (click)="suggestAnotherDate()"
+                [appLoadingButton]="updatingServiceRequest"
+              >
+                Sugerir otra fecha
+              </button>
+              <button
+                mat-stroked-button
+                color="warn"
+                (click)="cancelServiceRequest()"
+                [appLoadingButton]="updatingServiceRequest"
+              >
+                Cancelar solicitud
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
   </div>
 </div>

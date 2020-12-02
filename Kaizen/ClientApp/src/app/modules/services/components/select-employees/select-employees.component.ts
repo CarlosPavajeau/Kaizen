@@ -4,6 +4,8 @@ import { MatSelectionList, MatSelectionListChange } from '@angular/material/list
 import { IForm } from '@core/models/form';
 import { Employee } from '@modules/employees/models/employee';
 import { EmployeeService } from '@modules/employees/services/employee.service';
+import { ObservableStatus } from '@shared/models/observable-with-status';
+import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 @Component({
@@ -12,7 +14,10 @@ import { delay } from 'rxjs/operators';
   styleUrls: [ './select-employees.component.scss' ]
 })
 export class SelectEmployeesComponent implements OnInit, IForm {
-  employees: Employee[] = [];
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
+  employees$: Observable<Employee[]>;
+
   selectedEmployees: Employee[] = [];
 
   selectEmployeesForm: FormGroup;
@@ -30,9 +35,7 @@ export class SelectEmployeesComponent implements OnInit, IForm {
   }
 
   private loadData(): void {
-    this.employeeService.getEmployees().subscribe((employees) => {
-      this.employees = employees;
-    });
+    this.employees$ = this.employeeService.getEmployees();
   }
 
   initForm(): void {

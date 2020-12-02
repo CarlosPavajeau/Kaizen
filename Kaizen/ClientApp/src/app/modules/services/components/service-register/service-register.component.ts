@@ -8,7 +8,9 @@ import { SelectProductsComponent } from '@modules/services/components/select-pro
 import { Service } from '@modules/services/models/service';
 import { ServiceType } from '@modules/services/models/service-type';
 import { ServiceService } from '@modules/services/services/service.service';
+import { ObservableStatus } from '@shared/models/observable-with-status';
 import { NotificationsService } from '@shared/services/notifications.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-service-register',
@@ -16,7 +18,9 @@ import { NotificationsService } from '@shared/services/notifications.service';
   styleUrls: [ './service-register.component.scss' ]
 })
 export class ServiceRegisterComponent implements OnInit, IForm {
-  serviceTypes: ServiceType[] = [];
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
+  serviceTypes$: Observable<ServiceType[]>;
 
   serviceForm: FormGroup;
 
@@ -43,9 +47,7 @@ export class ServiceRegisterComponent implements OnInit, IForm {
   }
 
   private loadData() {
-    this.serviceService.getServiceTypes().subscribe((serviceTypes) => {
-      this.serviceTypes = serviceTypes;
-    });
+    this.serviceTypes$ = this.serviceService.getServiceTypes();
   }
 
   initForm(): void {

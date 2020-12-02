@@ -4,11 +4,11 @@
       <button mat-stroked-button class="mr-3" (click)="showCurrentDate()">
         Hoy
       </button>
-      <div style="display: inline-block;">
+      <div style="display: inline-block">
         <button
           mat-icon-button
-          [matTooltip]="previusMessages[view]"
-          (click)="previusDate()"
+          [matTooltip]="previousMessages[view]"
+          (click)="previousDate()"
         >
           <mat-icon>navigate_before</mat-icon>
         </button>
@@ -20,6 +20,17 @@
           <mat-icon>navigate_next</mat-icon>
         </button>
       </div>
+      <ng-container
+        *ngIf="activities$ | observableWithStatus | async as obs"
+        [ngSwitch]="obs.status"
+      >
+        <ng-template [ngSwitchCase]="ObsStatus.Loading">
+          <div class="loading-option">
+            <mat-spinner [diameter]="20"></mat-spinner>
+            <span>Cargando actividades...</span>
+          </div>
+        </ng-template>
+      </ng-container>
     </div>
     <div class="calendar-control float-right">
       <button mat-icon-button class="mr-2"><mat-icon>search</mat-icon></button>
@@ -28,9 +39,11 @@
         <mat-icon>arrow_drop_down</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="setView(0)">Mes</button>
-        <button mat-menu-item (click)="setView(1)">Semana</button>
-        <button mat-menu-item (click)="setView(2)">Día</button>
+        <button mat-menu-item (click)="setView(ScheduleView.Month)">Mes</button>
+        <button mat-menu-item (click)="setView(ScheduleView.Week)">
+          Semana
+        </button>
+        <button mat-menu-item (click)="setView(ScheduleView.Day)">Día</button>
       </mat-menu>
     </div>
   </div>
