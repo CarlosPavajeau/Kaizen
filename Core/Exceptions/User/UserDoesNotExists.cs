@@ -4,7 +4,6 @@ namespace Kaizen.Core.Exceptions.User
     {
         public UserDoesNotExists() : base(400, "Usuario no registrado")
         {
-
         }
     }
 }

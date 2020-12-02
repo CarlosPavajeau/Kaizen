@@ -6,7 +6,6 @@ namespace Kaizen.Domain.Entities
     {
         public EmployeeCharge()
         {
-
         }
 
         public EmployeeCharge(string charge)

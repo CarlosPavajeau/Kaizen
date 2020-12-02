@@ -34,6 +34,5 @@ namespace Kaizen.Infrastructure.Repositories
         {
             return await ApplicationDbContext.Sectors.ToListAsync();
         }
-
     }
 }

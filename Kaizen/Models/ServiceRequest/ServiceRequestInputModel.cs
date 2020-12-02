@@ -12,7 +12,6 @@ namespace Kaizen.Models.ServiceRequest
         [Required(ErrorMessage = "La periodicidad de las visitas es requerida")]
         public PeriodicityType Periodicity { get; set; }
 
-
         public List<string> ServiceCodes { get; set; }
     }
 }

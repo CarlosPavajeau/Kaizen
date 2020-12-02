@@ -40,7 +40,6 @@ namespace Kaizen.Infrastructure.Services
             }
             catch (Exception)
             {
-
             }
         }
 
@@ -57,7 +56,5 @@ namespace Kaizen.Infrastructure.Services
 
             MailMessage.To.Add(email);
         }
-
-
     }
 }

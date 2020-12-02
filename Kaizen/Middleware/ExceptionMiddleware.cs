@@ -25,7 +25,6 @@ namespace Kaizen.Middleware
             }
             catch (Exception exception)
             {
-
                 await HandleExceptionAsync(httpContext, exception);
             }
         }
@@ -41,7 +40,6 @@ namespace Kaizen.Middleware
                 {
                     StatusCode = httpContext.Response.StatusCode,
                     Message = exception.Message
-
                 }.ToString());
             }
             else

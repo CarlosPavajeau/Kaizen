@@ -4,6 +4,5 @@ namespace Kaizen.Models.ProductInvoice
 {
     public class ProductInvoiceEditModel : InvoiceEditModel
     {
-
     }
 }

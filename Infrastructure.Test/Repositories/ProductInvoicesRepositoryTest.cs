@@ -44,7 +44,6 @@ namespace Infrastructure.Test.Repositories
                 await dbContext.SaveChangesAsync();
 
                 Assert.Pass();
-
             }
             catch (DbUpdateException)
             {

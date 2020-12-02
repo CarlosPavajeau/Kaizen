@@ -24,6 +24,5 @@ namespace Kaizen.Domain.Entities
         public List<Activity> Activities { get; set; }
         [NotMapped]
         public List<Service> Services { get; set; }
-
     }
 }

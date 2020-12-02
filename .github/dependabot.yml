@@ -9,9 +9,8 @@ updates:
     directory: "/Kaizen/ClientApp" # Location of package manifests
     schedule:
       interval: "weekly"
-      
+
   - package-ecosystem: "nuget"
     directory: "/"
     schedule:
       interval: "weekly"
-    

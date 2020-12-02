@@ -9,6 +9,5 @@ namespace Kaizen.Models.ServiceInvoice
         public string ServiceName { get; set; }
         public ServiceViewModel Service { get; set; }
         public decimal Total { get; set; }
-
     }
 }

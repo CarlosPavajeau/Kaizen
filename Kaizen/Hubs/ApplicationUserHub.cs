@@ -8,7 +8,6 @@ namespace Kaizen.Hubs
     {
         public ApplicationUserHub(IApplicationUserRepository applicationUserRepository) : base(applicationUserRepository)
         {
-
         }
     }
 }

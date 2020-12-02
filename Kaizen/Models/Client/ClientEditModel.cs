@@ -25,7 +25,6 @@ namespace Kaizen.Models.Client
         [Required(ErrorMessage = "La dirección es requerida")]
         public ClientAddressModel ClientAddress { get; set; }
 
-
         public List<ContactPersonModel> ContactPeople { get; set; }
 
         [Required(ErrorMessage = "El estado del cliente es requerido")]

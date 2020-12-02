@@ -12,7 +12,6 @@ namespace Kaizen.Infrastructure.Repositories
     {
         public ClientsRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
-
         }
 
         public override async Task<Client> FindByIdAsync(string id)

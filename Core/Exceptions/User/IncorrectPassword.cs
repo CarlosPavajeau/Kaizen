@@ -4,7 +4,6 @@ namespace Kaizen.Core.Exceptions.User
     {
         public IncorrectPassword() : base(400, "Contraseña incorrecta, intentelo de nuevo")
         {
-
         }
     }
 }
