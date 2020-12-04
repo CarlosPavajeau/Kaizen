@@ -12,8 +12,11 @@ matrix:
         - git config user.email "travis@build.bot" && git config user.name "Travis CI"
 
       install:
-       - mysql -uroot -e 'CREATE DATABASE mysql_test;'
-       - mysql -uroot < sql/create_mysql.sql
+        - mysql -uroot -e 'CREATE DATABASE mysql_test;'
+        - mysql -uroot < sql/create_mysql.sql
+        - nvm --version
+        - nvm install 12.16.1
+        - node --version
 
       script:
         - dotnet restore
