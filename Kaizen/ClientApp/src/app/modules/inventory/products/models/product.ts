@@ -1,3 +1,5 @@
+import { ApplicationMonths } from '@core/models/months';
+
 export interface Product {
   code: string;
   name: string;
@@ -5,7 +7,7 @@ export interface Product {
   presentation: string;
   price: number;
   description: string;
-  applicationMonths: number;
+  applicationMonths: ApplicationMonths;
   dataSheet?: string;
   healthRegister?: string;
   safetySheet?: string;

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { MONTHS } from '@app/core/models/months';
+import { APPLICATION_MONTHS } from '@app/core/models/months';
 
 @Pipe({
   name: 'monthBit'
@@ -11,7 +11,7 @@ export class MonthBitPipe implements PipeTransform {
     } else {
       let months = '';
       let monthAdded = false;
-      MONTHS.forEach((month) => {
+      APPLICATION_MONTHS.forEach((month) => {
         if (bitMask & month.value) {
           if (!monthAdded) {
             months += month.name;

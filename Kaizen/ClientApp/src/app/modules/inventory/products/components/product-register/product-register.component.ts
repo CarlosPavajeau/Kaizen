@@ -5,7 +5,7 @@ import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { FileResponse } from '@core/models/file-response';
 import { IForm } from '@core/models/form';
-import { MonthBit, MONTHS } from '@core/models/months';
+import { ApplicationMonths, APPLICATION_MONTHS, MonthBit } from '@core/models/months';
 import { UploadDownloadService } from '@core/services/upload-download.service';
 import { Product } from '@modules/inventory/products/models/product';
 import { ProductService } from '@modules/inventory/products/services/product.service';
@@ -18,7 +18,7 @@ import { NotificationsService } from '@shared/services/notifications.service';
 })
 export class ProductRegisterComponent implements OnInit, IForm {
   allMonths: MonthBit[];
-  applicationMonths: number;
+  applicationMonths: ApplicationMonths;
   @ViewChildren('monthSelect') monthSelect: QueryList<MatSelect>;
 
   productForm: FormGroup;
@@ -48,7 +48,7 @@ export class ProductRegisterComponent implements OnInit, IForm {
     this.initForm();
     this.initProductDocumentsForm();
 
-    this.allMonths = MONTHS;
+    this.allMonths = APPLICATION_MONTHS;
   }
 
   initForm(): void {

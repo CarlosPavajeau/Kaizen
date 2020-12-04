@@ -31,6 +31,7 @@ import { LoadingButtonDirective } from './directives/loading-button.directive';
 import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
 import { DefaultLayoutComponent } from './layouts/default-layout/default-layout.component';
 import { ActivityStatePipe } from './pipes/activity-state.pipe';
+import { ApplicationMonthsPipe } from './pipes/application-months.pipe';
 import { ClientStatePipe } from './pipes/client-state.pipe';
 import { FilterEmployeesPipe } from './pipes/filter-employees.pipe';
 import { FilterEquipmentsPipe } from './pipes/filter-equipments.pipe';
@@ -68,6 +69,7 @@ import { WorkOrderStatePipe } from './pipes/work-order-state.pipe';
     UniqueUserDirective,
 
     ActivityStatePipe,
+    ApplicationMonthsPipe,
     ClientsFilterPipe,
     ClientStatePipe,
     FilterEmployeesPipe,
@@ -107,6 +109,7 @@ import { WorkOrderStatePipe } from './pipes/work-order-state.pipe';
     FlexLayoutModule,
 
     ActivityStatePipe,
+    ApplicationMonthsPipe,
     ClientsFilterPipe,
     ClientStatePipe,
     FilterEmployeesPipe,

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using Kaizen.Domain.Entities;
 
 namespace Kaizen.Models.Product
 {
@@ -14,7 +15,7 @@ namespace Kaizen.Models.Product
         public int Amount { get; set; }
 
         [Required(ErrorMessage = "Los meses de aplicación del producto son requeridos")]
-        public int ApplicationMonths { get; set; }
+        public ApplicationMonths ApplicationMonths { get; set; }
 
         [Required(ErrorMessage = "La presentación del producto es requerida")]
         public string Presentation { get; set; }

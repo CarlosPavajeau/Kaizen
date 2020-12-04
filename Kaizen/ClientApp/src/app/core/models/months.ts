@@ -1,4 +1,5 @@
-export enum Months {
+export enum ApplicationMonths {
+  None = 0x0,
   January = 0x00000001,
   February = 0x00000002,
   March = 0x00000004,
@@ -15,20 +16,20 @@ export enum Months {
 
 export interface MonthBit {
   name: string;
-  value: Months;
+  value: ApplicationMonths;
 }
 
-export const MONTHS: MonthBit[] = [
-  { name: 'Enero', value: Months.January },
-  { name: 'Febrero', value: Months.February },
-  { name: 'Marzo', value: Months.March },
-  { name: 'Abril', value: Months.April },
-  { name: 'Mayo', value: Months.May },
-  { name: 'Junio', value: Months.June },
-  { name: 'Julio', value: Months.July },
-  { name: 'Agosto', value: Months.August },
-  { name: 'Septiembre', value: Months.September },
-  { name: 'Octubre', value: Months.October },
-  { name: 'Noviembre', value: Months.November },
-  { name: 'Diciembre', value: Months.December }
+export const APPLICATION_MONTHS: MonthBit[] = [
+  { name: 'Enero', value: ApplicationMonths.January },
+  { name: 'Febrero', value: ApplicationMonths.February },
+  { name: 'Marzo', value: ApplicationMonths.March },
+  { name: 'Abril', value: ApplicationMonths.April },
+  { name: 'Mayo', value: ApplicationMonths.May },
+  { name: 'Junio', value: ApplicationMonths.June },
+  { name: 'Julio', value: ApplicationMonths.July },
+  { name: 'Agosto', value: ApplicationMonths.August },
+  { name: 'Septiembre', value: ApplicationMonths.September },
+  { name: 'Octubre', value: ApplicationMonths.October },
+  { name: 'Noviembre', value: ApplicationMonths.November },
+  { name: 'Diciembre', value: ApplicationMonths.December }
 ];

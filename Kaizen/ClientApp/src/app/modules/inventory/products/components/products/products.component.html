@@ -50,9 +50,9 @@
               <mat-header-cell *matHeaderCellDef
                 >Meses de aplicacion</mat-header-cell
               >
-              <mat-cell *matCellDef="let product">{{
-                product.applicationMonths | monthBit
-              }}</mat-cell>
+              <mat-cell *matCellDef="let product">
+                {{ product.applicationMonths | applicationMonths }}
+              </mat-cell>
             </ng-container>
             <ng-container matColumnDef="options">
               <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>

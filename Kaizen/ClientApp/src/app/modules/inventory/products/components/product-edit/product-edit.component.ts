@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/fo
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IForm } from '@core/models/form';
-import { MonthBit, MONTHS } from '@core/models/months';
+import { APPLICATION_MONTHS, MonthBit } from '@core/models/months';
 import { Product } from '@modules/inventory/products/models/product';
 import { ProductService } from '@modules/inventory/products/services/product.service';
 import { ObservableStatus } from '@shared/models/observable-with-status';
@@ -57,7 +57,7 @@ export class ProductEditComponent implements OnInit, IForm, AfterViewInit {
     this.initForm();
     this.loadData();
 
-    this.allMonths = MONTHS;
+    this.allMonths = APPLICATION_MONTHS;
   }
 
   initForm(): void {
@@ -149,7 +149,7 @@ export class ProductEditComponent implements OnInit, IForm, AfterViewInit {
     this.uploadingProduct = true;
     this.productService.updateProduct(product).subscribe((productUpdated) => {
       if (productUpdated) {
-        this.notificationsService.showSuccessMessage(`Datos básicos del producto $product.name} actualizados.`, () => {
+        this.notificationsService.showSuccessMessage(`Datos básicos del producto ${product.name} actualizados.`, () => {
           this.router.navigateByUrl('/inventory/products');
           this.uploadingProduct = false;
         });
