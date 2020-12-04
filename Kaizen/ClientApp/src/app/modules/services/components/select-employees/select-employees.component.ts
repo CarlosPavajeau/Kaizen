@@ -36,6 +36,9 @@ export class SelectEmployeesComponent implements OnInit, IForm {
 
   private loadData(): void {
     this.employees$ = this.employeeService.getEmployees();
+    this.employees$.pipe(delay(250)).subscribe((employees) => {
+      this.selectEmployees();
+    });
   }
 
   initForm(): void {
@@ -68,7 +71,7 @@ export class SelectEmployeesComponent implements OnInit, IForm {
     }
 
     const selectedOptions = this.employeesListSelection.first.options.filter((option) => {
-      return this.selectedEmployees.indexOf(option.value) !== -1;
+      return this.selectedEmployees.some((e) => e.id === option.value.id);
     });
 
     this.employeesListSelection.first.selectedOptions.select(...selectedOptions);

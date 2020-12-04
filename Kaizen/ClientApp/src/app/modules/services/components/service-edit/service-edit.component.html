@@ -18,7 +18,7 @@
         </h1>
         <mat-tab-group
           mat-stretch-tabs
-          (selectedTabChange)="selectedTabChange($event)"
+          (selectedTabChange)="selectedTabChange($event, service)"
         >
           <mat-tab>
             <ng-template mat-tab-label>Datos básicos</ng-template>
@@ -42,7 +42,7 @@
                 <div class="form-element form-select">
                   <mat-form-field>
                     <mat-label>Tipo de servicio</mat-label>
-                    <mat-select required formControlName="serviceTypeId">
+                    <mat-select required formControlName="serviceType">
                       <ng-container
                         *ngIf="
                           serviceTypes$ | observableWithStatus | async as obs
@@ -68,7 +68,7 @@
                       </ng-container>
                     </mat-select>
                     <mat-error
-                      *ngIf="controls['serviceTypeId'].hasError('required')"
+                      *ngIf="controls['serviceType'].hasError('required')"
                     >
                       Debe seleccionar el tipo de servicio
                     </mat-error>

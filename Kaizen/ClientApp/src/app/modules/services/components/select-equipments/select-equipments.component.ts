@@ -36,6 +36,9 @@ export class SelectEquipmentsComponent implements OnInit, IForm {
 
   private loadData(): void {
     this.equipments$ = this.equipmentService.getEquipments();
+    this.equipments$.pipe(delay(250)).subscribe((equipments) => {
+      this.selectEquipments();
+    });
   }
 
   initForm(): void {
@@ -68,7 +71,7 @@ export class SelectEquipmentsComponent implements OnInit, IForm {
     }
 
     const selectedOptions = this.equipmentsListSelection.first.options.filter((option) => {
-      return this.selectedEquipments.indexOf(option.value) !== -1;
+      return this.selectedEquipments.some((e) => e.code === option.value.code);
     });
 
     this.equipmentsListSelection.first.selectedOptions.select(...selectedOptions);

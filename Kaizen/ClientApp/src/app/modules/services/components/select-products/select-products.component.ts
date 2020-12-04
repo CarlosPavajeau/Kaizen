@@ -36,6 +36,9 @@ export class SelectProductsComponent implements OnInit, IForm {
 
   private loadData(): void {
     this.products$ = this.productService.getProducts();
+    this.products$.pipe(delay(250)).subscribe((products) => {
+      this.selectProducts();
+    });
   }
 
   initForm(): void {
@@ -68,7 +71,7 @@ export class SelectProductsComponent implements OnInit, IForm {
     }
 
     const selectedOptions = this.productsListSelection.first.options.filter((option) => {
-      return this.selectedProducts.indexOf(option.value) !== -1;
+      return this.selectedProducts.some((e) => e.code === option.value.code);
     });
 
     this.productsListSelection.first.selectedOptions.select(...selectedOptions);
