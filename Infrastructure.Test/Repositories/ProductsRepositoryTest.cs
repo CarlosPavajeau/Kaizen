@@ -41,7 +41,7 @@ namespace Infrastructure.Test.Repositories
                     Code = "123ER",
                     Name = "Pesticida",
                     Amount = 10,
-                    ApplicationMonths = 10,
+                    ApplicationMonths = ApplicationMonths.January | ApplicationMonths.February | ApplicationMonths.March,
                     Description = "Pesticida de plagas",
                     Presentation = "1Litro",
                     Price = 50000,
