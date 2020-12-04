@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { SharedModule } from '@shared/shared.module';
 import { ActivityDetailComponent } from './activity-detail.component';
 
 describe('ActivityDetailComponent', () => {
@@ -10,7 +11,7 @@ describe('ActivityDetailComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [ HttpClientTestingModule, RouterTestingModule ],
+        imports: [ HttpClientTestingModule, RouterTestingModule, SharedModule ],
         declarations: [ ActivityDetailComponent ]
       }).compileComponents();
     })
