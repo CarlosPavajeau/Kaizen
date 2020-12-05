@@ -113,7 +113,11 @@
             </div>
           </mat-card-content>
           <mat-card-actions
-            *ngIf="serviceInvoice.state == 0 || serviceInvoice.state == 1"
+            *ngIf="
+              isClient &&
+              (serviceInvoice.state == InvoiceState.Generated ||
+                serviceInvoice.state == InvoiceState.Regenerated)
+            "
           >
             <div class="form-buttons center-flex-content">
               <a
