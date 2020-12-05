@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <title>Actividad pendiente</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        font-family: "Roboto", Arial, Helvetica, sans-serif;
+      }
+
+      span {
+        max-width: 780px;
+        font-size: 15px;
+        font-family: "Roboto", Arial, Helvetica, sans-serif;
+        display: block;
+        margin: 0 auto;
+        padding: 15px 35px;
+        text-align: center;
+        margin-top: 7px;
+      }
+
+      body {
+        display: block;
+        margin: 0;
+        padding: 0;
+      }
+
+      .blue-square {
+        background-color: #0039ac;
+        height: 30px;
+        max-width: 800px;
+        display: block;
+        margin: 0 auto;
+      }
+
+      .title {
+        text-align: center;
+        font-size: 30px;
+        font-family: "Roboto", Arial, Helvetica, sans-serif;
+        margin-top: 17px;
+        margin-bottom: 17px;
+      }
+
+      .image-container {
+        margin: 0 auto;
+        align-items: center;
+        width: 150px;
+        height: 150px;
+      }
+
+      .link-button {
+        display: inline-block;
+        margin: 0 auto;
+        text-align: center;
+        font-size: 20px;
+        text-decoration: none;
+        font-family: "Roboto", Arial, Helvetica, sans-serif;
+        min-width: 200px;
+        max-width: 210px;
+        border-radius: 7px;
+        background-color: #0039ac;
+        color: white;
+        padding: 7px;
+        line-height: 25px;
+        margin-top: 5px;
+        margin-bottom: 7px;
+      }
+
+      .link-button-light {
+        color: #0039ac;
+        background-color: white;
+      }
+
+      .mr-7 {
+        margin-right: 27px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="blue-square"></div>
+    <h1 class="title">Tienes una actividad pendiente a confirmar</h1>
+    <div class="image-container">
+      <img
+        src="https://i.imgur.com/aVtcOk3.png"
+        alt="Logo ecolplag"
+        width="150"
+        height="150"
+      />
+    </div>
+    <span>
+      Estimado cliente {1}, tiene una actividad pendiente para la fecha {2} y
+      necesitamos su confirmación para la aplicación de los servicios
+      solicitados por usted.
+    </span>
+    <div
+      style="
+        margin: 0 auto;
+        display: block;
+        align-content: center;
+        align-items: center;
+        width: max-content;
+      "
+    >
+      <a href="{3}" class="link-button mr-7" target="blank">
+        Confirmar activiad
+      </a>
+      <a href="{4}" class="link-button link-button-light" target="blank">
+        Cancelar activiad
+      </a>
+    </div>
+    <div>
+      <span>
+        También puedes cambiar la fecha de aplicación de la actividad.
+        <a href="{5}" style="text-decoration: none; color: #0039ac">
+          Click aquí
+        </a>
+      </span>
+    </div>
+    <span>
+      <strong>
+        Una vez aceptada la actividad, está no podrá ser cancelada.
+      </strong>
+    </span>
+    <span>
+      <small>
+        <strong>Ecolplag S.A.S</strong>
+      </small>
+    </span>
+    <div class="blue-square"></div>
+  </body>
+</html>

@@ -19,6 +19,8 @@ namespace Kaizen.Extensions
         public static void ConfigureHostedServices(this IServiceCollection services)
         {
             services.AddHostedService<EmployeeContractHostedService>();
+            services.AddHostedService<OverdueBillsHostedService>();
+            services.AddHostedService<PendingActivitiesToBeConfirmedHostedService>();
         }
 
         public static void ConfigureDomainEventDispatcher(this IServiceCollection services)
