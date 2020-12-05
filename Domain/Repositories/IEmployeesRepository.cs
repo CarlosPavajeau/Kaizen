@@ -15,7 +15,9 @@ namespace Kaizen.Domain.Repositories
 
         Task<IEnumerable<Employee>> EmployeesWithContractCloseToExpiration();
 
-        public Task<bool> EmployeeContractAlreadyExists(string contractCode);
-        public void AddNewEmployeeContract(EmployeeContract contract);
+        Task<bool> EmployeeContractAlreadyExists(string contractCode);
+        void AddNewEmployeeContract(EmployeeContract contract);
+
+        Task<IEnumerable<Employee>> GetTechnicians();
     }
 }

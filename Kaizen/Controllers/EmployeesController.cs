@@ -43,6 +43,14 @@ namespace Kaizen.Controllers
         }
 
         [HttpGet("[action]")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult<IEnumerable<EmployeeViewModel>>> Technicians()
+        {
+            IEnumerable<Employee> employees = await _employeesRepository.GetTechnicians();
+            return Ok(_mapper.Map<IEnumerable<EmployeeViewModel>>(employees));
+        }
+
+        [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<EmployeeViewModel>>> TechniciansAvailable([FromQuery] DateTime date, [FromQuery] string serviceCodes)
         {
             IEnumerable<Employee> techniciansAvailable = await _employeesRepository.GetTechniciansAvailable(date, serviceCodes.Split(','));

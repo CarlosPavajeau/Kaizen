@@ -71,5 +71,12 @@ namespace Kaizen.Infrastructure.Repositories
         {
             ApplicationDbContext.Set<EmployeeContract>().Add(contract);
         }
+
+        public async Task<IEnumerable<Employee>> GetTechnicians()
+        {
+            return await GetAll().Include(e => e.EmployeeCharge)
+                .Where(e => TECHNICAL_EMPLOYEE_JOB_CODES.Contains(e.ChargeId))
+                .ToListAsync();
+        }
     }
 }

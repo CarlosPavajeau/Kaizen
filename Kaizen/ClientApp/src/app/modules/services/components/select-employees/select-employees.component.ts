@@ -35,7 +35,7 @@ export class SelectEmployeesComponent implements OnInit, IForm {
   }
 
   private loadData(): void {
-    this.employees$ = this.employeeService.getEmployees();
+    this.employees$ = this.employeeService.getTechnicians();
     this.employees$.pipe(delay(250)).subscribe((employees) => {
       this.selectEmployees();
     });

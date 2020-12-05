@@ -15,6 +15,10 @@ export class EmployeeService {
     return this.http.get<Employee[]>(EMPLOYEES_API_URL);
   }
 
+  getTechnicians(): Observable<Employee[]> {
+    return this.http.get<Employee[]>(`${EMPLOYEES_API_URL}/Technicians`);
+  }
+
   getEmployeeCharges(): Observable<EmployeeCharge[]> {
     return this.http.get<EmployeeCharge[]>(`${EMPLOYEES_API_URL}/EmployeeCharges`);
   }
