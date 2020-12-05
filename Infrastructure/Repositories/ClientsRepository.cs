@@ -31,6 +31,7 @@ namespace Kaizen.Infrastructure.Repositories
         {
             return await ApplicationDbContext.Clients
                 .Include(c => c.ClientAddress)
+                .Include(c => c.ContactPeople)
                 .Where(c => c.State == ClientState.Pending).ToListAsync();
         }
 
