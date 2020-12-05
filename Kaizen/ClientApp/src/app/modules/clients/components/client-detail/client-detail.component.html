@@ -73,6 +73,12 @@
                 {{ client.clientAddress.street }}
               </span>
             </div>
+            <div class="icon-text-container">
+              <mat-icon [matTooltip]="'Estado del cliente'"
+                >fact_check</mat-icon
+              >
+              <span>{{ client.state | clientState }}</span>
+            </div>
             <div *ngIf="client.contactPeople?.length > 0">
               <h2 class="mt-4">Personas de contacto</h2>
               <div>
@@ -92,12 +98,6 @@
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Estado del cliente'"
-                >fact_check</mat-icon
-              >
-              <span>{{ client.state | clientState }}</span>
             </div>
           </mat-card-content>
         </mat-card>
