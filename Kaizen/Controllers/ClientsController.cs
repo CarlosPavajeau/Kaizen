@@ -10,6 +10,7 @@ using Kaizen.Models.Client;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kaizen.Controllers
@@ -123,8 +124,7 @@ namespace Kaizen.Controllers
             if (!roleResult.Succeeded)
                 return this.IdentityResultErrors(roleResult);
 
-            string emailConfirmationLink = await GenerateEmailConfirmationLink(client.User);
-            client.PublishEvent(new SavedPerson(client, emailConfirmationLink));
+            client.PublishEvent(new SavedPerson(client));
             _clientsRepository.Insert(client);
 
             try
@@ -144,13 +144,6 @@ namespace Kaizen.Controllers
             }
 
             return _mapper.Map<ClientViewModel>(client);
-        }
-
-        private async Task<string> GenerateEmailConfirmationLink(ApplicationUser user)
-        {
-            string token = await _applicationUserRepository.GenerateEmailConfirmationTokenAsync(user);
-            string emailConfirmationLink = Url.Action("ConfirmEmail", "user", new { token = token.Base64ForUrlEncode(), email = user.Email }, Request.Scheme);
-            return emailConfirmationLink;
         }
 
         // DELETE: api/Clients/5
