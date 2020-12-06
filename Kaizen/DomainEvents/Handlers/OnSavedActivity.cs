@@ -20,23 +20,51 @@ namespace Kaizen.DomainEvents.Handlers
             private readonly IMapper _mapper;
             private readonly IMailService _mailService;
             private readonly IActivitiesRepository _activitiesRepository;
-            public Handler(IHubContext<ActivityHub> hubContext, IMapper mapper, IMailService mailService, IActivitiesRepository activitiesRepository)
+            private readonly IClientsRepository _clientsRepository;
+            private readonly IUnitWork _unitWork;
+
+            public Handler(IHubContext<ActivityHub> hubContext, IMapper mapper, IMailService mailService, IActivitiesRepository activitiesRepository, IClientsRepository clientsRepository, IUnitWork unitWork)
             {
                 _hubContext = hubContext;
                 _mapper = mapper;
                 _mailService = mailService;
                 _activitiesRepository = activitiesRepository;
+                _clientsRepository = clientsRepository;
+                _unitWork = unitWork;
             }
 
             public async Task Handle(DomainEventNotification<SavedActivity> notification, CancellationToken cancellationToken)
             {
-                ActivityViewModel activityModel = _mapper.Map<ActivityViewModel>(notification.DomainEvent.Activity);
-                await _hubContext.Clients.Groups("Clients").SendAsync("NewActivity", activityModel, cancellationToken: cancellationToken);
-                await _activitiesRepository.ScheduleActivities(notification.DomainEvent.Activity);
-                Client client = notification.DomainEvent.Activity.Client;
+                Activity activity = notification.DomainEvent.Activity;
 
+                await _activitiesRepository.ScheduleActivities(activity);
+                await NotifyNewActivityRegister(activity, cancellationToken);
+                await SendNotificationEmail(activity);
+                await UpdateClientState(activity);
+
+            }
+
+            private async Task NotifyNewActivityRegister(Activity activity, CancellationToken cancellationToken)
+            {
+                ActivityViewModel activityModel = _mapper.Map<ActivityViewModel>(activity);
+                await _hubContext.Clients.Groups("Clients").SendAsync("NewActivity", activityModel, cancellationToken: cancellationToken);
+            }
+
+            private async Task SendNotificationEmail(Activity activity)
+            {
+                Client client = activity.Client;
                 await _mailService.SendEmailAsync(client.User.Email, "Actividad pendiente", $"Estimado {client.LastName} {client.FirstName} hemos agendado " +
-                    $"la actividad N° {activityModel.Code} para el día {activityModel.Date} para aplicar los servicios solicitados por usted");
+                    $"la actividad N° {activity.Code} para el día {activity.Date} para aplicar los servicios solicitados por usted");
+            }
+
+            private async Task UpdateClientState(Activity activity)
+            {
+                Client client = activity.Client;
+                client.State = (activity.Periodicity == PeriodicityType.Casual) ? ClientState.Casual : ClientState.Active;
+
+                _clientsRepository.Update(client);
+
+                await _unitWork.SaveAsync();
             }
         }
     }
