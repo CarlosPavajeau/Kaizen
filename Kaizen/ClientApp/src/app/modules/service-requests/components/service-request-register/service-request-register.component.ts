@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { IForm } from '@core/models/form';
 import { buildIsoDate } from '@core/utils/date-utils';
 import { Client } from '@modules/clients/models/client';
+import { ClientState } from '@modules/clients/models/client-state';
+import { ClientService } from '@modules/clients/services/client.service';
 import { PERIODICITIES, Periodicity } from '@modules/service-requests/models/periodicity-type';
 import { ServiceRequest } from '@modules/service-requests/models/service-request';
 import { ServiceRequestState } from '@modules/service-requests/models/service-request-state';
@@ -22,14 +24,21 @@ import { catchError } from 'rxjs/operators';
 })
 export class ServiceRequestRegisterComponent implements OnInit, IForm {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;
+  public ClientState: typeof ClientState = ClientState;
 
-  serviceRequestForm: FormGroup;
   services$: Observable<Service[]>;
   periodicities: Periodicity[];
-  serviceRequest: ServiceRequest;
+
+  serviceRequest$: Observable<ServiceRequest>;
+
   private clientId: string;
+  client: Client;
+  client$: Observable<Client>;
 
   savingData = false;
+  canBeRegisterServiceRequest = false;
+
+  serviceRequestForm: FormGroup;
 
   get controls(): { [key: string]: AbstractControl } {
     return this.serviceRequestForm.controls;
@@ -37,6 +46,7 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
 
   constructor(
     private serviceRequestService: ServiceRequestService,
+    private clientService: ClientService,
     private serviceService: ServiceService,
     private notificationService: NotificationsService,
     private formBuilder: FormBuilder,
@@ -49,26 +59,33 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
   }
 
   private loadData(): void {
-    const client: Client = JSON.parse(localStorage.getItem('current_person'));
+    this.client = JSON.parse(localStorage.getItem('current_person'));
+    this.client$ = this.clientService.getClient(this.client.id);
 
-    this.serviceRequestService
-      .getPendingServiceRequest(client.id)
-      .pipe(
-        catchError(() => {
-          return of(null);
-        })
-      )
-      .subscribe((pendingRequest) => {
-        this.serviceRequest = pendingRequest;
-        if (this.serviceRequest && this.serviceRequest.state === ServiceRequestState.PendingSuggestedDate) {
-          this.router.navigateByUrl('/service_requests/new_date');
-        }
-      });
+    this.client$.subscribe((client) => {
+      this.client = client;
+      localStorage.setItem('current_person', JSON.stringify(this.client));
 
-    this.periodicities = PERIODICITIES;
-    this.clientId = client.id;
+      if (this.client.state === ClientState.Accepted || this.client.state === ClientState.Inactive) {
+        this.canBeRegisterServiceRequest = true;
+        this.serviceRequest$ = this.serviceRequestService.getPendingServiceRequest(this.client.id).pipe(
+          catchError(() => {
+            return of(null);
+          })
+        );
 
-    this.services$ = this.serviceService.getServices();
+        this.serviceRequest$.subscribe((pendingRequest) => {
+          if (pendingRequest && pendingRequest.state === ServiceRequestState.PendingSuggestedDate) {
+            this.router.navigateByUrl('/service_requests/new_date');
+          } else {
+            this.periodicities = PERIODICITIES;
+            this.clientId = this.client.id;
+
+            this.services$ = this.serviceService.getServices();
+          }
+        });
+      }
+    });
   }
 
   initForm(): void {

@@ -1,143 +1,249 @@
 <div class="container">
-  <section *ngIf="!serviceRequest">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>
-          <div>
-            <h1 class="text-center">Formulario de solicitud de servicio</h1>
-          </div></mat-card-title
-        >
-      </mat-card-header>
-      <mat-card-content>
-        <div>
-          <form [formGroup]="serviceRequestForm">
-            <div class="form-row">
-              <div class="form-col">
-                <div class="form-element">
-                  <mat-form-field>
-                    <mat-label>Fecha de aplicación</mat-label>
-                    <input
-                      matInput
-                      [matDatepicker]="datePicker"
-                      formControlName="date"
-                    />
-                    <mat-datepicker-toggle
-                      matSuffix
-                      [for]="datePicker"
-                    ></mat-datepicker-toggle>
-                    <mat-datepicker #datePicker></mat-datepicker>
-                    <mat-hint>
-                      Elija la fecha en la que quiere la aplicación del servicio
-                    </mat-hint>
-                    <mat-error *ngIf="controls['date'].hasError('required')">
-                      Debe escoger una fecha de aplicación
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="form-col">
-                <div class="form-element">
-                  <mat-form-field>
-                    <mat-label>Hora de aplicación</mat-label>
-                    <input
-                      type="time"
-                      matInput
-                      placeholder="Ejemplo 2:00PM"
-                      formControlName="time"
-                    />
-                    <mat-hint>
-                      Elija la hora en la que quiere la aplicación del servicio
-                    </mat-hint>
-                    <mat-error *ngIf="controls['time'].hasError('required')">
-                      Debe escoger una hora de aplicación
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
-            <div class="form-element form-select">
-              <mat-form-field>
-                <mat-label>Servicios a aplicar</mat-label>
-                <mat-select formControlName="serviceCodes" multiple>
-                  <ng-container
-                    *ngIf="services$ | observableWithStatus | async as obs"
-                    [ngSwitch]="obs.status"
-                  >
-                    <ng-template [ngSwitchCase]="ObsStatus.Loading">
-                      <mat-option>
-                        <div class="loading-option">
-                          <mat-spinner [diameter]="20"></mat-spinner>
-                          <span>Cargando servicios...</span>
-                        </div>
-                      </mat-option>
-                    </ng-template>
-                    <ng-template [ngSwitchCase]="ObsStatus.Success">
-                      <mat-option
-                        *ngFor="let service of obs.value"
-                        [value]="service.code"
-                      >
-                        {{ service.name }} : ${{ service.cost }}
-                      </mat-option>
-                    </ng-template>
-                  </ng-container>
-                </mat-select>
-                <mat-hint> Elija los servicios a aplicar </mat-hint>
-                <mat-error
-                  *ngIf="controls['serviceCodes'].hasError('required')"
-                >
-                  Debe elegir por lo menos un servicio
-                </mat-error>
-              </mat-form-field>
-            </div>
-            <div class="form-element form-select">
-              <mat-form-field>
-                <mat-label>Periodicidad</mat-label>
-                <mat-select formControlName="periodicity">
-                  <mat-option
-                    *ngFor="let periodicity of periodicities"
-                    [value]="periodicity.type"
-                  >
-                    {{ periodicity.name }}
-                  </mat-option>
-                </mat-select>
-                <mat-icon
-                  matSuffix
-                  [matTooltip]="'Como quieres recibir nuestras visitas'"
-                  >info_outline</mat-icon
-                >
-                <mat-hint> Elija la periodicidad de las visitas </mat-hint>
-                <mat-error *ngIf="controls['periodicity'].hasError('required')">
-                  La periodicidad de las visitas es requerida
-                </mat-error>
-              </mat-form-field>
-            </div>
-          </form>
-          <div class="form-buttons">
-            <button
-              mat-raised-button
-              class="royal_azure"
-              (click)="onSubmit()"
-              [appLoadingButton]="savingData"
-            >
-              Enviar solicitud de servicio
-            </button>
-          </div>
+  <ng-container
+    *ngIf="client$ | observableWithStatus | async as obs"
+    [ngSwitch]="obs.status"
+  >
+    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+      <div class="center-block-content pt-5">
+        <div class="center-flex-content">
+          <mat-spinner></mat-spinner>
         </div>
-      </mat-card-content>
-    </mat-card>
-  </section>
-  <section *ngIf="serviceRequest">
-    <h1 class="text-center">Usted ya tiene una solicitud pendiente</h1>
-    <div class="center-block-content text-center">
-      <mat-icon
-        color="primary"
-        class="center-block-content mt-2 text-center mb-2"
-        style="width: 70px; height: 70px; font-size: 70px"
-        >info</mat-icon
-      >
-    </div>
-    <p class="text-center">
-      Por favor, espere nuestra respuesta. Pronto procesaremos su solicitud.
-    </p>
-  </section>
+        <h4 class="text-center mt-4 empty-list-text">
+          Cargando su información...
+        </h4>
+      </div>
+    </ng-template>
+    <ng-template [ngSwitchCase]="ObsStatus.Success">
+      <div *ngIf="!canBeRegisterServiceRequest">
+        <div *ngIf="client.state === ClientState.Pending">
+          <h1 class="text-center">Aún no eres un cliente aceptado</h1>
+          <div class="center-block-content text-center">
+            <mat-icon
+              color="primary"
+              class="center-block-content mt-2 text-center mb-2"
+              style="width: 70px; height: 70px; font-size: 70px"
+              >pending</mat-icon
+            >
+          </div>
+          <p class="text-center">
+            Aún no hemos respondido a tu solicitud de ser nuestro cliente. Por
+            lo tanto, no puedes solicitar nuestros servicios. Espera nuestra
+            respuesta.
+          </p>
+        </div>
+        <div *ngIf="client.state === ClientState.Rejected">
+          <h1 class="text-center">No eres un cliente aceptado</h1>
+          <div class="center-block-content text-center">
+            <mat-icon
+              color="warn"
+              class="center-block-content mt-2 text-center mb-2"
+              style="width: 70px; height: 70px; font-size: 70px"
+              >report_problem</mat-icon
+            >
+          </div>
+          <p class="text-center">
+            Hemos revisado tu solicitud de ser nuestro cliente y
+            desafortunadamente la hemos rechazado. Por lo tanto, no puedes
+            solicitar nuestros servicios.
+          </p>
+        </div>
+        <div *ngIf="client.state === ClientState.Active">
+          <h1 class="text-center">Tienes actividades pendientes</h1>
+          <div class="center-block-content text-center">
+            <mat-icon
+              color="primary"
+              class="center-block-content mt-2 text-center mb-2"
+              style="width: 70px; height: 70px; font-size: 70px"
+              >pending</mat-icon
+            >
+          </div>
+          <p class="text-center">
+            Actualmente ya tienes actividades pendientes con nosotros. Por lo
+            tanto, no puedes hacer una nueva solicitud de nuestros servicios.
+          </p>
+        </div>
+      </div>
+      <div *ngIf="canBeRegisterServiceRequest">
+        <ng-container
+          *ngIf="serviceRequest$ | observableWithStatus | async as obs"
+          [ngSwitch]="obs.status"
+        >
+          <ng-template [ngSwitchCase]="ObsStatus.Loading">
+            <div class="center-block-content pt-5">
+              <div class="center-flex-content">
+                <mat-spinner></mat-spinner>
+              </div>
+              <h4 class="text-center mt-4 empty-list-text">
+                Comprobando que no exista una solicitud...
+              </h4>
+            </div>
+          </ng-template>
+          <ng-template [ngSwitchCase]="ObsStatus.Success">
+            <section *ngIf="!obs.value as serviceRequest">
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title>
+                    <div>
+                      <h1 class="text-center">
+                        Formulario de solicitud de servicio
+                      </h1>
+                    </div></mat-card-title
+                  >
+                </mat-card-header>
+                <mat-card-content>
+                  <div>
+                    <form [formGroup]="serviceRequestForm">
+                      <div class="form-row">
+                        <div class="form-col">
+                          <div class="form-element">
+                            <mat-form-field>
+                              <mat-label>Fecha de aplicación</mat-label>
+                              <input
+                                matInput
+                                [matDatepicker]="datePicker"
+                                formControlName="date"
+                              />
+                              <mat-datepicker-toggle
+                                matSuffix
+                                [for]="datePicker"
+                              ></mat-datepicker-toggle>
+                              <mat-datepicker #datePicker></mat-datepicker>
+                              <mat-hint>
+                                Elija la fecha en la que quiere la aplicación
+                                del servicio
+                              </mat-hint>
+                              <mat-error
+                                *ngIf="controls['date'].hasError('required')"
+                              >
+                                Debe escoger una fecha de aplicación
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                        <div class="form-col">
+                          <div class="form-element">
+                            <mat-form-field>
+                              <mat-label>Hora de aplicación</mat-label>
+                              <input
+                                type="time"
+                                matInput
+                                placeholder="Ejemplo 2:00PM"
+                                formControlName="time"
+                              />
+                              <mat-hint>
+                                Elija la hora en la que quiere la aplicación del
+                                servicio
+                              </mat-hint>
+                              <mat-error
+                                *ngIf="controls['time'].hasError('required')"
+                              >
+                                Debe escoger una hora de aplicación
+                              </mat-error>
+                            </mat-form-field>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-element form-select">
+                        <mat-form-field>
+                          <mat-label>Servicios a aplicar</mat-label>
+                          <mat-select formControlName="serviceCodes" multiple>
+                            <ng-container
+                              *ngIf="
+                                services$ | observableWithStatus | async as obs
+                              "
+                              [ngSwitch]="obs.status"
+                            >
+                              <ng-template [ngSwitchCase]="ObsStatus.Loading">
+                                <mat-option>
+                                  <div class="loading-option">
+                                    <mat-spinner [diameter]="20"></mat-spinner>
+                                    <span>Cargando servicios...</span>
+                                  </div>
+                                </mat-option>
+                              </ng-template>
+                              <ng-template [ngSwitchCase]="ObsStatus.Success">
+                                <mat-option
+                                  *ngFor="let service of obs.value"
+                                  [value]="service.code"
+                                >
+                                  {{ service.name }} : ${{ service.cost }}
+                                </mat-option>
+                              </ng-template>
+                            </ng-container>
+                          </mat-select>
+                          <mat-hint> Elija los servicios a aplicar </mat-hint>
+                          <mat-error
+                            *ngIf="
+                              controls['serviceCodes'].hasError('required')
+                            "
+                          >
+                            Debe elegir por lo menos un servicio
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="form-element form-select">
+                        <mat-form-field>
+                          <mat-label>Periodicidad</mat-label>
+                          <mat-select formControlName="periodicity">
+                            <mat-option
+                              *ngFor="let periodicity of periodicities"
+                              [value]="periodicity.type"
+                            >
+                              {{ periodicity.name }}
+                            </mat-option>
+                          </mat-select>
+                          <mat-icon
+                            matSuffix
+                            [matTooltip]="
+                              'Como quieres recibir nuestras visitas'
+                            "
+                            >info_outline</mat-icon
+                          >
+                          <mat-hint>
+                            Elija la periodicidad de las visitas
+                          </mat-hint>
+                          <mat-error
+                            *ngIf="controls['periodicity'].hasError('required')"
+                          >
+                            La periodicidad de las visitas es requerida
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </form>
+                    <div class="form-buttons">
+                      <button
+                        mat-raised-button
+                        class="royal_azure"
+                        (click)="onSubmit()"
+                        [appLoadingButton]="savingData"
+                      >
+                        Enviar solicitud de servicio
+                      </button>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </section>
+            <section *ngIf="obs.value as serviceRequest">
+              <h1 class="text-center">
+                Usted ya tiene una solicitud pendiente
+              </h1>
+              <div class="center-block-content text-center">
+                <mat-icon
+                  color="primary"
+                  class="center-block-content mt-2 text-center mb-2"
+                  style="width: 70px; height: 70px; font-size: 70px"
+                  >info</mat-icon
+                >
+              </div>
+              <p class="text-center">
+                Por favor, espere nuestra respuesta. Pronto procesaremos su
+                solicitud.
+              </p>
+            </section>
+          </ng-template>
+        </ng-container>
+      </div>
+    </ng-template>
+  </ng-container>
 </div>
