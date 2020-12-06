@@ -203,44 +203,50 @@
         </div>
       </mat-card-content>
       <mat-card-actions>
-        <div *ngIf="techniciansAvailable$">
-          <ng-container
-            *ngIf="techniciansAvailable$ | observableWithStatus | async as obs"
-            [ngSwitch]="obs.status"
-          >
-            <ng-template [ngSwitchCase]="ObsStatus.Success">
-              <button
-                *ngIf="obs.value.length > 0"
-                mat-raised-button
-                class="royal_azure mr-5"
-                (click)="onSubmit()"
-                [appLoadingButton]="savingData"
+        <div class="form-buttons">
+          <div *ngIf="techniciansAvailable$">
+            <ng-container
+              style="display: inline-block"
+              *ngIf="
+                techniciansAvailable$ | observableWithStatus | async as obs
+              "
+              [ngSwitch]="obs.status"
+            >
+              <ng-template
+                [ngSwitchCase]="ObsStatus.Success"
+                style="display: inline-block"
               >
-                Agendar actividad
-              </button>
-            </ng-template>
-          </ng-container>
-        </div>
-        <div class="form-buttons pt-3">
-          <button
-            *ngIf="fromServiceRequest"
-            mat-stroked-button
-            color="warn"
-            class="mr-5"
-            (click)="cancelServiceRequest()"
-            [disabled]="savingData"
-          >
-            Cancelar solicitud
-          </button>
-          <button
-            *ngIf="fromServiceRequest"
-            mat-stroked-button
-            color="primary"
-            (click)="suggestAnotherDate()"
-            [disabled]="savingData"
-          >
-            Sugerir otra fecha
-          </button>
+                <button
+                  *ngIf="obs.value.length > 0"
+                  mat-raised-button
+                  class="royal_azure mr-5"
+                  (click)="onSubmit()"
+                  [appLoadingButton]="savingData"
+                >
+                  Agendar actividad
+                </button>
+                <button
+                  *ngIf="fromServiceRequest"
+                  mat-stroked-button
+                  color="warn"
+                  class="mr-5"
+                  (click)="cancelServiceRequest()"
+                  [disabled]="savingData"
+                >
+                  Cancelar solicitud
+                </button>
+                <button
+                  *ngIf="fromServiceRequest"
+                  mat-stroked-button
+                  color="primary"
+                  (click)="suggestAnotherDate()"
+                  [disabled]="savingData"
+                >
+                  Sugerir otra fecha
+                </button>
+              </ng-template>
+            </ng-container>
+          </div>
         </div>
       </mat-card-actions>
     </mat-card>
