@@ -12,6 +12,7 @@ export class MonthBitPipe implements PipeTransform {
       let months = '';
       let monthAdded = false;
       APPLICATION_MONTHS.forEach((month) => {
+        // tslint:disable-next-line: no-bitwise
         if (bitMask & month.value) {
           if (!monthAdded) {
             months += month.name;
