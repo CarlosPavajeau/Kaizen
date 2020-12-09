@@ -78,7 +78,7 @@ namespace Kaizen.Controllers
 
         [HttpPut("[action]/{usernameOrEmail}")]
         [AllowAnonymous]
-        public async Task<ActionResult<ApplicationUserViewModel>> ResetPassword(string usernameOrEmail, [FromBody] ResetPasswordModel resetPassword)
+        public async Task<ActionResult<ApplicationUserViewModel>> ResetPassword(string usernameOrEmail, [FromBody] ResetPasswordModel resetPasswordModel)
         {
             ApplicationUser user = await _userRepository.FindByNameOrEmailAsync(usernameOrEmail);
             if (user is null)
@@ -86,7 +86,7 @@ namespace Kaizen.Controllers
                 throw new UserDoesNotExists();
             }
 
-            IdentityResult resetPasswordResult = await _userRepository.ResetPasswordAsync(user, resetPassword.Token.Base64ForUrlDecode(), resetPassword.NewPassword);
+            IdentityResult resetPasswordResult = await _userRepository.ResetPasswordAsync(user, resetPasswordModel.Token.Base64ForUrlDecode(), resetPasswordModel.NewPassword);
             if (!resetPasswordResult.Succeeded)
             {
                 SetIdentityResultErrors(resetPasswordResult);
@@ -109,15 +109,15 @@ namespace Kaizen.Controllers
 
         [AllowAnonymous]
         [HttpPost("[action]")]
-        public async Task<ActionResult<ApplicationUserViewModel>> Login([FromBody] LoginRequest login)
+        public async Task<ActionResult<ApplicationUserViewModel>> Login([FromBody] LoginRequest loginRequest)
         {
-            ApplicationUser user = await _userRepository.FindByNameOrEmailAsync(login.UsernameOrEmail);
+            ApplicationUser user = await _userRepository.FindByNameOrEmailAsync(loginRequest.UsernameOrEmail);
             if (user is null)
             {
-                return NotFound($"El usuario/email {login.UsernameOrEmail} no se encuentra registrado.");
+                return NotFound($"El usuario/email {loginRequest.UsernameOrEmail} no se encuentra registrado.");
             }
 
-            Microsoft.AspNetCore.Identity.SignInResult result = await _userRepository.Login(user, login.Password);
+            Microsoft.AspNetCore.Identity.SignInResult result = await _userRepository.Login(user, loginRequest.Password);
             if (!result.Succeeded)
             {
                 throw new IncorrectPassword();
