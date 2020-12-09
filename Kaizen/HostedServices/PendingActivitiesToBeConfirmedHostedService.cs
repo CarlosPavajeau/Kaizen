@@ -14,7 +14,7 @@ namespace Kaizen.HostedServices
 {
     public class PendingActivitiesToBeConfirmedHostedService : BackgroundService
     {
-        private const int DELAY_TIME = 24 /*Hours*/ * TimeConstants.Minutes * TimeConstants.Seconds * TimeConstants.Milliseconds;
+        private static readonly int DELAY_TIME = 24 /*Hours*/ * TimeConstants.Minutes * TimeConstants.Seconds * TimeConstants.Milliseconds;
 
         private readonly IActivitiesRepository _activitiesRepository;
         private readonly IMailService _mailService;

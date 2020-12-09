@@ -40,7 +40,9 @@ namespace Kaizen.Controllers
         {
             Equipment equipment = await _equipmentsRepository.FindByIdAsync(id);
             if (equipment == null)
+            {
                 return NotFound($"No existe ningún equipo con el código {id}.");
+            }
 
             return _mapper.Map<EquipmentViewModel>(equipment);
         }
@@ -60,7 +62,9 @@ namespace Kaizen.Controllers
         {
             Equipment equipment = await _equipmentsRepository.FindByIdAsync(id);
             if (equipment is null)
+            {
                 return BadRequest($"No existe ningún equipo con el código {id}.");
+            }
 
             _mapper.Map(equipmentModel, equipment);
             _equipmentsRepository.Update(equipment);

@@ -1,8 +1,8 @@
-﻿using Kaizen.Core.DependencyResolver;
-using Kaizen.Domain.Data.Configuration;
-using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
+using Kaizen.Core.DependencyResolver;
+using Kaizen.Domain.Data.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Kaizen.Domain.Data
 {
@@ -20,11 +20,13 @@ namespace Kaizen.Domain.Data
         }
         public ApplicationDbContext Create()
         {
-            var dataProvider = _resolver.ResolveAll<IDataProvider>()
+            IDataProvider dataProvider = _resolver.ResolveAll<IDataProvider>()
                 .SingleOrDefault(x => x.Provider == DataConfuguration.Provider);
 
             if (dataProvider == null)
-                throw new Exception("The Data Provider entry in appsettings.json is empty or the one specified has not been found!");
+            {
+                throw new ArgumentNullException("The Data Provider entry in appsettings.json is empty or the one specified has not been found!");
+            }
 
             return dataProvider.CreateDbContext(ConnectionStrings.DefaultConnection);
         }

@@ -89,7 +89,9 @@ namespace Kaizen.Infrastructure.Repositories
             foreach (IEntity entity in domainEventEntities)
             {
                 while (entity.DomainEvents.TryTake(out IDomainEvent @event))
+                {
                     await _eventDispatcher.Dispatch(@event);
+                }
             }
         }
     }

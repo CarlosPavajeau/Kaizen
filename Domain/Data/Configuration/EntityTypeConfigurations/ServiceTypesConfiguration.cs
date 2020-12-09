@@ -8,7 +8,7 @@ namespace Kaizen.Domain.Data.Configuration.EntityTypeConfigurations
     {
         public void Configure(EntityTypeBuilder<ServiceType> builder)
         {
-            builder.HasData(new ServiceType[]
+            builder.HasData(new[]
             {
                 new ServiceType { Id = 1, Name = "Control de plagas" },
                 new ServiceType { Id = 2, Name = "Desinfección de ambientes y superficies" },

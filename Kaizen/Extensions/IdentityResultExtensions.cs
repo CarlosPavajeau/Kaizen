@@ -9,7 +9,9 @@ namespace Kaizen.Extensions
         public static ActionResult IdentityResultErrors(this ControllerBase controller, IdentityResult result)
         {
             foreach (IdentityError error in result.Errors)
+            {
                 controller.ModelState.AddModelError(error.Code, error.Description);
+            }
 
             return controller.BadRequest(new ValidationProblemDetails(controller.ModelState)
             {

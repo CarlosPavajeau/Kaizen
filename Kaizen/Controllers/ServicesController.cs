@@ -43,7 +43,9 @@ namespace Kaizen.Controllers
         {
             Service service = await _servicesRepository.FindByIdAsync(id);
             if (service == null)
+            {
                 return NotFound($"No existe ningún servicio con el código {id}.");
+            }
 
             return _mapper.Map<ServiceViewModel>(service);
         }
@@ -72,7 +74,9 @@ namespace Kaizen.Controllers
         {
             Service service = await _servicesRepository.FindByIdAsync(id);
             if (service is null)
+            {
                 return BadRequest($"No existe ningún servicio con el código {id}.");
+            }
 
             _mapper.Map(serviceModel, service);
             _servicesRepository.Update(service);

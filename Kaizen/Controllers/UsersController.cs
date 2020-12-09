@@ -36,7 +36,9 @@ namespace Kaizen.Controllers
         {
             ApplicationUser user = await _userRepository.FindByIdAsync(id);
             if (user == null)
+            {
                 return NotFound("El usuario solicitado no se encuentra registrado");
+            }
 
             return _mapper.Map<ApplicationUserViewModel>(user);
         }
@@ -57,7 +59,9 @@ namespace Kaizen.Controllers
         {
             ApplicationUser user = await _userRepository.FindByIdAsync(id);
             if (user is null)
+            {
                 return BadRequest($"No existe un usuario identificado con el id {id}.");
+            }
 
             IdentityResult changePasswordResult = await _userRepository.ChangePassswordAsync(user, changePasswordModel.OldPassword, changePasswordModel.NewPassword);
             if (!changePasswordResult.Succeeded)
@@ -78,7 +82,9 @@ namespace Kaizen.Controllers
         {
             ApplicationUser user = await _userRepository.FindByNameOrEmailAsync(usernameOrEmail);
             if (user is null)
+            {
                 throw new UserDoesNotExists();
+            }
 
             IdentityResult resetPasswordResult = await _userRepository.ResetPasswordAsync(user, resetPassword.Token.Base64ForUrlDecode(), resetPassword.NewPassword);
             if (!resetPasswordResult.Succeeded)
@@ -96,7 +102,9 @@ namespace Kaizen.Controllers
         private void SetIdentityResultErrors(IdentityResult identityResult)
         {
             foreach (IdentityError error in identityResult.Errors)
+            {
                 ModelState.AddModelError(error.Code, error.Description);
+            }
         }
 
         [AllowAnonymous]
@@ -105,11 +113,15 @@ namespace Kaizen.Controllers
         {
             ApplicationUser user = await _userRepository.FindByNameOrEmailAsync(login.UsernameOrEmail);
             if (user is null)
+            {
                 return NotFound($"El usuario/email {login.UsernameOrEmail} no se encuentra registrado.");
+            }
 
             Microsoft.AspNetCore.Identity.SignInResult result = await _userRepository.Login(user, login.Password);
             if (!result.Succeeded)
+            {
                 throw new IncorrectPassword();
+            }
 
             return await GenerateAuthenticateUser(user);
         }
@@ -130,7 +142,9 @@ namespace Kaizen.Controllers
         {
             ApplicationUser user = await _userRepository.FindByNameOrEmailAsync(email);
             if (user is null)
+            {
                 return NotFound($"El usuario/email {email} no se encuentra registrado.");
+            }
 
             user = await _userRepository.ConfirmEmailAsync(user, token.Base64ForUrlDecode());
             return Ok(_mapper.Map<ApplicationUser>(user));
@@ -142,7 +156,9 @@ namespace Kaizen.Controllers
         {
             ApplicationUser user = await _userRepository.FindByNameOrEmailAsync(usernameOrEmail);
             if (user is null)
+            {
                 throw new UserDoesNotExists();
+            }
 
             string token = await _userRepository.GeneratePasswordResetTokenAsync(user);
             string resetPasswordLink = Url.Action("ResetPassword", "user", new { token = token.Base64ForUrlEncode(), email = user.Email }, Request.Scheme);

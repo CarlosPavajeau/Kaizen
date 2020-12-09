@@ -31,7 +31,12 @@ namespace Kaizen.Infrastructure.Services
             _client.DeliveryMethod = SmtpDeliveryMethod.Network;
         }
 
-        public async Task SendEmailAsync(string email, string subject, string message, bool isHtml = false)
+        public async Task SendEmailAsync(string email, string subject, string message)
+        {
+            await SendEmailAsync(email, subject, message, false);
+        }
+
+        public async Task SendEmailAsync(string email, string subject, string message, bool isHtml)
         {
             try
             {

@@ -8,7 +8,7 @@ namespace Kaizen.Domain.Data.Configuration.EntityTypeConfigurations
     {
         public void Configure(EntityTypeBuilder<EmployeeCharge> builder)
         {
-            builder.HasData(new EmployeeCharge[]
+            builder.HasData(new[]
             {
                 new EmployeeCharge("Gerente") { Id = 1 },
                 new EmployeeCharge("Coordinador de Calidad y Ambiente") { Id = 2 },

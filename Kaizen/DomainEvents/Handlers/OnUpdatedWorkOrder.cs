@@ -53,7 +53,9 @@ namespace Kaizen.DomainEvents.Handlers
             private void GenerateInvoice(Activity activity)
             {
                 if (activity is null)
+                {
                     return;
+                }
 
                 List<Service> services = activity.ActivitiesServices.Select(s => s.Service).ToList();
 

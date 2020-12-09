@@ -40,7 +40,9 @@ namespace Kaizen.Controllers
         {
             Product product = await _productsRepository.FindByIdAsync(id);
             if (product == null)
+            {
                 return NotFound($"El producto identificado con el código {id} no está registrado.");
+            }
 
             return _mapper.Map<ProductViewModel>(product);
         }
@@ -120,7 +122,9 @@ namespace Kaizen.Controllers
         {
             Product product = await _productsRepository.FindByIdAsync(id);
             if (product == null)
+            {
                 return NotFound($"El producto identificado con el código {id} no está registrado.");
+            }
 
             return _mapper.Map<ProductViewModel>(product);
         }

@@ -1,6 +1,6 @@
-﻿using Kaizen.Core.Services;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Kaizen.Core.Services;
 
 namespace Kaizen.Infrastructure.Services
 {

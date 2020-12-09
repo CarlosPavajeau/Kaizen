@@ -1,6 +1,6 @@
-﻿using Autofac;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Autofac;
 
 namespace Kaizen.Core.DependencyResolver
 {

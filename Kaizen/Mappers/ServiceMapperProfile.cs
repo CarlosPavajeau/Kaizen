@@ -17,34 +17,42 @@ namespace Kaizen.Mappers
                 service.EquipmentsServices = new List<EquipmentService>();
                 service.ProductsServices = new List<ProductService>();
                 service.EmployeesServices = new List<EmployeeService>();
-                foreach (var equipmentCode in serviceModel.EquipmentCodes)
+                foreach (string equipmentCode in serviceModel.EquipmentCodes)
                 {
                     service.EquipmentsServices.Add(new EquipmentService { EquipmentCode = equipmentCode, Service = service });
                 }
-                foreach (var productCode in serviceModel.ProductCodes)
+                foreach (string productCode in serviceModel.ProductCodes)
                 {
                     service.ProductsServices.Add(new ProductService { ProductCode = productCode, Service = service });
                 }
-                foreach (var employeeCode in serviceModel.EmployeeCodes)
+                foreach (string employeeCode in serviceModel.EmployeeCodes)
                 {
                     service.EmployeesServices.Add(new EmployeeService { EmployeeId = employeeCode, Service = service });
                 }
             });
 
             CreateMap<ServiceType, ServiceTypeViewModel>();
-            CreateMap<Service, ServiceViewModel>().BeforeMap((service, serviceViewMode) => 
+            CreateMap<Service, ServiceViewModel>().BeforeMap((service, serviceViewMode) =>
             {
                 if (service is null)
+                {
                     return;
+                }
 
                 if (service.EmployeesServices != null)
+                {
                     service.Employees = service.EmployeesServices.Select(s => s.Employee).ToList();
+                }
 
                 if (service.EquipmentsServices != null)
+                {
                     service.Equipments = service.EquipmentsServices.Select(s => s.Equipment).ToList();
-                    
+                }
+
                 if (service.ProductsServices != null)
+                {
                     service.Products = service.ProductsServices.Select(s => s.Product).ToList();
+                }
             });
         }
     }

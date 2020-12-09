@@ -11,7 +11,7 @@ namespace Kaizen.HostedServices
 {
     public class OverdueBillsHostedService : BackgroundService
     {
-        private const int DELAY_TIME = 24 /*Hours*/ * TimeConstants.Minutes * TimeConstants.Seconds * TimeConstants.Milliseconds;
+        private static readonly int DELAY_TIME = 24 /*Hours*/ * TimeConstants.Minutes * TimeConstants.Seconds * TimeConstants.Milliseconds;
 
         private readonly IProductInvoicesRepository _productInvoicesRepository;
         private readonly IServiceInvoicesRepository _serviceInvoicesRepository;

@@ -43,7 +43,9 @@ namespace Kaizen.Controllers
         {
             ServiceRequest serviceRequest = await _serviceRequestsRepository.FindByIdAsync(id);
             if (serviceRequest == null)
+            {
                 return NotFound($"No existe ninguna solicitud de servicio con el código {id}.");
+            }
 
             return _mapper.Map<ServiceRequestViewModel>(serviceRequest);
         }
@@ -53,7 +55,9 @@ namespace Kaizen.Controllers
         {
             ServiceRequest serviceRequest = await _serviceRequestsRepository.GetPendingCustomerServiceRequest(clientId);
             if (serviceRequest is null)
+            {
                 return NotFound($"No existe ninguna solicitud de servicio pendiente para el cliente identificaco con {clientId}.");
+            }
 
             return _mapper.Map<ServiceRequestViewModel>(serviceRequest);
         }
@@ -66,7 +70,9 @@ namespace Kaizen.Controllers
         {
             ServiceRequest serviceRequest = await _serviceRequestsRepository.FindByIdAsync(id);
             if (serviceRequest is null)
+            {
                 return BadRequest($"No existe ninguna solicitud de servicio con el código {id}.");
+            }
 
             _mapper.Map(serviceRequestModel, serviceRequest);
             _serviceRequestsRepository.Update(serviceRequest);

@@ -25,7 +25,7 @@ namespace Kaizen.Infrastructure.Security
 
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[]
+                Subject = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.Name, username),
                     new Claim(ClaimTypes.Role, role)

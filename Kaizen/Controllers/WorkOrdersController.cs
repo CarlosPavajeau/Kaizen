@@ -42,7 +42,9 @@ namespace Kaizen.Controllers
         {
             WorkOrder workOrder = await _workOrdersRepository.FindByIdAsync(id);
             if (workOrder == null)
+            {
                 return NotFound($"La orden de trabajo con el código { id } no se encuentra registrada.");
+            }
 
             return _mapper.Map<WorkOrderViewModel>(workOrder);
         }
@@ -52,7 +54,10 @@ namespace Kaizen.Controllers
         {
             WorkOrder workOrder = await _workOrdersRepository.FindByActivityCodeAsync(id);
             if (workOrder == null)
+            {
                 return NotFound($"No existe una orden de trabajo asosiada a la actividad con código { id }");
+            }
+
             return _mapper.Map<WorkOrderViewModel>(workOrder);
         }
 
@@ -71,7 +76,9 @@ namespace Kaizen.Controllers
         {
             WorkOrder workOrder = await _workOrdersRepository.FindByIdAsync(id);
             if (workOrder is null)
+            {
                 return BadRequest($"No se pudo actualizar la orden de trabjo con código { id }. Verifique la existencia de esta.");
+            }
 
             _mapper.Map(workOrderModel, workOrder);
             _workOrdersRepository.Update(workOrder);

@@ -8,7 +8,7 @@ namespace Kaizen.Domain.Data.Configuration.EntityTypeConfigurations
     {
         public void Configure(EntityTypeBuilder<Sector> builder)
         {
-            builder.HasData(new Sector[]
+            builder.HasData(new[]
             {
                 new Sector { Id = 1, Name = "Industrial" },
                 new Sector { Id = 2, Name = "Comercial" },

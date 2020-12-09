@@ -6,7 +6,7 @@ namespace Kaizen.Domain.Entities
 {
     public abstract class Invoice : Entity
     {
-        public const int DayLimits = 30;
+        public static readonly int DayLimits = 30;
 
         [Key]
         public int Id { get; set; }

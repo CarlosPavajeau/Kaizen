@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Kaizen.Core.Exceptions.User;
 using Kaizen.Core.Services;
 using Kaizen.Domain.Data;
 using Kaizen.Domain.Entities;
@@ -31,20 +30,6 @@ namespace Kaizen.Infrastructure.Repositories
             _mailService = mailService;
         }
 
-        public async override void Insert(ApplicationUser entity)
-        {
-            IdentityResult result = await _userManager.CreateAsync(entity);
-            if (!result.Succeeded)
-                throw new UserNotCreate();
-        }
-
-        public async override void Update(ApplicationUser entity)
-        {
-            IdentityResult result = await _userManager.UpdateAsync(entity);
-            if (!result.Succeeded)
-                throw new UserNotUpdate();
-        }
-
         public async Task<SignInResult> Login(ApplicationUser user, string password)
         {
             return await _signInManager.PasswordSignInAsync(user, password, false, false);
@@ -70,7 +55,9 @@ namespace Kaizen.Infrastructure.Repositories
             ApplicationUser user = await FindByNameAsync(usernameOrEmail);
 
             if (user is null)
+            {
                 user = await FindByEmailAsync(usernameOrEmail);
+            }
 
             return user;
         }
@@ -93,7 +80,7 @@ namespace Kaizen.Infrastructure.Repositories
 
         public async Task<ApplicationUser> ConfirmEmailAsync(ApplicationUser user, string token)
         {
-            var result = await _userManager.ConfirmEmailAsync(user, token);
+            IdentityResult result = await _userManager.ConfirmEmailAsync(user, token);
             return !result.Succeeded ? null : user;
         }
 
@@ -115,7 +102,9 @@ namespace Kaizen.Infrastructure.Repositories
         public async Task<bool> SendPasswordResetTokenAsync(ApplicationUser user, string resetPasswordLink)
         {
             if (user is null)
+            {
                 return false;
+            }
 
             string mailTemplate = _mailTemplate.LoadTemplate("ResetPassword.html", resetPasswordLink);
 

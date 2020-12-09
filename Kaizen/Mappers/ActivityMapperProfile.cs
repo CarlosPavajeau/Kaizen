@@ -14,7 +14,7 @@ namespace Kaizen.Mappers
             CreateMap<ActivityInputModel, Activity>().AfterMap((activityModel, activity) =>
             {
                 activity.ActivitiesServices = new List<ActivityService>();
-                foreach (var serviceCode in activityModel.ServiceCodes)
+                foreach (string serviceCode in activityModel.ServiceCodes)
                 {
                     activity.ActivitiesServices.Add(new ActivityService
                     {
@@ -24,7 +24,7 @@ namespace Kaizen.Mappers
                 }
 
                 activity.ActivitiesEmployees = new List<ActivityEmployee>();
-                foreach (var employeeId in activityModel.EmployeeCodes)
+                foreach (string employeeId in activityModel.EmployeeCodes)
                 {
                     activity.ActivitiesEmployees.Add(new ActivityEmployee
                     {
@@ -34,15 +34,22 @@ namespace Kaizen.Mappers
                 }
             });
 
-            CreateMap<Activity, ActivityViewModel>().BeforeMap((activity, activityViewModel) => {
+            CreateMap<Activity, ActivityViewModel>().BeforeMap((activity, activityViewModel) =>
+            {
                 if (activity is null)
+                {
                     return;
+                }
 
                 if (activity.ActivitiesEmployees != null)
+                {
                     activity.Employees = activity.ActivitiesEmployees.Select(ae => ae.Employee).ToList();
-                
+                }
+
                 if (activity.ActivitiesServices != null)
+                {
                     activity.Services = activity.ActivitiesServices.Select(a => a.Service).ToList();
+                }
             });
         }
     }

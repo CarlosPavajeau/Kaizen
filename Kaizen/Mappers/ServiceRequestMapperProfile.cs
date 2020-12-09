@@ -13,7 +13,7 @@ namespace Kaizen.Mappers
             CreateMap<ServiceRequestInputModel, ServiceRequest>().AfterMap((serviceRequestModel, serviceRequest) =>
             {
                 serviceRequest.ServiceRequestsServices = new List<ServiceRequestService>();
-                foreach (var serviceCode in serviceRequestModel.ServiceCodes)
+                foreach (string serviceCode in serviceRequestModel.ServiceCodes)
                 {
                     serviceRequest.ServiceRequestsServices.Add(new ServiceRequestService
                     {

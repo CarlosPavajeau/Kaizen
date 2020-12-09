@@ -25,13 +25,15 @@ namespace Kaizen.Controllers
         [HttpPost]
         public async Task<ActionResult<IEnumerable<FileResponseModel>>> Upload()
         {
-            var files = Request.Form.Files;
+            Microsoft.AspNetCore.Http.IFormFileCollection files = Request.Form.Files;
             string upload = Path.Combine(_hostEnvironment.ContentRootPath, UPLOADS_FOLDER);
             if (!Directory.Exists(upload))
+            {
                 Directory.CreateDirectory(upload);
+            }
 
-            var fileNames = new List<FileResponseModel>();
-            foreach (var file in files)
+            List<FileResponseModel> fileNames = new List<FileResponseModel>();
+            foreach (Microsoft.AspNetCore.Http.IFormFile file in files)
             {
                 if (file.Length > 0)
                 {
@@ -59,7 +61,9 @@ namespace Kaizen.Controllers
             string file = Path.Combine(upload, fileName);
 
             if (!System.IO.File.Exists(file))
+            {
                 return NotFound();
+            }
 
             MemoryStream memory = new MemoryStream();
             using FileStream stream = new FileStream(file, FileMode.Open);

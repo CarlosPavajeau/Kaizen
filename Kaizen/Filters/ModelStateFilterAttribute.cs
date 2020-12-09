@@ -7,6 +7,7 @@ namespace Kaizen.Filters
     {
         public void OnActionExecuted(ActionExecutedContext context)
         {
+            // Ignored because it's not necessary
         }
 
         public void OnActionExecuting(ActionExecutingContext context)

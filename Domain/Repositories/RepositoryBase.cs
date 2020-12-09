@@ -12,7 +12,7 @@ namespace Kaizen.Domain.Repositories
     {
         protected ApplicationDbContext ApplicationDbContext { get; set; }
 
-        public RepositoryBase(ApplicationDbContext applicationDbContext)
+        protected RepositoryBase(ApplicationDbContext applicationDbContext)
         {
             ApplicationDbContext = applicationDbContext;
         }

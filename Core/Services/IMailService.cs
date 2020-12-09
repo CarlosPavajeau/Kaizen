@@ -4,6 +4,7 @@ namespace Kaizen.Core.Services
 {
     public interface IMailService
     {
-        Task SendEmailAsync(string email, string subject, string message, bool isHtml = false);
+        Task SendEmailAsync(string email, string subject, string message);
+        Task SendEmailAsync(string email, string subject, string message, bool isHtml);
     }
 }

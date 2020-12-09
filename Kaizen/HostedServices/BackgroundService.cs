@@ -17,14 +17,19 @@ namespace Kaizen.HostedServices
             _executingTask = ExecuteAsync(_stoppingCts.Token);
 
             if (_executingTask.IsCompleted)
+            {
                 return _executingTask;
+            }
+
             return Task.CompletedTask;
         }
 
         public virtual async Task StopAsync(CancellationToken cancellationToken)
         {
             if (_executingTask == null)
+            {
                 return;
+            }
 
             try
             {

@@ -46,7 +46,9 @@ namespace Kaizen.Controllers
         {
             Activity activity = await _activitiesRepository.FindByIdAsync(id);
             if (activity == null)
+            {
                 return NotFound($"No existe ninguna actividad con el código {id}.");
+            }
 
             return _mapper.Map<ActivityViewModel>(activity);
         }
@@ -72,15 +74,14 @@ namespace Kaizen.Controllers
             return Ok(_mapper.Map<IEnumerable<ActivityViewModel>>(activities));
         }
 
-        // PUT: api/Activities/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<ActionResult<ActivityViewModel>> PutActivity(int id, ActivityEditModel activityModel)
         {
             Activity activity = await _activitiesRepository.FindByIdAsync(id);
             if (activity is null)
+            {
                 return BadRequest($"No existe ninguna actividad con el código {id}.");
+            }
 
             _mapper.Map(activityModel, activity);
             _activitiesRepository.Update(activity);
@@ -104,16 +105,15 @@ namespace Kaizen.Controllers
             return _mapper.Map<ActivityViewModel>(activity);
         }
 
-        // POST: api/Activities
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<ActivityViewModel>> PostActivity([FromBody] ActivityInputModel activityModel)
         {
             Client client = await _clientsRepository.GetAll().Include(c => c.User)
                 .Where(c => c.Id == activityModel.ClientId).FirstOrDefaultAsync();
             if (client is null)
+            {
                 return NotFound($"El cliente con identificación {activityModel.ClientId} no se encuentra registrado.");
+            }
 
             Activity activity = _mapper.Map<Activity>(activityModel);
             activity.Client = client;
@@ -125,13 +125,14 @@ namespace Kaizen.Controllers
             return _mapper.Map<ActivityViewModel>(activity);
         }
 
-        // DELETE: api/Activities/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<ActivityViewModel>> DeleteActivity(int id)
         {
             Activity activity = await _activitiesRepository.FindByIdAsync(id);
             if (activity == null)
+            {
                 return NotFound($"No existe ninguna actividad con el código {id}.");
+            }
 
             _activitiesRepository.Delete(activity);
             await _unitWork.SaveAsync();

@@ -55,7 +55,9 @@ namespace Kaizen.Controllers
         {
             Client client = await _clientsRepository.FindByIdAsync(id);
             if (client == null)
+            {
                 return NotFound($"El cliente con identificación {id} no se encuentra registrado.");
+            }
 
             return _mapper.Map<ClientViewModel>(client);
         }
@@ -83,7 +85,9 @@ namespace Kaizen.Controllers
         {
             Client client = await _clientsRepository.FindByIdAsync(id);
             if (client is null)
+            {
                 return BadRequest($"El cliente con identificación {id} no se encuentra registrado.");
+            }
 
             _mapper.Map(clientModel, client);
             _clientsRepository.Update(client);
@@ -118,11 +122,15 @@ namespace Kaizen.Controllers
 
             IdentityResult result = await _applicationUserRepository.CreateAsync(client.User, clientInput.User.Password);
             if (!result.Succeeded)
+            {
                 return this.IdentityResultErrors(result);
+            }
 
             IdentityResult roleResult = await _applicationUserRepository.AddToRoleAsync(client.User, "Client");
             if (!roleResult.Succeeded)
+            {
                 return this.IdentityResultErrors(roleResult);
+            }
 
             client.PublishEvent(new SavedPerson(client));
             _clientsRepository.Insert(client);

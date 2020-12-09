@@ -48,7 +48,9 @@ namespace Kaizen.Controllers
         {
             ServiceInvoice serviceInvoice = await _serviceInvoicesRepository.FindByIdAsync(id);
             if (serviceInvoice == null)
+            {
                 return NotFound($"No existe ninguna factura de servicio con el código { id }.");
+            }
 
             return _mapper.Map<ServiceInvoiceViewModel>(serviceInvoice);
         }
@@ -68,7 +70,9 @@ namespace Kaizen.Controllers
         {
             ServiceInvoice serviceInvoice = await _serviceInvoicesRepository.FindByIdAsync(id);
             if (serviceInvoice is null)
+            {
                 return NotFound($"No existe ninguna factura de servicio con el código { id }.");
+            }
 
             _mapper.Map(serviceInvoiceModel, serviceInvoice);
             _serviceInvoicesRepository.Update(serviceInvoice);
@@ -97,7 +101,9 @@ namespace Kaizen.Controllers
         {
             ServiceInvoice serviceInvoice = await _serviceInvoicesRepository.FindByIdAsync(id);
             if (serviceInvoice is null)
+            {
                 return NotFound($"No existe ninguna factura de servicio con el código { id }.");
+            }
 
             serviceInvoice.CalculateTotal();
 

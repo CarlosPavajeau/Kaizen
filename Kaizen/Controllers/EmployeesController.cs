@@ -32,7 +32,6 @@ namespace Kaizen.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/Employees
         [HttpGet]
         [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<IEnumerable<EmployeeViewModel>>> GetEmployees()
@@ -65,13 +64,14 @@ namespace Kaizen.Controllers
             return Ok(_mapper.Map<IEnumerable<EmployeeChargeViewModel>>(employeeCharges));
         }
 
-        // GET: api/Employees/5
         [HttpGet("{id}")]
         public async Task<ActionResult<EmployeeViewModel>> GetEmployee(string id)
         {
             Employee employee = await _employeesRepository.FindByIdAsync(id);
             if (employee == null)
+            {
                 return NotFound($"No existe ningún empleado registrado con el código {id}.");
+            }
 
             return _mapper.Map<EmployeeViewModel>(employee);
         }
@@ -83,15 +83,14 @@ namespace Kaizen.Controllers
             return await _employeesRepository.GetAll().AnyAsync(c => c.Id == id);
         }
 
-        // PUT: api/Employees/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<ActionResult<EmployeeViewModel>> PutEmployee(string id, EmployeeEditModel employeeModel)
         {
             Employee employee = await _employeesRepository.FindByIdAsync(id);
             if (employee is null)
+            {
                 return BadRequest($"No existe ningún empleado registrado con el código {id}.");
+            }
 
             bool employeeContractAlreadyExists = await _employeesRepository.EmployeeContractAlreadyExists(employeeModel.ContractCode);
             if (!employeeContractAlreadyExists)
@@ -123,9 +122,6 @@ namespace Kaizen.Controllers
             return _mapper.Map<EmployeeViewModel>(employee);
         }
 
-        // POST: api/Employees
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<EmployeeViewModel>> PostEmployee(EmployeeInputModel employeeModel)
         {
@@ -133,18 +129,24 @@ namespace Kaizen.Controllers
                 .Where(c => c.Id == employeeModel.ChargeId)
                 .FirstOrDefaultAsync();
             if (employeeCharge is null)
+            {
                 return BadRequest("El cargo del empleado no se encuentra registrado.");
+            }
 
             Employee employee = _mapper.Map<Employee>(employeeModel);
             employee.EmployeeCharge = employeeCharge;
 
             IdentityResult result = await _applicationUserRepository.CreateAsync(employee.User, employeeModel.User.Password);
             if (!result.Succeeded)
+            {
                 return this.IdentityResultErrors(result);
+            }
 
             IdentityResult roleResult = await _applicationUserRepository.AddToRoleAsync(employee.User, GetEmployeeRole(employee));
             if (!roleResult.Succeeded)
+            {
                 return this.IdentityResultErrors(roleResult);
+            }
 
             _employeesRepository.Insert(employee);
 
@@ -178,13 +180,14 @@ namespace Kaizen.Controllers
             };
         }
 
-        // DELETE: api/Employees/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<EmployeeViewModel>> DeleteEmployee(string id)
         {
             Employee employee = await _employeesRepository.FindByIdAsync(id);
             if (employee == null)
+            {
                 return NotFound($"No existe ningún empleado registrado con el código {id}.");
+            }
 
             await _unitWork.SaveAsync();
 

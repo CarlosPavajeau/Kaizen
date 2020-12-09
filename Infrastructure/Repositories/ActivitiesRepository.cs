@@ -20,12 +20,10 @@ namespace Kaizen.Infrastructure.Repositories
 
         public async Task ScheduleActivities(Activity activity)
         {
-            if (activity.Periodicity == PeriodicityType.Casual)
-                return;
+            if (activity.Periodicity == PeriodicityType.Casual) { return; }
 
             int dayInterval = GetDayInterval(activity.Periodicity);
-            if (dayInterval == -1)
-                return;
+            if (dayInterval == -1) { return; }
 
             string[] activityServiceCodes = activity.ActivitiesServices.Select(s => s.ServiceCode).ToArray();
             List<string> activityEmployeeCodes = activity.ActivitiesEmployees.Select(a => a.EmployeeId).ToList();

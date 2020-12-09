@@ -20,7 +20,9 @@ namespace Kaizen.Infrastructure.Services.MailTemplates
             string file = Path.Combine(templateFolder, templateName);
 
             if (!File.Exists(file))
+            {
                 throw new ArgumentException($"Email template {templateName} does not exists");
+            }
 
             StringBuilder emailTemplate = new StringBuilder();
 
@@ -30,9 +32,10 @@ namespace Kaizen.Infrastructure.Services.MailTemplates
             emailTemplate.Append(streamReader.ReadToEnd());
 
             int index = 0;
-            foreach (var item in args)
+            foreach (string item in args)
+            {
                 emailTemplate.Replace($"{{{++index}}}", item);
-
+            }
 
             return emailTemplate.ToString();
         }

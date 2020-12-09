@@ -23,7 +23,7 @@ namespace Infrastructure.Test.Security
             services.AddSingleton(configuration);
             services.ConfigureTokenGenerator();
 
-            var serviceProvider = services.BuildServiceProvider();
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
             tokenGenerator = serviceProvider.GetService<ITokenGenerator>();
         }
 

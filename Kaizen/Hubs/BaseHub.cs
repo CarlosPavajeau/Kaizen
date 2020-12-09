@@ -11,7 +11,7 @@ namespace Kaizen.Hubs
     {
         private readonly IApplicationUserRepository _applicationUserRepository;
 
-        public BaseHub(IApplicationUserRepository applicationUserRepository)
+        protected BaseHub(IApplicationUserRepository applicationUserRepository)
         {
             _applicationUserRepository = applicationUserRepository;
         }
@@ -21,12 +21,16 @@ namespace Kaizen.Hubs
             string userName = Context.User.Identity.Name;
 
             if (string.IsNullOrEmpty(userName))
+            {
                 return;
+            }
 
             ApplicationUser user = await _applicationUserRepository.FindByNameAsync(userName);
 
             if (user is null)
+            {
                 return;
+            }
 
             string role = await _applicationUserRepository.GetUserRoleAsync(user);
             await Groups.AddToGroupAsync(Context.ConnectionId, role);

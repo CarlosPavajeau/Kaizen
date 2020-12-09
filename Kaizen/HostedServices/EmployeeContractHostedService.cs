@@ -10,7 +10,7 @@ namespace Kaizen.HostedServices
 {
     public class EmployeeContractHostedService : BackgroundService
     {
-        private const int DELAY_TIME = 24 /*Hours*/ * TimeConstants.Minutes * TimeConstants.Seconds * TimeConstants.Milliseconds;
+        private static readonly int DELAY_TIME = 24 /*Hours*/ * TimeConstants.Minutes * TimeConstants.Seconds * TimeConstants.Milliseconds;
 
         private readonly IEmployeesRepository _employeesRepository;
         private readonly IMailService _mailService;
@@ -29,7 +29,7 @@ namespace Kaizen.HostedServices
             while (!cancellationToken.IsCancellationRequested)
             {
                 IEnumerable<Employee> employees = await _employeesRepository.EmployeesWithContractCloseToExpiration();
-                foreach (var employee in employees)
+                foreach (Employee employee in employees)
                 {
                     string mailMessage = _mailTemplate.LoadTemplate("ContractCloseToExpiration.html", $"{employee.LastName} {employee.FirstName}",
                                                                     employee.ContractCode,
