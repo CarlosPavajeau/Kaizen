@@ -27,14 +27,12 @@ namespace Kaizen.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/Equipments
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EquipmentViewModel>>> GetEquipments()
         {
             return await _equipmentsRepository.GetAll().Select(e => _mapper.Map<EquipmentViewModel>(e)).ToListAsync();
         }
 
-        // GET: api/Equipments/5
         [HttpGet("{id}")]
         public async Task<ActionResult<EquipmentViewModel>> GetEquipment(string id)
         {
@@ -54,9 +52,6 @@ namespace Kaizen.Controllers
             return await _equipmentsRepository.GetAll().AnyAsync(e => e.Code == id);
         }
 
-        // PUT: api/Equipments/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<ActionResult<EquipmentViewModel>> PutEquipment(string id, EquipmentEditModel equipmentModel)
         {
@@ -88,9 +83,6 @@ namespace Kaizen.Controllers
             return _mapper.Map<EquipmentViewModel>(equipment);
         }
 
-        // POST: api/Equipments
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<EquipmentViewModel>> PostEquipment(EquipmentInputModel equipmentModel)
         {
@@ -116,7 +108,6 @@ namespace Kaizen.Controllers
             return _mapper.Map<EquipmentViewModel>(equipment);
         }
 
-        // DELETE: api/Equipments/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<EquipmentViewModel>> DeleteEquipment(string id)
         {

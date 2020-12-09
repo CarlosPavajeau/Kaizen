@@ -28,7 +28,6 @@ namespace Kaizen.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/WorkOrders
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WorkOrderViewModel>>> GetWorkOrders()
         {
@@ -36,7 +35,6 @@ namespace Kaizen.Controllers
             return Ok(_mapper.Map<IEnumerable<WorkOrderViewModel>>(workOrders));
         }
 
-        // GET: api/WorkOrders/5
         [HttpGet("{id}")]
         public async Task<ActionResult<WorkOrderViewModel>> GetWorkOrder(int id)
         {
@@ -68,9 +66,6 @@ namespace Kaizen.Controllers
             return Ok(_mapper.Map<IEnumerable<SectorViewModel>>(sectors));
         }
 
-        // PUT: api/WorkOrders/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<ActionResult<WorkOrderViewModel>> PutWorkOrder(int id, WorkOrderEditModel workOrderModel)
         {
@@ -103,9 +98,6 @@ namespace Kaizen.Controllers
             return _mapper.Map<WorkOrderViewModel>(workOrder);
         }
 
-        // POST: api/WorkOrders
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<WorkOrderViewModel>> PostWorkOrder(WorkOrderInputModel workOrderModel)
         {
@@ -117,7 +109,6 @@ namespace Kaizen.Controllers
             return _mapper.Map<WorkOrderViewModel>(workOrder);
         }
 
-        // DELETE: api/WorkOrders/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<WorkOrderViewModel>> DeleteWorkOrder(int id)
         {

@@ -33,7 +33,6 @@ namespace Kaizen.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/Clients
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ClientViewModel>>> GetClients()
         {
@@ -41,7 +40,6 @@ namespace Kaizen.Controllers
             return Ok(_mapper.Map<IEnumerable<ClientViewModel>>(clients));
         }
 
-        // GET: api/Clients/Requests
         [HttpGet("[action]")]
         public async Task<ActionResult<IEnumerable<ClientViewModel>>> Requests()
         {
@@ -49,7 +47,6 @@ namespace Kaizen.Controllers
             return Ok(_mapper.Map<IEnumerable<ClientViewModel>>(clients));
         }
 
-        // GET: api/Clients/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ClientViewModel>> GetClient(string id)
         {
@@ -62,14 +59,12 @@ namespace Kaizen.Controllers
             return _mapper.Map<ClientViewModel>(client);
         }
 
-        // GET: api/Clients/ClientId/{userId}
         [HttpGet("[action]/{userId}")]
         public async Task<ActionResult<string>> ClientId(string userId)
         {
             return await _clientsRepository.GetClientId(userId);
         }
 
-        // GET: api/Clients/CheckExists/5
         [HttpGet("[action]/{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<bool>> CheckExists(string id)
@@ -77,9 +72,6 @@ namespace Kaizen.Controllers
             return await _clientsRepository.GetAll().AnyAsync(c => c.Id == id);
         }
 
-        // PUT: api/Clients/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<ActionResult<ClientViewModel>> PutClient(string id, ClientEditModel clientModel)
         {
@@ -111,9 +103,6 @@ namespace Kaizen.Controllers
             return _mapper.Map<ClientViewModel>(client);
         }
 
-        // POST: api/Clients
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult<ClientViewModel>> PostClient(ClientInputModel clientInput)
@@ -154,7 +143,6 @@ namespace Kaizen.Controllers
             return _mapper.Map<ClientViewModel>(client);
         }
 
-        // DELETE: api/Clients/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<ClientViewModel>> DeleteClient(string id)
         {

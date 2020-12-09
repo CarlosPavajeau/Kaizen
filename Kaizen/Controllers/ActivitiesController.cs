@@ -31,7 +31,6 @@ namespace Kaizen.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/Activities
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ActivityViewModel>>> GetActivities()
         {
@@ -40,7 +39,6 @@ namespace Kaizen.Controllers
             return Ok(_mapper.Map<IEnumerable<ActivityViewModel>>(activities));
         }
 
-        // GET: api/Activities/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ActivityViewModel>> GetActivity(int id)
         {

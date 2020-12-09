@@ -27,7 +27,6 @@ namespace Kaizen.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/Services
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<ServiceViewModel>>> GetServices()
@@ -37,7 +36,6 @@ namespace Kaizen.Controllers
             return Ok(_mapper.Map<IEnumerable<ServiceViewModel>>(services));
         }
 
-        // GET: api/Services/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ServiceViewModel>> GetService(string id)
         {
@@ -65,10 +63,6 @@ namespace Kaizen.Controllers
             return await _servicesRepository.GetAll().AnyAsync(s => s.Code == id);
         }
 
-        // PUT: api/Services/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [Authorize(Roles = "Administrator")]
         [HttpPut("{id}")]
         public async Task<ActionResult<ServiceViewModel>> PutService(string id, ServiceEditModel serviceModel)
         {
@@ -100,9 +94,6 @@ namespace Kaizen.Controllers
             return _mapper.Map<ServiceViewModel>(service);
         }
 
-        // POST: api/Services
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<ActionResult<ServiceViewModel>> PostService([FromBody] ServiceInputModel serviceModel)
@@ -128,7 +119,6 @@ namespace Kaizen.Controllers
             return _mapper.Map<ServiceViewModel>(service);
         }
 
-        // DELETE: api/Services/5
         [Authorize(Roles = "Administrator")]
         [HttpDelete("{id}")]
         public async Task<ActionResult<ServiceViewModel>> DeleteService(string id)

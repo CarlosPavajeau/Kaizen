@@ -59,7 +59,7 @@ namespace Kaizen.DomainEvents.Handlers
 
                 List<Service> services = activity.ActivitiesServices.Select(s => s.Service).ToList();
 
-                ServiceInvoice serviceInvoice = new ServiceInvoice()
+                ServiceInvoice serviceInvoice = new ServiceInvoice
                 {
                     Client = activity.Client,
                     ClientId = activity.ClientId,

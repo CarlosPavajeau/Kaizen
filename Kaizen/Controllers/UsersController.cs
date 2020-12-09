@@ -30,7 +30,6 @@ namespace Kaizen.Controllers
             _tokenGenerator = tokenGenerator;
         }
 
-        // GET: api/Users/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<ApplicationUserViewModel>> GetUser(string id)
         {
@@ -53,7 +52,6 @@ namespace Kaizen.Controllers
                           p.Email == usernameOrEmailOrPhone);
         }
 
-        // PUT: api/Users/ChangePassword/{id}
         [HttpPut("[action]/{id}")]
         public async Task<ActionResult<ApplicationUserViewModel>> ChangePassword(string id, [FromBody] ChangePasswordModel changePasswordModel)
         {

@@ -27,14 +27,12 @@ namespace Kaizen.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/Products
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetProducts()
         {
             return await _productsRepository.GetAll().Select(p => _mapper.Map<ProductViewModel>(p)).ToListAsync();
         }
 
-        // GET: api/Products/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductViewModel>> GetProduct(string id)
         {
@@ -54,9 +52,6 @@ namespace Kaizen.Controllers
             return await _productsRepository.GetAll().AnyAsync(p => p.Code == id);
         }
 
-        // PUT: api/Products/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<ActionResult<ProductViewModel>> PutProduct(string id, ProductEditModel productModel)
         {
@@ -88,9 +83,6 @@ namespace Kaizen.Controllers
             return _mapper.Map<ProductViewModel>(product);
         }
 
-        // POST: api/Products
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<ProductViewModel>> PostProduct(ProductInputModel productModel)
         {
@@ -116,7 +108,6 @@ namespace Kaizen.Controllers
             return _mapper.Map<ProductViewModel>(product);
         }
 
-        // DELETE: api/Products/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<ProductViewModel>> DeleteProduct(string id)
         {

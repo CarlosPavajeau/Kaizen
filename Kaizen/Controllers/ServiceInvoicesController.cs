@@ -32,7 +32,6 @@ namespace Kaizen.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/ServiceInvoices
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ServiceInvoiceViewModel>>> GetServiceInvoices()
         {
@@ -42,7 +41,6 @@ namespace Kaizen.Controllers
             return Ok(_mapper.Map<IEnumerable<ServiceInvoiceViewModel>>(serviceInvoices));
         }
 
-        // GET: api/ServiceInvoices/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ServiceInvoiceViewModel>> GetServiceInvoice(int id)
         {
@@ -62,9 +60,6 @@ namespace Kaizen.Controllers
             return Ok(_mapper.Map<IEnumerable<ServiceInvoiceViewModel>>(serviceInvoices));
         }
 
-        // PUT: api/ServiceInvoices/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<ActionResult<ServiceInvoiceViewModel>> PutServiceInvoice(int id, ServiceInvoiceEditModel serviceInvoiceModel)
         {
@@ -107,7 +102,7 @@ namespace Kaizen.Controllers
 
             serviceInvoice.CalculateTotal();
 
-            Payment payment = new Payment()
+            Payment payment = new Payment
             {
                 Token = paymentModel.Token,
                 PaymentMethodId = paymentModel.PaymentMethodId,

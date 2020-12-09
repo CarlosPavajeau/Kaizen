@@ -112,7 +112,7 @@ namespace Kaizen.Infrastructure.Repositories
             YearStatistics yearStatistics = await GetYearStatistics(currentDate.Year);
             if (yearStatistics is null)
             {
-                yearStatistics = new YearStatistics() { Year = currentDate.Year, Date = currentDate };
+                yearStatistics = new YearStatistics { Year = currentDate.Year, Date = currentDate };
                 ApplicationDbContext.YearStatistics.Add(yearStatistics);
 
                 await ApplicationDbContext.SaveChangesAsync();
@@ -121,7 +121,7 @@ namespace Kaizen.Infrastructure.Repositories
             MonthStatistics monthStatistics = yearStatistics.MonthStatistics.Where(m => m.Date.Month == currentDate.Month).FirstOrDefault();
             if (monthStatistics is null)
             {
-                monthStatistics = new MonthStatistics() { Date = currentDate };
+                monthStatistics = new MonthStatistics { Date = currentDate };
                 yearStatistics.MonthStatistics.Add(monthStatistics);
                 ApplicationDbContext.YearStatistics.Update(yearStatistics);
 
@@ -131,7 +131,7 @@ namespace Kaizen.Infrastructure.Repositories
             DayStatistics dayStatistics = monthStatistics.DayStatistics.Where(d => d.Date.Day == currentDate.Day).FirstOrDefault();
             if (dayStatistics is null)
             {
-                dayStatistics = new DayStatistics() { Date = currentDate };
+                dayStatistics = new DayStatistics { Date = currentDate };
                 monthStatistics.DayStatistics.Add(dayStatistics);
                 ApplicationDbContext.MonthStatistics.Update(monthStatistics);
 
