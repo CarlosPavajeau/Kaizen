@@ -276,3 +276,7 @@ Uploads/
 # Config files
 /.config/
 .config/
+
+# Sonarqube files
+.sonarqube/*
+.sonarqube
