@@ -14,37 +14,72 @@
     <ng-template [ngSwitchCase]="ObsStatus.Success">
       <div *ngIf="obs.value as activity">
         <h1 class="text-center">Actividad N° {{ activity.code }}</h1>
-        <h3>
+        <h2>
           Actividad agendada para visitar el cliente
-          {{ activity.client.firstName }} {{ activity.client.lastName }} en la
-          fecha de {{ activity.date | date: "MMMM d, y, h:mm a" }} con una
-          periodicidad de visita {{ activity.periodicity | periodicity }}.
-        </h3>
-        <mat-divider></mat-divider>
-        <span>Se solicitaron los siguientes servicios:</span>
+          {{ activity.client.firstName }} {{ activity.client.secondName }}
+          {{ activity.client.lastName }} {{ activity.client.secondLastName }}
+        </h2>
+        <mat-divider class="pt-2 pb-3"></mat-divider>
         <div>
-          <mat-list>
-            <mat-list-item *ngFor="let service of activity.services">
-              <mat-icon style="margin-right: 7px">label</mat-icon>
-              {{ service.code }} - {{ service.name }} :
-              {{ service.cost | currency: "COP":"symbol-narrow" }}
-            </mat-list-item>
-          </mat-list>
+          <h4 [style.color]="'rgba(0,0,0,.54)'">Infomación del cliente</h4>
+          <div class="icon-text-container">
+            <mat-icon [matTooltip]="'Nombre comercial'"> business </mat-icon>
+            <span> {{ activity.client.tradeName }} </span>
+          </div>
+          <div class="icon-text-container">
+            <mat-icon [matTooltip]="'Teléfonos de contacto'">phone</mat-icon>
+            <span>{{ activity.client.firstPhoneNumber }}</span>
+            <span *ngIf="activity.client.secondPhoneNumber">
+              , {{ activity.client.secondPhoneNumber }}
+            </span>
+          </div>
+          <div
+            class="icon-text-container"
+            *ngIf="activity.client.clientAddress"
+          >
+            <mat-icon [matTooltip]="'Dirección del cliente'">place</mat-icon>
+            <span>
+              {{ activity.client.clientAddress.city }},
+              {{ activity.client.clientAddress.neighborhood }},
+              {{ activity.client.clientAddress.street }}
+            </span>
+          </div>
+          <h4 [style.color]="'rgba(0,0,0,.54)'">Infomación de la actividad</h4>
+          <div class="icon-text-container">
+            <mat-icon [matTooltip]="'Fecha de aplicación'">today</mat-icon>
+            <span>{{ activity.date | date: "MMMM d, y, h:mm a" }}</span>
+          </div>
+          <div class="icon-text-container">
+            <mat-icon [matTooltip]="'Periodicidad de visitas'">repeat</mat-icon>
+            <span>{{ activity.periodicity | periodicity }}</span>
+          </div>
+          <div class="icon-text-container">
+            <mat-icon [matTooltip]="'Estado de la actividad'">flag</mat-icon>
+            <span>{{ activity.state | activityState }}</span>
+          </div>
+          <div>
+            <mat-list>
+              <div mat-subheader>Servicios solicitados</div>
+              <mat-list-item *ngFor="let service of activity.services">
+                <mat-icon style="margin-right: 7px" color="primary"
+                  >offline_bolt</mat-icon
+                >
+                {{ service.code }} - {{ service.name }} :
+                {{ service.cost | currency: "COP":"symbol-narrow" }}
+              </mat-list-item>
+            </mat-list>
+          </div>
+          <div>
+            <mat-list>
+              <div mat-subheader>Empleados asignados</div>
+              <mat-list-item *ngFor="let employee of activity.employees">
+                <mat-icon style="margin-right: 7px">engineering</mat-icon>
+                {{ employee.id }} - {{ employee.firstName }}
+                {{ employee.lastName }}
+              </mat-list-item>
+            </mat-list>
+          </div>
         </div>
-        <span>Se asiganron los siguientes empleados:</span>
-        <div>
-          <mat-list>
-            <mat-list-item *ngFor="let employee of activity.employees">
-              <mat-icon style="margin-right: 7px">assignment_ind</mat-icon>
-              {{ employee.id }} - {{ employee.firstName }}
-              {{ employee.lastName }}
-            </mat-list-item>
-          </mat-list>
-        </div>
-        <span
-          >El estado actual de esta actividad es
-          {{ activity.state | activityState }}.</span
-        >
       </div>
     </ng-template>
   </ng-container>
