@@ -25,7 +25,7 @@ namespace Kaizen.Domain.Data
 
             if (dataProvider == null)
             {
-                throw new ArgumentNullException("The Data Provider entry in appsettings.json is empty or the one specified has not been found!");
+                throw new NullReferenceException("The Data Provider entry in appsettings.json is empty or the one specified has not been found!");
             }
 
             return dataProvider.CreateDbContext(ConnectionStrings.DefaultConnection);
