@@ -81,7 +81,7 @@ namespace Kaizen.Controllers
             ApplicationUser user = await _userRepository.FindByNameOrEmailAsync(usernameOrEmail);
             if (user is null)
             {
-                throw new UserDoesNotExists();
+                throw new UserDoesNotExistsException();
             }
 
             IdentityResult resetPasswordResult = await _userRepository.ResetPasswordAsync(user, resetPasswordModel.Token.Base64ForUrlDecode(), resetPasswordModel.NewPassword);
@@ -118,7 +118,7 @@ namespace Kaizen.Controllers
             Microsoft.AspNetCore.Identity.SignInResult result = await _userRepository.Login(user, loginRequest.Password);
             if (!result.Succeeded)
             {
-                throw new IncorrectPassword();
+                throw new IncorrectPasswordException();
             }
 
             return await GenerateAuthenticateUser(user);
@@ -155,7 +155,7 @@ namespace Kaizen.Controllers
             ApplicationUser user = await _userRepository.FindByNameOrEmailAsync(usernameOrEmail);
             if (user is null)
             {
-                throw new UserDoesNotExists();
+                throw new UserDoesNotExistsException();
             }
 
             string token = await _userRepository.GeneratePasswordResetTokenAsync(user);

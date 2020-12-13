@@ -12,13 +12,13 @@ namespace Core.Test.Exceptions
         {
             try
             {
-                throw new IncorrectPassword();
+                throw new IncorrectPasswordException();
             }
             catch (Exception exception)
             {
-                Assert.IsInstanceOf<IncorrectPassword>(exception, "Exception must be type of IncorrectPassword.");
+                Assert.IsInstanceOf<IncorrectPasswordException>(exception, "Exception must be type of IncorrectPassword.");
 
-                IncorrectPassword incorrectPassword = exception as IncorrectPassword;
+                IncorrectPasswordException incorrectPassword = exception as IncorrectPasswordException;
                 Assert.AreEqual(400, incorrectPassword.StatusCode);
                 Assert.AreEqual("Contraseña incorrecta, intentelo de nuevo", incorrectPassword.Message);
             }
@@ -29,13 +29,13 @@ namespace Core.Test.Exceptions
         {
             try
             {
-                throw new UserDoesNotExists();
+                throw new UserDoesNotExistsException();
             }
             catch (Exception exception)
             {
-                Assert.IsInstanceOf<UserDoesNotExists>(exception, "Exception must be type of UserDoesNotExits.");
+                Assert.IsInstanceOf<UserDoesNotExistsException>(exception, "Exception must be type of UserDoesNotExits.");
 
-                UserDoesNotExists userDoesNotExists = exception as UserDoesNotExists;
+                UserDoesNotExistsException userDoesNotExists = exception as UserDoesNotExistsException;
                 Assert.AreEqual(400, userDoesNotExists.StatusCode);
                 Assert.AreEqual("Usuario no registrado", userDoesNotExists.Message);
             }
@@ -46,13 +46,13 @@ namespace Core.Test.Exceptions
         {
             try
             {
-                throw new UserNotCreate();
+                throw new UserNotCreateException();
             }
             catch (Exception exception)
             {
-                Assert.IsInstanceOf<UserNotCreate>(exception, "Exception must be type of UserNotCreate.");
+                Assert.IsInstanceOf<UserNotCreateException>(exception, "Exception must be type of UserNotCreate.");
 
-                UserNotCreate userNotCreate = exception as UserNotCreate;
+                UserNotCreateException userNotCreate = exception as UserNotCreateException;
                 Assert.AreEqual(400, userNotCreate.StatusCode);
                 Assert.AreEqual("Usuario no creado", userNotCreate.Message);
             }

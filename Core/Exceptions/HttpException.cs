@@ -3,6 +3,7 @@ using System.Net;
 
 namespace Kaizen.Core.Exceptions
 {
+    [Serializable]
     public class HttpException : Exception
     {
         public HttpException() : this((int)HttpStatusCode.InternalServerError, "Internal server error")
