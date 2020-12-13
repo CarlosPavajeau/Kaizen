@@ -4,6 +4,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using Kaizen.Core.Services;
 using Kaizen.Infrastructure.Services.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Kaizen.Infrastructure.Services
@@ -12,11 +13,13 @@ namespace Kaizen.Infrastructure.Services
     {
         private readonly MailSettings _mailSettings;
         private readonly SmtpClient _client = new SmtpClient();
+        private readonly ILogger _logger;
 
         private MailMessage MailMessage { get; set; }
 
-        public MailService(IOptions<MailSettings> options)
+        public MailService(IOptions<MailSettings> options, ILogger<MailService> logger)
         {
+            _logger = logger;
             _mailSettings = options.Value;
             ConfigSMTPClient();
         }
@@ -43,8 +46,9 @@ namespace Kaizen.Infrastructure.Services
                 ConfigEmail(email, subject, message, isHtml);
                 await _client.SendMailAsync(MailMessage);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                _logger.LogError(e.Message);
             }
         }
 
