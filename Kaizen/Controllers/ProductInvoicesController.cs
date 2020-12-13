@@ -108,34 +108,31 @@ namespace Kaizen.Controllers
                 }
             };
 
-            if (payment.Save())
+            if (payment.Save() && payment.Status == MercadoPagoCore.Common.PaymentStatus.approved)
             {
-                if (payment.Status == MercadoPagoCore.Common.PaymentStatus.approved)
+                productInvoice.State = InvoiceState.Paid;
+                productInvoice.PaymentDate = DateTime.Now;
+                productInvoice.PaymentMethod = Domain.Entities.PaymentMethod.CreditCard;
+
+                _productInvoicesRepository.Update(productInvoice);
+
+                try
                 {
-                    productInvoice.State = InvoiceState.Paid;
-                    productInvoice.PaymentDate = DateTime.Now;
-                    productInvoice.PaymentMethod = Domain.Entities.PaymentMethod.CreditCard;
-
-                    _productInvoicesRepository.Update(productInvoice);
-
-                    try
-                    {
-                        await _unitWork.SaveAsync();
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!ProductInvoiceExists(id))
-                        {
-                            return NotFound($"Error de actualizacón. No existe ninguna factura de producto con el código {id}.");
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-
-                    return _mapper.Map<ProductInvoiceViewModel>(productInvoice);
+                    await _unitWork.SaveAsync();
                 }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProductInvoiceExists(id))
+                    {
+                        return NotFound($"Error de actualizacón. No existe ninguna factura de producto con el código {id}.");
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return _mapper.Map<ProductInvoiceViewModel>(productInvoice);
             }
 
             return BadRequest(payment.Errors.Value);

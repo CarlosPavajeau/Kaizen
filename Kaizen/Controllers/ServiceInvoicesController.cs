@@ -117,35 +117,32 @@ namespace Kaizen.Controllers
                 }
             };
 
-            if (payment.Save())
+            if (payment.Save() && payment.Status == PaymentStatus.approved)
             {
-                if (payment.Status == PaymentStatus.approved)
+                serviceInvoice.State = InvoiceState.Paid;
+                serviceInvoice.PaymentDate = DateTime.Now;
+                serviceInvoice.PaymentMethod = Domain.Entities.PaymentMethod.CreditCard;
+
+                serviceInvoice.PublishEvent(new PaidInvoice(serviceInvoice));
+                _serviceInvoicesRepository.Update(serviceInvoice);
+
+                try
                 {
-                    serviceInvoice.State = InvoiceState.Paid;
-                    serviceInvoice.PaymentDate = DateTime.Now;
-                    serviceInvoice.PaymentMethod = Domain.Entities.PaymentMethod.CreditCard;
-
-                    serviceInvoice.PublishEvent(new PaidInvoice(serviceInvoice));
-                    _serviceInvoicesRepository.Update(serviceInvoice);
-
-                    try
-                    {
-                        await _unitWork.SaveAsync();
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!ServiceInvoiceExists(id))
-                        {
-                            return NotFound($"Error de actualizacón. No existe ninguna factura de servicio con el código {id}.");
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-
-                    return _mapper.Map<ServiceInvoiceViewModel>(serviceInvoice);
+                    await _unitWork.SaveAsync();
                 }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ServiceInvoiceExists(id))
+                    {
+                        return NotFound($"Error de actualizacón. No existe ninguna factura de servicio con el código {id}.");
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return _mapper.Map<ServiceInvoiceViewModel>(serviceInvoice);
             }
 
             return BadRequest(payment.Errors.Value);

@@ -49,12 +49,9 @@ namespace Kaizen.HostedServices
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing)
+            if (disposing && _stoppingCts is not null)
             {
-                if (_stoppingCts != null)
-                {
-                    _stoppingCts.Cancel();
-                }
+                _stoppingCts.Cancel();
             }
         }
     }
