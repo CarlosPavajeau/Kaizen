@@ -10,8 +10,23 @@ jobs:
 
     steps:
       - checkout
-      - run: dotnet restore
-      - run: dotnet build --configuration Release --no-restore
+      - run:
+          name: Install MySQL
+          command: choco install mysql
+      - run:
+          name: Configure MySQL
+          command: |
+            mysql -uroot -e 'CREATE DATABASE mysql_test;'
+            mysql -uroot < sql/create_mysql.sql
+      - run:
+          name: Restore projects
+          command: dotnet restore
+      - run:
+          name: Build project
+          command: dotnet build --configuration Release --no-restore
+      - run:
+          name: Run tests
+          command: dotnet test --no-restore --verbosity normal
 
   build_angular:
     working_directory: ~/Kaizen
