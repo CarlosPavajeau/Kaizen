@@ -84,7 +84,7 @@ namespace Kaizen.Infrastructure.Repositories
                 .Include(a => a.ActivitiesServices)
                 .ThenInclude(a => a.Service)
                 .Include(a => a.ActivitiesEmployees).ThenInclude(a => a.Employee)
-                .Where(a => a.Code == id).FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(a => a.Code == id);
         }
 
         public async Task<IEnumerable<Activity>> GetPendingEmployeeActivities(string employeeId, DateTime date)

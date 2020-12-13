@@ -17,8 +17,8 @@ namespace Kaizen.Infrastructure.Repositories
         public override async Task<Client> FindByIdAsync(string id)
         {
             return await ApplicationDbContext.Clients.Include(c => c.ClientAddress)
-                .Include(c => c.ContactPeople).Where(c => c.Id == id || c.UserId == id)
-                .FirstOrDefaultAsync();
+                .Include(c => c.ContactPeople)
+                .FirstOrDefaultAsync(c => c.Id == id || c.UserId == id);
         }
 
         public async Task<string> GetClientId(string userId)

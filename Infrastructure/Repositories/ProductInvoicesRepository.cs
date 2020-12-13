@@ -37,8 +37,8 @@ namespace Kaizen.Infrastructure.Repositories
 
             productCodes.ForEach(productCode =>
             {
-                Product product = products.Where(p => p.Code == productCode).FirstOrDefault();
-                int amount = productInvoiceDetails.Where(detail => detail.ProductCode == productCode).FirstOrDefault().Amount;
+                Product product = products.FirstOrDefault(p => p.Code == productCode);
+                int amount = productInvoiceDetails.FirstOrDefault(detail => detail.ProductCode == productCode).Amount;
                 entity.AddDetail(product, amount);
             });
 

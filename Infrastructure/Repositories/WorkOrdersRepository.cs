@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Kaizen.Domain.Data;
 using Kaizen.Domain.Entities;
@@ -17,17 +16,16 @@ namespace Kaizen.Infrastructure.Repositories
         public override async Task<WorkOrder> FindByIdAsync(int id)
         {
             return await ApplicationDbContext.WorkOrders
-                .Include(w => w.Sector).Include(w => w.Employee)
-                .Where(w => w.Code == id)
-                .FirstOrDefaultAsync();
+                .Include(w => w.Sector)
+                .Include(w => w.Employee)
+                .FirstOrDefaultAsync(w => w.Code == id);
         }
 
         public async Task<WorkOrder> FindByActivityCodeAsync(int activityCode)
         {
             return await ApplicationDbContext.WorkOrders
                 .Include(w => w.Sector).Include(w => w.Employee)
-                .Where(w => w.ActivityCode == activityCode)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(w => w.ActivityCode == activityCode);
         }
 
         public async Task<IEnumerable<Sector>> GetSectorsAsync()

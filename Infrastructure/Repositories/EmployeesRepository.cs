@@ -19,8 +19,9 @@ namespace Kaizen.Infrastructure.Repositories
         public override async Task<Employee> FindByIdAsync(string id)
         {
             return await ApplicationDbContext.Employees
-                .Include(e => e.EmployeeContract).Include(e => e.EmployeeCharge)
-                .Where(e => e.Id == id || e.UserId == id).FirstOrDefaultAsync();
+                .Include(e => e.EmployeeContract)
+                .Include(e => e.EmployeeCharge)
+                .FirstOrDefaultAsync(e => e.Id == id || e.UserId == id);
         }
 
         public IQueryable<EmployeeCharge> GetAllEmployeeCharges()
@@ -30,8 +31,9 @@ namespace Kaizen.Infrastructure.Repositories
 
         public async Task<Employee> GetEmployeeWithCharge(string id)
         {
-            return await ApplicationDbContext.Employees.Include(e => e.EmployeeCharge)
-                .Where(e => e.Id == id).FirstOrDefaultAsync();
+            return await ApplicationDbContext.Employees
+                .Include(e => e.EmployeeCharge)
+                .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<IEnumerable<Employee>> GetTechniciansAvailable(DateTime date, string[] serviceCodes)
@@ -39,7 +41,7 @@ namespace Kaizen.Infrastructure.Repositories
             IEnumerable<string> occupiedEmployeesCodes = await GetOccupiedEmployeesCodes(date);
 
             return await GetAll().Include(e => e.EmployeesServices)
-                .Where(e => ((occupiedEmployeesCodes.Any()) || !occupiedEmployeesCodes.Contains(e.Id)) &&
+                .Where(e => (occupiedEmployeesCodes.Any() || !occupiedEmployeesCodes.Contains(e.Id)) &&
                     TECHNICAL_EMPLOYEE_JOB_CODES.Contains(e.ChargeId) &&
                     e.EmployeesServices.Any(es => serviceCodes.Contains(es.ServiceCode)))
                 .ToListAsync();

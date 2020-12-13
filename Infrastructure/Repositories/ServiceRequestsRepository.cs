@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Kaizen.Domain.Data;
 using Kaizen.Domain.Entities;
@@ -18,7 +17,7 @@ namespace Kaizen.Infrastructure.Repositories
         {
             ServiceRequest serviceRequest = await ApplicationDbContext.ServiceRequests.Include(s => s.Client)
                 .Include(s => s.ServiceRequestsServices).ThenInclude(s => s.Service)
-                .Where(s => s.Code == id).FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(s => s.Code == id);
 
             MapServices(serviceRequest);
 
@@ -42,8 +41,7 @@ namespace Kaizen.Infrastructure.Repositories
             ServiceRequest serviceRequest = await ApplicationDbContext.ServiceRequests.Include(s => s.Client)
                 .Include(s => s.ServiceRequestsServices)
                 .ThenInclude(s => s.Service)
-                .Where(s => s.ClientId == clientId && (s.State == ServiceRequestState.Pending || s.State == ServiceRequestState.PendingSuggestedDate))
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(s => s.ClientId == clientId && (s.State == ServiceRequestState.Pending || s.State == ServiceRequestState.PendingSuggestedDate));
 
             MapServices(serviceRequest);
 

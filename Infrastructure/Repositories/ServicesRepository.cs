@@ -21,8 +21,7 @@ namespace Kaizen.Infrastructure.Repositories
                 .Include(s => s.EmployeesServices).ThenInclude(s => s.Employee)
                 .Include(s => s.EquipmentsServices).ThenInclude(s => s.Equipment)
                 .Include(s => s.ProductsServices).ThenInclude(s => s.Product)
-                .Where(s => s.Code == id)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(s => s.Code == id);
         }
 
         public IQueryable<ServiceType> GetServiceTypes()

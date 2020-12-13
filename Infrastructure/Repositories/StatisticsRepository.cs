@@ -17,16 +17,14 @@ namespace Kaizen.Infrastructure.Repositories
         public async Task<DayStatistics> GetDayStatistics(DateTime date)
         {
             return await ApplicationDbContext.DayStatistics
-                .Where(d => d.Date.Year == date.Year && d.Date.Month == date.Month && d.Date.Day == date.Day)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(d => d.Date.Year == date.Year && d.Date.Month == date.Month && d.Date.Day == date.Day);
         }
 
         public async Task<MonthStatistics> GetMonthStatistics(DateTime date)
         {
             return await ApplicationDbContext.MonthStatistics
                 .Include(m => m.DayStatistics)
-                .Where(m => m.Date.Year == date.Year && m.Date.Month == date.Month)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(m => m.Date.Year == date.Year && m.Date.Month == date.Month);
         }
 
         public async Task<YearStatistics> GetYearStatistics(int year)
@@ -34,8 +32,7 @@ namespace Kaizen.Infrastructure.Repositories
             return await ApplicationDbContext.YearStatistics
                 .Include(y => y.MonthStatistics)
                 .ThenInclude(m => m.DayStatistics)
-                .Where(y => y.Year == year)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(y => y.Year == year);
         }
 
         public async Task RegisterNewAppliedActivity()
@@ -43,8 +40,8 @@ namespace Kaizen.Infrastructure.Repositories
             DateTime currentDate = DateTime.Now;
 
             YearStatistics yearStatistics = await FindOrCreateStatistics();
-            MonthStatistics monthStatistics = yearStatistics.MonthStatistics.Where(m => m.Date.Month == currentDate.Month).FirstOrDefault();
-            DayStatistics dayStatistics = monthStatistics.DayStatistics.Where(d => d.Date.Day == currentDate.Day).FirstOrDefault();
+            MonthStatistics monthStatistics = yearStatistics.MonthStatistics.FirstOrDefault(m => m.Date.Month == currentDate.Month);
+            DayStatistics dayStatistics = monthStatistics.DayStatistics.FirstOrDefault(d => d.Date.Day == currentDate.Day);
 
             ++yearStatistics.AppliedActivities;
             ++monthStatistics.AppliedActivities;
@@ -58,8 +55,8 @@ namespace Kaizen.Infrastructure.Repositories
             DateTime currentDate = DateTime.Now;
 
             YearStatistics yearStatistics = await FindOrCreateStatistics();
-            MonthStatistics monthStatistics = yearStatistics.MonthStatistics.Where(m => m.Date.Month == currentDate.Month).FirstOrDefault();
-            DayStatistics dayStatistics = monthStatistics.DayStatistics.Where(d => d.Date.Day == currentDate.Day).FirstOrDefault();
+            MonthStatistics monthStatistics = yearStatistics.MonthStatistics.FirstOrDefault(m => m.Date.Month == currentDate.Month);
+            DayStatistics dayStatistics = monthStatistics.DayStatistics.FirstOrDefault(d => d.Date.Day == currentDate.Day);
 
             ++yearStatistics.ClientsRegistered;
             ++monthStatistics.ClientsRegistered;
@@ -73,8 +70,8 @@ namespace Kaizen.Infrastructure.Repositories
             DateTime currentDate = DateTime.Now;
 
             YearStatistics yearStatistics = await FindOrCreateStatistics();
-            MonthStatistics monthStatistics = yearStatistics.MonthStatistics.Where(m => m.Date.Month == currentDate.Month).FirstOrDefault();
-            DayStatistics dayStatistics = monthStatistics.DayStatistics.Where(d => d.Date.Day == currentDate.Day).FirstOrDefault();
+            MonthStatistics monthStatistics = yearStatistics.MonthStatistics.FirstOrDefault(m => m.Date.Month == currentDate.Month);
+            DayStatistics dayStatistics = monthStatistics.DayStatistics.FirstOrDefault(d => d.Date.Day == currentDate.Day);
 
             ++yearStatistics.ClientsVisited;
             ++monthStatistics.ClientsVisited;
@@ -88,8 +85,8 @@ namespace Kaizen.Infrastructure.Repositories
             DateTime currentDate = DateTime.Now;
 
             YearStatistics yearStatistics = await FindOrCreateStatistics();
-            MonthStatistics monthStatistics = yearStatistics.MonthStatistics.Where(m => m.Date.Month == currentDate.Month).FirstOrDefault();
-            DayStatistics dayStatistics = monthStatistics.DayStatistics.Where(d => d.Date.Day == currentDate.Day).FirstOrDefault();
+            MonthStatistics monthStatistics = yearStatistics.MonthStatistics.FirstOrDefault(m => m.Date.Month == currentDate.Month);
+            DayStatistics dayStatistics = monthStatistics.DayStatistics.FirstOrDefault(d => d.Date.Day == currentDate.Day);
 
             yearStatistics.Profits += profits;
             monthStatistics.Profits += profits;
@@ -118,7 +115,7 @@ namespace Kaizen.Infrastructure.Repositories
                 await ApplicationDbContext.SaveChangesAsync();
             }
 
-            MonthStatistics monthStatistics = yearStatistics.MonthStatistics.Where(m => m.Date.Month == currentDate.Month).FirstOrDefault();
+            MonthStatistics monthStatistics = yearStatistics.MonthStatistics.FirstOrDefault(m => m.Date.Month == currentDate.Month);
             if (monthStatistics is null)
             {
                 monthStatistics = new MonthStatistics { Date = currentDate };
@@ -128,7 +125,7 @@ namespace Kaizen.Infrastructure.Repositories
                 await ApplicationDbContext.SaveChangesAsync();
             }
 
-            DayStatistics dayStatistics = monthStatistics.DayStatistics.Where(d => d.Date.Day == currentDate.Day).FirstOrDefault();
+            DayStatistics dayStatistics = monthStatistics.DayStatistics.FirstOrDefault(d => d.Date.Day == currentDate.Day);
             if (dayStatistics is null)
             {
                 dayStatistics = new DayStatistics { Date = currentDate };
