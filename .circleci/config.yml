@@ -17,7 +17,7 @@ jobs:
           name: Configure MySQL
           command: |
             mysql -uroot -e 'CREATE DATABASE mysql_test;'
-            mysql -uroot < sql/create_mysql.sql
+            Get-Content sql/create_mysql.sql | mysql -uroot
       - run:
           name: Restore projects
           command: dotnet restore
