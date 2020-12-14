@@ -22,38 +22,30 @@
         <div>
           <table mat-table [dataSource]="dataSource" class="mat-elevation-z6">
             <ng-container matColumnDef="code">
-              <mat-header-cell *matHeaderCellDef>Código</mat-header-cell>
-              <mat-cell *matCellDef="let workOrder">{{
-                workOrder.code
-              }}</mat-cell>
+              <th mat-header-cell *matHeaderCellDef>Código</th>
+              <td mat-cell *matCellDef="let workOrder">{{ workOrder.code }}</td>
             </ng-container>
             <ng-container matColumnDef="executionDate">
-              <mat-header-cell *matHeaderCellDef>
-                Fecha de ejecución
-              </mat-header-cell>
-              <mat-cell *matCellDef="let workOrder">
+              <th mat-header-cell *matHeaderCellDef>Fecha de ejecución</th>
+              <td mat-cell *matCellDef="let workOrder">
                 {{ workOrder.executionDate | date: "MMMM d, y" }}
-              </mat-cell>
+              </td>
             </ng-container>
             <ng-container matColumnDef="arrivalTime">
-              <mat-header-cell *matHeaderCellDef>
-                Hora de llegada
-              </mat-header-cell>
-              <mat-cell *matCellDef="let workOrder">
+              <th mat-header-cell *matHeaderCellDef>Hora de llegada</th>
+              <td mat-cell *matCellDef="let workOrder">
                 {{ workOrder.arrivalTime | date: "h:mm a" }}
-              </mat-cell>
+              </td>
             </ng-container>
             <ng-container matColumnDef="departureTime">
-              <mat-header-cell *matHeaderCellDef>
-                Hora de salida
-              </mat-header-cell>
-              <mat-cell *matCellDef="let workOrder">
+              <th mat-header-cell *matHeaderCellDef>Hora de salida</th>
+              <td mat-cell *matCellDef="let workOrder">
                 {{ workOrder.departureTime | date: "h:mm a" }}
-              </mat-cell>
+              </td>
             </ng-container>
             <ng-container matColumnDef="options">
-              <mat-header-cell *matHeaderCellDef>Opciones</mat-header-cell>
-              <mat-cell *matCellDef="let workOrder">
+              <th mat-header-cell *matHeaderCellDef>Opciones</th>
+              <td mat-cell *matCellDef="let workOrder">
                 <a
                   mat-icon-button
                   routerLink="/work_orders/{{ workOrder.code }}"
@@ -61,12 +53,10 @@
                 >
                   <mat-icon>visibility</mat-icon>
                 </a>
-              </mat-cell>
+              </td>
             </ng-container>
-            <mat-header-row
-              *matHeaderRowDef="displayedColumns"
-            ></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
           <mat-paginator
             [pageSizeOptions]="[15, 30, 50, 100]"

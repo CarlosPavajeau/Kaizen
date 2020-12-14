@@ -27,38 +27,38 @@
             class="mat-elevation-z6"
           >
             <ng-container matColumnDef="id">
-              <mat-header-cell *matHeaderCellDef>Código</mat-header-cell>
-              <mat-cell *matCellDef="let serviceInvoice">
+              <th mat-header-cell *matHeaderCellDef>Código</th>
+              <td mat-cell *matCellDef="let serviceInvoice">
                 {{ serviceInvoice.id }}
-              </mat-cell>
+              </td>
             </ng-container>
             <ng-container matColumnDef="state">
-              <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
-              <mat-cell *matCellDef="let serviceInvoice">
+              <th mat-header-cell *matHeaderCellDef>Estado</th>
+              <td mat-cell *matCellDef="let serviceInvoice">
                 {{ serviceInvoice.state | invoiceState }}
-              </mat-cell>
+              </td>
             </ng-container>
             <ng-container matColumnDef="iva">
-              <mat-header-cell *matHeaderCellDef>IVA</mat-header-cell>
-              <mat-cell *matCellDef="let serviceInvoice">
+              <th mat-header-cell *matHeaderCellDef>IVA</th>
+              <td mat-cell *matCellDef="let serviceInvoice">
                 {{ serviceInvoice.iva * 100 }} %
-              </mat-cell>
+              </td>
             </ng-container>
             <ng-container matColumnDef="subtotal">
-              <mat-header-cell *matHeaderCellDef>SubTotal</mat-header-cell>
-              <mat-cell *matCellDef="let serviceInvoice">
+              <th mat-header-cell *matHeaderCellDef>SubTotal</th>
+              <td mat-cell *matCellDef="let serviceInvoice">
                 {{ serviceInvoice.subTotal | currency: "COP":"symbol-narrow" }}
-              </mat-cell>
+              </td>
             </ng-container>
             <ng-container matColumnDef="total">
-              <mat-header-cell *matHeaderCellDef>Total</mat-header-cell>
-              <mat-cell *matCellDef="let serviceInvoice">
+              <th mat-header-cell *matHeaderCellDef>Total</th>
+              <td mat-cell *matCellDef="let serviceInvoice">
                 {{ serviceInvoice.total | currency: "COP":"symbol-narrow" }}
-              </mat-cell>
+              </td>
             </ng-container>
             <ng-container matColumnDef="actions">
-              <mat-header-cell *matHeaderCellDef>Opciones</mat-header-cell>
-              <mat-cell *matCellDef="let serviceInvoice">
+              <th mat-header-cell *matHeaderCellDef>Opciones</th>
+              <td mat-cell *matCellDef="let serviceInvoice">
                 <a
                   mat-icon-button
                   routerLink="/payments/service_invoices/{{
@@ -82,12 +82,10 @@
                     <mat-icon>monetization_on</mat-icon>
                   </a>
                 </div>
-              </mat-cell>
+              </td>
             </ng-container>
-            <mat-header-row
-              *matHeaderRowDef="displayedColumns"
-            ></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
           <mat-paginator
             [pageSizeOptions]="[15, 30, 50, 100]"

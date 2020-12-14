@@ -36,41 +36,37 @@
             class="mat-elevation-z6"
           >
             <ng-container matColumnDef="id">
-              <mat-header-cell *matHeaderCellDef mat-sort-header
-                >Identificación</mat-header-cell
-              >
-              <mat-cell *matCellDef="let client">{{ client.id }}</mat-cell>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                Identificación
+              </th>
+              <td mat-cell *matCellDef="let client">{{ client.id }}</td>
             </ng-container>
             <ng-container matColumnDef="name">
-              <mat-header-cell *matHeaderCellDef
-                >Nombre completo</mat-header-cell
-              >
-              <mat-cell *matCellDef="let client"
-                >{{ client.firstName }} {{ client.secondName }}
-                {{ client.lastName }} {{ client.secondLastName }}</mat-cell
-              >
+              <th mat-header-cell *matHeaderCellDef>Nombre completo</th>
+              <td mat-cell *matCellDef="let client">
+                {{ client.firstName }} {{ client.secondName }}
+                {{ client.lastName }} {{ client.secondLastName }}
+              </td>
             </ng-container>
             <ng-container matColumnDef="clientType">
-              <mat-header-cell *matHeaderCellDef
-                >Tipo de cliente</mat-header-cell
-              >
-              <mat-cell *matCellDef="let client">{{
-                client.clientType == "JuridicPerson"
-                  ? "Persona jurídica"
-                  : "Persona natural"
-              }}</mat-cell>
+              <th mat-header-cell *matHeaderCellDef>Tipo de cliente</th>
+              <td mat-cell *matCellDef="let client">
+                {{
+                  client.clientType == "JuridicPerson"
+                    ? "Persona jurídica"
+                    : "Persona natural"
+                }}
+              </td>
             </ng-container>
             <ng-container matColumnDef="phonenumber">
-              <mat-header-cell *matHeaderCellDef
-                >Número de teléfono</mat-header-cell
-              >
-              <mat-cell *matCellDef="let client">
+              <th mat-header-cell *matHeaderCellDef>Número de teléfono</th>
+              <td mat-cell *matCellDef="let client">
                 {{ client.firstPhoneNumber }}
-              </mat-cell>
+              </td>
             </ng-container>
             <ng-container matColumnDef="options">
-              <mat-header-cell *matHeaderCellDef> Opciones </mat-header-cell>
-              <mat-cell *matCellDef="let client">
+              <th mat-header-cell *matHeaderCellDef>Opciones</th>
+              <td mat-cell *matCellDef="let client">
                 <a
                   mat-icon-button
                   routerLink="/clients/{{ client.id }}"
@@ -84,12 +80,10 @@
                 <a mat-icon-button [matTooltip]="'Eliminar cliente'">
                   <mat-icon>delete</mat-icon>
                 </a>
-              </mat-cell>
+              </td>
             </ng-container>
-            <mat-header-row
-              *matHeaderRowDef="displayedColumns"
-            ></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
           </table>
           <mat-paginator
             [pageSizeOptions]="[15, 30, 50, 100]"
