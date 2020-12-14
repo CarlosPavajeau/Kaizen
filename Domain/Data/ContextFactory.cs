@@ -1,6 +1,6 @@
-using System;
 using System.Linq;
 using Kaizen.Core.DependencyResolver;
+using Kaizen.Core.Exceptions;
 using Kaizen.Domain.Data.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -25,7 +25,7 @@ namespace Kaizen.Domain.Data
 
             if (dataProvider == null)
             {
-                throw new NullReferenceException("The Data Provider entry in appsettings.json is empty or the one specified has not been found!");
+                throw new UnspecifiedDataProviderException();
             }
 
             return dataProvider.CreateDbContext(ConnectionStrings.DefaultConnection);
