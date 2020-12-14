@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Runtime.Serialization;
 
 namespace Kaizen.Core.Exceptions
 {
@@ -19,6 +20,15 @@ namespace Kaizen.Core.Exceptions
             StatusCode = statusCode;
         }
 
+        protected HttpException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+
         public int StatusCode { get; set; }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+        }
     }
 }

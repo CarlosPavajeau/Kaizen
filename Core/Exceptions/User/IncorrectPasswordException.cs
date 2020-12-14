@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 
 namespace Kaizen.Core.Exceptions.User
 {
@@ -7,6 +8,15 @@ namespace Kaizen.Core.Exceptions.User
     {
         public IncorrectPasswordException() : base(400, "Contraseña incorrecta, intentelo de nuevo")
         {
+        }
+
+        protected IncorrectPasswordException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
         }
     }
 }
