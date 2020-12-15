@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '@core/authentication/authentication.service';
-import { CLIENT_ROLE } from '@global/roles';
+import { ADMINISTRATOR_ROLE, CLIENT_ROLE } from '@global/roles';
 import { ClientService } from '@modules/clients/services/client.service';
 import { EmployeeService } from '@modules/employees/services/employee.service';
 import { Person } from '@shared/models/person';
@@ -12,6 +12,7 @@ import { Person } from '@shared/models/person';
 })
 export class UserProfileComponent implements OnInit {
   person: Person;
+  isAdmin = false;
 
   constructor(
     private authService: AuthenticationService,
@@ -25,10 +26,11 @@ export class UserProfileComponent implements OnInit {
 
   private loadData(): void {
     this.person = JSON.parse(localStorage.getItem('current_person'));
-
+    const userRole = this.authService.getUserRole();
+    this.isAdmin = userRole === ADMINISTRATOR_ROLE;
     if (this.person == null) {
-      const userRole = this.authService.getUserRole();
       const user_id = this.authService.getCurrentUser().id;
+
       if (userRole === CLIENT_ROLE) {
         this.clientService.getClient(user_id).subscribe((client) => {
           this.person = client;

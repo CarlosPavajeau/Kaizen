@@ -1,71 +1,106 @@
 <div class="container">
-  <h1 class="mat-h1 text-center">Estadísticas del día</h1>
-  <mat-grid-list cols="3" rowHeight="150px">
-    <mat-grid-tile>
-      <mat-card class="mat-elevation-z3">
-        <mat-card-header>
-          <mat-card-title>Clientes visitados</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="text-center">
-            <span>
-              <mat-icon>done</mat-icon>
-            </span>
+  <div>
+    <h2 class="text-center">Estadísticas del día</h2>
+  </div>
+  <ng-container
+    *ngIf="dayStatistics$ | observableWithStatus | async as obs"
+    [ngSwitch]="obs.status"
+  >
+    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+      <div class="center-block-content pt-5">
+        <div class="center-flex-content">
+          <mat-spinner></mat-spinner>
+        </div>
+        <h4 class="text-center mt-4 empty-list-text">
+          Cargando estadísticas del día...
+        </h4>
+      </div>
+    </ng-template>
+    <ng-template [ngSwitchCase]="ObsStatus.Success">
+      <div *ngIf="!obs.value">
+        <div>
+          <img
+            src="/assets/images/relax_people.svg"
+            alt="Empty list"
+            class="center-block-content"
+          />
+          <h4 class="text-center empty-list-text">
+            No hay estadísticas registradas el día de hoy.
+          </h4>
+        </div>
+      </div>
+      <div class="center-block-content" *ngIf="obs.value as dayStatistics">
+        <div class="row">
+          <div
+            class="pt-2 pb-2 mt-2 mb-2 mx-auto col-lg-4 col-sm-12 col-xl-4 col-md-6"
+          >
+            <mat-card class="mat-elevation-z3">
+              <mat-card-header>
+                <mat-card-title>Clientes registrados</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <h2
+                  *ngIf="dayStatistics.clientsRegistered"
+                  class="text-center mat-display-2 statistics-info"
+                >
+                  {{ dayStatistics.clientsRegistered }}
+                </h2>
+              </mat-card-content>
+            </mat-card>
           </div>
-          <p class="text-center">
-            <span *ngIf="dayStatistics; else noStatistics">
-              {{ dayStatistics.clientsVisited }}
-            </span>
-            <ng-template #noStatistics>
-              <span>0</span>
-            </ng-template>
-          </p>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <mat-card class="mat-elevation-z3">
-        <mat-card-header>
-          <mat-card-title>Actividades aplicadas</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="text-center">
-            <span>
-              <mat-icon>done</mat-icon>
-            </span>
+          <div
+            class="pt-2 pb-2 mt-2 mb-2 mx-auto col-lg-4 col-sm-12 col-xl-4 col-md-6"
+          >
+            <mat-card class="mat-elevation-z3">
+              <mat-card-header>
+                <mat-card-title>Clientes visitados</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <h2
+                  *ngIf="dayStatistics.clientsVisited"
+                  class="text-center mat-display-2 statistics-info"
+                >
+                  {{ dayStatistics.clientsVisited }}
+                </h2>
+              </mat-card-content>
+            </mat-card>
           </div>
-          <p class="text-center">
-            <span *ngIf="dayStatistics; else noStatistics">
-              {{ dayStatistics.appliedActivities }}
-            </span>
-            <ng-template #noStatistics>
-              <span>0</span>
-            </ng-template>
-          </p>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-    <mat-grid-tile>
-      <mat-card class="mat-elevation-z3">
-        <mat-card-header>
-          <mat-card-title>Ganancias del día</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="text-center">
-            <span>
-              <mat-icon>done</mat-icon>
-            </span>
+          <div
+            class="pt-2 pb-2 mt-2 mb-2 mx-auto col-lg-4 col-sm-12 col-xl-4 col-md-6"
+          >
+            <mat-card class="mat-elevation-z3">
+              <mat-card-header>
+                <mat-card-title>Actividades aplicadas</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <h2
+                  *ngIf="dayStatistics.appliedActivities"
+                  class="text-center mat-display-2 statistics-info"
+                >
+                  {{ dayStatistics.appliedActivities }}
+                </h2>
+              </mat-card-content>
+            </mat-card>
           </div>
-          <p class="text-center">
-            <span *ngIf="dayStatistics; else noStatistics">
-              {{ dayStatistics.profits }}
-            </span>
-            <ng-template #noStatistics>
-              <span>0</span>
-            </ng-template>
-          </p>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
+          <div
+            class="pt-2 pb-2 mt-2 mb-2 mx-auto col-lg-4 col-sm-12 col-xl-4 col-md-6"
+          >
+            <mat-card class="mat-elevation-z3">
+              <mat-card-header>
+                <mat-card-title>Ganacias del día</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <h2
+                  *ngIf="dayStatistics.profits"
+                  class="text-center mat-display-1 statistics-info"
+                >
+                  {{ dayStatistics.profits | currency: "COP" }}
+                </h2>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
 </div>

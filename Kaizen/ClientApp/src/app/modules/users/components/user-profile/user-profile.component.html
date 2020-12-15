@@ -15,4 +15,7 @@
   <div class="control-panel">
     <app-dashboard></app-dashboard>
   </div>
+  <div *ngIf="isAdmin" class="control-panel">
+    <app-today-statistics></app-today-statistics>
+  </div>
 </div>

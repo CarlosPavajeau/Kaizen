@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { DayStatistics } from '@modules/statistics/models/statistics';
 import { StatisticsService } from '@modules/statistics/services/statistics.service';
-import { DayStatistics } from '../../models/statistics';
+import { ObservableStatus } from '@shared/models/observable-with-status';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-today-statistics',
@@ -8,7 +10,9 @@ import { DayStatistics } from '../../models/statistics';
   styleUrls: [ './today-statistics.component.scss' ]
 })
 export class TodayStatisticsComponent implements OnInit {
-  dayStatistics: DayStatistics;
+  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+
+  dayStatistics$: Observable<DayStatistics>;
 
   constructor(private statisticsService: StatisticsService) {}
 
@@ -17,8 +21,6 @@ export class TodayStatisticsComponent implements OnInit {
   }
 
   private loadData(): void {
-    this.statisticsService.getCurrentDayStatistics().subscribe((dayStatistics: DayStatistics) => {
-      this.dayStatistics = dayStatistics;
-    });
+    this.dayStatistics$ = this.statisticsService.getCurrentDayStatistics();
   }
 }

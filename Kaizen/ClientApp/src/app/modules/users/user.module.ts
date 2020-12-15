@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { StatisticsModule } from '@modules/statistics/statistics.module';
 import { SharedModule } from '@shared/shared.module';
 import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -22,7 +23,7 @@ import { UserRoutingModule } from './user-routing.module';
     ForgottenPasswordComponent,
     ResetPasswordComponent
   ],
-  imports: [ FormsModule, ReactiveFormsModule, SharedModule, UserRoutingModule ],
+  imports: [ FormsModule, ReactiveFormsModule, SharedModule, UserRoutingModule, StatisticsModule ],
   exports: [ UserRegisterComponent ]
 })
 export class UserModule {}
