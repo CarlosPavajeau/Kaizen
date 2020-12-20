@@ -11,6 +11,9 @@ import { buildIsoDate } from '@core/utils/date-utils';
 export class SelectDateModalComponent implements OnInit {
   dateForm: FormGroup;
 
+  minDate: Date;
+  maxDate: Date;
+
   constructor(public dialogRef: MatDialogRef<SelectDateModalComponent>, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
@@ -18,6 +21,10 @@ export class SelectDateModalComponent implements OnInit {
       newDate: [ '', [ Validators.required ] ],
       newTime: [ '', [ Validators.required ] ]
     });
+
+    const currentDate = new Date();
+    this.minDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1);
+    this.maxDate = new Date(currentDate.getFullYear(), 11, 31);
   }
 
   onCancel(): void {

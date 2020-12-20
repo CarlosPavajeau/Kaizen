@@ -30,6 +30,8 @@ import { Observable } from 'rxjs';
 })
 export class ActivityRegisterComponent implements OnInit, IForm {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;
+  minDate: Date;
+  maxDate: Date;
 
   serviceRequestCode: number;
 
@@ -79,6 +81,10 @@ export class ActivityRegisterComponent implements OnInit, IForm {
 
       this.initForm();
     });
+
+    const currentDate = new Date();
+    this.minDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1);
+    this.maxDate = new Date(currentDate.getFullYear(), 11, 31);
   }
 
   initForm(): void {

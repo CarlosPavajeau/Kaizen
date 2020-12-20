@@ -26,6 +26,9 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;
   public ClientState: typeof ClientState = ClientState;
 
+  minDate: Date;
+  maxDate: Date;
+
   services$: Observable<Service[]>;
   periodicities: Periodicity[];
 
@@ -56,6 +59,10 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
   ngOnInit(): void {
     this.loadData();
     this.initForm();
+
+    const currentDate = new Date();
+    this.minDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + 1);
+    this.maxDate = new Date(currentDate.getFullYear(), 11, 31);
   }
 
   private loadData(): void {

@@ -7,6 +7,8 @@
           <mat-label>Fecha de aplicación</mat-label>
           <input
             matInput
+            [min]="minDate"
+            [max]="maxDate"
             [matDatepicker]="datePicker"
             formControlName="newDate"
           />
