@@ -145,7 +145,7 @@ namespace Kaizen.Controllers
             }
 
             user = await _userRepository.ConfirmEmailAsync(user, token.Base64ForUrlDecode());
-            return Ok(_mapper.Map<ApplicationUser>(user));
+            return _mapper.Map<ApplicationUserViewModel>(user);
         }
 
         [HttpPost("[action]")]
