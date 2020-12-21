@@ -80,9 +80,9 @@ export class ClientRegisterComponent implements OnInit, IForm {
           updateOn: 'blur'
         }
       ],
-      secondPhonenumber: [ '', [ Validators.minLength(10), Validators.maxLength(10), numericCharacters() ] ],
-      firstLandline: [ '', [ Validators.minLength(10), Validators.maxLength(15), numericCharacters() ] ],
-      secondLandline: [ '', [ Validators.minLength(10), Validators.maxLength(15), numericCharacters() ] ],
+      secondPhonenumber: [ null, [ Validators.minLength(10), Validators.maxLength(10), numericCharacters() ] ],
+      firstLandline: [ null, [ Validators.minLength(10), Validators.maxLength(15), numericCharacters() ] ],
+      secondLandline: [ null, [ Validators.minLength(10), Validators.maxLength(15), numericCharacters() ] ],
       email: [
         '',
         {
@@ -110,8 +110,8 @@ export class ClientRegisterComponent implements OnInit, IForm {
 
   private initLegalPersonForm() {
     this.legalPersonForm = this.formBuilder.group({
-      NIT: [ '', [ Validators.required, Validators.minLength(5), Validators.maxLength(30), numericCharacters() ] ],
-      businessName: [ '', [ Validators.required, Validators.minLength(5), Validators.maxLength(50) ] ]
+      NIT: [ null, [ Validators.required, Validators.minLength(5), Validators.maxLength(30), numericCharacters() ] ],
+      businessName: [ null, [ Validators.required, Validators.minLength(5), Validators.maxLength(50) ] ]
     });
   }
 
@@ -128,12 +128,12 @@ export class ClientRegisterComponent implements OnInit, IForm {
         '',
         [ Validators.required, Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ]
       ],
-      secondName: [ '', [ Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ] ],
+      secondName: [ null, [ Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ] ],
       lastName: [
         '',
         [ Validators.required, Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ]
       ],
-      secondLastname: [ '', [ Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ] ],
+      secondLastname: [ null, [ Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ] ],
       tradeName: [ '', [ Validators.required, Validators.minLength(5), Validators.maxLength(50) ] ],
       clientType: [ '', [ Validators.required ] ]
     });

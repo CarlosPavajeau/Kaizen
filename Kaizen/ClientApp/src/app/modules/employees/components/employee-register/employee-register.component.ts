@@ -73,12 +73,12 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
         '',
         [ Validators.required, Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ]
       ],
-      secondName: [ '', [ Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ] ],
+      secondName: [ null, [ Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ] ],
       lastName: [
         '',
         [ Validators.required, Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ]
       ],
-      secondLastname: [ '', [ Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ] ],
+      secondLastname: [ null, [ Validators.minLength(2), Validators.maxLength(20), alphabeticCharacters() ] ],
       employeeCharge: [ '', [ Validators.required ] ]
     });
   }
