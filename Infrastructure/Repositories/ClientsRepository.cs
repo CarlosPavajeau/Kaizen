@@ -21,6 +21,12 @@ namespace Kaizen.Infrastructure.Repositories
                 .FirstOrDefaultAsync(c => c.Id == id || c.UserId == id);
         }
 
+        public async Task<Client> GetClientWithUser(string id)
+        {
+            return await ApplicationDbContext.Clients.Include(c => c.User)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
         public async Task<string> GetClientId(string userId)
         {
             return await ApplicationDbContext.Clients.Where(c => c.UserId == userId)

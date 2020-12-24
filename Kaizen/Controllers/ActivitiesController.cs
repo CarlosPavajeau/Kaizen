@@ -106,8 +106,7 @@ namespace Kaizen.Controllers
         [HttpPost]
         public async Task<ActionResult<ActivityViewModel>> PostActivity([FromBody] ActivityInputModel activityModel)
         {
-            Client client = await _clientsRepository.GetAll().Include(c => c.User)
-                .Where(c => c.Id == activityModel.ClientId).FirstOrDefaultAsync();
+            Client client = await _clientsRepository.GetClientWithUser(activityModel.ClientId);
             if (client is null)
             {
                 return NotFound($"El cliente con identificación {activityModel.ClientId} no se encuentra registrado.");
