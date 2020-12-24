@@ -16,6 +16,7 @@ using NUnit.Framework;
 
 namespace Kaizen.Test.Controllers
 {
+    [TestFixture]
     public class ClientsControllerTest : BaseControllerTest
     {
         private ClientsController _clientsController;
@@ -141,7 +142,7 @@ namespace Kaizen.Test.Controllers
 
             _unitWork.Setup(u => u.SaveAsync()).Returns(Task.CompletedTask);
 
-            var result = await _clientsController.PostClient(new ClientInputModel
+            ActionResult<ClientViewModel> result = await _clientsController.PostClient(new ClientInputModel
             {
                 Id = "1007870945",
                 FirstName = "Manolo",
