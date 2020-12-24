@@ -1,11 +1,13 @@
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Query;
 
 namespace Kaizen.Test.Helpers
 {
-    internal class TestAsyncQueryProvider<T> : IAsyncQueryProvider
+    internal class TestAsyncQueryProvider<T> : IDbAsyncQueryProvider, IAsyncQueryProvider
     {
         private readonly IQueryProvider _inner;
 
@@ -37,6 +39,16 @@ namespace Kaizen.Test.Helpers
         TResult IAsyncQueryProvider.ExecuteAsync<TResult>(Expression expression, CancellationToken cancellationToken)
         {
             return Execute<TResult>(expression);
+        }
+
+        public Task<object> ExecuteAsync(Expression expression, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(Execute(expression));
+        }
+
+        public Task<TResult> ExecuteAsync<TResult>(Expression expression, CancellationToken cancellationToken)
+        {
+            return Task.FromResult(Execute<TResult>(expression));
         }
     }
 }

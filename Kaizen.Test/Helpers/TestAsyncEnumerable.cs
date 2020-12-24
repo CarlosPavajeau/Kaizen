@@ -1,12 +1,13 @@
 
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 
 namespace Kaizen.Test.Helpers
 {
-    internal class TestAsyncEnumerable<T> : EnumerableQuery<T>, IAsyncEnumerable<T>, IQueryable<T>
+    internal class TestAsyncEnumerable<T> : EnumerableQuery<T>, IDbAsyncEnumerable<T>, IQueryable<T>, IAsyncEnumerable<T>
     {
         public TestAsyncEnumerable(IEnumerable<T> enumerable) : base(enumerable)
         {
@@ -16,13 +17,21 @@ namespace Kaizen.Test.Helpers
         {
         }
 
-        public IAsyncEnumerator<T> GetEnumerator()
+        IQueryProvider IQueryable.Provider => new TestAsyncQueryProvider<T>(this);
+
+        public IDbAsyncEnumerator<T> GetAsyncEnumerator()
         {
             return new TestAsyncEnumerator<T>(this.AsEnumerable().GetEnumerator());
         }
 
-        IQueryProvider IQueryable.Provider => new TestAsyncQueryProvider<T>(this);
+        IDbAsyncEnumerator IDbAsyncEnumerable.GetAsyncEnumerator()
+        {
+            return GetAsyncEnumerator();
+        }
 
-        public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default) => new TestAsyncEnumerator<T>(this.AsEnumerable().GetEnumerator());
+        public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken)
+        {
+            return new TestAsyncEnumerator<T>(this.AsEnumerable().GetEnumerator());
+        }
     }
 }
