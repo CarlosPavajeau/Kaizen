@@ -126,8 +126,7 @@ namespace Kaizen.Controllers
         public async Task<ActionResult<EmployeeViewModel>> PostEmployee(EmployeeInputModel employeeModel)
         {
             EmployeeCharge employeeCharge = await _employeesRepository.GetAllEmployeeCharges()
-                .Where(c => c.Id == employeeModel.ChargeId)
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(c => c.Id == employeeModel.ChargeId);
             if (employeeCharge is null)
             {
                 return BadRequest("El cargo del empleado no se encuentra registrado.");
