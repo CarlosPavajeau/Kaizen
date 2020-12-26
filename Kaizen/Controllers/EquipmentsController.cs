@@ -30,7 +30,8 @@ namespace Kaizen.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EquipmentViewModel>>> GetEquipments()
         {
-            return await _equipmentsRepository.GetAll().Select(e => _mapper.Map<EquipmentViewModel>(e)).ToListAsync();
+            List<Equipment> equipments = await _equipmentsRepository.GetAll().ToListAsync();
+            return Ok(_mapper.Map<IEnumerable<EquipmentViewModel>>(equipments));
         }
 
         [HttpGet("{id}")]
