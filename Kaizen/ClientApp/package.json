@@ -31,7 +31,7 @@
     "bootstrap": "^4.5.3",
     "core-js": "^3.8.1",
     "jquery": "^3.5.1",
-    "mat-file-input": "^1.0.6",
+    "mat-file-input": "^1.0.7",
     "moment": "^2.29.1",
     "ngx-cookie-service": "^11.0.2",
     "node-fetch": "^2.6.1",
