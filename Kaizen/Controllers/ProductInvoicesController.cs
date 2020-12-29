@@ -34,7 +34,7 @@ namespace Kaizen.Controllers
         public async Task<ActionResult<IEnumerable<ProductInvoiceViewModel>>> GetProductInvoices()
         {
             List<ProductInvoice> productInvoices = await _productInvoicesRepository.GetAll().ToListAsync();
-            return Ok(_mapper.Map<IEnumerable<ProductInvoiceDetailViewModel>>(productInvoices));
+            return Ok(_mapper.Map<IEnumerable<ProductInvoiceViewModel>>(productInvoices));
         }
 
         [HttpGet("{id}")]
