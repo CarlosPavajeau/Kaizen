@@ -280,3 +280,8 @@ Uploads/
 # Sonarqube files
 .sonarqube/*
 .sonarqube
+
+# Test coverage files
+coveragereport/*
+coveragerepor
+*/Coverage/*
