@@ -30,7 +30,8 @@ namespace Kaizen.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetProducts()
         {
-            return await _productsRepository.GetAll().Select(p => _mapper.Map<ProductViewModel>(p)).ToListAsync();
+            List<Product> products = await _productsRepository.GetAll().ToListAsync();
+            return Ok(_mapper.Map<IEnumerable<ProductViewModel>>(products));
         }
 
         [HttpGet("{id}")]
