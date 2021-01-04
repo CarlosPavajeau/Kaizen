@@ -1,0 +1,115 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Formulario de compra de productos</mat-card-title>
+      <mat-card-subtitle
+        >Elija los productos y la cantidad que desee comprar de
+        estos.</mat-card-subtitle
+      >
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="productInvoiceForm">
+        <div class="form-row">
+          <div class="form-col">
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Producto a comprar</mat-label>
+                <mat-select required formControlName="product">
+                  <ng-container
+                    *ngIf="products$ | observableWithStatus | async as obs"
+                    [ngSwitch]="obs.status"
+                  >
+                    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+                      <mat-option>
+                        <div class="loading-option">
+                          <mat-spinner [diameter]="20"></mat-spinner>
+                          <span>Cargando productos...</span>
+                        </div>
+                      </mat-option>
+                    </ng-template>
+                    <ng-template [ngSwitchCase]="ObsStatus.Success">
+                      <mat-option
+                        *ngFor="let product of obs.value"
+                        [value]="product"
+                      >
+                        {{ product.name }},
+                        {{ product.price | currency: "COP":"symbol-narrow" }}
+                      </mat-option>
+                    </ng-template>
+                  </ng-container>
+                </mat-select>
+                <mat-hint>Elija un producto a comprar</mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="form-col">
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Cantidad</mat-label>
+                <input type="number" matInput formControlName="amount" />
+                <mat-hint>Digite la cantidad que desea comprar</mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="form-buttons">
+          <button mat-flat-button class="royal_azure" (click)="addProduct()">
+            Añadir producto
+          </button>
+        </div>
+      </form>
+      <div class="pt-3" *ngIf="selectedProducts.length > 0">
+        <mat-list>
+          <div matSubheader>Productos seleccionados</div>
+          <mat-list-item *ngFor="let selectedProduct of selectedProducts">
+            <div class="icon-text-container">
+              <mat-icon [matTooltip]="'Nombre del producto a comprar'"
+                >eco</mat-icon
+              >
+              <span>
+                {{ selectedProduct.detail.name }}
+              </span>
+            </div>
+            <div class="icon-text-container">
+              <mat-icon [matTooltip]="'Cantidad de productos escogidos'"
+                >assignment</mat-icon
+              >
+              <span>
+                {{ selectedProduct.amount }}
+              </span>
+            </div>
+            <div class="icon-text-container">
+              <mat-icon [matTooltip]="'Costo total de los productos'"
+                >attach_money</mat-icon
+              >
+              <span>
+                {{ selectedProduct.total | currency: "COP":"symbol-narrow" }}
+              </span>
+            </div>
+            <button
+              mat-icon-button
+              [matTooltip]="'Borrar producto de la lista'"
+              (click)="deleteProduct(selectedProduct)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <div class="pt-2" *ngIf="selectedProducts.length > 0">
+        <div class="icon-text-container">
+          <mat-icon>payments</mat-icon>
+          <span>{{ subTotal | currency: "COP":"symbol-narrow" }}</span>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="form-buttons" *ngIf="selectedProducts.length > 0">
+        <button mat-raised-button class="royal_azure">
+          Facturar productos
+        </button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
+</div>

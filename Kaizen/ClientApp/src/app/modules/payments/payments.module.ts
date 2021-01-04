@@ -8,6 +8,8 @@ import { ProductInvoicesComponent } from './components/product-invoices/product-
 import { ServiceInvoicesComponent } from './components/service-invoices/service-invoices.component';
 import { PaymentsRoutingModule } from './payments-routing.module';
 import { ServiceInvoiceDetailComponent } from './components/service-invoice-detail/service-invoice-detail.component';
+import { PayProductInvoiceComponent } from './components/pay-product-invoice/pay-product-invoice.component';
+import { ProductInvoiceRegisterComponent } from './components/product-invoice-register/product-invoice-register.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { ServiceInvoiceDetailComponent } from './components/service-invoice-deta
     ServiceInvoicesComponent,
     ProductInvoicesComponent,
     PayServiceInvoiceComponent,
-    ServiceInvoiceDetailComponent
+    ServiceInvoiceDetailComponent,
+    PayProductInvoiceComponent,
+    ProductInvoiceRegisterComponent
   ],
   imports: [ CommonModule, PaymentsRoutingModule, SharedModule, ReactiveFormsModule, FormsModule ]
 })

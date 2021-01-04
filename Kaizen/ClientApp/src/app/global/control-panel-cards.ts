@@ -8,7 +8,7 @@ export const DASHBOARDS_CARDS: { [role: string]: DashboardCard[] } = {
     { title: 'Evaluar servicios', iconName: 'stars' }
   ],
   Administrator: [
-    { title: 'Facturas', iconName: 'attach_money', url: '/payments/service_invoices' },
+    { title: 'Facturas', iconName: 'attach_money', url: '/payments/invoices/services' },
     {
       title: 'Productos',
       iconName: 'eco',
