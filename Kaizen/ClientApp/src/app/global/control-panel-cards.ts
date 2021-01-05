@@ -5,6 +5,7 @@ export const DASHBOARDS_CARDS: { [role: string]: DashboardCard[] } = {
     {
       title: 'Mis facturas',
       iconName: 'attach_money',
+      isMenu: true,
       subMenu: [
         { title: 'Facturas de servicio', iconName: 'batch_prediction', url: '/payments/invoices/services' },
         { title: 'Facturas de producto', iconName: 'eco', url: '/payments/invoices/products' }
@@ -18,6 +19,7 @@ export const DASHBOARDS_CARDS: { [role: string]: DashboardCard[] } = {
     {
       title: 'Facturas',
       iconName: 'attach_money',
+      isMenu: true,
       subMenu: [
         { title: 'Facturas de servicio', iconName: 'batch_prediction', url: '/payments/invoices/services' },
         { title: 'Facturas de producto', iconName: 'eco', url: '/payments/invoices/products' }
