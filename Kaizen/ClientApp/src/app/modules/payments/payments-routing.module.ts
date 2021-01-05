@@ -30,6 +30,7 @@ const routes: Routes = [
           {
             path: 'products/register',
             component: ProductInvoiceRegisterComponent,
+            canActivate: [ ClientGuard ]
           },
           {
             path: 'services/:id',
