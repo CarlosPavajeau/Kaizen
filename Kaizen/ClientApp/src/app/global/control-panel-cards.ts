@@ -2,13 +2,27 @@ import { DashboardCard } from '@core/models/dashboard-card';
 
 export const DASHBOARDS_CARDS: { [role: string]: DashboardCard[] } = {
   Client: [
-    { title: 'Mis facturas', iconName: 'attach_money', url: '/payments/service_invoices' },
+    {
+      title: 'Mis facturas',
+      iconName: 'attach_money',
+      subMenu: [
+        { title: 'Facturas de servicio', iconName: 'batch_prediction', url: '/payments/invoices/services' },
+        { title: 'Facturas de producto', iconName: 'eco', url: '/payments/invoices/products' }
+      ]
+    },
     { title: 'Solicitar un servicio', iconName: 'add_circle', url: '/service_requests/register' },
     { title: 'Mis visitas', iconName: 'info', url: '/activity_schedule/client_schedule' },
     { title: 'Evaluar servicios', iconName: 'stars' }
   ],
   Administrator: [
-    { title: 'Facturas', iconName: 'attach_money', url: '/payments/invoices/services' },
+    {
+      title: 'Facturas',
+      iconName: 'attach_money',
+      subMenu: [
+        { title: 'Facturas de servicio', iconName: 'batch_prediction', url: '/payments/invoices/services' },
+        { title: 'Facturas de producto', iconName: 'eco', url: '/payments/invoices/products' }
+      ]
+    },
     {
       title: 'Productos',
       iconName: 'eco',
