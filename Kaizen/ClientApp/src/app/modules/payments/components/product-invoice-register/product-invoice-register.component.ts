@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { IForm } from '@core/models/form';
+import { buildIsoDate } from '@core/utils/date-utils';
+import { zeroPad } from '@core/utils/number-utils';
+import { Client } from '@modules/clients/models/client';
 import { Product } from '@modules/inventory/products/models/product';
 import { ProductService } from '@modules/inventory/products/services/product.service';
+import { InvoiceState } from '@modules/payments/models/invoice-state';
+import { PaymentMethod } from '@modules/payments/models/payment-method';
+import { ProductInvoice } from '@modules/payments/models/product-invoice';
 import { ProductInvoiceDetail } from '@modules/payments/models/product-invoice-detail';
 import { ProductInvoiceService } from '@modules/payments/services/product-invoice.service';
 import { ObservableStatus } from '@shared/models/observable-with-status';
@@ -22,6 +29,7 @@ export class ProductInvoiceRegisterComponent implements OnInit, IForm {
   subTotal = 0.0;
 
   productInvoiceForm: FormGroup;
+  savingProductInvoice = false;
 
   get controls(): { [p: string]: AbstractControl } {
     return this.productInvoiceForm.controls;
@@ -31,7 +39,8 @@ export class ProductInvoiceRegisterComponent implements OnInit, IForm {
     private productService: ProductService,
     private productInvoiceService: ProductInvoiceService,
     private notificationsService: NotificationsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -50,7 +59,32 @@ export class ProductInvoiceRegisterComponent implements OnInit, IForm {
     });
   }
 
-  onSubmit(): void {}
+  onSubmit(): void {
+    if (this.selectedProducts.length > 0) {
+      const client: Client = JSON.parse(localStorage.getItem('current_person'));
+      const today = new Date();
+      const todayISO = buildIsoDate(today, `${zeroPad(today.getHours(), 2)}:${zeroPad(today.getMinutes(), 2)}`);
+      const productInvoice: ProductInvoice = {
+        state: InvoiceState.Generated,
+        paymentMethod: PaymentMethod.None,
+        generationDate: todayISO,
+        clientId: client.id,
+        productInvoiceDetails: this.selectedProducts
+      };
+
+      this.savingProductInvoice = true;
+      this.productInvoiceService.saveProductInvoice(productInvoice).subscribe((result) => {
+        if (result) {
+          this.notificationsService.showSuccessMessage(
+            'Factura de producto generada con éxito, puede proceder a pagarla.',
+            () => {
+              this.router.navigateByUrl(`payments/pay/product_invoice/${result.id}`);
+            }
+          );
+        }
+      });
+    }
+  }
 
   addProduct(): void {
     if (this.productInvoiceForm.valid) {

@@ -106,7 +106,12 @@
     </mat-card-content>
     <mat-card-actions>
       <div class="form-buttons" *ngIf="selectedProducts.length > 0">
-        <button mat-raised-button class="royal_azure">
+        <button
+          mat-raised-button
+          class="royal_azure"
+          (click)="onSubmit()"
+          [appLoadingButton]="savingProductInvoice"
+        >
           Facturar productos
         </button>
       </div>
