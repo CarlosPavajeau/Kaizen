@@ -15,6 +15,10 @@ export class ProductInvoiceService {
     return this.http.get<ProductInvoice[]>(`${PRODUCT_INVOICES_API_URL}`);
   }
 
+  getClientProductInvoices(clientId: string): Observable<ProductInvoice[]> {
+    return this.http.get<ProductInvoice[]>(`${PRODUCT_INVOICES_API_URL}/ClientInvoices/${clientId}`);
+  }
+
   getProductInvoice(id: number): Observable<ProductInvoice> {
     return this.http.get<ProductInvoice>(`${PRODUCT_INVOICES_API_URL}/${id}`);
   }
