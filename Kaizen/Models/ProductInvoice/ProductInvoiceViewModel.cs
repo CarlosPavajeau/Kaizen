@@ -6,6 +6,7 @@ namespace Kaizen.Models.ProductInvoice
 {
     public class ProductInvoiceViewModel : ProductInvoiceEditModel
     {
+        public int Id { get; set; }
         public string ClientId { get; set; }
 
         public ClientViewModel Client { get; set; }
