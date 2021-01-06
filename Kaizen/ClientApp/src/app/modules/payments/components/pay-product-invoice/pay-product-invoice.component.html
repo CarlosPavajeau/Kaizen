@@ -1,1 +1,236 @@
-<p>pay-product-invoice works!</p>
+<div class="container">
+  <mat-grid-list cols="3" rowHeight="650px">
+    <mat-grid-tile [colspan]="2">
+      <mat-card style="width: 90%" class="mat-elevation-z5">
+        <mat-card-header>
+          <mat-card-title> Pago de factura de productos </mat-card-title>
+          <mat-card-subtitle>
+            Digite los datos de la tarjeta y del titular de la tarjeta para la
+            realización del pago
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="payForm" class="mb-4">
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Nombre y apellidos</mat-label>
+                <input matInput formControlName="cardholderName" />
+                <mat-hint>Digite su nombre completo</mat-hint>
+                <mat-error
+                  *ngIf="controls['cardholderName'].hasError('required')"
+                >
+                  Su nombre y apellidos son necesarios
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input type="email" matInput formControlName="email" />
+                <mat-hint>Digite su dirección de email</mat-hint>
+                <mat-error *ngIf="controls['email'].hasError('required')">
+                  Su dirección de email es necesaria
+                </mat-error>
+                <mat-error *ngIf="controls['email'].hasError('email')">
+                  Debe digitar una dirrección válida
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-row">
+              <div class="form-col">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Tipo de documento</mat-label>
+                    <mat-select id="docType" formControlName="docType">
+                      <mat-option [value]="'CC'">C.C.</mat-option>
+                      <mat-option [value]="'CE'">C.E.</mat-option>
+                      <mat-option [value]="'NIT'">NIT</mat-option>
+                      <mat-option [value]="'Otro'">Otro</mat-option>
+                    </mat-select>
+                    <mat-hint>Selecione su tipo de documento</mat-hint>
+                    <mat-error *ngIf="controls['docType'].hasError('required')">
+                      Debe seleccionar su tipo de documento
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="form-col">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Número de documento</mat-label>
+                    <input type="text" matInput formControlName="docNumber" />
+                    <mat-hint>Digite su número de documento</mat-hint>
+                    <mat-error
+                      *ngIf="controls['docNumber'].hasError('required')"
+                    >
+                      Su documento de identificación es necesario
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="form-element">
+              <mat-form-field>
+                <mat-label>Número de tarjeta</mat-label>
+                <input matInput type="text" formControlName="cardNumber" />
+                <mat-hint>Digite su número de tarjeta</mat-hint>
+                <mat-error *ngIf="controls['cardNumber'].hasError('required')">
+                  Su número de tarjeta es necesario
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-row">
+              <div class="form-col">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Mes y año de vencimiento</mat-label>
+                    <input
+                      matInput
+                      [matDatepicker]="picker"
+                      formControlName="cardExpirationDate"
+                    />
+                    <mat-datepicker-toggle
+                      matSuffix
+                      [for]="picker"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker
+                      #picker
+                      startView="multi-year"
+                      (yearSelected)="chosenYearHandler($event)"
+                      (monthSelected)="chosenMonthHandler($event, picker)"
+                    ></mat-datepicker>
+                    <mat-hint>
+                      Digite la fecha de expiración de la tarjeta
+                    </mat-hint>
+                    <mat-error
+                      *ngIf="
+                        controls['cardExpirationDate'].hasError('required')
+                      "
+                    >
+                      La fecha de expiración es necesaria
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="form-col">
+                <div class="form-element">
+                  <mat-form-field>
+                    <mat-label>Código de seguridad</mat-label>
+                    <input
+                      matInput
+                      formControlName="securityCode"
+                      maxlength="3"
+                    />
+                    <mat-hint>
+                      Digite el código de seguridad de su tarjeta
+                    </mat-hint>
+                    <mat-error
+                      *ngIf="controls['securityCode'].hasError('required')"
+                    >
+                      Su código de seguridad es necesario
+                    </mat-error>
+                    <mat-error
+                      *ngIf="controls['securityCode'].hasError('maxlength')"
+                    >
+                      El código de seguridad no puede exceder 3 caracteres
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </form>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <mat-card class="mat-elevation-z7">
+        <mat-card-header>
+          <mat-card-title> Pago de factura de productos </mat-card-title>
+          <mat-card-subtitle *ngIf="productInvoice">
+            Factura #{{ productInvoice.id }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <ng-container
+            *ngIf="productInvoice$ | observableWithStatus | async as obs"
+            [ngSwitch]="obs.status"
+          >
+            <ng-template [ngSwitchCase]="ObsStatus.Loading">
+              <div class="center-block-content pt-5">
+                <div class="center-flex-content">
+                  <mat-spinner></mat-spinner>
+                </div>
+                <h4 class="text-center mt-4 empty-list-text">
+                  Cargando factura de producto...
+                </h4>
+              </div>
+            </ng-template>
+            <ng-template [ngSwitchCase]="ObsStatus.Success">
+              <div *ngIf="productInvoice">
+                <div>
+                  <mat-list>
+                    <div matSubheader>Productos a facturar</div>
+                    <mat-list-item
+                      *ngFor="
+                        let productInvoiceDetail of productInvoice.productInvoiceDetails
+                      "
+                    >
+                      <div class="icon-text-container">
+                        <mat-icon color="primary">offline_bolt</mat-icon>
+                        <span> {{ productInvoiceDetail.productName }}</span>
+                      </div>
+                    </mat-list-item>
+                  </mat-list>
+                </div>
+                <mat-divider [inset]="true"></mat-divider>
+                <div class="mt-5">
+                  <div class="icon-text-container">
+                    <mat-icon style="color: #138b3b">payments</mat-icon>
+                    <span>
+                      Sub total:
+                      {{
+                        productInvoice.subTotal
+                          | currency: "COP":"symbol-narrow"
+                      }}
+                    </span>
+                  </div>
+                  <div class="icon-text-container">
+                    <mat-icon style="color: #138b3b">shopping_bag</mat-icon>
+                    <span> IVA: {{ productInvoice.iva * 100 }}% </span>
+                  </div>
+                  <div class="icon-text-container">
+                    <mat-icon style="color: #138b3b">monetization_on</mat-icon>
+                    <span>
+                      Total a pagar:
+                      <strong>
+                        {{
+                          productInvoice.total | currency: "COP":"symbol-narrow"
+                        }}
+                      </strong>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </ng-container>
+        </mat-card-content>
+        <mat-card-actions>
+          <div class="form-buttons center-flex-content">
+            <button
+              style="width: 100%"
+              type="submit"
+              mat-raised-button
+              class="royal_azure"
+              (click)="onSubmit()"
+              [disabled]="!payForm.valid"
+              [appLoadingButton]="paymentInProcess"
+            >
+              <mat-icon>attach_money</mat-icon>
+              <span>Pagar factura de productos</span>
+            </button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
