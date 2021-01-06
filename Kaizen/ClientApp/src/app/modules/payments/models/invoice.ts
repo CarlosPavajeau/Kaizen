@@ -3,15 +3,15 @@ import { InvoiceState } from './invoice-state';
 import { PaymentMethod } from './payment-method';
 
 export interface Invoice {
-  id: number;
+  id?: number;
   state: InvoiceState;
   paymentMethod: PaymentMethod;
   generationDate: Date;
-  paymentDate: Date;
+  paymentDate?: Date;
 
   client?: Client;
 
-  iva: number;
-  subTotal: number;
-  total: number;
+  iva?: number;
+  subTotal?: number;
+  total?: number;
 }

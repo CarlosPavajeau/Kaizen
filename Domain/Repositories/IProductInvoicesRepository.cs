@@ -10,5 +10,7 @@ namespace Kaizen.Domain.Repositories
         new Task Insert(ProductInvoice entity);
 
         Task<IEnumerable<ProductInvoice>> GetPendingExpiredProductInvoices();
+
+        Task<IEnumerable<ProductInvoice>> GetClientInvoices(string clientId);
     }
 }
