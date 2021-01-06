@@ -22,6 +22,15 @@ namespace Kaizen.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<ProductInvoice>> GetClientInvoices(string clientId)
+        {
+            return await GetAll()
+                .Include(s => s.ProductInvoiceDetails)
+                .Include(s => s.Client)
+                .Where(s => s.ClientId == clientId)
+                .ToListAsync();
+        }
+
         async Task IProductInvoicesRepository.Insert(ProductInvoice entity)
         {
             entity.GenerationDate = DateTime.Now;

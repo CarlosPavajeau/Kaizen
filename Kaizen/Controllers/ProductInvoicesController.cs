@@ -50,6 +50,13 @@ namespace Kaizen.Controllers
             return _mapper.Map<ProductInvoiceViewModel>(productInvoice);
         }
 
+        [HttpGet("[action]/{id}")]
+        public async Task<ActionResult<IEnumerable<ProductInvoiceViewModel>>> ClientInvoices(string id)
+        {
+            var productInvoices = await _productInvoicesRepository.GetClientInvoices(id);
+            return Ok(_mapper.Map<IEnumerable<ProductInvoiceViewModel>>(productInvoices));
+        }
+
         [HttpPut("{id}")]
         public async Task<ActionResult<ProductInvoiceViewModel>> PutProductInvoice(int id, ProductInvoiceEditModel productInvoiceModel)
         {
