@@ -42,7 +42,6 @@
 
   <ItemGroup>
     <Folder Include="Identity\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
