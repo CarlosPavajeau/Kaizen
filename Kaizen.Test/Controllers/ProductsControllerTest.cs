@@ -30,10 +30,12 @@ namespace Kaizen.Test.Controllers
 
             _productsController = new ProductsController(_productsRepository.Object, _unitWork.Object,
                 ServiceProvider.GetService<IMapper>());
+
+            SetUpProductsRepository();
+            SetUpUnitWork();
         }
 
-        [Test]
-        public async Task GetProducts()
+        private void SetUpProductsRepository()
         {
             _productsRepository.Setup(r => r.GetAll()).Returns(new TestAsyncEnumerable<Product>(new List<Product>
             {
@@ -51,6 +53,26 @@ namespace Kaizen.Test.Controllers
                 }
             }).AsQueryable());
 
+            _productsRepository.Setup(r => r.FindByIdAsync("123")).ReturnsAsync(new Product
+            {
+                Code = "123",
+                Name = "Pesticida"
+            });
+            _productsRepository.Setup(r => r.FindByIdAsync("321")).ReturnsAsync((Product)null);
+
+            _productsRepository.Setup(r => r.Update(It.IsAny<Product>())).Verifiable();
+
+            _productsRepository.Setup(r => r.Insert(It.IsAny<Product>())).Verifiable();
+        }
+
+        private void SetUpUnitWork()
+        {
+            _unitWork.Setup(r => r.SaveAsync()).Returns(Task.CompletedTask);
+        }
+
+        [Test]
+        public async Task GetProducts()
+        {
             OkObjectResult result = (await _productsController.GetProducts()).Result as OkObjectResult;
 
             Assert.NotNull(result);
@@ -60,12 +82,6 @@ namespace Kaizen.Test.Controllers
         [Test]
         public async Task Get_Existing_Product()
         {
-            _productsRepository.Setup(r => r.FindByIdAsync("123")).ReturnsAsync(new Product
-            {
-                Code = "123",
-                Name = "Pesticida"
-            });
-
             ActionResult<ProductViewModel> result = await _productsController.GetProduct("123");
 
             Assert.NotNull(result);
@@ -75,8 +91,6 @@ namespace Kaizen.Test.Controllers
         [Test]
         public async Task Get_Non_Existent_Product()
         {
-            _productsRepository.Setup(r => r.FindByIdAsync("321")).ReturnsAsync((Product)null);
-
             ActionResult<ProductViewModel> result = await _productsController.GetProduct("321");
 
             Assert.NotNull(result);
@@ -87,22 +101,6 @@ namespace Kaizen.Test.Controllers
         [Test]
         public async Task Check_Product_Exists()
         {
-            _productsRepository.Setup(r => r.GetAll()).Returns(new TestAsyncEnumerable<Product>(new List<Product>
-            {
-                new()
-                {
-                    Code = "123",
-                    Name = "Pesticida",
-                    Amount = 30
-                },
-                new()
-                {
-                    Code = "321",
-                    Name = "Pesticida de insectos",
-                    Amount = 50
-                }
-            }).AsQueryable());
-
             bool result = await _productsController.CheckExists("123");
 
             Assert.NotNull(result);
@@ -112,14 +110,6 @@ namespace Kaizen.Test.Controllers
         [Test]
         public async Task Update_Existing_Product()
         {
-            _productsRepository.Setup(r => r.FindByIdAsync("123")).ReturnsAsync(new Product
-            {
-                Code = "123",
-                Name = "Pesticida"
-            });
-            _productsRepository.Setup(r => r.Update(It.IsAny<Product>())).Verifiable();
-            _unitWork.Setup(r => r.SaveAsync()).Returns(Task.CompletedTask);
-
             ActionResult<ProductViewModel> result = await _productsController.PutProduct("123", new ProductEditModel
             {
                 Name = "Pesticida de insectos"
@@ -133,9 +123,7 @@ namespace Kaizen.Test.Controllers
         [Test]
         public async Task Update_Non_Existent_Product()
         {
-            _productsRepository.Setup(r => r.FindByIdAsync("321")).ReturnsAsync((Product)null);
-
-            ActionResult<ProductViewModel> result = await _productsController.PutProduct("123", new ProductEditModel
+            ActionResult<ProductViewModel> result = await _productsController.PutProduct("321", new ProductEditModel
             {
                 Name = "Pesticida de insectos"
             });
@@ -148,9 +136,6 @@ namespace Kaizen.Test.Controllers
         [Test]
         public async Task Save_New_Product()
         {
-            _productsRepository.Setup(r => r.Insert(It.IsAny<Product>())).Verifiable();
-            _unitWork.Setup(r => r.SaveAsync()).Returns(Task.CompletedTask);
-
             ActionResult<ProductViewModel> result = await _productsController.PostProduct(new ProductInputModel
             {
                 Code = "123",
@@ -165,23 +150,6 @@ namespace Kaizen.Test.Controllers
         [Test]
         public async Task Save_Existing_Product()
         {
-            _productsRepository.Setup(r => r.GetAll()).Returns(new TestAsyncEnumerable<Product>(new List<Product>
-            {
-                new()
-                {
-                    Code = "123",
-                    Name = "Pesticida",
-                    Amount = 30
-                },
-                new()
-                {
-                    Code = "321",
-                    Name = "Pesticida de insectos",
-                    Amount = 50
-                }
-            }).AsQueryable());
-
-            _productsRepository.Setup(r => r.Insert(It.IsAny<Product>())).Verifiable();
             _unitWork.Setup(r => r.SaveAsync()).Throws(new DbUpdateException());
 
             ActionResult<ProductViewModel> result = await _productsController.PostProduct(new ProductInputModel
