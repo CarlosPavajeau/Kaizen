@@ -24,6 +24,10 @@ namespace Kaizen.Infrastructure.Extensions
 {
     public static class ServiceCollectionExtensions
     {
+        private const string TermsOfServiceUri = "https://cla.dotnetfoundation.org/";
+        private const string ContactUrl = "https://github.com/cantte/";
+        private const string LicenseUrl = "https://www.byasystems.co/license";
+
         public static void AddIdentityConfig(this IServiceCollection services)
         {
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -64,17 +68,17 @@ namespace Kaizen.Infrastructure.Extensions
                     Version = "v1",
                     Title = "Ecolplag API",
                     Description = "Ecolplag API - ASP.NET Core Web",
-                    TermsOfService = new Uri("https://cla.dotnetfoundation.org/"),
+                    TermsOfService = new Uri(TermsOfServiceUri),
                     Contact = new OpenApiContact
                     {
                         Name = "Carlos Andrés Pavajeau Max",
-                        Email = "cantte098@gmial.com",
-                        Url = new Uri("https://github.com/cantte/")
+                        Email = "cantte098@gmail.com",
+                        Url = new Uri(ContactUrl)
                     },
                     License = new OpenApiLicense
                     {
                         Name = "Dotnet foundation license",
-                        Url = new Uri("https://www.byasystems.co/license")
+                        Url = new Uri(LicenseUrl)
                     }
                 });
 
