@@ -133,7 +133,7 @@ namespace Kaizen.Test.Controllers
         }
 
         [Test]
-        public async Task Get_Existing_tClient()
+        public async Task Get_Existing_Client()
         {
             ActionResult<ClientViewModel> result = await _clientsController.GetClient("1007870945");
 
