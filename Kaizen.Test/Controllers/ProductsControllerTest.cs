@@ -75,8 +75,8 @@ namespace Kaizen.Test.Controllers
         {
             OkObjectResult result = (await _productsController.GetProducts()).Result as OkObjectResult;
 
-            Assert.NotNull(result);
-            Assert.NotNull(result.Value);
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Value);
         }
 
         [Test]
@@ -84,8 +84,8 @@ namespace Kaizen.Test.Controllers
         {
             ActionResult<ProductViewModel> result = await _productsController.GetProduct("123");
 
-            Assert.NotNull(result);
-            Assert.NotNull(result.Value);
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Value);
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace Kaizen.Test.Controllers
         {
             ActionResult<ProductViewModel> result = await _productsController.GetProduct("321");
 
-            Assert.NotNull(result);
+            Assert.IsNotNull(result);
             Assert.IsNull(result.Value);
             Assert.IsInstanceOf<NotFoundObjectResult>(result.Result);
         }
@@ -103,7 +103,7 @@ namespace Kaizen.Test.Controllers
         {
             bool result = await _productsController.CheckExists("123");
 
-            Assert.NotNull(result);
+            Assert.IsNotNull(result);
             Assert.IsTrue(result);
         }
 
@@ -115,8 +115,8 @@ namespace Kaizen.Test.Controllers
                 Name = "Pesticida de insectos"
             });
 
-            Assert.NotNull(result);
-            Assert.NotNull(result.Value);
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Value);
             Assert.AreEqual("Pesticida de insectos", result.Value.Name);
         }
 
@@ -128,7 +128,7 @@ namespace Kaizen.Test.Controllers
                 Name = "Pesticida de insectos"
             });
 
-            Assert.NotNull(result);
+            Assert.IsNotNull(result);
             Assert.Null(result.Value);
             Assert.IsInstanceOf<BadRequestObjectResult>(result.Result);
         }
@@ -143,8 +143,8 @@ namespace Kaizen.Test.Controllers
                 Amount = 3
             });
 
-            Assert.NotNull(result);
-            Assert.NotNull(result.Value);
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Value);
         }
 
         [Test]
@@ -159,7 +159,7 @@ namespace Kaizen.Test.Controllers
                 Amount = 3
             });
 
-            Assert.NotNull(result);
+            Assert.IsNotNull(result);
             Assert.IsNull(result.Value);
             Assert.IsInstanceOf<ConflictObjectResult>(result.Result);
         }
