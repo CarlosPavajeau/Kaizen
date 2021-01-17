@@ -6,11 +6,13 @@ using AutoMapper;
 using Kaizen.Controllers;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
+using Kaizen.Infrastructure.Identity;
 using Kaizen.Models.ApplicationUser;
 using Kaizen.Models.Employee;
 using Kaizen.Test.Helpers;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
@@ -34,10 +36,13 @@ namespace Kaizen.Test.Controllers
 
             _employeesController = new EmployeesController(_employeesRepository.Object,
                 _applicationUserRepository.Object, _unitWork.Object, ServiceProvider.GetService<IMapper>());
+
+            SetUpEmployeesRepository();
+            SetUpApplicationUserRepository();
+            SetUpUnitWork();
         }
 
-        [Test]
-        public async Task GetEmployees()
+        private void SetUpEmployeesRepository()
         {
             _employeesRepository.Setup(r => r.GetAll()).Returns(new TestAsyncEnumerable<Employee>(new[]
             {
@@ -53,16 +58,6 @@ namespace Kaizen.Test.Controllers
                 }
             }).AsQueryable());
 
-            OkObjectResult result = (await _employeesController.GetEmployees()).Result as OkObjectResult;
-
-            Assert.NotNull(result);
-            Assert.NotNull(result.Value);
-            Assert.IsInstanceOf<IEnumerable<EmployeeViewModel>>(result.Value);
-        }
-
-        [Test]
-        public async Task GetTechnicians()
-        {
             _employeesRepository.Setup(r => r.GetTechnicians()).ReturnsAsync(new[]
             {
                 new Employee
@@ -77,16 +72,6 @@ namespace Kaizen.Test.Controllers
                 }
             });
 
-            OkObjectResult result = (await _employeesController.Technicians()).Result as OkObjectResult;
-
-            Assert.NotNull(result);
-            Assert.NotNull(result.Value);
-            Assert.IsInstanceOf<IEnumerable<EmployeeViewModel>>(result.Value);
-        }
-
-        [Test]
-        public async Task GetTechniciansAvailable()
-        {
             _employeesRepository.Setup(r => r.GetTechniciansAvailable(It.IsAny<DateTime>(), It.IsAny<string[]>()))
                 .ReturnsAsync(new[]
                 {
@@ -102,17 +87,6 @@ namespace Kaizen.Test.Controllers
                     }
                 });
 
-            OkObjectResult result =
-                (await _employeesController.TechniciansAvailable(DateTime.Now, "132,EER2")).Result as OkObjectResult;
-
-            Assert.NotNull(result);
-            Assert.NotNull(result.Value);
-            Assert.IsInstanceOf<IEnumerable<EmployeeViewModel>>(result.Value);
-        }
-
-        [Test]
-        public async Task GetEmployeeCharges()
-        {
             _employeesRepository.Setup(r => r.GetAllEmployeeCharges()).Returns(new TestAsyncEnumerable<EmployeeCharge>(
                 new[]
                 {
@@ -123,90 +97,178 @@ namespace Kaizen.Test.Controllers
                     }
                 }).AsQueryable());
 
+            _employeesRepository.Setup(r => r.FindByIdAsync("32752431")).ReturnsAsync(new Employee
+            {
+                Id = "32752431",
+                FirstName = "Juan"
+            });
+            _employeesRepository.Setup(r => r.FindByIdAsync("32752432")).ReturnsAsync((Employee)null);
+
+            _employeesRepository.Setup(r => r.EmployeeContractAlreadyExists(It.IsAny<string>())).ReturnsAsync(true);
+
+            _employeesRepository.Setup(r => r.Update(It.IsAny<Employee>())).Verifiable();
+            _employeesRepository.Setup(r => r.Insert(It.IsAny<Employee>())).Verifiable();
+        }
+
+        private void SetUpApplicationUserRepository()
+        {
+
+            _applicationUserRepository.Setup(r => r.CreateAsync(It.Is<ApplicationUser>(a => a.UserName == "employee"),
+                    It.IsAny<string>()))
+                .ReturnsAsync(IdentityResult.Success);
+
+            _applicationUserRepository.Setup(r => r.CreateAsync(It.Is<ApplicationUser>(a => a.UserName == "admin"),
+                    It.IsAny<string>()))
+                .ReturnsAsync(IdentityResult.Failed(new SpanishIdentityErrorDescriber().DuplicateUserName("admin")));
+
+            _applicationUserRepository.Setup(r => r.AddToRoleAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
+                .ReturnsAsync(IdentityResult.Success);
+        }
+
+        private void SetUpUnitWork()
+        {
+            _unitWork.Setup(r => r.SaveAsync()).Returns(Task.CompletedTask);
+        }
+
+        [Test]
+        public async Task Get_All_Employees()
+        {
+            OkObjectResult result = (await _employeesController.GetEmployees()).Result as OkObjectResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Value);
+            Assert.IsInstanceOf<IEnumerable<EmployeeViewModel>>(result.Value);
+        }
+
+        [Test]
+        public async Task Get_All_Technicians()
+        {
+            OkObjectResult result = (await _employeesController.Technicians()).Result as OkObjectResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Value);
+            Assert.IsInstanceOf<IEnumerable<EmployeeViewModel>>(result.Value);
+        }
+
+        [Test]
+        public async Task Get_All_Technicians_Available()
+        {
+            OkObjectResult result =
+                (await _employeesController.TechniciansAvailable(DateTime.Now, "132,EER2")).Result as OkObjectResult;
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Value);
+            Assert.IsInstanceOf<IEnumerable<EmployeeViewModel>>(result.Value);
+        }
+
+        [Test]
+        public async Task Get_All_Employee_Charges()
+        {
             OkObjectResult result = (await _employeesController.EmployeeCharges()).Result as OkObjectResult;
 
-            Assert.NotNull(result);
-            Assert.NotNull(result.Value);
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Value);
             Assert.IsInstanceOf<IEnumerable<EmployeeChargeViewModel>>(result.Value);
         }
 
         [Test]
-        public async Task GetEmployee()
+        public async Task Get_Existing_Employee()
         {
-            _employeesRepository.Setup(r => r.FindByIdAsync("32752431")).ReturnsAsync(new Employee
-            {
-                Id = "32752431",
-                FirstName = "Juan"
-            });
-
             ActionResult<EmployeeViewModel> result = await _employeesController.GetEmployee("32752431");
 
-            Assert.NotNull(result);
-            Assert.NotNull(result.Value);
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Value);
         }
 
         [Test]
-        public async Task CheckExists()
+        public async Task Get_Non_Existent_Employee()
         {
-            _employeesRepository.Setup(r => r.GetAll()).Returns(new TestAsyncEnumerable<Employee>(new[]
-            {
-                new Employee
-                {
-                    Id = "32752431",
-                    FirstName = "Pedro"
-                }
-            }).AsQueryable());
+            ActionResult<EmployeeViewModel> result = await _employeesController.GetEmployee("32752432");
 
-            var result = await _employeesController.CheckExists("32752431");
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.Value);
+            Assert.IsInstanceOf<NotFoundObjectResult>(result.Result);
+        }
 
-            Assert.NotNull(result);
-            Assert.NotNull(result.Value);
+        [Test]
+        public async Task Check_If_Employee_Exists()
+        {
+            ActionResult<bool> result = await _employeesController.CheckExists("32752431");
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Value);
             Assert.IsTrue(result.Value);
         }
 
         [Test]
-        public async Task PutEmployee()
+        public async Task Update_Existing_Employee()
         {
-            _employeesRepository.Setup(r => r.FindByIdAsync("32752431")).ReturnsAsync(new Employee
-            {
-                Id = "32752431",
-                FirstName = "Juan"
-            });
-            _employeesRepository.Setup(r => r.EmployeeContractAlreadyExists(It.IsAny<string>())).ReturnsAsync(true);
-            _employeesRepository.Setup(r => r.Update(It.IsAny<Employee>())).Verifiable();
-
-            _unitWork.Setup(r => r.SaveAsync()).Returns(Task.CompletedTask);
-
             ActionResult<EmployeeViewModel> result = await _employeesController.PutEmployee("32752431", new EmployeeEditModel
             {
                 FirstName = "Pedro"
             });
 
-            Assert.NotNull(result);
-            Assert.NotNull(result.Value);
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Value);
             Assert.AreEqual("Pedro", result.Value.FirstName);
         }
 
         [Test]
-        public async Task PostEmployee()
+        public async Task Update_Non_Existent_Employee()
         {
-            _employeesRepository.Setup(r => r.GetAllEmployeeCharges()).Returns(new TestAsyncEnumerable<EmployeeCharge>(
-                new[]
+            ActionResult<EmployeeViewModel> result = await _employeesController.PutEmployee("32752432", new EmployeeEditModel
+            {
+                FirstName = "Pedro"
+            });
+
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.Value);
+            Assert.IsInstanceOf<BadRequestObjectResult>(result.Result);
+        }
+
+        [Test]
+        public async Task Save_New_Employee_With_New_Username()
+        {
+            ActionResult<EmployeeViewModel> result = await _employeesController.PostEmployee(new EmployeeInputModel
+            {
+                Id = "32752432",
+                FirstName = "Pedro",
+                ChargeId = 1,
+                User = new ApplicationUserInputModel
                 {
-                    new EmployeeCharge
-                    {
-                        Id = 1,
-                        Charge = "Administrador"
-                    }
-                }).AsQueryable());
-            _employeesRepository.Setup(r => r.Insert(It.IsAny<Employee>())).Verifiable();
+                    Username = "employee",
+                    Password = "ThisIsASecurePassword"
+                }
+            });
 
-            _applicationUserRepository.Setup(r => r.CreateAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
-                .ReturnsAsync(IdentityResult.Success);
-            _applicationUserRepository.Setup(r => r.AddToRoleAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
-                .ReturnsAsync(IdentityResult.Success);
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Value);
+        }
 
-            _unitWork.Setup(r => r.SaveAsync()).Returns(Task.CompletedTask);
+        [Test]
+        public async Task Save_New_Employee_With_An_Existing_Username()
+        {
+            ActionResult<EmployeeViewModel> result = await _employeesController.PostEmployee(new EmployeeInputModel
+            {
+                Id = "32752432",
+                FirstName = "Pedro",
+                ChargeId = 1,
+                User = new ApplicationUserInputModel
+                {
+                    Username = "admin",
+                    Password = "ThisIsASecurePassword"
+                }
+            });
+
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.Value);
+            Assert.IsInstanceOf<BadRequestObjectResult>(result.Result);
+        }
+
+        [Test]
+        public async Task Save_Existing_Employee()
+        {
+            _unitWork.Setup(r => r.SaveAsync()).Throws(new DbUpdateException());
 
             ActionResult<EmployeeViewModel> result = await _employeesController.PostEmployee(new EmployeeInputModel
             {
@@ -220,8 +282,9 @@ namespace Kaizen.Test.Controllers
                 }
             });
 
-            Assert.NotNull(result);
-            Assert.NotNull(result.Value);
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.Value);
+            Assert.IsInstanceOf<ConflictObjectResult>(result.Result);
         }
     }
 }
