@@ -7,6 +7,7 @@ using Kaizen.Domain.Repositories;
 using Kaizen.Models.Equipment;
 using Kaizen.Test.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
@@ -28,10 +29,12 @@ namespace Kaizen.Test.Controllers
 
             _equipmentsController = new EquipmentsController(_equipmentsRepository.Object, _unitWork.Object,
                 ServiceProvider.GetService<IMapper>());
+
+            SetUpEquipmentsRepository();
+            SetUpUnitWork();
         }
 
-        [Test]
-        public async Task GetEquipments()
+        private void SetUpEquipmentsRepository()
         {
             _equipmentsRepository.Setup(r => r.GetAll()).Returns(new TestAsyncEnumerable<Equipment>(new List<Equipment>
             {
@@ -47,85 +50,112 @@ namespace Kaizen.Test.Controllers
                 }
             }));
 
-            OkObjectResult result = (await _equipmentsController.GetEquipments()).Result as OkObjectResult;
-
-            Assert.NotNull(result);
-            Assert.NotNull(result.Value);
-        }
-
-        [Test]
-        public async Task GetEquipment()
-        {
             _equipmentsRepository.Setup(r => r.FindByIdAsync("EER2")).ReturnsAsync(new Equipment
             {
                 Code = "EER2",
                 Name = "Rociador"
             });
+            _equipmentsRepository.Setup(r => r.FindByIdAsync("FF23")).ReturnsAsync((Equipment)null);
 
-            ActionResult<EquipmentViewModel> result = await _equipmentsController.GetEquipment("EER2");
+            _equipmentsRepository.Setup(r => r.Update(It.IsAny<Equipment>())).Verifiable();
+            _equipmentsRepository.Setup(r => r.Insert(It.IsAny<Equipment>())).Verifiable();
+        }
 
-            Assert.NotNull(result);
-            Assert.NotNull(result.Value);
+        private void SetUpUnitWork()
+        {
+            _unitWork.Setup(r => r.SaveAsync()).Returns(Task.CompletedTask);
         }
 
         [Test]
-        public async Task CheckExists()
+        public async Task Get_All_Equipments()
         {
-            _equipmentsRepository.Setup(r => r.GetAll()).Returns(new TestAsyncEnumerable<Equipment>(new List<Equipment>
-            {
-                new()
-                {
-                    Code = "EER2",
-                    Name = "Rociador"
-                },
-                new()
-                {
-                    Code = "FFR3",
-                    Name = "Tijeras"
-                }
-            }));
+            OkObjectResult result = (await _equipmentsController.GetEquipments()).Result as OkObjectResult;
 
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Value);
+        }
+
+        [Test]
+        public async Task Get_Existing_Equipment()
+        {
+            ActionResult<EquipmentViewModel> result = await _equipmentsController.GetEquipment("EER2");
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Value);
+        }
+
+        [Test]
+        public async Task Get_Non_Existent_Equipment()
+        {
+            var result = await _equipmentsController.GetEquipment("FF23");
+
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.Value);
+            Assert.IsInstanceOf<NotFoundObjectResult>(result.Result);
+        }
+
+        [Test]
+        public async Task Check_If_Equipment_Exists()
+        {
             bool result = await _equipmentsController.CheckExists("EER2");
 
-            Assert.NotNull(result);
+            Assert.IsNotNull(result);
             Assert.IsTrue(result);
         }
 
         [Test]
-        public async Task PutEquipment()
+        public async Task Update_Existing_Equipment()
         {
-            _equipmentsRepository.Setup(r => r.FindByIdAsync("EER2")).ReturnsAsync(new Equipment
-            {
-                Code = "EER2",
-                Name = "Rociador"
-            });
-            _equipmentsRepository.Setup(r => r.Update(It.IsAny<Equipment>())).Verifiable();
-            _unitWork.Setup(r => r.SaveAsync()).Returns(Task.CompletedTask);
-
             ActionResult<EquipmentViewModel> result = await _equipmentsController.PutEquipment("EER2", new EquipmentEditModel
             {
                 Name = "Rociador de pesticida"
             });
 
-            Assert.NotNull(result);
-            Assert.NotNull(result.Value);
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Value);
             Assert.AreEqual("Rociador de pesticida", result.Value.Name);
         }
 
         [Test]
-        public async Task PostEquipment()
+        public async Task Update_Non_Existent_Equipment()
         {
-            _equipmentsRepository.Setup(r => r.Insert(It.IsAny<Equipment>())).Verifiable();
-            _unitWork.Setup(r => r.SaveAsync()).Returns(Task.CompletedTask);
+            ActionResult<EquipmentViewModel> result = await _equipmentsController.PutEquipment("FF23", new EquipmentEditModel
+            {
+                Name = "Rociador de pesticida"
+            });
 
-            var result = await _equipmentsController.PostEquipment(new EquipmentInputModel()
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.Value);
+            Assert.IsInstanceOf<BadRequestObjectResult>(result.Result);
+        }
+
+        [Test]
+        public async Task Save_New_Equipment()
+        {
+            ActionResult<EquipmentViewModel> result = await _equipmentsController.PostEquipment(new EquipmentInputModel
             {
                 Code = "EERT5",
                 Name = "Rociador"
             });
 
-            Assert.NotNull(result);
-            Assert.NotNull(result.Value);
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Value);
+        }
+
+        [Test]
+        public async Task Save_Existing_Equipment()
+        {
+            _unitWork.Setup(r => r.SaveAsync()).Throws(new DbUpdateException());
+
+            ActionResult<EquipmentViewModel> result = await _equipmentsController.PostEquipment(new EquipmentInputModel
+            {
+                Code = "EER2",
+                Name = "Rociador"
+            });
+
+            Assert.IsNotNull(result);
+            Assert.IsNull(result.Value);
+            Assert.IsInstanceOf<ConflictObjectResult>(result.Result);
         }
     }
 }
