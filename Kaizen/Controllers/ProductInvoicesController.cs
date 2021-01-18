@@ -7,7 +7,8 @@ using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.Models.Base;
 using Kaizen.Models.ProductInvoice;
-using MercadoPagoCore.Resources;
+using MercadoPagoCore.Client.Payment;
+using MercadoPagoCore.Resource.Payment;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,12 +23,14 @@ namespace Kaizen.Controllers
         private readonly IProductInvoicesRepository _productInvoicesRepository;
         private readonly IUnitWork _unitWork;
         private readonly IMapper _mapper;
+        private readonly PaymentClient _paymentClient;
 
-        public ProductInvoicesController(IProductInvoicesRepository productInvoicesRepository, IUnitWork unitWork, IMapper mapper)
+        public ProductInvoicesController(IProductInvoicesRepository productInvoicesRepository, IUnitWork unitWork, IMapper mapper, PaymentClient paymentClient)
         {
             _productInvoicesRepository = productInvoicesRepository;
             _unitWork = unitWork;
             _mapper = mapper;
+            _paymentClient = paymentClient;
         }
 
         [HttpGet]
@@ -53,7 +56,7 @@ namespace Kaizen.Controllers
         [HttpGet("[action]/{id}")]
         public async Task<ActionResult<IEnumerable<ProductInvoiceViewModel>>> ClientInvoices(string id)
         {
-            var productInvoices = await _productInvoicesRepository.GetClientInvoices(id);
+            IEnumerable<ProductInvoice> productInvoices = await _productInvoicesRepository.GetClientInvoices(id);
             return Ok(_mapper.Map<IEnumerable<ProductInvoiceViewModel>>(productInvoices));
         }
 
@@ -100,14 +103,14 @@ namespace Kaizen.Controllers
 
             productInvoice.CalculateTotal();
 
-            Payment payment = new Payment
+            PaymentCreateRequest paymentCreateRequest = new PaymentCreateRequest
             {
                 Token = paymentModel.Token,
                 PaymentMethodId = paymentModel.PaymentMethodId,
-                TransactionAmount = (float?)productInvoice.Total,
+                TransactionAmount = productInvoice.Total,
                 Description = $"Pay or product invoice {id}",
                 Installments = 1,
-                Payer = new MercadoPagoCore.DataStructures.Payment.Payer
+                Payer = new PaymentPayerRequest
                 {
                     FirstName = productInvoice.Client.FirstName,
                     LastName = productInvoice.Client.LastName,
@@ -115,34 +118,34 @@ namespace Kaizen.Controllers
                 }
             };
 
-            if (payment.Save() && payment.Status == MercadoPagoCore.Common.PaymentStatus.approved)
+            Payment payment = await _paymentClient.CreateAsync(paymentCreateRequest);
+
+            if (payment.Status == PaymentStatus.Rejected)
             {
-                productInvoice.State = InvoiceState.Paid;
-                productInvoice.PaymentDate = DateTime.Now;
-                productInvoice.PaymentMethod = Domain.Entities.PaymentMethod.CreditCard;
-
-                _productInvoicesRepository.Update(productInvoice);
-
-                try
-                {
-                    await _unitWork.SaveAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductInvoiceExists(id))
-                    {
-                        return NotFound($"Error de actualizacón. No existe ninguna factura de producto con el código {id}.");
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
-                return _mapper.Map<ProductInvoiceViewModel>(productInvoice);
+                return BadRequest("El pago no pudo ser procesado.");
             }
 
-            return BadRequest(payment.Errors.Value);
+            productInvoice.State = InvoiceState.Paid;
+            productInvoice.PaymentDate = DateTime.Now;
+            productInvoice.PaymentMethod = PaymentMethod.CreditCard;
+
+            _productInvoicesRepository.Update(productInvoice);
+
+            try
+            {
+                await _unitWork.SaveAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProductInvoiceExists(id))
+                {
+                    return NotFound($"Error de actualizacón. No existe ninguna factura de producto con el código {id}.");
+                }
+
+                throw;
+            }
+
+            return _mapper.Map<ProductInvoiceViewModel>(productInvoice);
         }
 
         [HttpPost]

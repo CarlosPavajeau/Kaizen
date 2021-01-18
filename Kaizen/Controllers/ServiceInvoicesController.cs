@@ -8,8 +8,8 @@ using Kaizen.Domain.Events;
 using Kaizen.Domain.Repositories;
 using Kaizen.Models.Base;
 using Kaizen.Models.ServiceInvoice;
-using MercadoPagoCore.Common;
-using MercadoPagoCore.Resources;
+using MercadoPagoCore.Client.Payment;
+using MercadoPagoCore.Resource.Payment;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,12 +24,14 @@ namespace Kaizen.Controllers
         private readonly IServiceInvoicesRepository _serviceInvoicesRepository;
         private readonly IUnitWork _unitWork;
         private readonly IMapper _mapper;
+        private readonly PaymentClient _paymentClient;
 
-        public ServiceInvoicesController(IServiceInvoicesRepository serviceInvoicesRepository, IUnitWork unitWork, IMapper mapper)
+        public ServiceInvoicesController(IServiceInvoicesRepository serviceInvoicesRepository, IUnitWork unitWork, IMapper mapper, PaymentClient paymentClient)
         {
             _serviceInvoicesRepository = serviceInvoicesRepository;
             _unitWork = unitWork;
             _mapper = mapper;
+            _paymentClient = paymentClient;
         }
 
         [HttpGet]
@@ -102,14 +104,14 @@ namespace Kaizen.Controllers
 
             serviceInvoice.CalculateTotal();
 
-            Payment payment = new Payment
+            PaymentCreateRequest paymentCreateRequest = new PaymentCreateRequest
             {
                 Token = paymentModel.Token,
                 PaymentMethodId = paymentModel.PaymentMethodId,
-                TransactionAmount = (float?)serviceInvoice.Total,
+                TransactionAmount = serviceInvoice.Total,
                 Description = $"Pay of service invoice {serviceInvoice.Id}",
                 Installments = 1,
-                Payer = new MercadoPagoCore.DataStructures.Payment.Payer
+                Payer = new PaymentPayerRequest
                 {
                     FirstName = serviceInvoice.Client.FirstName,
                     LastName = serviceInvoice.Client.LastName,
@@ -117,35 +119,35 @@ namespace Kaizen.Controllers
                 }
             };
 
-            if (payment.Save() && payment.Status == PaymentStatus.approved)
+            Payment payment = await _paymentClient.CreateAsync(paymentCreateRequest);
+
+            if (payment.Status == PaymentStatus.Rejected)
             {
-                serviceInvoice.State = InvoiceState.Paid;
-                serviceInvoice.PaymentDate = DateTime.Now;
-                serviceInvoice.PaymentMethod = Domain.Entities.PaymentMethod.CreditCard;
-
-                serviceInvoice.PublishEvent(new PaidInvoice(serviceInvoice));
-                _serviceInvoicesRepository.Update(serviceInvoice);
-
-                try
-                {
-                    await _unitWork.SaveAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ServiceInvoiceExists(id))
-                    {
-                        return NotFound($"Error de actualizacón. No existe ninguna factura de servicio con el código {id}.");
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
-                return _mapper.Map<ServiceInvoiceViewModel>(serviceInvoice);
+                return BadRequest("El pago no pudo ser procesado.");
             }
 
-            return BadRequest(payment.Errors.Value);
+            serviceInvoice.State = InvoiceState.Paid;
+            serviceInvoice.PaymentDate = DateTime.Now;
+            serviceInvoice.PaymentMethod = PaymentMethod.CreditCard;
+
+            serviceInvoice.PublishEvent(new PaidInvoice(serviceInvoice));
+            _serviceInvoicesRepository.Update(serviceInvoice);
+
+            try
+            {
+                await _unitWork.SaveAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ServiceInvoiceExists(id))
+                {
+                    return NotFound($"Error de actualizacón. No existe ninguna factura de servicio con el código {id}.");
+                }
+
+                throw;
+            }
+
+            return _mapper.Map<ServiceInvoiceViewModel>(serviceInvoice);
         }
 
         private bool ServiceInvoiceExists(int id)

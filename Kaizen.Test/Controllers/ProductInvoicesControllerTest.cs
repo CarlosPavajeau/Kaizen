@@ -8,6 +8,7 @@ using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.Models.ProductInvoice;
 using Kaizen.Test.Helpers;
+using MercadoPagoCore.Client.Payment;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -21,15 +22,17 @@ namespace Kaizen.Test.Controllers
         private ProductInvoicesController _productInvoicesController;
         private Mock<IProductInvoicesRepository> _productInvoicesRepository;
         private Mock<IUnitWork> _unitWork;
+        private Mock<PaymentClient> _paymentClient;
 
         [SetUp]
         public void SetUp()
         {
             _productInvoicesRepository = new Mock<IProductInvoicesRepository>();
             _unitWork = new Mock<IUnitWork>();
+            _paymentClient = new Mock<PaymentClient>();
 
             _productInvoicesController = new ProductInvoicesController(_productInvoicesRepository.Object,
-                _unitWork.Object, ServiceProvider.GetService<IMapper>());
+                _unitWork.Object, ServiceProvider.GetService<IMapper>(), _paymentClient.Object);
 
             SetUpProductInvoicesRepository();
             SetUpUnitWork();
