@@ -43,6 +43,7 @@ namespace Kaizen
             services.ConfigureDomainEventDispatcher();
             services.ConfigureGlobalFilters();
             services.ConfigureApplicationServices();
+            services.ConfigureHostedServices();
 
             services.AddCors();
             services.AddSignalR();
