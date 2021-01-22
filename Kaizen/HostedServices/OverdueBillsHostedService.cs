@@ -1,7 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Kaizen.Core.Defines;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.Hubs;
@@ -11,7 +11,7 @@ namespace Kaizen.HostedServices
 {
     public class OverdueBillsHostedService : BackgroundService
     {
-        private static readonly int DELAY_TIME = 24 /*Hours*/ * TimeConstants.Minutes * TimeConstants.Seconds * TimeConstants.Milliseconds;
+        private static readonly int DelayTime = TimeSpan.FromDays(1.0).Milliseconds;
 
         private readonly IProductInvoicesRepository _productInvoicesRepository;
         private readonly IServiceInvoicesRepository _serviceInvoicesRepository;
@@ -31,7 +31,7 @@ namespace Kaizen.HostedServices
             _invoiceHub = invoiceHub;
         }
 
-        protected async override Task ExecuteAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
             {
@@ -39,7 +39,7 @@ namespace Kaizen.HostedServices
 
                 await FindAndReportExpiredServiceInvoices(cancellationToken);
 
-                await Task.Delay(DELAY_TIME, cancellationToken);
+                await Task.Delay(DelayTime, cancellationToken);
             }
         }
 
@@ -54,7 +54,7 @@ namespace Kaizen.HostedServices
 
             await _unitWork.SaveAsync();
 
-            await _invoiceHub.Clients.Group("Administrator").SendAsync("OvedureProductBills", productInvoices, cancellationToken: cancellationToken);
+            await _invoiceHub.Clients.Group("Administrator").SendAsync("OverdueProductBills", productInvoices, cancellationToken: cancellationToken);
         }
 
         private async Task FindAndReportExpiredServiceInvoices(CancellationToken cancellationToken)
@@ -68,7 +68,7 @@ namespace Kaizen.HostedServices
 
             await _unitWork.SaveAsync();
 
-            await _invoiceHub.Clients.Group("Administrator").SendAsync("OvedureServiceBills", serviceInvoices, cancellationToken: cancellationToken);
+            await _invoiceHub.Clients.Group("Administrator").SendAsync("OverdueServiceBills", serviceInvoices, cancellationToken: cancellationToken);
         }
     }
 }

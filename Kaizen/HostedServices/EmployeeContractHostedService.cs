@@ -1,7 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Kaizen.Core.Defines;
 using Kaizen.Core.Services;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
@@ -10,7 +10,7 @@ namespace Kaizen.HostedServices
 {
     public class EmployeeContractHostedService : BackgroundService
     {
-        private static readonly int DELAY_TIME = 24 /*Hours*/ * TimeConstants.Minutes * TimeConstants.Seconds * TimeConstants.Milliseconds;
+        private static readonly int DelayTime = TimeSpan.FromDays(1.0).Milliseconds;
 
         private readonly IEmployeesRepository _employeesRepository;
         private readonly IMailService _mailService;
@@ -24,7 +24,7 @@ namespace Kaizen.HostedServices
             _mailTemplate = mailTemplate;
         }
 
-        protected async override Task ExecuteAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
             {
@@ -38,7 +38,7 @@ namespace Kaizen.HostedServices
                     await _mailService.SendEmailAsync(employee.User.Email, "Contrato a punto de vencer", mailMessage, true);
                 }
 
-                await Task.Delay(DELAY_TIME, cancellationToken);
+                await Task.Delay(DelayTime, cancellationToken);
             }
         }
     }

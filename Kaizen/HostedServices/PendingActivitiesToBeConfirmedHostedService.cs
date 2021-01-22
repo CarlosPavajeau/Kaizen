@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Kaizen.Core.Defines;
 using Kaizen.Core.Services;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
@@ -14,7 +13,7 @@ namespace Kaizen.HostedServices
 {
     public class PendingActivitiesToBeConfirmedHostedService : BackgroundService
     {
-        private static readonly int DELAY_TIME = 24 /*Hours*/ * TimeConstants.Minutes * TimeConstants.Seconds * TimeConstants.Milliseconds;
+        private static readonly int DelayTime = TimeSpan.FromDays(1.0).Milliseconds;
 
         private readonly IActivitiesRepository _activitiesRepository;
         private readonly IMailService _mailService;
@@ -37,7 +36,7 @@ namespace Kaizen.HostedServices
             _generator = generator;
         }
 
-        protected async override Task ExecuteAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
             {
@@ -51,19 +50,30 @@ namespace Kaizen.HostedServices
 
                 foreach (Activity activity in pendingActivities)
                 {
-                    string activityConfirmationLink = _generator.GetUriByAction(_accessor.HttpContext, $"ConfirmActivity/{activity.Code}", "activity_schedule");
-                    string activityRejectLink = _generator.GetUriByAction(_accessor.HttpContext, $"RejectActivity/{activity.Code}", "activity_schedule");
-                    string changeDateLink = _generator.GetUriByAction(_accessor.HttpContext, $"ChangeDate/{activity.Code}", "activity_schedule");
-
-                    string mailMessage = _mailTemplate.LoadTemplate("PendingActivityToBeConfirmed.html",
-                        $"{activity.Client.FirstName} {activity.Client.SecondName} {activity.Client.LastName} {activity.Client.SecondLastName}",
-                        $"{activity.Date}", activityConfirmationLink, activityRejectLink, changeDateLink);
-
-                    await _mailService.SendEmailAsync(activity.Client.User.Email, "Actividad pendiente a confirmación", mailMessage, true);
+                    await SendPendingActivityEmail(activity);
                 }
 
-                await Task.Delay(DELAY_TIME, cancellationToken);
+                await Task.Delay(DelayTime, cancellationToken);
             }
+        }
+
+        private async Task SendPendingActivityEmail(Activity activity)
+        {
+            string activityConfirmationLink = GetActivityLink("ConfirmActivity", activity.Code);
+            string activityRejectLink = GetActivityLink("RejectActivity", activity.Code);
+            string changeDateLink = GetActivityLink("ChangeDate", activity.Code);
+
+            string mailMessage = _mailTemplate.LoadTemplate("PendingActivityToBeConfirmed.html",
+                $"{activity.Client.FirstName} {activity.Client.SecondName} {activity.Client.LastName} {activity.Client.SecondLastName}",
+                $"{activity.Date}", activityConfirmationLink, activityRejectLink, changeDateLink);
+
+            await _mailService.SendEmailAsync(activity.Client.User.Email, "Actividad pendiente a confirmación", mailMessage,
+                true);
+        }
+
+        private string GetActivityLink(string action, int activityCode)
+        {
+            return _generator.GetUriByAction(_accessor.HttpContext, $"{action}/{activityCode}", "activity_schedule");
         }
     }
 }

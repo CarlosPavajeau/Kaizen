@@ -8,7 +8,7 @@ namespace Kaizen.HostedServices
     public abstract class BackgroundService : IHostedService, IDisposable
     {
         private Task _executingTask;
-        private readonly CancellationTokenSource _stoppingCts = new CancellationTokenSource();
+        private readonly CancellationTokenSource _stoppingCts = new();
 
         protected abstract Task ExecuteAsync(CancellationToken cancellationToken);
 
@@ -16,12 +16,7 @@ namespace Kaizen.HostedServices
         {
             _executingTask = ExecuteAsync(_stoppingCts.Token);
 
-            if (_executingTask.IsCompleted)
-            {
-                return _executingTask;
-            }
-
-            return Task.CompletedTask;
+            return _executingTask.IsCompleted ? _executingTask : Task.CompletedTask;
         }
 
         public virtual async Task StopAsync(CancellationToken cancellationToken)
@@ -49,9 +44,9 @@ namespace Kaizen.HostedServices
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing && _stoppingCts is not null)
+            if (disposing)
             {
-                _stoppingCts.Cancel();
+                _stoppingCts?.Cancel();
             }
         }
     }
