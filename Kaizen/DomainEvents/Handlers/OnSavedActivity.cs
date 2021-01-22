@@ -47,7 +47,7 @@ namespace Kaizen.DomainEvents.Handlers
             private async Task NotifyNewActivityRegister(Activity activity, CancellationToken cancellationToken)
             {
                 ActivityViewModel activityModel = _mapper.Map<ActivityViewModel>(activity);
-                await _hubContext.Clients.Groups("Clients").SendAsync("NewActivity", activityModel, cancellationToken: cancellationToken);
+                await _hubContext.Clients.Groups("Clients").SendAsync("NewActivity", activityModel, cancellationToken);
             }
 
             private async Task SendNotificationEmail(Activity activity)

@@ -11,7 +11,8 @@ namespace Kaizen.Infrastructure.Repositories
 {
     public class EmployeesRepository : RepositoryBase<Employee, string>, IEmployeesRepository
     {
-        readonly int[] TECHNICAL_EMPLOYEE_JOB_CODES = new[] { 6, 7, 8 };
+        private readonly int[] _technicalEmployeeJobCodes = { 6, 7, 8 };
+
         public EmployeesRepository(ApplicationDbContext applicationDbContext) : base(applicationDbContext)
         {
         }
@@ -42,7 +43,7 @@ namespace Kaizen.Infrastructure.Repositories
 
             return await GetAll().Include(e => e.EmployeesServices)
                 .Where(e => (occupiedEmployeesCodes.Any() || !occupiedEmployeesCodes.Contains(e.Id)) &&
-                    TECHNICAL_EMPLOYEE_JOB_CODES.Contains(e.ChargeId) &&
+                    _technicalEmployeeJobCodes.Contains(e.ChargeId) &&
                     e.EmployeesServices.Any(es => serviceCodes.Contains(es.ServiceCode)))
                 .ToListAsync();
         }
@@ -50,7 +51,7 @@ namespace Kaizen.Infrastructure.Repositories
         private async Task<IEnumerable<string>> GetOccupiedEmployeesCodes(DateTime date)
         {
             return await GetAll().Include(e => e.EmployeesActivities).ThenInclude(e => e.Activity)
-                .Where(e => e.EmployeesActivities.Any(e => e.Activity.Date == date && e.Activity.State == ActivityState.Pending))
+                .Where(e => e.EmployeesActivities.Any(activityEmployee => activityEmployee.Activity.Date == date && activityEmployee.Activity.State == ActivityState.Pending))
                 .Select(e => e.Id).Distinct().ToListAsync();
         }
 
@@ -77,7 +78,7 @@ namespace Kaizen.Infrastructure.Repositories
         public async Task<IEnumerable<Employee>> GetTechnicians()
         {
             return await GetAll().Include(e => e.EmployeeCharge)
-                .Where(e => TECHNICAL_EMPLOYEE_JOB_CODES.Contains(e.ChargeId))
+                .Where(e => _technicalEmployeeJobCodes.Contains(e.ChargeId))
                 .ToListAsync();
         }
     }

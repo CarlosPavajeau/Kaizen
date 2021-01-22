@@ -93,10 +93,8 @@ namespace Kaizen.Controllers
                 {
                     return NotFound($"Actualización fallida. El cliente con identificación {id} no se encuentra registrado.");
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
 
             return _mapper.Map<ClientViewModel>(client);
@@ -133,10 +131,8 @@ namespace Kaizen.Controllers
                 {
                     return Conflict($"El cliente con identificación {clientInput.Id} ya se encuentra registrado.");
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
 
             return _mapper.Map<ClientViewModel>(client);

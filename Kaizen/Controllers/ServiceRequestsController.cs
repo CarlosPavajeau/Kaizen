@@ -82,10 +82,8 @@ namespace Kaizen.Controllers
                 {
                     return NotFound($"Actualización fallida. No existe ninguna solicitud de servicio con el código {id}.");
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
 
             return _mapper.Map<ServiceRequestViewModel>(serviceRequest);
@@ -98,14 +96,7 @@ namespace Kaizen.Controllers
             _serviceRequestsRepository.Insert(serviceRequest);
             serviceRequest.PublishEvent(new SavedServiceRequest(serviceRequest));
 
-            try
-            {
-                await _unitWork.SaveAsync();
-            }
-            catch (DbUpdateException)
-            {
-                throw;
-            }
+            await _unitWork.SaveAsync();
 
             return _mapper.Map<ServiceRequestViewModel>(serviceRequest);
         }

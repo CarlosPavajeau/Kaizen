@@ -26,9 +26,9 @@ namespace Kaizen.Infrastructure.Repositories
 
         protected virtual void Dispose(bool disposing)
         {
-            if (disposing && _dbContext is not null)
+            if (disposing)
             {
-                _dbContext.Dispose();
+                _dbContext?.Dispose();
             }
         }
 

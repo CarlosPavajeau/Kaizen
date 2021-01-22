@@ -2,7 +2,7 @@ namespace Kaizen.Core.Services
 {
     public interface IMailTemplate
     {
-        protected const string EMAIL_TEMPLATES_FOLDER = "EmailTemplates";
+        protected const string EmailTemplatesFolder = "EmailTemplates";
 
         string LoadTemplate(string templateName, params string[] args);
     }

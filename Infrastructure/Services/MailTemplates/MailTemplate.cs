@@ -19,7 +19,7 @@ namespace Kaizen.Infrastructure.Services.MailTemplates
 
         public string LoadTemplate(string templateName, params string[] args)
         {
-            string templateFolder = Path.Combine(_hostEnvironment.ContentRootPath, IMailTemplate.EMAIL_TEMPLATES_FOLDER);
+            string templateFolder = Path.Combine(_hostEnvironment.ContentRootPath, IMailTemplate.EmailTemplatesFolder);
             string file = Path.Combine(templateFolder, templateName);
 
             if (!File.Exists(file))

@@ -17,7 +17,8 @@ namespace Kaizen.Infrastructure.Repositories
 
         public override async Task<ServiceInvoice> FindByIdAsync(int id)
         {
-            return await GetAll().Include(s => s.ServiceInvoiceDetails).Include(s => s.Client)
+            return await GetAll().Include(s => s.ServiceInvoiceDetails)
+                .Include(s => s.Client)
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
 

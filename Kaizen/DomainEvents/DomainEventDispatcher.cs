@@ -14,9 +14,9 @@ namespace Kaizen.DomainEvents
             _mediator = mediator;
         }
 
-        public async Task Dispatch(IDomainEvent devent)
+        public async Task Dispatch(IDomainEvent @event)
         {
-            INotification domainEventNotification = CreateDomainEventNotification(devent);
+            INotification domainEventNotification = CreateDomainEventNotification(@event);
 
             await _mediator.Publish(domainEventNotification);
         }

@@ -83,10 +83,8 @@ namespace Kaizen.Controllers
                 {
                     return NotFound($"Error de actialización. No existe ninguna factura de productos con el código { id }.");
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
 
             return _mapper.Map<ProductInvoiceViewModel>(productInvoice);

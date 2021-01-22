@@ -34,7 +34,7 @@ namespace Kaizen.Mappers
                 }
             });
 
-            CreateMap<Activity, ActivityViewModel>().BeforeMap((activity, activityViewModel) =>
+            CreateMap<Activity, ActivityViewModel>().BeforeMap((activity, _) =>
             {
                 if (activity is null)
                 {

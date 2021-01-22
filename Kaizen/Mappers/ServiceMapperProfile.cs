@@ -32,7 +32,7 @@ namespace Kaizen.Mappers
             });
 
             CreateMap<ServiceType, ServiceTypeViewModel>();
-            CreateMap<Service, ServiceViewModel>().BeforeMap((service, serviceViewMode) =>
+            CreateMap<Service, ServiceViewModel>().BeforeMap((service, _) =>
             {
                 if (service is null)
                 {

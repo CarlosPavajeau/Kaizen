@@ -89,10 +89,8 @@ namespace Kaizen.Controllers
                 {
                     return NotFound($"No existe una orden de trabajo asosiada a la actividad con código { id }");
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
 
             return _mapper.Map<WorkOrderViewModel>(workOrder);

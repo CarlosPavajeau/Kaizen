@@ -57,7 +57,7 @@ namespace Kaizen.Test.Controllers
                 }));
 
             _applicationUserRepository.Setup(r =>
-                r.ChangePassswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(IdentityResult.Success));
+                r.ChangePasswordAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<string>())).Returns(Task.FromResult(IdentityResult.Success));
 
             ActionResult<ApplicationUserViewModel> result = await _usersController.ChangePassword("333-444-555",
                 new ChangePasswordModel { NewPassword = "newPassword", OldPassword = "oldPassword" });

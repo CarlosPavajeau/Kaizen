@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Kaizen.Core.Domain
 {
-    public interface IRepositoryBase<T, TKey> where T : class
+    public interface IRepositoryBase<T, in TKey> where T : class
     {
         IQueryable<T> GetAll();
         IQueryable<T> Where(Expression<Func<T, bool>> expression);

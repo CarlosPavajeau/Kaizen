@@ -131,7 +131,7 @@ namespace Infrastructure.Test.Repositories
             ApplicationUser applicationUser = await applicationUserRepository.FindByNameOrEmailAsync("admin");
             Assert.IsNotNull(applicationUser);
 
-            IdentityResult result = await applicationUserRepository.ChangePassswordAsync(applicationUser, "ThisisaSecurePassword321*", "ThisIsMyNewPassword123.");
+            IdentityResult result = await applicationUserRepository.ChangePasswordAsync(applicationUser, "ThisisaSecurePassword321*", "ThisIsMyNewPassword123.");
 
             Assert.IsTrue(result.Succeeded);
         }

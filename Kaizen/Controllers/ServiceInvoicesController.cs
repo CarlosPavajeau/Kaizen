@@ -84,10 +84,8 @@ namespace Kaizen.Controllers
                 {
                     return NotFound($"Error de actualizacón. No existe ninguna factura de servicio con el código {id}.");
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
 
             return _mapper.Map<ServiceInvoiceViewModel>(serviceInvoice);

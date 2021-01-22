@@ -42,11 +42,9 @@ namespace Kaizen.Middleware
                     Message = exception.Message
                 }.ToString());
             }
-            else
-            {
-                httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                return httpContext.Response.WriteAsync(JsonConvert.SerializeObject(exception));
-            }
+
+            httpContext.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            return httpContext.Response.WriteAsync(JsonConvert.SerializeObject(exception));
         }
     }
 }

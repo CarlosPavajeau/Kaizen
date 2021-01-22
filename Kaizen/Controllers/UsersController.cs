@@ -61,7 +61,7 @@ namespace Kaizen.Controllers
                 return BadRequest($"No existe un usuario identificado con el id {id}.");
             }
 
-            IdentityResult changePasswordResult = await _userRepository.ChangePassswordAsync(user, changePasswordModel.OldPassword, changePasswordModel.NewPassword);
+            IdentityResult changePasswordResult = await _userRepository.ChangePasswordAsync(user, changePasswordModel.OldPassword, changePasswordModel.NewPassword);
             if (!changePasswordResult.Succeeded)
             {
                 SetIdentityResultErrors(changePasswordResult);

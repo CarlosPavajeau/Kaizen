@@ -28,7 +28,7 @@ namespace Domain.Test.Data
                 c.Provider = (DataProvider)Enum.Parse(typeof(DataProvider), configuration["Data:Provider"]);
             });
             services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
-            services.AddEntityFramework(configuration);
+            services.RegisterDbContext(configuration);
 
             ServiceProvider serviceProvider = services.BuildServiceProvider();
             dbContext = serviceProvider.GetService<ApplicationDbContext>();

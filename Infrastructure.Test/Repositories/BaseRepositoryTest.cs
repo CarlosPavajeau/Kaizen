@@ -33,7 +33,7 @@ namespace Infrastructure.Test.Repositories
                 c.Provider = (DataProvider)Enum.Parse(typeof(DataProvider), configuration["Data:Provider"]);
             });
             services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
-            services.AddEntityFramework(configuration);
+            services.RegisterDbContext(configuration);
             services.ConfigureRepositories();
             services.AddIdentityConfig();
             services.AddLogging();

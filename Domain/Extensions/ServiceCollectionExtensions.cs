@@ -10,33 +10,25 @@ namespace Kaizen.Domain.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddEntityFramework(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection RegisterDbContext(this IServiceCollection services, IConfiguration configuration)
         {
             string dataProviderConfig = configuration.GetSection("Data")["Provider"];
             string connectionStringConfig = configuration.GetConnectionString("DefaultConnection");
-            Assembly currentAssenbly = typeof(ServiceCollectionExtensions).GetTypeInfo().Assembly;
-            IEnumerable<IDataProvider> dataProviders = currentAssenbly.GetImplementationsOf<IDataProvider>();
+            Assembly currentAssembly = typeof(ServiceCollectionExtensions).GetTypeInfo().Assembly;
+            IEnumerable<IDataProvider> dataProviders = currentAssembly.GetImplementationsOf<IDataProvider>();
 
             IDataProvider dataProvider = dataProviders.SingleOrDefault(x => x.Provider.ToString() == dataProviderConfig);
 
-            return dataProvider.RegisterDbContext(services, connectionStringConfig);
+            return dataProvider?.RegisterDbContext(services, connectionStringConfig);
         }
 
         private static IEnumerable<T> GetImplementationsOf<T>(this Assembly assembly)
         {
-            List<T> result = new List<T>();
-
             List<Type> types = assembly.GetTypes()
                 .Where(t => t.GetTypeInfo().IsClass && !t.GetTypeInfo().IsAbstract && typeof(T).IsAssignableFrom(t))
                 .ToList();
 
-            foreach (Type type in types)
-            {
-                T instance = (T)Activator.CreateInstance(type);
-                result.Add(instance);
-            }
-
-            return result;
+            return types.Select(type => (T)Activator.CreateInstance(type)).ToList();
         }
     }
 }

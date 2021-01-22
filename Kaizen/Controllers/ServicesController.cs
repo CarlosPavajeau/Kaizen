@@ -85,10 +85,8 @@ namespace Kaizen.Controllers
                 {
                     return NotFound($"Actualización fallida. No existe ningún servicio con el código {id}.");
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
 
             return _mapper.Map<ServiceViewModel>(service);
@@ -110,10 +108,8 @@ namespace Kaizen.Controllers
                 {
                     return Conflict($"Ya existe un servicio con el código {serviceModel.Code}.");
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
 
             return _mapper.Map<ServiceViewModel>(service);

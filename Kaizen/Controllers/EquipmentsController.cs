@@ -75,10 +75,8 @@ namespace Kaizen.Controllers
                 {
                     return NotFound($"Actualizacón fallida. No existe ningún equipo con el código {id}.");
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
 
             return _mapper.Map<EquipmentViewModel>(equipment);
@@ -100,10 +98,8 @@ namespace Kaizen.Controllers
                 {
                     return Conflict($"Ya existe un equipo con el código {equipmentModel.Code}.");
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
 
             return _mapper.Map<EquipmentViewModel>(equipment);

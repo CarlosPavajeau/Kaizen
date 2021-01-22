@@ -113,10 +113,8 @@ namespace Kaizen.Controllers
                 {
                     return NotFound($"Actualización fallida. No existe ningún empleado registrado con el código {id}.");
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
 
             return _mapper.Map<EmployeeViewModel>(employee);
@@ -159,10 +157,8 @@ namespace Kaizen.Controllers
                 {
                     return Conflict($"Ya existe un empleado registrado con el código {employeeModel.Id}");
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
 
             return _mapper.Map<EmployeeViewModel>(employee);

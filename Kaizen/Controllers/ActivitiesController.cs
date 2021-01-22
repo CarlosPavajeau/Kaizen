@@ -94,10 +94,8 @@ namespace Kaizen.Controllers
                 {
                     return NotFound($"Actualización fallida. No existe ninguna actividad con el código {id}.");
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
 
             return _mapper.Map<ActivityViewModel>(activity);

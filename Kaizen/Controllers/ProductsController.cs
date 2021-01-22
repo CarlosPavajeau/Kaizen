@@ -75,10 +75,8 @@ namespace Kaizen.Controllers
                 {
                     return NotFound($"Error de actualización. El producto identificado con el código {id} no está registrado.");
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
 
             return _mapper.Map<ProductViewModel>(product);
@@ -100,10 +98,8 @@ namespace Kaizen.Controllers
                 {
                     return Conflict($"Ya existe un producto registrado con el código { productModel.Code }.");
                 }
-                else
-                {
-                    throw;
-                }
+
+                throw;
             }
 
             return _mapper.Map<ProductViewModel>(product);

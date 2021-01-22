@@ -4,6 +4,6 @@ namespace Kaizen.Core.Domain
 {
     public interface IDomainEventDispatcher
     {
-        Task Dispatch(IDomainEvent devent);
+        Task Dispatch(IDomainEvent @event);
     }
 }

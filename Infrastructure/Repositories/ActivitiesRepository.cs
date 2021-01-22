@@ -10,7 +10,7 @@ namespace Kaizen.Infrastructure.Repositories
 {
     public class ActivitiesRepository : RepositoryBase<Activity, int>, IActivitiesRepository
     {
-        private readonly DateTime LIMIT_DATE = DateTime.Parse($"{DateTime.Now.Year}/12/31");
+        private readonly DateTime _limitDate = DateTime.Parse($"{DateTime.Now.Year}/12/31");
         private readonly IEmployeesRepository _employeesRepository;
 
         public ActivitiesRepository(ApplicationDbContext applicationDbContext, IEmployeesRepository employeesRepository) : base(applicationDbContext)
@@ -29,30 +29,34 @@ namespace Kaizen.Infrastructure.Repositories
             List<string> activityEmployeeCodes = activity.ActivitiesEmployees.Select(a => a.EmployeeId).ToList();
 
             DateTime newDate = activity.Date.AddDays(dayInterval);
-            while (newDate < LIMIT_DATE)
+            while (newDate < _limitDate)
             {
-                Activity newActivity = activity.Clone() as Activity;
-                newActivity.Date = newDate;
-
-                IEnumerable<Employee> availableEmployees = await GetTechniciansAvailable(newActivity.Date, activityServiceCodes);
-                bool canBeScheduled = ActivityCanBeScheduled(activityEmployeeCodes, availableEmployees);
-                while (!canBeScheduled)
+                if (activity.Clone() is Activity newActivity)
                 {
-                    newActivity.Date = newActivity.Date.AddHours(1);
-                    availableEmployees = await GetTechniciansAvailable(newActivity.Date, activityServiceCodes);
-                    canBeScheduled = ActivityCanBeScheduled(activityEmployeeCodes, availableEmployees);
+                    newActivity.Date = newDate;
+
+                    IEnumerable<Employee> availableEmployees =
+                        await GetTechniciansAvailable(newActivity.Date, activityServiceCodes);
+                    bool canBeScheduled = ActivityCanBeScheduled(activityEmployeeCodes, availableEmployees);
+                    while (!canBeScheduled)
+                    {
+                        newActivity.Date = newActivity.Date.AddHours(1);
+                        availableEmployees = await GetTechniciansAvailable(newActivity.Date, activityServiceCodes);
+                        canBeScheduled = ActivityCanBeScheduled(activityEmployeeCodes, availableEmployees);
+                    }
+
+                    Insert(newActivity);
                 }
 
-                Insert(newActivity);
                 newDate = newDate.AddDays(dayInterval);
             }
 
             await ApplicationDbContext.SaveChangesAsync();
         }
 
-        private static bool ActivityCanBeScheduled(List<string> activityEmployeeCodes, IEnumerable<Employee> availableEmployees)
+        private static bool ActivityCanBeScheduled(ICollection<string> activityEmployeeCodes, IEnumerable<Employee> availableEmployees)
         {
-            return activityEmployeeCodes.All(e => availableEmployees.Any(a => activityEmployeeCodes.Contains(a.Id)));
+            return activityEmployeeCodes.All(_ => availableEmployees.Any(a => activityEmployeeCodes.Contains(a.Id)));
         }
 
         private async Task<IEnumerable<Employee>> GetTechniciansAvailable(DateTime date, string[] serviceCodes)
@@ -102,7 +106,7 @@ namespace Kaizen.Infrastructure.Repositories
                 .ThenInclude(a => a.Equipment)
                 .Where(a => a.State == ActivityState.Pending &&
                        a.Date.Month == date.Month && a.Date.Day == date.Day &&
-                       a.ActivitiesEmployees.Select(a => a.EmployeeId).Contains(employeeId))
+                       a.ActivitiesEmployees.Select(activityEmployee => activityEmployee.EmployeeId).Contains(employeeId))
                 .ToListAsync();
         }
 

@@ -84,7 +84,7 @@ namespace Kaizen.Infrastructure.Repositories
             return !result.Succeeded ? null : user;
         }
 
-        public async Task<IdentityResult> ChangePassswordAsync(ApplicationUser user, string oldPassword, string newPassword)
+        public async Task<IdentityResult> ChangePasswordAsync(ApplicationUser user, string oldPassword, string newPassword)
         {
             return await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
         }

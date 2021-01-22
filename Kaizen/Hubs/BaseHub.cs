@@ -18,22 +18,25 @@ namespace Kaizen.Hubs
 
         public override async Task OnConnectedAsync()
         {
-            string userName = Context.User.Identity.Name;
-
-            if (string.IsNullOrEmpty(userName))
+            if (Context.User?.Identity != null)
             {
-                return;
+                string userName = Context.User.Identity.Name;
+
+                if (string.IsNullOrEmpty(userName))
+                {
+                    return;
+                }
+
+                ApplicationUser user = await _applicationUserRepository.FindByNameAsync(userName);
+
+                if (user is null)
+                {
+                    return;
+                }
+
+                string role = await _applicationUserRepository.GetUserRoleAsync(user);
+                await Groups.AddToGroupAsync(Context.ConnectionId, role);
             }
-
-            ApplicationUser user = await _applicationUserRepository.FindByNameAsync(userName);
-
-            if (user is null)
-            {
-                return;
-            }
-
-            string role = await _applicationUserRepository.GetUserRoleAsync(user);
-            await Groups.AddToGroupAsync(Context.ConnectionId, role);
 
             await base.OnConnectedAsync();
         }

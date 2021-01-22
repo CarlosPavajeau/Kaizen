@@ -12,7 +12,7 @@ namespace Kaizen.Infrastructure.Services
     public class MailService : IMailService
     {
         private readonly MailSettings _mailSettings;
-        private readonly SmtpClient _client = new SmtpClient();
+        private readonly SmtpClient _client = new();
         private readonly ILogger _logger;
 
         private MailMessage MailMessage { get; set; }
@@ -21,10 +21,10 @@ namespace Kaizen.Infrastructure.Services
         {
             _logger = logger;
             _mailSettings = options.Value;
-            ConfigSMTPClient();
+            ConfigSmtpClient();
         }
 
-        private void ConfigSMTPClient()
+        private void ConfigSmtpClient()
         {
             _client.Host = _mailSettings.Host;
             _client.Port = _mailSettings.Port;

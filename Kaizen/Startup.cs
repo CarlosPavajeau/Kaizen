@@ -29,7 +29,7 @@ namespace Kaizen
             services.LoadMailSettings(Configuration);
             services.ConfigureMailTemplates();
 
-            services.AddEntityFramework(Configuration);
+            services.RegisterDbContext(Configuration);
             services.ConfigureRepositories();
             services.AddIdentityConfig();
             services.AddMercadoPagoCore(Configuration);
@@ -87,9 +87,7 @@ namespace Kaizen
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("default", "{controller}/{action=Index}/{id?}");
                 endpoints.ConfigureHubMaps();
             });
             app.ConfigureCors();
@@ -103,7 +101,7 @@ namespace Kaizen
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
+                    spa.UseAngularCliServer("start");
                 }
             });
         }
