@@ -58,8 +58,9 @@ namespace Kaizen.Infrastructure.Repositories
         public async Task<IEnumerable<Employee>> EmployeesWithContractCloseToExpiration()
         {
             DateTime today = DateTime.Now;
-            return await GetAll().Include(e => e.EmployeeContract).Include(e => e.User)
-                .Where(e => (e.EmployeeContract.EndDate - today).Days == 3)
+            return await GetAll().Include(e => e.EmployeeContract)
+                .Include(e => e.User)
+                .Where(e => MySqlDbFunctionsExtensions.DateDiffDay(EF.Functions, e.EmployeeContract.EndDate, today) == 3)
                 .ToListAsync();
         }
 
