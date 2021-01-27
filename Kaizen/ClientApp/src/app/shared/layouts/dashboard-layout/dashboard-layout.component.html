@@ -22,6 +22,7 @@
     <mat-nav-list>
       <div *ngFor="let menuOption of menuOptions">
         <a
+          class="sidenav-link"
           *ngIf="!menuOption.isMenu"
           mat-list-item
           [routerLink]="menuOption.url"
@@ -42,6 +43,7 @@
           </mat-expansion-panel-header>
           <mat-nav-list dense>
             <a
+              class="sidenav-link"
               *ngFor="let menuItem of menuOption?.subMenu"
               mat-list-item
               [routerLink]="menuItem.url"
@@ -55,6 +57,7 @@
     </mat-nav-list>
     <mat-nav-list>
       <a
+        class="sidenav-link"
         mat-list-item
         routerLink="/user/edit"
         routerLinkActive="dashboard-link-active"
@@ -62,7 +65,7 @@
         <mat-icon>settings</mat-icon>
         <span class="nav-caption">Datos de acceso</span>
       </a>
-      <a mat-list-item (click)="logout()">
+      <a class="sidenav-link" mat-list-item (click)="logout()">
         <mat-icon>power_settings_new</mat-icon>
         <span class="nav-caption">Cerrar sesión</span>
       </a>
@@ -81,12 +84,26 @@
       </button>
       <span>Ecolplag</span>
       <div class="spacer"></div>
-      <button mat-icon-button>
+      <button mat-icon-button [matTooltip]="'Notificaciones'">
         <mat-icon>notifications</mat-icon>
       </button>
-      <button mat-icon-button>
+      <button mat-icon-button [matMenuTriggerFor]="accountMenu" [matTooltip]="'Opciones de cuenta'">
         <mat-icon>account_circle</mat-icon>
       </button>
+      <mat-menu #accountMenu="matMenu">
+        <a mat-menu-item routerLink="/user/profile">
+          <mat-icon>face</mat-icon>
+          <span>Mi perfil</span>
+        </a>
+        <a mat-menu-item routerLink="/user/edit">
+          <mat-icon>settings</mat-icon>
+          <span>Datos de acceso</span>
+        </a>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>power_settings_new</mat-icon>
+          <span class="nav-caption">Cerrar sesión</span>
+        </button>
+      </mat-menu>
     </mat-toolbar>
     <div style="margin-top: 30px">
       <router-outlet></router-outlet>
