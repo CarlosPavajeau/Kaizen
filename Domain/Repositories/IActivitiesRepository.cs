@@ -13,5 +13,7 @@ namespace Kaizen.Domain.Repositories
 
         Task<IEnumerable<Activity>> GetPendingClientActivities(string clientId);
         Task<IEnumerable<Activity>> GetAppliedClientActivities(string clientId);
+
+        Task<IEnumerable<Activity>> GetPendingActivitiesToConfirmed();
     }
 }

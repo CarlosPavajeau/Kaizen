@@ -127,5 +127,20 @@ namespace Kaizen.Infrastructure.Repositories
         {
             return await GetClientActivities(clientId, ActivityState.Applied);
         }
+
+        public async Task<IEnumerable<Activity>> GetPendingActivitiesToConfirmed()
+        {
+            DateTime today = DateTime.Now;
+
+            return await GetAll()
+                .Include(a => a.Client)
+                .ThenInclude(c => c.User)
+                .Where(
+                    a => a.State == ActivityState.Pending &&
+                         MySqlDbFunctionsExtensions.DateDiffDay(EF.Functions, a.Date, today) <= 3 &&
+                         MySqlDbFunctionsExtensions.DateDiffDay(EF.Functions, a.Date, today) > 0
+                )
+                .ToListAsync();
+        }
     }
 }
