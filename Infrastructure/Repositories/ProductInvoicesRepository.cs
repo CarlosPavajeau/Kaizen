@@ -18,7 +18,8 @@ namespace Kaizen.Infrastructure.Repositories
         public async Task<IEnumerable<ProductInvoice>> GetPendingExpiredProductInvoices()
         {
             return await GetAll().Include(s => s.Client).Include(s => s.ProductInvoiceDetails)
-                .Where(s => s.State == InvoiceState.Generated && (DateTime.Now - s.GenerationDate).Days >= Invoice.DayLimits)
+                .Where(s => s.State == InvoiceState.Generated &&
+                            MySqlDbFunctionsExtensions.DateDiffDay(EF.Functions, DateTime.Now, s.GenerationDate) >= Invoice.DayLimits)
                 .ToListAsync();
         }
 

@@ -30,8 +30,10 @@ namespace Kaizen.Infrastructure.Repositories
 
         public async Task<IEnumerable<ServiceInvoice>> GetPendingExpiredServiceInvoices()
         {
-            return await GetAll().Include(s => s.Client).Include(s => s.ServiceInvoiceDetails)
-                .Where(s => s.State == InvoiceState.Generated && (DateTime.Now - s.GenerationDate).Days >= Invoice.DayLimits)
+            return await GetAll().Include(s => s.Client)
+                .Include(s => s.ServiceInvoiceDetails)
+                .Where(s => s.State == InvoiceState.Generated &&
+                            MySqlDbFunctionsExtensions.DateDiffDay(EF.Functions, DateTime.Now, s.GenerationDate) >= Invoice.DayLimits)
                 .ToListAsync();
         }
     }
