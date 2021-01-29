@@ -11,6 +11,7 @@ namespace Kaizen.Extensions
             endpoints.MapHub<ServiceRequestHub>("/ServiceRequestsHub");
             endpoints.MapHub<ClientHub>("/ClientsHub");
             endpoints.MapHub<ActivityHub>("/ActivitiesHub");
+            endpoints.MapHub<InvoiceHub>("/InvoicesHub");
         }
     }
 }
