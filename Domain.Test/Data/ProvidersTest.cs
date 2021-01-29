@@ -1,6 +1,4 @@
-using System;
 using Kaizen.Domain.Data;
-using Kaizen.Domain.Data.Configuration;
 using Kaizen.Domain.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,34 +10,31 @@ namespace Domain.Test.Data
     [TestFixture]
     public class ProvidersTest
     {
-        ApplicationDbContext dbContext;
+        private ApplicationDbContext _dbContext;
 
         [OneTimeSetUp]
         public void Init()
         {
             IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json", false, true)
-                                                          .AddEnvironmentVariables()
-                                                          .Build();
+                .AddEnvironmentVariables()
+                .Build();
 
             ServiceCollection services = new ServiceCollection();
             services.AddOptions();
-            services.Configure<Kaizen.Domain.Data.Configuration.Data>(c =>
-            {
-                c.Provider = (DataProvider)Enum.Parse(typeof(DataProvider), configuration["Data:Provider"]);
-            });
-            services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
+            services.LoadDbSettings(configuration);
             services.RegisterDbContext(configuration);
 
             ServiceProvider serviceProvider = services.BuildServiceProvider();
-            dbContext = serviceProvider.GetService<ApplicationDbContext>();
+            _dbContext = serviceProvider.GetService<ApplicationDbContext>();
         }
 
         [Test]
         public void CheckDbContext()
         {
-            Assert.NotNull(dbContext);
-            Assert.AreEqual("Microsoft.EntityFrameworkCore.Sqlite", dbContext.Database.ProviderName, "The ApplicationDbContext mush be have a Sqlite provider");
-            Assert.IsTrue(dbContext.Database.IsSqlite());
+            Assert.NotNull(_dbContext);
+            Assert.AreEqual("Microsoft.EntityFrameworkCore.Sqlite", _dbContext.Database.ProviderName,
+                "The ApplicationDbContext mush be have a Sqlite provider");
+            Assert.IsTrue(_dbContext.Database.IsSqlite());
         }
     }
 }

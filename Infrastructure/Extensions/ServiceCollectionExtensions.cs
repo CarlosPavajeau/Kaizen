@@ -4,7 +4,6 @@ using System.Text;
 using Kaizen.Core.Security;
 using Kaizen.Core.Services;
 using Kaizen.Domain.Data;
-using Kaizen.Domain.Data.Configuration;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.Infrastructure.Identity;
@@ -141,15 +140,6 @@ namespace Kaizen.Infrastructure.Extensions
         public static void ConfigureTokenGenerator(this IServiceCollection services)
         {
             services.AddScoped<ITokenGenerator, TokenGenerator>();
-        }
-
-        public static void LoadDbSettings(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.Configure<Data>(c =>
-            {
-                c.Provider = (DataProvider)Enum.Parse(typeof(DataProvider), configuration["Data:Provider"]);
-            });
-            services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
         }
 
         public static void LoadMailSettings(this IServiceCollection services, IConfiguration configuration)
