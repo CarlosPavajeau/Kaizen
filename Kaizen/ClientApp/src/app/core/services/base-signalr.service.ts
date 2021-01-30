@@ -22,12 +22,12 @@ export class BaseSignalrService<T> implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.token = this.authService.getToken();
     if (this.token) {
-      this.buildConection();
+      this.buildConnection();
       this.startConnection();
     }
   }
 
-  private buildConection(): void {
+  private buildConnection(): void {
     this.hubConnection = new HubConnectionBuilder()
       .withUrl(this.hubURl, { accessTokenFactory: () => this.token })
       .build();
@@ -37,7 +37,7 @@ export class BaseSignalrService<T> implements OnInit, OnDestroy {
     this.hubConnection
       .start()
       .then(() => {
-        console.log('Conenction started');
+        console.log('Connection started');
         this.registerSignalEvents();
       })
       .catch((err) => {
