@@ -1,0 +1,34 @@
+.notification-button {
+  max-width: 600px;
+  max-height: 300px;
+  min-height: 70px;
+  height: auto;
+  align-content: center !important;
+  align-items: center !important;
+  display: flex !important;
+  line-height: 30px !important;
+  white-space: normal;
+
+  span {
+    display: block;
+  }
+  small {
+    display: block;
+    color: rgba(0, 0, 0, 0.5);
+    line-height: 20px;
+  }
+}
+
+.mat-menu-panel {
+  max-width: fit-content !important;
+  max-height: 300px;
+}
+
+::ng-deep.notification-menu {
+  width: fit-content;
+}
+
+::ng-deep.mat-menu-panel {
+  max-width: none !important;
+  max-height: 300px !important;
+}

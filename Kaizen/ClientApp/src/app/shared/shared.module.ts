@@ -42,6 +42,7 @@ import { PaymentMethodPipe } from './pipes/payment-method.pipe';
 import { PeriodicityPipe } from './pipes/periodicity.pipe';
 import { ServiceRequestStatePipe } from './pipes/service-request-state.pipe';
 import { WorkOrderStatePipe } from './pipes/work-order-state.pipe';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { WorkOrderStatePipe } from './pipes/work-order-state.pipe';
     PaymentMethodPipe,
     PeriodicityPipe,
     ServiceRequestStatePipe,
-    WorkOrderStatePipe
+    WorkOrderStatePipe,
+    NotificationsComponent
   ],
   imports: [ CommonModule, FlexLayoutModule, FormsModule, MaterialModule, ReactiveFormsModule, RouterModule ],
   exports: [

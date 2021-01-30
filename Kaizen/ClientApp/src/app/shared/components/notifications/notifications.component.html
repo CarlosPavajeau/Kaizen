@@ -1,0 +1,21 @@
+<button mat-icon-button [matTooltip]="'Notificaciones'" [matMenuTriggerFor]="notificationsMenu">
+  <mat-icon [matBadge]="notifications.length" [matBadgeHidden]="notifications.length === 0">notifications</mat-icon>
+</button>
+<mat-menu #notificationsMenu="matMenu">
+  <div mat-menu-item class="notification-button" *ngFor="let notification of notifications">
+    <div class="icon-text-container">
+      <mat-icon>{{ notification.icon }}</mat-icon>
+      <span>
+        {{ notification.title }}
+        <small>
+          {{ notification.message }}
+        </small>
+      </span>
+    </div>
+    <div class="spacer"></div>
+    <mat-icon [routerLink]="notification.url" *ngIf="notification.url; else notUrl">visibility</mat-icon>
+    <ng-template  #notUrl>
+      <mat-icon [matTooltip]="'Eliminar notificación'">delete</mat-icon>
+    </ng-template>
+  </div>
+</mat-menu>
