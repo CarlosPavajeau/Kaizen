@@ -23,53 +23,7 @@
           </mat-card-header>
           <mat-card-content>
             <div class="pt-3">
-              <div class="icon-text-container">
-                <mat-icon [matTooltip]="'Fecha de generación de factura'">
-                  date_range
-                </mat-icon>
-                <span>
-                  {{
-                    productInvoice.generationDate | date: "MMMM d, y, h:mm a"
-                  }}
-                </span>
-              </div>
-              <div class="icon-text-container">
-                <mat-icon [matTooltip]="'Estado de factura'"> more </mat-icon>
-                <span>
-                  {{ productInvoice.state | invoiceState }}
-                </span>
-              </div>
-              <div *ngIf="productInvoice.state == 2">
-                <div class="icon-text-container">
-                  <mat-icon [matTooltip]="'Método de pago'">
-                    payments
-                  </mat-icon>
-                  <span>
-                    {{ productInvoice.paymentMethod | paymentMethod }}
-                  </span>
-                </div>
-                <div class="icon-text-container">
-                  <mat-icon [matTooltip]="'Fecha de pago'">
-                    receipt_long
-                  </mat-icon>
-                  <span>
-                    {{ productInvoice.paymentDate | date: "MMMM d, y, h:mm a" }}
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="pt-3">
-              <div class="icon-text-container">
-                <mat-icon [matTooltip]="'Cliente'">person</mat-icon>
-                <span>
-                  {{ productInvoice.client.id }},
-                  {{ productInvoice.client.firstName }}
-                  {{ productInvoice.client?.secondName }}
-                  {{ productInvoice.client.lastName }}
-                  {{ productInvoice.client?.secondLastName }},
-                  {{ productInvoice.client.tradeName }}
-                </span>
-              </div>
+              <app-invoice-detail [invoice]="productInvoice"></app-invoice-detail>
             </div>
             <div class="pt-2 pb-3">
               <mat-list>

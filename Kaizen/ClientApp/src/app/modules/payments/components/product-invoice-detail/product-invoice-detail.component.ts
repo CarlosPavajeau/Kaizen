@@ -24,7 +24,8 @@ export class ProductInvoiceDetailComponent implements OnInit {
     private productInvoiceService: ProductInvoiceService,
     private activatedRoute: ActivatedRoute,
     private authService: AuthenticationService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.loadData();
@@ -33,7 +34,7 @@ export class ProductInvoiceDetailComponent implements OnInit {
   private loadData(): void {
     const id = +this.activatedRoute.snapshot.paramMap.get('id');
     this.productInvoice$ = this.productInvoiceService.getProductInvoice(id);
-
+    
     const role = this.authService.getUserRole();
     if (role === CLIENT_ROLE) {
       this.isClient = true;

@@ -23,53 +23,7 @@
           </mat-card-header>
           <mat-card-content>
             <div class="pt-3">
-              <div class="icon-text-container">
-                <mat-icon [matTooltip]="'Fecha de generación de factura'">
-                  date_range
-                </mat-icon>
-                <span>
-                  {{
-                    serviceInvoice.generationDate | date: "MMMM d, y, h:mm a"
-                  }}
-                </span>
-              </div>
-              <div class="icon-text-container">
-                <mat-icon [matTooltip]="'Estado de factura'"> more </mat-icon>
-                <span>
-                  {{ serviceInvoice.state | invoiceState }}
-                </span>
-              </div>
-              <div *ngIf="serviceInvoice.state == 2">
-                <div class="icon-text-container">
-                  <mat-icon [matTooltip]="'Método de pago'">
-                    payments
-                  </mat-icon>
-                  <span>
-                    {{ serviceInvoice.paymentMethod | paymentMethod }}
-                  </span>
-                </div>
-                <div class="icon-text-container">
-                  <mat-icon [matTooltip]="'Fecha de pago'">
-                    receipt_long
-                  </mat-icon>
-                  <span>
-                    {{ serviceInvoice.paymentDate | date: "MMMM d, y, h:mm a" }}
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="pt-3">
-              <div class="icon-text-container">
-                <mat-icon [matTooltip]="'Cliente'">person</mat-icon>
-                <span>
-                  {{ serviceInvoice.client.id }},
-                  {{ serviceInvoice.client.firstName }}
-                  {{ serviceInvoice.client?.secondName }}
-                  {{ serviceInvoice.client.lastName }}
-                  {{ serviceInvoice.client?.secondLastName }},
-                  {{ serviceInvoice.client.tradeName }}
-                </span>
-              </div>
+              <app-invoice-detail [invoice]="serviceInvoice"></app-invoice-detail>
             </div>
             <div class="pt-2 pb-3">
               <mat-list>
@@ -77,12 +31,10 @@
                 <mat-list-item
                   *ngFor="let detail of serviceInvoice.serviceInvoiceDetails"
                 >
-                  <mat-icon style="margin-right: 7px" color="primary"
-                    >offline_bolt</mat-icon
-                  >
-                  <span>
-                    {{ detail.serviceName }}
-                  </span>
+                  <div class="icon-text-container">
+                    <mat-icon color="primary">offline_bolt</mat-icon>
+                    <span>{{detail.serviceName}}</span>
+                  </div>
                   <mat-divider></mat-divider>
                 </mat-list-item>
               </mat-list>

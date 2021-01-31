@@ -11,6 +11,7 @@ import { ProductInvoicesComponent } from './components/product-invoices/product-
 import { ServiceInvoiceDetailComponent } from './components/service-invoice-detail/service-invoice-detail.component';
 import { ServiceInvoicesComponent } from './components/service-invoices/service-invoices.component';
 import { PaymentsRoutingModule } from './payments-routing.module';
+import { InvoiceDetailComponent } from './components/invoice-detail/invoice-detail.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { PaymentsRoutingModule } from './payments-routing.module';
     ServiceInvoiceDetailComponent,
     PayProductInvoiceComponent,
     ProductInvoiceRegisterComponent,
-    ProductInvoiceDetailComponent
+    ProductInvoiceDetailComponent,
+    InvoiceDetailComponent
   ],
   imports: [ CommonModule, PaymentsRoutingModule, SharedModule, ReactiveFormsModule, FormsModule ]
 })
