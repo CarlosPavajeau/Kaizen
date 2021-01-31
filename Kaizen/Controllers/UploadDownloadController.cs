@@ -13,7 +13,7 @@ namespace Kaizen.Controllers
     [ApiController]
     public class UploadDownloadController : ControllerBase
     {
-        private const string UPLOADS_FOLDER = "Uploads";
+        private const string UploadsFolder = "Uploads";
 
         private readonly IHostEnvironment _hostEnvironment;
 
@@ -26,7 +26,7 @@ namespace Kaizen.Controllers
         public async Task<ActionResult<IEnumerable<FileResponseModel>>> Upload()
         {
             Microsoft.AspNetCore.Http.IFormFileCollection files = Request.Form.Files;
-            string upload = Path.Combine(_hostEnvironment.ContentRootPath, UPLOADS_FOLDER);
+            string upload = Path.Combine(_hostEnvironment.ContentRootPath, UploadsFolder);
             if (!Directory.Exists(upload))
             {
                 Directory.CreateDirectory(upload);
@@ -37,7 +37,7 @@ namespace Kaizen.Controllers
             {
                 if (file.Length > 0)
                 {
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
                     string filePath = Path.Combine(upload, fileName);
 
                     using FileStream fileStream = new FileStream(filePath, FileMode.Create);
@@ -51,13 +51,12 @@ namespace Kaizen.Controllers
                 }
             }
             return fileNames;
-
         }
 
         [HttpGet]
         public async Task<ActionResult<FileStream>> Download(string fileName, string downloadName)
         {
-            string upload = Path.Combine(_hostEnvironment.ContentRootPath, UPLOADS_FOLDER);
+            string upload = Path.Combine(_hostEnvironment.ContentRootPath, UploadsFolder);
             string file = Path.Combine(upload, fileName);
 
             if (!System.IO.File.Exists(file))
@@ -66,7 +65,7 @@ namespace Kaizen.Controllers
             }
 
             MemoryStream memory = new MemoryStream();
-            using FileStream stream = new FileStream(file, FileMode.Open);
+            await using FileStream stream = new FileStream(file, FileMode.Open);
             await stream.CopyToAsync(memory);
             memory.Position = 0;
 
