@@ -1,0 +1,48 @@
+<div *ngIf="invoice">
+  <div class="icon-text-container">
+    <mat-icon [matTooltip]="'Fecha de generación de factura'">
+      date_range
+    </mat-icon>
+    <span>
+      {{ invoice.generationDate | date: "MMMM d, y, h:mm a" }}
+    </span>
+  </div>
+  <div class="icon-text-container">
+    <mat-icon [matTooltip]="'Estado de factura'"> more</mat-icon>
+    <span>
+      {{ invoice.state | invoiceState }}
+    </span>
+  </div>
+  <div *ngIf="invoice.state == 2">
+    <div class="icon-text-container">
+      <mat-icon [matTooltip]="'Método de pago'">
+        payments
+      </mat-icon>
+      <span>
+        {{ invoice.paymentMethod | paymentMethod }}
+      </span>
+    </div>
+    <div class="icon-text-container">
+      <mat-icon [matTooltip]="'Fecha de pago'">
+        receipt_long
+      </mat-icon>
+      <span>
+        {{ invoice.paymentDate | date: "MMMM d, y, h:mm a" }}
+      </span>
+    </div>
+  </div>
+</div>
+<div class="pt-3">
+  <div class="icon-text-container">
+    <mat-icon [matTooltip]="'Cliente'">person</mat-icon>
+    <span>
+      {{ invoice.client?.id }},
+      {{ invoice.client?.firstName }}
+      {{ invoice.client?.secondName }}
+      {{ invoice.client?.lastName }}
+      {{ invoice.client?.secondLastName }},
+      {{ invoice.client?.tradeName }}
+    </span>
+  </div>
+</div>
+
