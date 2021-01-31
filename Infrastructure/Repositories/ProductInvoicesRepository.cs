@@ -19,7 +19,8 @@ namespace Kaizen.Infrastructure.Repositories
         {
             return await GetAll().Include(s => s.Client).Include(s => s.ProductInvoiceDetails)
                 .Where(s => s.State == InvoiceState.Generated &&
-                            MySqlDbFunctionsExtensions.DateDiffDay(EF.Functions, DateTime.Now, s.GenerationDate) >= Invoice.DayLimits)
+                            MySqlDbFunctionsExtensions.DateDiffDay(EF.Functions, DateTime.Now, s.GenerationDate) >=
+                            Invoice.DayLimits)
                 .ToListAsync();
         }
 
@@ -37,7 +38,7 @@ namespace Kaizen.Infrastructure.Repositories
             entity.GenerationDate = DateTime.Now;
 
             List<ProductInvoiceDetail> productInvoiceDetails = entity.ProductInvoiceDetails
-                .Select(s => new ProductInvoiceDetail { ProductCode = s.ProductCode, Amount = s.Amount })
+                .Select(s => new ProductInvoiceDetail {ProductCode = s.ProductCode, Amount = s.Amount})
                 .ToList();
             List<string> productCodes = entity.ProductInvoiceDetails.Select(p => p.ProductCode).ToList();
             List<Product> products = await ApplicationDbContext.Products
@@ -55,6 +56,13 @@ namespace Kaizen.Infrastructure.Repositories
             entity.CalculateTotal();
 
             base.Insert(entity);
+        }
+
+        public override async Task<ProductInvoice> FindByIdAsync(int id)
+        {
+            return await ApplicationDbContext.ProductInvoices.Include(p => p.Client)
+                .Include(p => p.ProductInvoiceDetails)
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
     }
 }
