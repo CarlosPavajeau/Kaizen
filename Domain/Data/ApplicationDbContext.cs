@@ -52,5 +52,7 @@ namespace Kaizen.Domain.Data
         public DbSet<DayStatistics> DayStatistics { get; set; }
         public DbSet<MonthStatistics> MonthStatistics { get; set; }
         public DbSet<YearStatistics> YearStatistics { get; set; }
+
+        public DbSet<Notification> Notifications { get; set; }
     }
 }
