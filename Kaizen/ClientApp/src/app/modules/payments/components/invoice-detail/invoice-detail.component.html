@@ -31,18 +31,19 @@
       </span>
     </div>
   </div>
-</div>
-<div class="pt-3">
-  <div class="icon-text-container">
-    <mat-icon [matTooltip]="'Cliente'">person</mat-icon>
-    <span>
+  <div class="pt-3">
+    <div class="icon-text-container">
+      <mat-icon [matTooltip]="'Cliente'">person</mat-icon>
+      <span>
       {{ invoice.client?.id }},
-      {{ invoice.client?.firstName }}
-      {{ invoice.client?.secondName }}
-      {{ invoice.client?.lastName }}
-      {{ invoice.client?.secondLastName }},
-      {{ invoice.client?.tradeName }}
+        {{ invoice.client?.firstName }}
+        {{ invoice.client?.secondName }}
+        {{ invoice.client?.lastName }}
+        {{ invoice.client?.secondLastName }},
+        {{ invoice.client?.tradeName }}
     </span>
+    </div>
   </div>
 </div>
+
 
