@@ -12,24 +12,24 @@ namespace Infrastructure.Test.Repositories
     [TestFixture, Order(7)]
     public class ActivitiesRepositoryTest : BaseRepositoryTest
     {
-        IActivitiesRepository activitiesRepository;
-        ApplicationDbContext dbContext;
+        private IActivitiesRepository _activitiesRepository;
+        private ApplicationDbContext _dbContext;
 
         [SetUp]
         public void SetUp()
         {
-            activitiesRepository = ServiceProvider.GetService<IActivitiesRepository>();
-            dbContext = ServiceProvider.GetService<ApplicationDbContext>();
+            _activitiesRepository = ServiceProvider.GetService<IActivitiesRepository>();
+            _dbContext = ServiceProvider.GetService<ApplicationDbContext>();
         }
 
         [Test]
         public void CheckActivitiesRepository()
         {
-            Assert.IsNotNull(activitiesRepository);
+            Assert.IsNotNull(_activitiesRepository);
         }
 
         [Test]
-        public async Task SaveActivity()
+        public async Task Save_Valid_Activity()
         {
             try
             {
@@ -41,9 +41,9 @@ namespace Infrastructure.Test.Repositories
                     Periodicity = PeriodicityType.Casual
                 };
 
-                activitiesRepository.Insert(activity);
+                _activitiesRepository.Insert(activity);
 
-                await dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
 
                 Assert.Pass();
             }
@@ -54,9 +54,33 @@ namespace Infrastructure.Test.Repositories
         }
 
         [Test]
-        public async Task SearchActivity()
+        public async Task Save_Invalid_Activity()
         {
-            Activity activity = await activitiesRepository.FindByIdAsync(1);
+            try
+            {
+                Activity activity = new Activity
+                {
+                    State = ActivityState.Pending,
+                    ClientId = "123456789",
+                    Periodicity = PeriodicityType.Casual
+                };
+
+                _activitiesRepository.Insert(activity);
+
+                await _dbContext.SaveChangesAsync();
+
+                Assert.Fail();
+            }
+            catch (DbUpdateException)
+            {
+                Assert.Pass();
+            }
+        }
+
+        [Test]
+        public async Task Search_Existing_Activity()
+        {
+            Activity activity = await _activitiesRepository.FindByIdAsync(1);
 
             Assert.IsNotNull(activity);
             Assert.AreEqual(PeriodicityType.Casual, activity.Periodicity);
@@ -64,18 +88,26 @@ namespace Infrastructure.Test.Repositories
         }
 
         [Test]
-        public async Task UpdateActivity()
+        public async Task Search_Non_Existent_Activity()
         {
-            Activity activity = await activitiesRepository.FindByIdAsync(1);
+            Activity activity = await _activitiesRepository.FindByIdAsync(2);
+
+            Assert.IsNull(activity);
+        }
+
+        [Test]
+        public async Task Update_Existing_Activity()
+        {
+            Activity activity = await _activitiesRepository.FindByIdAsync(1);
             Assert.IsNotNull(activity);
 
             activity.State = ActivityState.Accepted;
 
-            activitiesRepository.Update(activity);
-            await dbContext.SaveChangesAsync();
+            _activitiesRepository.Update(activity);
+            await _dbContext.SaveChangesAsync();
 
-            activity = await activitiesRepository.FindByIdAsync(1);
-
+            activity = await _activitiesRepository.FindByIdAsync(1);
+            Assert.IsNotNull(activity);
             Assert.AreEqual(ActivityState.Accepted, activity.State);
         }
     }
