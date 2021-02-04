@@ -8,6 +8,7 @@ import { AuthenticationService } from '@core/authentication/authentication.servi
 })
 export class NavMenuComponent implements OnInit {
   isLogged = false;
+  isLogout = false;
 
   constructor(private authService: AuthenticationService) {}
 
@@ -22,8 +23,11 @@ export class NavMenuComponent implements OnInit {
   }
 
   onLogout(): void {
-    this.authService.logoutUser();
-    localStorage.removeItem('current_person');
-    window.location.reload();
+    this.isLogout = true;
+    this.authService.logoutUser().subscribe(result => {
+      if (result) {
+        location.reload();
+      }
+    });
   }
 }

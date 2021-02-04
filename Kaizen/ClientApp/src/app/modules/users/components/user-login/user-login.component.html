@@ -64,7 +64,7 @@
         </mat-form-field>
       </div>
       <div class="form-element left session-toggle">
-        <mat-slide-toggle [color]="'primary'"
+        <mat-slide-toggle [color]="'primary'" formControlName="isPersistent"
           ><small>Mantener sesión iniciada</small></mat-slide-toggle
         >
       </div>
@@ -77,10 +77,9 @@
         <div class="spacer"></div>
         <div class="login-button">
           <button
-            class="right"
             type="submit"
             mat-raised-button
-            class="royal_azure"
+            class="royal_azure right"
             [appLoadingButton]="loading"
           >
             Iniciar sesión
@@ -88,7 +87,7 @@
         </div>
       </div>
       <div>
-        <div class="text-center" sty>
+        <div class="text-center">
           <a routerLink="/clients/new/register">
             ¿No estás registrado? Registrate.
           </a>

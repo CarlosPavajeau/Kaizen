@@ -22,9 +22,11 @@ export class AuthenticationService {
     return this.http.post<User>(`${AUTH_API_URL}/Login`, user);
   }
 
-  logoutUser(): void {
+  logoutUser(): Observable<boolean> {
     this.removeUser();
     localStorage.removeItem('current_person');
+
+    return this.http.post<boolean>(`${AUTH_API_URL}/Logout`, null);
   }
 
   removeUser(): void {

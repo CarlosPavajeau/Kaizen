@@ -20,6 +20,7 @@ export class DashboardLayoutComponent implements OnInit {
   drawer: MatSidenav;
 
   isSidenavClose = false;
+  isLogout = false;
 
   menuOptions: DashboardCard[] = [];
 
@@ -51,7 +52,11 @@ export class DashboardLayoutComponent implements OnInit {
   }
 
   logout(): void {
-    this.authService.logoutUser();
-    location.reload();
+    this.isLogout = true;
+    this.authService.logoutUser().subscribe(result => {
+      if (result) {
+        location.reload();
+      }
+    });
   }
 }

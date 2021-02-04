@@ -34,7 +34,8 @@ export class UserLoginComponent implements OnInit, IForm {
   initForm(): void {
     this.loginForm = this.formBuilder.group({
       usernameOrEmail: [ '', [ Validators.required, Validators.minLength(5), Validators.maxLength(15) ] ],
-      password: [ '', [ Validators.required, Validators.minLength(8), Validators.maxLength(30) ] ]
+      password: [ '', [ Validators.required, Validators.minLength(8), Validators.maxLength(30) ] ],
+      isPersistent: ['']
     });
   }
 
@@ -43,7 +44,8 @@ export class UserLoginComponent implements OnInit, IForm {
       this.loading = true;
       const loginRequest: LoginRequest = {
         usernameOrEmail: this.controls['usernameOrEmail'].value,
-        password: this.controls['password'].value
+        password: this.controls['password'].value,
+        isPersistent: this.controls['isPersistent'].value || false
       };
 
       this.authService

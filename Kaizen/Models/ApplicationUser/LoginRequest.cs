@@ -9,5 +9,8 @@ namespace Kaizen.Models.ApplicationUser
 
         [Required(ErrorMessage = "La contraseña de acceso es requerida")]
         public string Password { get; set; }
+
+        [Required]
+        public bool IsPersistent { get; set; }
     }
 }

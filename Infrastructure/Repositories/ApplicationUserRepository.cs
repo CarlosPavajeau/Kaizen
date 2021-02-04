@@ -30,9 +30,14 @@ namespace Kaizen.Infrastructure.Repositories
             _mailService = mailService;
         }
 
-        public async Task<SignInResult> Login(ApplicationUser user, string password)
+        public async Task<SignInResult> Login(ApplicationUser user, string password, bool isPersistent)
         {
-            return await _signInManager.PasswordSignInAsync(user, password, false, false);
+            return await _signInManager.PasswordSignInAsync(user, password, isPersistent, false);
+        }
+
+        public async Task Logout()
+        {
+            await _signInManager.SignOutAsync();
         }
 
         public async Task<ApplicationUser> FindByNameAsync(string username)

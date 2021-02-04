@@ -64,6 +64,7 @@
       class="nav-link"
       mat-button
       (click)="onLogout()"
+      [appLoadingButton]="isLogout"
       *ngIf="isLogged"
       fxShow="true"
       fxHide.xs

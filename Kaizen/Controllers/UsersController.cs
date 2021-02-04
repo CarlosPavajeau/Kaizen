@@ -115,13 +115,21 @@ namespace Kaizen.Controllers
                 return NotFound($"El usuario/email {loginRequest.UsernameOrEmail} no se encuentra registrado.");
             }
 
-            Microsoft.AspNetCore.Identity.SignInResult result = await _userRepository.Login(user, loginRequest.Password);
+            Microsoft.AspNetCore.Identity.SignInResult result = await _userRepository.Login(user, loginRequest.Password, loginRequest.IsPersistent);
             if (!result.Succeeded)
             {
                 throw new IncorrectPasswordException();
             }
 
             return await GenerateAuthenticateUser(user);
+        }
+
+        [HttpPost("[action]")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult<bool>> Logout()
+        {
+            await _userRepository.Logout();
+            return true;
         }
 
         private async Task<ActionResult<ApplicationUserViewModel>> GenerateAuthenticateUser(ApplicationUser user)
