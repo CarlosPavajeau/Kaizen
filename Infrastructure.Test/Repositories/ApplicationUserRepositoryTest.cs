@@ -11,24 +11,24 @@ namespace Infrastructure.Test.Repositories
     [TestFixture]
     public class ApplicationUserRepositoryTest : BaseRepositoryTest
     {
-        IApplicationUserRepository applicationUserRepository;
+        private IApplicationUserRepository _applicationUserRepository;
 
         [SetUp]
         public void SetUp()
         {
-            applicationUserRepository = ServiceProvider.GetService<IApplicationUserRepository>();
+            _applicationUserRepository = ServiceProvider.GetService<IApplicationUserRepository>();
         }
 
         [Test]
         [Order(0)]
         public void CheckApplicationUserRepository()
         {
-            Assert.IsNotNull(applicationUserRepository);
+            Assert.IsNotNull(_applicationUserRepository);
         }
 
         [Test]
         [Order(1)]
-        public async Task SaveUser()
+        public async Task Save_Valid_User()
         {
             try
             {
@@ -39,7 +39,7 @@ namespace Infrastructure.Test.Repositories
                     PhoneNumber = "3167040706"
                 };
 
-                IdentityResult result = await applicationUserRepository.CreateAsync(applicationUser, "ThisisaSecurePassword321*");
+                IdentityResult result = await _applicationUserRepository.CreateAsync(applicationUser, "ThisisaSecurePassword321*");
 
                 Assert.IsTrue(result.Succeeded);
             }
@@ -50,10 +50,32 @@ namespace Infrastructure.Test.Repositories
         }
 
         [Test]
-        [Order(2)]
-        public async Task SearchUserByUserName()
+        public async Task Save_Invalid_User()
         {
-            ApplicationUser applicationUser = await applicationUserRepository.FindByNameAsync("admin");
+            try
+            {
+                ApplicationUser applicationUser = new ApplicationUser
+                {
+                    UserName = "admin",
+                    Email = "example@example.com",
+                    PhoneNumber = "31670407"
+                };
+
+                IdentityResult result = await _applicationUserRepository.CreateAsync(applicationUser, "notsecurepassword");
+
+                Assert.IsTrue(!result.Succeeded);
+            }
+            catch (DbUpdateException)
+            {
+                Assert.Pass();
+            }
+        }
+
+        [Test]
+        [Order(2)]
+        public async Task Search_User_By_UserName()
+        {
+            ApplicationUser applicationUser = await _applicationUserRepository.FindByNameAsync("admin");
 
             Assert.IsNotNull(applicationUser);
             Assert.AreEqual("admin", applicationUser.UserName);
@@ -61,9 +83,9 @@ namespace Infrastructure.Test.Repositories
 
         [Test]
         [Order(3)]
-        public async Task SearchUserByEmail()
+        public async Task Search_User_By_Email()
         {
-            ApplicationUser applicationUser = await applicationUserRepository.FindByEmailAsync("example@example.com");
+            ApplicationUser applicationUser = await _applicationUserRepository.FindByEmailAsync("example@example.com");
 
             Assert.IsNotNull(applicationUser);
             Assert.AreEqual("example@example.com", applicationUser.Email);
@@ -71,9 +93,9 @@ namespace Infrastructure.Test.Repositories
 
         [Test]
         [Order(4)]
-        public async Task SearchUserByUserNameOrEmail()
+        public async Task Search_User_By_UserName_Or_Email()
         {
-            ApplicationUser applicationUser = await applicationUserRepository.FindByNameOrEmailAsync("example@example.com");
+            ApplicationUser applicationUser = await _applicationUserRepository.FindByNameOrEmailAsync("example@example.com");
 
             Assert.IsNotNull(applicationUser);
             Assert.AreEqual("example@example.com", applicationUser.Email);
@@ -81,13 +103,13 @@ namespace Infrastructure.Test.Repositories
 
         [Test]
         [Order(5)]
-        public async Task AssignUserRole()
+        public async Task Assign_Role_To_User()
         {
             try
             {
-                ApplicationUser applicationUser = await applicationUserRepository.FindByNameOrEmailAsync("admin");
+                ApplicationUser applicationUser = await _applicationUserRepository.FindByNameOrEmailAsync("admin");
 
-                IdentityResult result = await applicationUserRepository.AddToRoleAsync(applicationUser, "Administrator");
+                IdentityResult result = await _applicationUserRepository.AddToRoleAsync(applicationUser, "Administrator");
 
                 Assert.IsTrue(result.Succeeded);
             }
@@ -99,11 +121,11 @@ namespace Infrastructure.Test.Repositories
 
         [Test]
         [Order(6)]
-        public async Task CheckUserRole()
+        public async Task Check_User_Role()
         {
-            ApplicationUser applicationUser = await applicationUserRepository.FindByNameOrEmailAsync("admin");
+            ApplicationUser applicationUser = await _applicationUserRepository.FindByNameOrEmailAsync("admin");
 
-            string role = await applicationUserRepository.GetUserRoleAsync(applicationUser);
+            string role = await _applicationUserRepository.GetUserRoleAsync(applicationUser);
             Assert.IsNotNull(role);
             Assert.AreEqual("Administrator", role);
         }
@@ -112,13 +134,13 @@ namespace Infrastructure.Test.Repositories
         [Order(7)]
         public async Task Generate_ConfirmEmailToken_And_ConfirmEmail()
         {
-            ApplicationUser applicationUser = await applicationUserRepository.FindByNameOrEmailAsync("admin");
+            ApplicationUser applicationUser = await _applicationUserRepository.FindByNameOrEmailAsync("admin");
             Assert.IsNotNull(applicationUser);
 
-            string confirmationToken = await applicationUserRepository.GenerateEmailConfirmationTokenAsync(applicationUser);
+            string confirmationToken = await _applicationUserRepository.GenerateEmailConfirmationTokenAsync(applicationUser);
             Assert.IsNotNull(confirmationToken);
 
-            ApplicationUser result = await applicationUserRepository.ConfirmEmailAsync(applicationUser, confirmationToken);
+            ApplicationUser result = await _applicationUserRepository.ConfirmEmailAsync(applicationUser, confirmationToken);
 
             Assert.IsNotNull(result);
             Assert.IsTrue(applicationUser.EmailConfirmed);
@@ -126,27 +148,27 @@ namespace Infrastructure.Test.Repositories
 
         [Test]
         [Order(8)]
-        public async Task ChangePassowrd_Without_ResetToken()
+        public async Task ChangePassword_Without_ResetToken()
         {
-            ApplicationUser applicationUser = await applicationUserRepository.FindByNameOrEmailAsync("admin");
+            ApplicationUser applicationUser = await _applicationUserRepository.FindByNameOrEmailAsync("admin");
             Assert.IsNotNull(applicationUser);
 
-            IdentityResult result = await applicationUserRepository.ChangePasswordAsync(applicationUser, "ThisisaSecurePassword321*", "ThisIsMyNewPassword123.");
+            IdentityResult result = await _applicationUserRepository.ChangePasswordAsync(applicationUser, "ThisisaSecurePassword321*", "ThisIsMyNewPassword123.");
 
             Assert.IsTrue(result.Succeeded);
         }
 
         [Test]
         [Order(9)]
-        public async Task ChangePassowrd_With_ResetToken()
+        public async Task ChangePassword_With_ResetToken()
         {
-            ApplicationUser applicationUser = await applicationUserRepository.FindByNameOrEmailAsync("admin");
+            ApplicationUser applicationUser = await _applicationUserRepository.FindByNameOrEmailAsync("admin");
             Assert.IsNotNull(applicationUser);
 
-            string passwordResetToken = await applicationUserRepository.GeneratePasswordResetTokenAsync(applicationUser);
+            string passwordResetToken = await _applicationUserRepository.GeneratePasswordResetTokenAsync(applicationUser);
             Assert.IsNotNull(passwordResetToken);
 
-            IdentityResult result = await applicationUserRepository.ResetPasswordAsync(applicationUser, passwordResetToken, "ThisIsMyResetPassword321*");
+            IdentityResult result = await _applicationUserRepository.ResetPasswordAsync(applicationUser, passwordResetToken, "ThisIsMyResetPassword321*");
 
             Assert.IsTrue(result.Succeeded);
         }
