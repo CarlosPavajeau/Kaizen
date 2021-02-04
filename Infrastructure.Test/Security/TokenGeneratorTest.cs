@@ -1,3 +1,7 @@
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
 using Kaizen.Core.Security;
 using Kaizen.Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +13,7 @@ namespace Infrastructure.Test.Security
     [TestFixture]
     public class TokenGeneratorTest
     {
-        ITokenGenerator tokenGenerator;
+        private ITokenGenerator _tokenGenerator;
 
         [OneTimeSetUp]
         public void Init()
@@ -24,20 +28,27 @@ namespace Infrastructure.Test.Security
             services.ConfigureTokenGenerator();
 
             ServiceProvider serviceProvider = services.BuildServiceProvider();
-            tokenGenerator = serviceProvider.GetService<ITokenGenerator>();
+            _tokenGenerator = serviceProvider.GetService<ITokenGenerator>();
         }
 
         [Test]
         public void CheckTokenGenerator()
         {
-            Assert.IsNotNull(tokenGenerator);
+            Assert.IsNotNull(_tokenGenerator);
         }
 
         [Test]
-        public void GenerateToken()
+        public void Generate_And_Verify_Token()
         {
-            string token = tokenGenerator.GenerateToken("admin", "Administrator");
+            var token = _tokenGenerator.GenerateToken("admin", "Administrator");
             Assert.IsTrue(token.Length > 0);
+
+            var handler = new JwtSecurityTokenHandler();
+            var tokenRead = handler.ReadToken(token) as JwtSecurityToken;
+            Assert.IsNotNull(tokenRead);
+
+            var tokenRole = tokenRead.Claims.First(claim => claim.Type == "role").Value;
+            Assert.AreEqual("Administrator", tokenRole);
         }
     }
 }
