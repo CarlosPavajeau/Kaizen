@@ -48,7 +48,7 @@ namespace Kaizen.Infrastructure.Services
             }
             catch (Exception e)
             {
-                _logger.LogError(e.Message);
+                _logger.LogError("Error trying to send an email. Exception message: {Message}", e.Message);
             }
         }
 
