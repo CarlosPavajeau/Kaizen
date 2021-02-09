@@ -39,25 +39,6 @@ namespace Infrastructure.Test.Repositories
         }
 
         [Test]
-        public async Task Save_Invalid_Service()
-        {
-            try
-            {
-                Service service = new Service();
-
-                _servicesRepository.Insert(service);
-
-                await _dbContext.SaveChangesAsync();
-
-                Assert.Fail();
-            }
-            catch (Exception)
-            {
-                Assert.Pass();
-            }
-        }
-
-        [Test]
         public async Task Save_Valid_Service()
         {
             try
