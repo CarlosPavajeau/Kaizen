@@ -14,40 +14,59 @@ namespace Infrastructure.Test.Repositories
     [Order(1)]
     public class EmployeesRepositoryTest : BaseRepositoryTest
     {
-        private IEmployeesRepository employeesRepository;
-        private ApplicationDbContext dbContext;
+        private IEmployeesRepository _employeesRepository;
+        private ApplicationDbContext _dbContext;
 
         [SetUp]
         public void SetUp()
         {
             DetachAllEntities();
 
-            employeesRepository = ServiceProvider.GetService<IEmployeesRepository>();
-            dbContext = ServiceProvider.GetService<ApplicationDbContext>();
+            _employeesRepository = ServiceProvider.GetService<IEmployeesRepository>();
+            _dbContext = ServiceProvider.GetService<ApplicationDbContext>();
         }
 
         [Test]
         public void CheckEmployeesRepository()
         {
-            Assert.IsNotNull(employeesRepository);
+            Assert.IsNotNull(_employeesRepository);
         }
 
         [Test]
-        public async Task LoadEmployeeCharges()
+        public async Task Get_All_Employee_Charges()
         {
             try
             {
-                List<EmployeeCharge> employeeCharges = await employeesRepository.GetAllEmployeeCharges().ToListAsync();
+                List<EmployeeCharge> employeeCharges = await _employeesRepository.GetAllEmployeeCharges().ToListAsync();
                 Assert.IsTrue(employeeCharges.Count > 0);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Assert.Fail();
+                Assert.Fail(e.Message);
             }
         }
 
         [Test]
-        public async Task SaveEmployee()
+        public async Task Save_Invalid_Employee()
+        {
+            try
+            {
+                Employee employee = new Employee();
+
+                _employeesRepository.Insert(employee);
+
+                await _dbContext.SaveChangesAsync();
+
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+                Assert.Pass();
+            }
+        }
+
+        [Test]
+        public async Task Save_Valid_Employee()
         {
             try
             {
@@ -65,54 +84,55 @@ namespace Infrastructure.Test.Repositories
                     }
                 };
 
-                employeesRepository.Insert(employee);
+                _employeesRepository.Insert(employee);
 
-                await dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
 
                 Assert.Pass();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
-                Assert.Fail();
+                Assert.Fail(e.Message);
             }
         }
 
         [Test]
-        public async Task SearchEmployee()
+        public async Task Search_Non_Existent_Employee()
         {
-            try
-            {
-                Employee employee = await employeesRepository.FindByIdAsync("123456789");
+            Employee employee = await _employeesRepository.FindByIdAsync("123456788");
 
-                Assert.IsNotNull(employee);
-                Assert.AreEqual("123456789", employee.Id);
-                Assert.AreEqual("Juan", employee.FirstName);
-            }
-            catch (Exception)
-            {
-                Assert.Fail();
-            }
+            Assert.IsNull(employee);
         }
 
         [Test]
-        public async Task UpdateEmployee()
+        public async Task Search_Existing_Employee()
+        {
+            Employee employee = await _employeesRepository.FindByIdAsync("123456789");
+
+            Assert.IsNotNull(employee);
+            Assert.AreEqual("123456789", employee.Id);
+            Assert.AreEqual("Juan", employee.FirstName);
+        }
+
+        [Test]
+        public async Task Update_Existing_Employee()
         {
             try
             {
-                Employee employee = await employeesRepository.FindByIdAsync("123456789");
+                Employee employee = await _employeesRepository.FindByIdAsync("123456789");
                 Assert.IsNotNull(employee);
 
                 employee.LastName = "Manuel";
-                employeesRepository.Update(employee);
+                _employeesRepository.Update(employee);
 
-                await dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
 
-                employee = await employeesRepository.FindByIdAsync("123456789");
+                employee = await _employeesRepository.FindByIdAsync("123456789");
                 Assert.AreEqual("Manuel", employee.LastName);
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
-                Assert.Fail();
+                Assert.Fail(e.Message);
             }
         }
     }

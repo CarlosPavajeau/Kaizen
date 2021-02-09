@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Kaizen.Domain.Data;
 using Kaizen.Domain.Entities;
@@ -11,24 +12,26 @@ namespace Infrastructure.Test.Repositories
     [TestFixture, Order(6)]
     public class ProductInvoicesRepositoryTest : BaseRepositoryTest
     {
-        private IProductInvoicesRepository productInvoicesRepository;
-        private ApplicationDbContext dbContext;
+        private IProductInvoicesRepository _productInvoicesRepository;
+        private ApplicationDbContext _dbContext;
 
         [SetUp]
         public void SetUp()
         {
-            productInvoicesRepository = ServiceProvider.GetService<IProductInvoicesRepository>();
-            dbContext = ServiceProvider.GetService<ApplicationDbContext>();
+            DetachAllEntities();
+
+            _productInvoicesRepository = ServiceProvider.GetService<IProductInvoicesRepository>();
+            _dbContext = ServiceProvider.GetService<ApplicationDbContext>();
         }
 
         [Test]
         public void CheckProductInvoicesRepository()
         {
-            Assert.IsNotNull(productInvoicesRepository);
+            Assert.IsNotNull(_productInvoicesRepository);
         }
 
         [Test]
-        public async Task SaveProductInvoice()
+        public async Task Save_Valid_ProductInvoice()
         {
             try
             {
@@ -40,21 +43,29 @@ namespace Infrastructure.Test.Repositories
 
                 productInvoice.CalculateTotal();
 
-                await productInvoicesRepository.Insert(productInvoice);
-                await dbContext.SaveChangesAsync();
+                await _productInvoicesRepository.Insert(productInvoice);
+                await _dbContext.SaveChangesAsync();
 
                 Assert.Pass();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
-                Assert.Fail();
+                Assert.Fail(e.Message);
             }
         }
 
         [Test]
-        public async Task SearchProductInvoice()
+        public async Task Search_Non_Existent_ProductInvoice()
         {
-            ProductInvoice productInvoice = await productInvoicesRepository.FindByIdAsync(1);
+            ProductInvoice productInvoice = await _productInvoicesRepository.FindByIdAsync(2);
+
+            Assert.IsNull(productInvoice);
+        }
+
+        [Test]
+        public async Task Search_Existing_ProductInvoice()
+        {
+            ProductInvoice productInvoice = await _productInvoicesRepository.FindByIdAsync(1);
 
             Assert.IsNotNull(productInvoice);
             Assert.AreEqual(InvoiceState.Generated, productInvoice.State);
@@ -62,18 +73,18 @@ namespace Infrastructure.Test.Repositories
         }
 
         [Test]
-        public async Task UpdateProductInvoice()
+        public async Task Update_Existent_ProductInvoice()
         {
-            ProductInvoice productInvoice = await productInvoicesRepository.FindByIdAsync(1);
+            ProductInvoice productInvoice = await _productInvoicesRepository.FindByIdAsync(1);
             Assert.IsNotNull(productInvoice);
 
             productInvoice.State = InvoiceState.Paid;
             productInvoice.PaymentMethod = PaymentMethod.Cash;
 
-            productInvoicesRepository.Update(productInvoice);
-            await dbContext.SaveChangesAsync();
+            _productInvoicesRepository.Update(productInvoice);
+            await _dbContext.SaveChangesAsync();
 
-            productInvoice = await productInvoicesRepository.FindByIdAsync(1);
+            productInvoice = await _productInvoicesRepository.FindByIdAsync(1);
 
             Assert.AreEqual(InvoiceState.Paid, productInvoice.State);
             Assert.AreEqual(PaymentMethod.Cash, productInvoice.PaymentMethod);

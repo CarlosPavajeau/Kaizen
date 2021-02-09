@@ -103,7 +103,7 @@ namespace Kaizen.Test.Controllers
             _applicationUserRepository.Setup(r => r.GetUserRoleAsync(It.IsAny<ApplicationUser>()))
                 .Returns(Task.FromResult("Administrator"));
 
-            _applicationUserRepository.Setup(r => r.Login(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
+            _applicationUserRepository.Setup(r => r.Login(It.IsAny<ApplicationUser>(), It.IsAny<string>(), It.IsAny<bool>()))
                 .Returns(Task.FromResult(Microsoft.AspNetCore.Identity.SignInResult.Success));
 
             ActionResult<ApplicationUserViewModel> result = await _usersController.Login(new LoginRequest

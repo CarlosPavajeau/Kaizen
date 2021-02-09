@@ -13,26 +13,45 @@ namespace Infrastructure.Test.Repositories
     [Order(3)]
     public class ProductsRepositoryTest : BaseRepositoryTest
     {
-        private IProductsRepository productsRepository;
-        private ApplicationDbContext dbContext;
+        private IProductsRepository _productsRepository;
+        private ApplicationDbContext _dbContext;
 
         [SetUp]
         public void SetUp()
         {
             DetachAllEntities();
 
-            productsRepository = ServiceProvider.GetService<IProductsRepository>();
-            dbContext = ServiceProvider.GetService<ApplicationDbContext>();
+            _productsRepository = ServiceProvider.GetService<IProductsRepository>();
+            _dbContext = ServiceProvider.GetService<ApplicationDbContext>();
         }
 
         [Test]
         public void CheckProductsRepository()
         {
-            Assert.IsNotNull(productsRepository);
+            Assert.IsNotNull(_productsRepository);
         }
 
         [Test]
-        public async Task SaveProduct()
+        public async Task Save_Invalid_Product()
+        {
+            try
+            {
+                Product product = new Product();
+
+                _productsRepository.Insert(product);
+
+                await _dbContext.SaveChangesAsync();
+
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+                Assert.Pass();
+            }
+        }
+
+        [Test]
+        public async Task Save_Valid_Product()
         {
             try
             {
@@ -41,7 +60,8 @@ namespace Infrastructure.Test.Repositories
                     Code = "123ER",
                     Name = "Pesticida",
                     Amount = 10,
-                    ApplicationMonths = ApplicationMonths.January | ApplicationMonths.February | ApplicationMonths.March,
+                    ApplicationMonths =
+                        ApplicationMonths.January | ApplicationMonths.February | ApplicationMonths.March,
                     Description = "Pesticida de plagas",
                     Presentation = "1Litro",
                     Price = 50000,
@@ -51,54 +71,55 @@ namespace Infrastructure.Test.Repositories
                     EmergencyCard = "EmergencyCard.pdf",
                 };
 
-                productsRepository.Insert(product);
+                _productsRepository.Insert(product);
 
-                await dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
 
                 Assert.Pass();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
-                Assert.Fail();
+                Assert.Fail(e.Message);
             }
         }
 
         [Test]
-        public async Task SearchProduct()
+        public async Task Search_Non_Existing_Product()
         {
-            try
-            {
-                Product product = await productsRepository.FindByIdAsync("123ER");
+            Product product = await _productsRepository.FindByIdAsync("123EE");
 
-                Assert.IsNotNull(product);
-                Assert.AreEqual("123ER", product.Code);
-                Assert.AreEqual("Pesticida", product.Name);
-            }
-            catch (Exception)
-            {
-                Assert.Fail();
-            }
+            Assert.IsNull(product);
         }
 
         [Test]
-        public async Task UpdateProduct()
+        public async Task Search_Existing_Product()
+        {
+            Product product = await _productsRepository.FindByIdAsync("123ER");
+
+            Assert.IsNotNull(product);
+            Assert.AreEqual("123ER", product.Code);
+            Assert.AreEqual("Pesticida", product.Name);
+        }
+
+        [Test]
+        public async Task Update_Existing_Product()
         {
             try
             {
-                Product product = await productsRepository.FindByIdAsync("123ER");
+                Product product = await _productsRepository.FindByIdAsync("123ER");
                 Assert.IsNotNull(product);
 
                 product.Description = "Pesticida de plagas voladoras";
-                productsRepository.Update(product);
+                _productsRepository.Update(product);
 
-                await dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
 
-                product = await productsRepository.FindByIdAsync("123ER");
+                product = await _productsRepository.FindByIdAsync("123ER");
                 Assert.AreEqual("Pesticida de plagas voladoras", product.Description);
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
-                Assert.Fail();
+                Assert.Fail(e.Message);
             }
         }
     }

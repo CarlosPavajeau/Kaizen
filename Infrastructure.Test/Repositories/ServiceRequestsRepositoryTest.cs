@@ -13,24 +13,24 @@ namespace Infrastructure.Test.Repositories
     [Order(5)]
     public class ServiceRequestsRepositoryTest : BaseRepositoryTest
     {
-        private IServiceRequestsRepository serviceRequestsRepository;
-        private ApplicationDbContext dbContext;
+        private IServiceRequestsRepository _serviceRequestsRepository;
+        private ApplicationDbContext _dbContext;
 
         [SetUp]
         public void SetUp()
         {
-            serviceRequestsRepository = ServiceProvider.GetService<IServiceRequestsRepository>();
-            dbContext = ServiceProvider.GetService<ApplicationDbContext>();
+            _serviceRequestsRepository = ServiceProvider.GetService<IServiceRequestsRepository>();
+            _dbContext = ServiceProvider.GetService<ApplicationDbContext>();
         }
 
         [Test]
         public void CheckServiceRequestsRepository()
         {
-            Assert.IsNotNull(serviceRequestsRepository);
+            Assert.IsNotNull(_serviceRequestsRepository);
         }
 
         [Test]
-        public async Task SaveServiceRequest()
+        public async Task Save_Valid_ServiceRequest()
         {
             try
             {
@@ -42,22 +42,31 @@ namespace Infrastructure.Test.Repositories
                     State = ServiceRequestState.Pending
                 };
 
-                serviceRequestsRepository.Insert(serviceRequest);
+                _serviceRequestsRepository.Insert(serviceRequest);
 
-                await dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
 
                 Assert.Pass();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
-                Assert.Fail();
+                Console.WriteLine(e.InnerException?.Message);
+                Assert.Fail(e.Message);
             }
         }
 
         [Test]
-        public async Task SearchServiceRequest()
+        public async Task Search_Non_Existent_ServiceRequest()
         {
-            ServiceRequest serviceRequest = await serviceRequestsRepository.FindByIdAsync(1);
+            ServiceRequest serviceRequest = await _serviceRequestsRepository.FindByIdAsync(2);
+
+            Assert.IsNull(serviceRequest);
+        }
+
+        [Test]
+        public async Task Search_Existing_ServiceRequest()
+        {
+            ServiceRequest serviceRequest = await _serviceRequestsRepository.FindByIdAsync(1);
 
             Assert.IsNotNull(serviceRequest);
             Assert.AreEqual(PeriodicityType.Casual, serviceRequest.Periodicity);
@@ -65,17 +74,17 @@ namespace Infrastructure.Test.Repositories
         }
 
         [Test]
-        public async Task UpdateServiceRequest()
+        public async Task Update_Existing_ServiceRequest()
         {
-            ServiceRequest serviceRequest = await serviceRequestsRepository.FindByIdAsync(1);
+            ServiceRequest serviceRequest = await _serviceRequestsRepository.FindByIdAsync(1);
             Assert.IsNotNull(serviceRequest);
 
             serviceRequest.State = ServiceRequestState.Accepted;
-            serviceRequestsRepository.Update(serviceRequest);
+            _serviceRequestsRepository.Update(serviceRequest);
 
-            await dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
 
-            serviceRequest = await serviceRequestsRepository.FindByIdAsync(1);
+            serviceRequest = await _serviceRequestsRepository.FindByIdAsync(1);
 
             Assert.AreEqual(ServiceRequestState.Accepted, serviceRequest.State);
         }

@@ -13,24 +13,45 @@ namespace Infrastructure.Test.Repositories
     [Order(2)]
     public class EquipmentsRepositoryTest : BaseRepositoryTest
     {
-        private IEquipmentsRepository equipmentsRepository;
-        private ApplicationDbContext dbContext;
+        private IEquipmentsRepository _equipmentsRepository;
+        private ApplicationDbContext _dbContext;
 
         [SetUp]
         public void SetUp()
         {
-            equipmentsRepository = ServiceProvider.GetService<IEquipmentsRepository>();
-            dbContext = ServiceProvider.GetService<ApplicationDbContext>();
+            DetachAllEntities();
+
+            _equipmentsRepository = ServiceProvider.GetService<IEquipmentsRepository>();
+            _dbContext = ServiceProvider.GetService<ApplicationDbContext>();
         }
 
         [Test]
         public void CheckEquipmentsRepository()
         {
-            Assert.IsNotNull(equipmentsRepository);
+            Assert.IsNotNull(_equipmentsRepository);
         }
 
         [Test]
-        public async Task SaveEquipment()
+        public async Task Save_Invalid_Equipment()
+        {
+            try
+            {
+                Equipment equipment = new Equipment();
+
+                _equipmentsRepository.Insert(equipment);
+
+                await _dbContext.SaveChangesAsync();
+
+                Assert.Fail();
+            }
+            catch (Exception)
+            {
+                Assert.Pass();
+            }
+        }
+
+        [Test]
+        public async Task Save_Valid_Equipment()
         {
             try
             {
@@ -44,9 +65,9 @@ namespace Infrastructure.Test.Repositories
                     Price = 45000
                 };
 
-                equipmentsRepository.Insert(equipment);
+                _equipmentsRepository.Insert(equipment);
 
-                await dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
 
                 Assert.Pass();
             }
@@ -57,41 +78,42 @@ namespace Infrastructure.Test.Repositories
         }
 
         [Test]
-        public async Task SearchEquipment()
+        public async Task Search_Non_Existent_Equipment()
         {
-            try
-            {
-                Equipment equipment = await equipmentsRepository.FindByIdAsync("123RF");
+            Equipment equipment = await _equipmentsRepository.FindByIdAsync("123FF");
 
-                Assert.IsNotNull(equipment);
-                Assert.AreEqual("123RF", equipment.Code);
-                Assert.AreEqual("Rociador", equipment.Name);
-            }
-            catch (Exception)
-            {
-                Assert.Fail();
-            }
+            Assert.IsNull(equipment);
         }
 
         [Test]
-        public async Task UpdateEquipment()
+        public async Task Search_Existing_Equipment()
+        {
+            Equipment equipment = await _equipmentsRepository.FindByIdAsync("123RF");
+
+            Assert.IsNotNull(equipment);
+            Assert.AreEqual("123RF", equipment.Code);
+            Assert.AreEqual("Rociador", equipment.Name);
+        }
+
+        [Test]
+        public async Task Update_Existing_Equipment()
         {
             try
             {
-                Equipment equipment = await equipmentsRepository.FindByIdAsync("123RF");
+                Equipment equipment = await _equipmentsRepository.FindByIdAsync("123RF");
                 Assert.IsNotNull(equipment);
 
                 equipment.Name = "Rociador de pesticida";
-                equipmentsRepository.Update(equipment);
+                _equipmentsRepository.Update(equipment);
 
-                await dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
 
-                equipment = await equipmentsRepository.FindByIdAsync("123RF");
+                equipment = await _equipmentsRepository.FindByIdAsync("123RF");
                 Assert.AreEqual("Rociador de pesticida", equipment.Name);
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
-                Assert.Fail();
+                Assert.Fail(e.Message);
             }
         }
     }

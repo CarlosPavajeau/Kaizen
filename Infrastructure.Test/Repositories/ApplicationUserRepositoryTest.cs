@@ -43,9 +43,9 @@ namespace Infrastructure.Test.Repositories
 
                 Assert.IsTrue(result.Succeeded);
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
-                Assert.Fail();
+                Assert.Fail(e.Message);
             }
         }
 
@@ -113,9 +113,9 @@ namespace Infrastructure.Test.Repositories
 
                 Assert.IsTrue(result.Succeeded);
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
-                Assert.Fail();
+                Assert.Fail(e.Message);
             }
         }
 

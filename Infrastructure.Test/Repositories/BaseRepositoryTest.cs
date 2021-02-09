@@ -45,13 +45,13 @@ namespace Infrastructure.Test.Repositories
             services.AddSingleton(mockHostingEnvironment.Object);
 
             ServiceProvider = services.BuildServiceProvider();
-            ServiceProvider.GetService<ApplicationDbContext>().Database.Migrate();
+            ServiceProvider.GetService<ApplicationDbContext>()?.Database.Migrate();
         }
 
         protected void DetachAllEntities()
         {
             ApplicationDbContext dbContext = ServiceProvider.GetService<ApplicationDbContext>();
-            dbContext.ChangeTracker.Entries()
+            dbContext?.ChangeTracker.Entries()
                 .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified || e.State == EntityState.Deleted)
                 .ToList()
                 .ForEach(e =>

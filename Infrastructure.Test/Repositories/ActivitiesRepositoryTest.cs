@@ -47,33 +47,10 @@ namespace Infrastructure.Test.Repositories
 
                 Assert.Pass();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
-                Assert.Fail();
-            }
-        }
-
-        [Test]
-        public async Task Save_Invalid_Activity()
-        {
-            try
-            {
-                Activity activity = new Activity
-                {
-                    State = ActivityState.Pending,
-                    ClientId = "123456789",
-                    Periodicity = PeriodicityType.Casual
-                };
-
-                _activitiesRepository.Insert(activity);
-
-                await _dbContext.SaveChangesAsync();
-
-                Assert.Fail();
-            }
-            catch (DbUpdateException)
-            {
-                Assert.Pass();
+                Console.WriteLine(e.InnerException?.Message);
+                Assert.Fail(e.Message);
             }
         }
 

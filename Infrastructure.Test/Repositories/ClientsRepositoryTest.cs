@@ -14,39 +14,31 @@ namespace Infrastructure.Test.Repositories
     [Order(0)]
     public class ClientsRepositoryTest : BaseRepositoryTest
     {
-        private IClientsRepository clientsRepository;
-        private ApplicationDbContext dbContext;
+        private IClientsRepository _clientsRepository;
+        private ApplicationDbContext _dbContext;
 
         [SetUp]
-        public void InitRepository()
+        public void SetUp()
         {
             DetachAllEntities();
 
-            clientsRepository = ServiceProvider.GetService<IClientsRepository>();
-            dbContext = ServiceProvider.GetService<ApplicationDbContext>();
+            _clientsRepository = ServiceProvider.GetService<IClientsRepository>();
+            _dbContext = ServiceProvider.GetService<ApplicationDbContext>();
         }
 
         [Test]
         public void CheckClientRepository()
         {
-            Assert.IsNotNull(clientsRepository);
+            Assert.IsNotNull(_clientsRepository);
         }
 
         [Test]
-        public async Task CheckClientTableAreEmpty()
-        {
-            List<Client> clients = await clientsRepository.GetAll().ToListAsync();
-
-            Assert.IsTrue(clients.Count == 0);
-        }
-
-        [Test]
-        public void SaveEmptyClient()
+        public void Save_Invalid_Client()
         {
             try
             {
                 Client client = new Client();
-                clientsRepository.Insert(client);
+                _clientsRepository.Insert(client);
             }
             catch (Exception)
             {
@@ -55,7 +47,7 @@ namespace Infrastructure.Test.Repositories
         }
 
         [Test]
-        public async Task SaveClient()
+        public async Task Save_Valid_Client()
         {
             try
             {
@@ -84,53 +76,61 @@ namespace Infrastructure.Test.Repositories
                     }
                 };
 
-                clientsRepository.Insert(client);
+                _clientsRepository.Insert(client);
 
-                await dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
 
                 Assert.Pass();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
-                Assert.Fail();
+                Assert.Fail(e.Message);
             }
         }
 
         [Test]
-        public async Task SearchClient()
+        public async Task Search_Non_Existent_Client()
+        {
+            Client client = await _clientsRepository.FindByIdAsync("123456789");
+
+            Assert.IsNull(client);
+        }
+
+        [Test]
+        public async Task Search_Existing_Client()
         {
             try
             {
-                Client client = await clientsRepository.FindByIdAsync("12345678");
+                Client client = await _clientsRepository.FindByIdAsync("12345678");
                 Assert.IsNotNull(client);
                 Assert.AreEqual("12345678", client.Id);
                 Assert.AreEqual("Manolo", client.FirstName);
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
-                Assert.Fail();
+                Assert.Fail(e.Message);
             }
         }
 
         [Test]
-        public async Task UpdateClient()
+        public async Task Update_Existing_Client()
         {
             try
             {
-                Client client = await clientsRepository.FindByIdAsync("12345678");
+                Client client = await _clientsRepository.FindByIdAsync("12345678");
                 Assert.IsNotNull(client);
 
                 client.SecondName = "Jesus";
-                clientsRepository.Update(client);
+                _clientsRepository.Update(client);
 
-                await dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync();
 
-                client = await clientsRepository.FindByIdAsync("12345678");
+                client = await _clientsRepository.FindByIdAsync("12345678");
                 Assert.AreEqual("Jesus", client.SecondName);
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
-                Assert.Fail();
+                Assert.Fail(e.Message);
             }
         }
     }
