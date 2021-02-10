@@ -1,5 +1,4 @@
 using System;
-using AutoMapper;
 using Kaizen.Domain.Data.Configuration;
 using Kaizen.Domain.Extensions;
 using Kaizen.Extensions;
@@ -30,7 +29,7 @@ namespace Kaizen.Test.Controllers
             services.AddSingleton(configuration);
             services.Configure<Data>(c =>
             {
-                c.Provider = (DataProvider)Enum.Parse(typeof(DataProvider), configuration["Data:Provider"]);
+                c.Provider = (DataProvider) Enum.Parse(typeof(DataProvider), configuration["Data:Provider"]);
             });
             services.Configure<ConnectionStrings>(configuration.GetSection("ConnectionStrings"));
             services.RegisterDbContext(configuration);
