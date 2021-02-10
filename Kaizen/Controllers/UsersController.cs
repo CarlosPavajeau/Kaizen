@@ -23,7 +23,8 @@ namespace Kaizen.Controllers
         private readonly IMapper _mapper;
         private readonly ITokenGenerator _tokenGenerator;
 
-        public UsersController(IApplicationUserRepository userRepository, IMapper mapper, ITokenGenerator tokenGenerator)
+        public UsersController(IApplicationUserRepository userRepository, IMapper mapper,
+            ITokenGenerator tokenGenerator)
         {
             _userRepository = userRepository;
             _mapper = mapper;
@@ -48,12 +49,13 @@ namespace Kaizen.Controllers
         {
             return await _userRepository.GetAll()
                 .AnyAsync(p => p.UserName == usernameOrEmailOrPhone ||
-                          p.PhoneNumber == usernameOrEmailOrPhone ||
-                          p.Email == usernameOrEmailOrPhone);
+                               p.PhoneNumber == usernameOrEmailOrPhone ||
+                               p.Email == usernameOrEmailOrPhone);
         }
 
         [HttpPut("[action]/{id}")]
-        public async Task<ActionResult<ApplicationUserViewModel>> ChangePassword(string id, [FromBody] ChangePasswordModel changePasswordModel)
+        public async Task<ActionResult<ApplicationUserViewModel>> ChangePassword(string id,
+            [FromBody] ChangePasswordModel changePasswordModel)
         {
             ApplicationUser user = await _userRepository.FindByIdAsync(id);
             if (user is null)
@@ -61,14 +63,11 @@ namespace Kaizen.Controllers
                 return BadRequest($"No existe un usuario identificado con el id {id}.");
             }
 
-            IdentityResult changePasswordResult = await _userRepository.ChangePasswordAsync(user, changePasswordModel.OldPassword, changePasswordModel.NewPassword);
+            IdentityResult changePasswordResult = await _userRepository.ChangePasswordAsync(user,
+                changePasswordModel.OldPassword, changePasswordModel.NewPassword);
             if (!changePasswordResult.Succeeded)
             {
-                SetIdentityResultErrors(changePasswordResult);
-                return BadRequest(new ValidationProblemDetails(ModelState)
-                {
-                    Status = StatusCodes.Status400BadRequest
-                });
+                return this.IdentityResultErrors(changePasswordResult);
             }
 
             return _mapper.Map<ApplicationUserViewModel>(user);
@@ -76,33 +75,24 @@ namespace Kaizen.Controllers
 
         [HttpPut("[action]/{usernameOrEmail}")]
         [AllowAnonymous]
-        public async Task<ActionResult<ApplicationUserViewModel>> ResetPassword(string usernameOrEmail, [FromBody] ResetPasswordModel resetPasswordModel)
+        public async Task<ActionResult<ApplicationUserViewModel>> ResetPassword(string usernameOrEmail,
+            [FromBody] ResetPasswordModel resetPasswordModel)
         {
             ApplicationUser user = await _userRepository.FindByNameOrEmailAsync(usernameOrEmail);
             if (user is null)
             {
-                throw new UserDoesNotExistsException();
+                return BadRequest(
+                    $"No existe un usuario identificado con el nombre de usuario o email {usernameOrEmail}.");
             }
 
-            IdentityResult resetPasswordResult = await _userRepository.ResetPasswordAsync(user, resetPasswordModel.Token.Base64ForUrlDecode(), resetPasswordModel.NewPassword);
+            IdentityResult resetPasswordResult = await _userRepository.ResetPasswordAsync(user,
+                resetPasswordModel.Token.Base64ForUrlDecode(), resetPasswordModel.NewPassword);
             if (!resetPasswordResult.Succeeded)
             {
-                SetIdentityResultErrors(resetPasswordResult);
-                return BadRequest(new ValidationProblemDetails(ModelState)
-                {
-                    Status = StatusCodes.Status400BadRequest
-                });
+                return this.IdentityResultErrors(resetPasswordResult);
             }
 
             return _mapper.Map<ApplicationUserViewModel>(user);
-        }
-
-        private void SetIdentityResultErrors(IdentityResult identityResult)
-        {
-            foreach (IdentityError error in identityResult.Errors)
-            {
-                ModelState.AddModelError(error.Code, error.Description);
-            }
         }
 
         [AllowAnonymous]
@@ -115,10 +105,11 @@ namespace Kaizen.Controllers
                 return NotFound($"El usuario/email {loginRequest.UsernameOrEmail} no se encuentra registrado.");
             }
 
-            Microsoft.AspNetCore.Identity.SignInResult result = await _userRepository.Login(user, loginRequest.Password, loginRequest.IsPersistent);
+            Microsoft.AspNetCore.Identity.SignInResult result =
+                await _userRepository.Login(user, loginRequest.Password, loginRequest.IsPersistent);
             if (!result.Succeeded)
             {
-                throw new IncorrectPasswordException();
+                return BadRequest("Contraseña de acceso incorrecta.");
             }
 
             return await GenerateAuthenticateUser(user);
@@ -144,7 +135,8 @@ namespace Kaizen.Controllers
 
         [HttpPost("[action]")]
         [AllowAnonymous]
-        public async Task<ActionResult<ApplicationUserViewModel>> ConfirmEmail([FromQuery] string token, [FromQuery] string email)
+        public async Task<ActionResult<ApplicationUserViewModel>> ConfirmEmail([FromQuery] string token,
+            [FromQuery] string email)
         {
             ApplicationUser user = await _userRepository.FindByNameOrEmailAsync(email);
             if (user is null)
@@ -163,11 +155,13 @@ namespace Kaizen.Controllers
             ApplicationUser user = await _userRepository.FindByNameOrEmailAsync(usernameOrEmail);
             if (user is null)
             {
-                throw new UserDoesNotExistsException();
+                return BadRequest(
+                    $"No existe un usuario identificado con el nombre de usuario o email {usernameOrEmail}.");
             }
 
             string token = await _userRepository.GeneratePasswordResetTokenAsync(user);
-            string resetPasswordLink = Url.Action("ResetPassword", "user", new { token = token.Base64ForUrlEncode(), email = user.Email }, Request.Scheme);
+            string resetPasswordLink = Url.Action("ResetPassword", "user",
+                new {token = token.Base64ForUrlEncode(), email = user.Email}, Request.Scheme);
 
             return await _userRepository.SendPasswordResetTokenAsync(user, resetPasswordLink);
         }
