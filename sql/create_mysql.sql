@@ -4,7 +4,7 @@ USER `kaizen`@`localhost` IDENTIFIED BY 'kaizen';
 GRANT USAGE ON *.* TO `kaizen`@`localhost`;
 
 CREATE
-DATABASE /*!32312 IF NOT EXISTS*/`kaizen_test` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+DATABASE /*!32312 IF NOT EXISTS*/`kaizen_test` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
 GRANT ALL PRIVILEGES ON `kaizen_test`.* TO `kaizen`@`localhost` WITH GRANT OPTION;
 
@@ -20,7 +20,7 @@ CREATE TABLE `__efmigrationshistory`
     `MigrationId`    varchar(95) NOT NULL,
     `ProductVersion` varchar(32) NOT NULL,
     PRIMARY KEY (`MigrationId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `__efmigrationshistory` */
 
@@ -46,7 +46,7 @@ CREATE TABLE `activities`
     PRIMARY KEY (`Code`),
     KEY           `IX_Activities_ClientId` (`ClientId`),
     CONSTRAINT `FK_Activities_Clients_ClientId` FOREIGN KEY (`ClientId`) REFERENCES `clients` (`Id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `activities` */
 
@@ -62,7 +62,7 @@ CREATE TABLE `activitiesemployees`
     KEY            `IX_ActivitiesEmployees_ActivityCode` (`ActivityCode`),
     CONSTRAINT `FK_ActivitiesEmployees_Activities_ActivityCode` FOREIGN KEY (`ActivityCode`) REFERENCES `activities` (`Code`) ON DELETE CASCADE,
     CONSTRAINT `FK_ActivitiesEmployees_Employees_EmployeeId` FOREIGN KEY (`EmployeeId`) REFERENCES `employees` (`Id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `activitiesemployees` */
 
@@ -78,7 +78,7 @@ CREATE TABLE `activitiesservices`
     KEY            `IX_ActivitiesServices_ServiceCode` (`ServiceCode`),
     CONSTRAINT `FK_ActivitiesServices_Activities_ActivityCode` FOREIGN KEY (`ActivityCode`) REFERENCES `activities` (`Code`) ON DELETE CASCADE,
     CONSTRAINT `FK_ActivitiesServices_Services_ServiceCode` FOREIGN KEY (`ServiceCode`) REFERENCES `services` (`Code`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `activitiesservices` */
 
@@ -95,7 +95,7 @@ CREATE TABLE `aspnetroleclaims`
     PRIMARY KEY (`Id`),
     KEY          `IX_AspNetRoleClaims_RoleId` (`RoleId`),
     CONSTRAINT `FK_AspNetRoleClaims_AspNetRoles_RoleId` FOREIGN KEY (`RoleId`) REFERENCES `aspnetroles` (`Id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `aspnetroleclaims` */
 
@@ -111,7 +111,7 @@ CREATE TABLE `aspnetroles`
     `ConcurrencyStamp` longtext,
     PRIMARY KEY (`Id`),
     UNIQUE KEY `RoleNameIndex` (`NormalizedName`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `aspnetroles` */
 
@@ -137,7 +137,7 @@ CREATE TABLE `aspnetuserclaims`
     PRIMARY KEY (`Id`),
     KEY          `IX_AspNetUserClaims_UserId` (`UserId`),
     CONSTRAINT `FK_AspNetUserClaims_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `aspnetuserclaims` */
 
@@ -154,7 +154,7 @@ CREATE TABLE `aspnetuserlogins`
     PRIMARY KEY (`LoginProvider`, `ProviderKey`),
     KEY                   `IX_AspNetUserLogins_UserId` (`UserId`),
     CONSTRAINT `FK_AspNetUserLogins_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `aspnetuserlogins` */
 
@@ -170,7 +170,7 @@ CREATE TABLE `aspnetuserroles`
     KEY      `IX_AspNetUserRoles_RoleId` (`RoleId`),
     CONSTRAINT `FK_AspNetUserRoles_AspNetRoles_RoleId` FOREIGN KEY (`RoleId`) REFERENCES `aspnetroles` (`Id`) ON DELETE CASCADE,
     CONSTRAINT `FK_AspNetUserRoles_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `aspnetuserroles` */
 
@@ -200,7 +200,7 @@ CREATE TABLE `aspnetusers`
     UNIQUE KEY `UserNameIndex` (`NormalizedUserName`),
     UNIQUE KEY `IX_AspNetUsers_PhoneNumber` (`PhoneNumber`),
     KEY                    `EmailIndex` (`NormalizedEmail`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `aspnetusers` */
 
@@ -216,7 +216,7 @@ CREATE TABLE `aspnetusertokens`
     `Value`         longtext,
     PRIMARY KEY (`UserId`, `LoginProvider`, `Name`),
     CONSTRAINT `FK_AspNetUserTokens_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `aspnetusertokens` */
 
@@ -234,7 +234,7 @@ CREATE TABLE `clientaddresses`
     PRIMARY KEY (`Id`),
     UNIQUE KEY `IX_ClientAddresses_ClientId` (`ClientId`),
     CONSTRAINT `FK_ClientAddresses_Clients_ClientId` FOREIGN KEY (`ClientId`) REFERENCES `clients` (`Id`) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `clientaddresses` */
 
@@ -263,7 +263,7 @@ CREATE TABLE `clients`
     UNIQUE KEY `IX_Clients_NIT` (`NIT`),
     UNIQUE KEY `IX_Clients_UserId` (`UserId`),
     CONSTRAINT `FK_Clients_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `clients` */
 
@@ -280,7 +280,7 @@ CREATE TABLE `contactpeople`
     PRIMARY KEY (`Id`),
     KEY           `IX_ContactPeople_ClientId` (`ClientId`),
     CONSTRAINT `FK_ContactPeople_Clients_ClientId` FOREIGN KEY (`ClientId`) REFERENCES `clients` (`Id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `contactpeople` */
 
@@ -300,7 +300,7 @@ CREATE TABLE `daystatistics`
     PRIMARY KEY (`Id`),
     KEY                 `IX_DayStatistics_MonthStatisticsId` (`MonthStatisticsId`),
     CONSTRAINT `FK_DayStatistics_MonthStatistics_MonthStatisticsId` FOREIGN KEY (`MonthStatisticsId`) REFERENCES `monthstatistics` (`Id`) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `daystatistics` */
 
@@ -313,7 +313,7 @@ CREATE TABLE `employeecharges`
     `Id`     int NOT NULL AUTO_INCREMENT,
     `Charge` varchar(50) DEFAULT NULL,
     PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `employeecharges` */
 
@@ -336,7 +336,7 @@ CREATE TABLE `employeecontract`
     `StartDate`    datetime(6) NOT NULL,
     `EndDate`      datetime(6) NOT NULL,
     PRIMARY KEY (`ContractCode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `employeecontract` */
 
@@ -362,7 +362,7 @@ CREATE TABLE `employees`
     CONSTRAINT `FK_Employees_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE RESTRICT,
     CONSTRAINT `FK_Employees_EmployeeCharges_ChargeId` FOREIGN KEY (`ChargeId`) REFERENCES `employeecharges` (`Id`) ON DELETE CASCADE,
     CONSTRAINT `FK_Employees_EmployeeContract_ContractCode` FOREIGN KEY (`ContractCode`) REFERENCES `employeecontract` (`ContractCode`) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `employees` */
 
@@ -378,7 +378,7 @@ CREATE TABLE `employeesservices`
     KEY           `IX_EmployeesServices_ServiceCode` (`ServiceCode`),
     CONSTRAINT `FK_EmployeesServices_Employees_EmployeeId` FOREIGN KEY (`EmployeeId`) REFERENCES `employees` (`Id`) ON DELETE CASCADE,
     CONSTRAINT `FK_EmployeesServices_Services_ServiceCode` FOREIGN KEY (`ServiceCode`) REFERENCES `services` (`Code`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `employeesservices` */
 
@@ -395,7 +395,7 @@ CREATE TABLE `equipments`
     `Amount`          int             NOT NULL,
     `Price`           decimal(65, 30) NOT NULL,
     PRIMARY KEY (`Code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `equipments` */
 
@@ -411,7 +411,7 @@ CREATE TABLE `equipmentsservices`
     KEY             `IX_EquipmentsServices_ServiceCode` (`ServiceCode`),
     CONSTRAINT `FK_EquipmentsServices_Equipments_EquipmentCode` FOREIGN KEY (`EquipmentCode`) REFERENCES `equipments` (`Code`) ON DELETE CASCADE,
     CONSTRAINT `FK_EquipmentsServices_Services_ServiceCode` FOREIGN KEY (`ServiceCode`) REFERENCES `services` (`Code`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `equipmentsservices` */
 
@@ -431,7 +431,7 @@ CREATE TABLE `monthstatistics`
     PRIMARY KEY (`Id`),
     KEY                 `IX_MonthStatistics_YearStatisticsId` (`YearStatisticsId`),
     CONSTRAINT `FK_MonthStatistics_YearStatistics_YearStatisticsId` FOREIGN KEY (`YearStatisticsId`) REFERENCES `yearstatistics` (`Id`) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `monthstatistics` */
 
@@ -450,7 +450,7 @@ CREATE TABLE `notifications`
     PRIMARY KEY (`Id`),
     KEY       `IX_Notifications_UserId` (`UserId`),
     CONSTRAINT `FK_Notifications_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `aspnetusers` (`Id`) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `notifications` */
 
@@ -471,7 +471,7 @@ CREATE TABLE `productinvoicedetails`
     KEY                `IX_ProductInvoiceDetails_ProductInvoiceId` (`ProductInvoiceId`),
     CONSTRAINT `FK_ProductInvoiceDetails_ProductInvoices_ProductInvoiceId` FOREIGN KEY (`ProductInvoiceId`) REFERENCES `productinvoices` (`Id`) ON DELETE RESTRICT,
     CONSTRAINT `FK_ProductInvoiceDetails_Products_ProductCode` FOREIGN KEY (`ProductCode`) REFERENCES `products` (`Code`) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `productinvoicedetails` */
 
@@ -493,7 +493,7 @@ CREATE TABLE `productinvoices`
     PRIMARY KEY (`Id`),
     KEY              `IX_ProductInvoices_ClientId` (`ClientId`),
     CONSTRAINT `FK_ProductInvoices_Clients_ClientId` FOREIGN KEY (`ClientId`) REFERENCES `clients` (`Id`) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `productinvoices` */
 
@@ -515,7 +515,7 @@ CREATE TABLE `products`
     `SafetySheet`       varchar(50)  DEFAULT NULL,
     `EmergencyCard`     varchar(50)  DEFAULT NULL,
     PRIMARY KEY (`Code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `products` */
 
@@ -531,7 +531,7 @@ CREATE TABLE `productsservices`
     KEY           `IX_ProductsServices_ProductCode` (`ProductCode`),
     CONSTRAINT `FK_ProductsServices_Products_ProductCode` FOREIGN KEY (`ProductCode`) REFERENCES `products` (`Code`) ON DELETE CASCADE,
     CONSTRAINT `FK_ProductsServices_Services_ServiceCode` FOREIGN KEY (`ServiceCode`) REFERENCES `services` (`Code`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `productsservices` */
 
@@ -544,7 +544,7 @@ CREATE TABLE `sectors`
     `Id`   int         NOT NULL AUTO_INCREMENT,
     `Name` varchar(40) NOT NULL,
     PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `sectors` */
 
@@ -575,7 +575,7 @@ CREATE TABLE `serviceinvoicedetails`
     KEY                `IX_ServiceInvoiceDetails_ServiceInvoiceId` (`ServiceInvoiceId`),
     CONSTRAINT `FK_ServiceInvoiceDetails_ServiceInvoices_ServiceInvoiceId` FOREIGN KEY (`ServiceInvoiceId`) REFERENCES `serviceinvoices` (`Id`) ON DELETE RESTRICT,
     CONSTRAINT `FK_ServiceInvoiceDetails_Services_ServiceCode` FOREIGN KEY (`ServiceCode`) REFERENCES `services` (`Code`) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `serviceinvoicedetails` */
 
@@ -597,7 +597,7 @@ CREATE TABLE `serviceinvoices`
     PRIMARY KEY (`Id`),
     KEY              `IX_ServiceInvoices_ClientId` (`ClientId`),
     CONSTRAINT `FK_ServiceInvoices_Clients_ClientId` FOREIGN KEY (`ClientId`) REFERENCES `clients` (`Id`) ON DELETE RESTRICT
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `serviceinvoices` */
 
@@ -615,7 +615,7 @@ CREATE TABLE `servicerequests`
     PRIMARY KEY (`Code`),
     KEY           `IX_ServiceRequests_ClientId` (`ClientId`),
     CONSTRAINT `FK_ServiceRequests_Clients_ClientId` FOREIGN KEY (`ClientId`) REFERENCES `clients` (`Id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `servicerequests` */
 
@@ -631,7 +631,7 @@ CREATE TABLE `servicerequestsservices`
     KEY                  `IX_ServiceRequestsServices_ServiceRequestCode` (`ServiceRequestCode`),
     CONSTRAINT `FK_ServiceRequestsServices_ServiceRequests_ServiceRequestCode` FOREIGN KEY (`ServiceRequestCode`) REFERENCES `servicerequests` (`Code`) ON DELETE CASCADE,
     CONSTRAINT `FK_ServiceRequestsServices_Services_ServiceCode` FOREIGN KEY (`ServiceCode`) REFERENCES `services` (`Code`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `servicerequestsservices` */
 
@@ -648,7 +648,7 @@ CREATE TABLE `services`
     PRIMARY KEY (`Code`),
     KEY             `IX_Services_ServiceTypeId` (`ServiceTypeId`),
     CONSTRAINT `FK_Services_ServiceTypes_ServiceTypeId` FOREIGN KEY (`ServiceTypeId`) REFERENCES `servicetypes` (`Id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `services` */
 
@@ -661,7 +661,7 @@ CREATE TABLE `servicetypes`
     `Id`   int NOT NULL AUTO_INCREMENT,
     `Name` varchar(70) DEFAULT NULL,
     PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `servicetypes` */
 
@@ -697,7 +697,7 @@ CREATE TABLE `workorders`
     CONSTRAINT `FK_WorkOrders_Activities_ActivityCode` FOREIGN KEY (`ActivityCode`) REFERENCES `activities` (`Code`) ON DELETE CASCADE,
     CONSTRAINT `FK_WorkOrders_Employees_EmployeeId` FOREIGN KEY (`EmployeeId`) REFERENCES `employees` (`Id`) ON DELETE RESTRICT,
     CONSTRAINT `FK_WorkOrders_Sectors_SectorId` FOREIGN KEY (`SectorId`) REFERENCES `sectors` (`Id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `workorders` */
 
@@ -716,7 +716,7 @@ CREATE TABLE `yearstatistics`
     `Date`              datetime(6) NOT NULL,
     PRIMARY KEY (`Id`),
     UNIQUE KEY `AK_YearStatistics_Year` (`Year`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `yearstatistics` */
 
