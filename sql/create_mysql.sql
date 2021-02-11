@@ -1,15 +1,12 @@
-CREATE
-USER `kaizen`@`localhost` IDENTIFIED BY 'kaizen';
+CREATE USER `kaizen`@`localhost` IDENTIFIED BY 'kaizen';
 
 GRANT USAGE ON *.* TO `kaizen`@`localhost`;
 
-CREATE
-DATABASE /*!32312 IF NOT EXISTS*/`kaizen_test` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`kaizen_test` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 
 GRANT ALL PRIVILEGES ON `kaizen_test`.* TO `kaizen`@`localhost` WITH GRANT OPTION;
 
-USE
-`kaizen_test`;
+USE `kaizen_test`;
 
 /*Table structure for table `__efmigrationshistory` */
 
