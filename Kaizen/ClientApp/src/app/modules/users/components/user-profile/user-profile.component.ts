@@ -43,11 +43,11 @@ export class UserProfileComponent implements OnInit {
           this.person = employee;
           this.savePersonInLocalStorage();
         });
-
-        if (userRole == TECHNICAL_EMPLOYEE_ROLE) {
-          this.employeeLocationService.startToSendEmployeeLocation();
-        }
       }
+    }
+
+    if (userRole == TECHNICAL_EMPLOYEE_ROLE) {
+      this.employeeLocationService.startToSendEmployeeLocation();
     }
   }
 

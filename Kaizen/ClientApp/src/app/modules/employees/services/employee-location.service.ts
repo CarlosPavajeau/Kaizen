@@ -15,6 +15,12 @@ export class EmployeeLocationService {
   }
 
   public startToSendEmployeeLocation(): void {
+    if (this.employeeSendLocationInterval) {
+      return;
+    }
+
+    this.employeeSignalr.startConnection();
+
     this.employeeSendLocationInterval = setInterval(() => {
       if (!this.currentEmployee) {
         this.currentEmployee = JSON.parse(localStorage.getItem('current_person'));
