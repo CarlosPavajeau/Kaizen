@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '@core/authentication/authentication.service';
+import { EmployeeLocationService } from '@modules/employees/services/employee-location.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -10,7 +11,7 @@ export class NavMenuComponent implements OnInit {
   isLogged = false;
   isLogout = false;
 
-  constructor(private authService: AuthenticationService) {}
+  constructor(private authService: AuthenticationService, private employeeLocationService: EmployeeLocationService) {}
 
   ngOnInit(): void {
     this.onCheckUser();
@@ -26,6 +27,7 @@ export class NavMenuComponent implements OnInit {
     this.isLogout = true;
     this.authService.logoutUser().subscribe(result => {
       if (result) {
+        this.employeeLocationService.endToSendEmployeeLocation();
         location.reload();
       }
     });

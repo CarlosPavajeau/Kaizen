@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '@core/authentication/authentication.service';
-import { ADMINISTRATOR_ROLE, CLIENT_ROLE } from '@global/roles';
+import { ADMINISTRATOR_ROLE, CLIENT_ROLE, TECHNICAL_EMPLOYEE_ROLE } from '@global/roles';
 import { ClientService } from '@modules/clients/services/client.service';
+import { EmployeeLocationService } from '@modules/employees/services/employee-location.service';
 import { EmployeeService } from '@modules/employees/services/employee.service';
 import { Person } from '@shared/models/person';
 
@@ -17,7 +18,8 @@ export class UserProfileComponent implements OnInit {
   constructor(
     private authService: AuthenticationService,
     private clientService: ClientService,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private employeeLocationService: EmployeeLocationService
   ) {}
 
   ngOnInit(): void {
@@ -41,6 +43,10 @@ export class UserProfileComponent implements OnInit {
           this.person = employee;
           this.savePersonInLocalStorage();
         });
+
+        if (userRole == TECHNICAL_EMPLOYEE_ROLE) {
+          this.employeeLocationService.startToSendEmployeeLocation();
+        }
       }
     }
   }

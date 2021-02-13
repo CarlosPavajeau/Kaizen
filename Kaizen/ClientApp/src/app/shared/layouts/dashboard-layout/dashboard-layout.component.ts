@@ -1,10 +1,10 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Router } from '@angular/router';
 import { DASHBOARDS_CARDS } from '@app/global/control-panel-cards';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { DashboardCard } from '@core/models/dashboard-card';
+import { EmployeeLocationService } from '@modules/employees/services/employee-location.service';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
@@ -27,7 +27,7 @@ export class DashboardLayoutComponent implements OnInit {
   constructor(
     private breakPointObserver: BreakpointObserver,
     private authService: AuthenticationService,
-    private router: Router
+    private employeeLocationService: EmployeeLocationService
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +55,7 @@ export class DashboardLayoutComponent implements OnInit {
     this.isLogout = true;
     this.authService.logoutUser().subscribe(result => {
       if (result) {
+        this.employeeLocationService.endToSendEmployeeLocation();
         location.reload();
       }
     });
