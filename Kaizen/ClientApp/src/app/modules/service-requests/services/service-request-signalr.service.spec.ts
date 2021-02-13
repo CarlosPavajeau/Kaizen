@@ -1,15 +1,15 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { NewClientSignalrService } from './new-client-signalr.service';
+import { ServiceRequestSignalrService } from './service-request-signalr.service';
 
-describe('NewClientSignalrService', () => {
-  let service: NewClientSignalrService;
+describe('ServiceRequestSignalrService', () => {
+  let service: ServiceRequestSignalrService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpClientTestingModule ]
     });
-    service = TestBed.inject(NewClientSignalrService);
+    service = TestBed.inject(ServiceRequestSignalrService);
   });
 
   it('should be created', () => {

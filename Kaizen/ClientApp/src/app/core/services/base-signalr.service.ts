@@ -5,51 +5,28 @@ import { AuthenticationService } from '@core/authentication/authentication.servi
 @Injectable({
   providedIn: 'root'
 })
-export class BaseSignalrService<T> implements OnInit, OnDestroy {
-  private hubConnection: HubConnection;
-  private readonly hubURl: string;
-  private readonly methodName: string;
-  private token: string;
+export class BaseSignalrService implements OnDestroy {
+  protected hubConnection: HubConnection;
 
-  @Output() signalReceived = new EventEmitter<T>();
-
-  constructor(private authService: AuthenticationService, hubUrl: string, methodName: string) {
-    this.hubURl = hubUrl;
-    this.methodName = methodName;
-    this.ngOnInit();
+  constructor() {
   }
 
-  ngOnInit(): void {
-    this.token = this.authService.getToken();
-    if (this.token) {
-      this.buildConnection();
-      this.startConnection();
-    }
-  }
-
-  private buildConnection(): void {
+  protected buildConnection(hubUrl: string, token?: string): void {
     this.hubConnection = new HubConnectionBuilder()
-      .withUrl(this.hubURl, { accessTokenFactory: () => this.token })
+      .withUrl(hubUrl, { accessTokenFactory: () => token })
       .build();
   }
 
-  private startConnection(): void {
+  protected startConnection(): void {
     this.hubConnection
       .start()
       .then(() => {
         console.log('Connection started');
-        this.registerSignalEvents();
       })
       .catch((err) => {
         console.log('Error: ' + err);
         setTimeout(() => this.startConnection(), 5000);
       });
-  }
-
-  private registerSignalEvents(): void {
-    this.hubConnection.on(this.methodName, (data: T) => {
-      this.signalReceived.emit(data);
-    });
   }
 
   ngOnDestroy(): void {

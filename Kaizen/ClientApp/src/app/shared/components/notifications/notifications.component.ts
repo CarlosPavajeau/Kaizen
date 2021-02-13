@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NewClientSignalrService } from '@modules/clients/services/new-client-signalr.service';
+import { ClientSignalrService } from '@modules/clients/services/client-signalr.service';
 import { NotificationItem } from '@shared/models/notification-item';
 
 @Component({
@@ -10,7 +10,7 @@ import { NotificationItem } from '@shared/models/notification-item';
 export class NotificationsComponent implements OnInit, OnDestroy {
   notifications: NotificationItem[] = [];
 
-  constructor(private clientSignalR: NewClientSignalrService) {}
+  constructor(private clientSignalR: ClientSignalrService) {}
 
   ngOnInit(): void {}
 

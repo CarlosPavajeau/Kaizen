@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Client } from '@modules/clients/models/client';
 import { ClientState } from '@modules/clients/models/client-state';
 import { ClientService } from '@modules/clients/services/client.service';
-import { NewClientSignalrService } from '@modules/clients/services/new-client-signalr.service';
+import { ClientSignalrService } from '@modules/clients/services/client-signalr.service';
 import { ObservableStatus } from '@shared/models/observable-with-status';
 import { NotificationsService } from '@shared/services/notifications.service';
 import { Observable } from 'rxjs';
@@ -22,13 +22,17 @@ export class ClientRequestsComponent implements OnInit {
   constructor(
     private clientService: ClientService,
     private notificationsService: NotificationsService,
-    private newClientSignalr: NewClientSignalrService
-  ) {}
+    private clientSignalrService: ClientSignalrService
+  ) {
+  }
 
   ngOnInit(): void {
     this.loadClientRequests();
 
-    this.newClientSignalr.signalReceived.subscribe((newClient: Client) => {
+    this.clientSignalrService.startConnection();
+    this.clientSignalrService.addOnNewClientRegister();
+
+    this.clientSignalrService.onNewClientRegister.subscribe((newClient: Client) => {
       this.clientRequests.push(newClient);
       this.notificationsService.addMessage(`Se ha registrado un nuevo cliente`, 'Ok', 'left');
     });

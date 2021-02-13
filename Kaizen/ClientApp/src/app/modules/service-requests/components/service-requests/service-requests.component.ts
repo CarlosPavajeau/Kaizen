@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ServiceRequestState } from '@app/modules/service-requests/models/service-request-state';
+import { ServiceRequestState } from '@modules/service-requests/models/service-request-state';
 import { ServiceRequest } from '@modules/service-requests/models/service-request';
-import { NewServiceRequestSignalrService } from '@modules/service-requests/services/new-service-request-signalr.service';
+import { ServiceRequestSignalrService } from '@modules/service-requests/services/service-request-signalr.service';
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
 import { ObservableStatus } from '@shared/models/observable-with-status';
 import { NotificationsService } from '@shared/services/notifications.service';
@@ -20,13 +20,18 @@ export class ServiceRequestsComponent implements OnInit {
 
   constructor(
     private serviceRequestService: ServiceRequestService,
-    private newServiceRequestSignalR: NewServiceRequestSignalrService,
+    private serviceRequestSignalrService: ServiceRequestSignalrService,
     private notificationsService: NotificationsService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.loadServiceRequests();
-    this.newServiceRequestSignalR.signalReceived.subscribe((data: ServiceRequest) => {
+
+    this.serviceRequestSignalrService.startConnection();
+    this.serviceRequestSignalrService.addOnNewServiceRequestRegister();
+
+    this.serviceRequestSignalrService.onNewServiceRequestRegister.subscribe((data: ServiceRequest) => {
       if (data) {
         this.notificationsService.addMessage(`Se ha hecho una nueva solicitud de servicio`, 'Ok', 'left');
         this.serviceRequests.push(data);
