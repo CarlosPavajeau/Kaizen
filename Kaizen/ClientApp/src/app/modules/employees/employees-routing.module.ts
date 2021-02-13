@@ -5,6 +5,7 @@ import { AuthGuard } from '@core/guards/auth.guard';
 import { DashboardLayoutComponent } from '@shared/layouts/dashboard-layout/dashboard-layout.component';
 import { EmployeeDetailComponent } from './components/employee-detail/employee-detail.component';
 import { EmployeeEditComponent } from './components/employee-edit/employee-edit.component';
+import { EmployeeMapComponent } from './components/employee-map/employee-map.component';
 import { EmployeeRegisterComponent } from './components/employee-register/employee-register.component';
 import { EmployeesComponent } from './components/employees/employees.component';
 
@@ -17,6 +18,10 @@ const routes: Routes = [
       {
         path: '',
         component: EmployeesComponent
+      },
+      {
+        path: 'map',
+        component: EmployeeMapComponent
       },
       {
         path: 'register',
@@ -38,4 +43,5 @@ const routes: Routes = [
   imports: [ RouterModule.forChild(routes) ],
   exports: [ RouterModule ]
 })
-export class EmployeesRoutingModule {}
+export class EmployeesRoutingModule {
+}

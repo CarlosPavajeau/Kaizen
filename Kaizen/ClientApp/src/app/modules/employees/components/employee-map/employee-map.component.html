@@ -1,0 +1,13 @@
+<section class="container">
+  <div *ngIf="apiLoaded | async">
+    <google-map #googleMap [options]="mapOptions" [height]="550" [width]="'100%'">
+      <map-marker #marker="mapMarker" *ngFor="let employeeLocation of employeeLocations"
+                  [position]="{ lat: employeeLocation.location.latitude, lng: employeeLocation.location.longitude }"
+                  [options]="markerOptions" (mapClick)="openInfoWindow(marker, infoWindow)">
+        <map-info-window #infoWindow="mapInfoWindow">
+          Empleado {{ employeeLocation.employee.firstName }} {{ employeeLocation.employee.lastName }}
+        </map-info-window>
+      </map-marker>
+    </google-map>
+  </div>
+</section>

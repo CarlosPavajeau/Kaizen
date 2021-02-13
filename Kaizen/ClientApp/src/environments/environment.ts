@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  mercadoPagoPublicKey: 'PUBLIC_KEY'
+  mercadoPagoPublicKey: 'PUBLIC_KEY',
+  google_maps_api_key: 'GOOGLE_MAP_API_KEY'
 };
 
 /*

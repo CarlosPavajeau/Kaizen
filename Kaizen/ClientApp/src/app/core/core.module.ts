@@ -1,5 +1,5 @@
 import { CommonModule, registerLocaleData } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpClientJsonpModule } from '@angular/common/http';
 import localeEs from '@angular/common/locales/es';
 import { LOCALE_ID, ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
@@ -23,6 +23,7 @@ registerLocaleData(localeEs);
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
+    HttpClientJsonpModule,
     BrowserAnimationsModule
   ],
   exports: [ BrowserAnimationsModule, CommonModule ],
