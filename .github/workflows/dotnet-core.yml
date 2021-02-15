@@ -20,11 +20,9 @@ jobs:
       - name: Shutdown Ubuntu MySQL (SUDO)
         run: sudo service mysql stop
       - name: Set up MySQL 8
-        uses: mirromutth/mysql-action@v1.1
+        uses: shogo82148/actions-setup-mysql@v1
         with:
-          mysql database: kaizen_test
-          mysql user: kaizen
-          mysql password: kaizen
+          mysql-version: '8.0'
       - name: Check MySQL version
         run: |
           mysql -h127.0.0.1 -uroot -proot -e 'SELECT version();'
