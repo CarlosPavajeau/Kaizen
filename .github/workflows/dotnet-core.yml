@@ -18,15 +18,10 @@ jobs:
       - name: Set up MySQL 8
         uses: mirromutth/mysql-action@v1.1
         with:
-          mysql version: 8
-          mysql root password: root
-      - name: Verify MySQL connection
-        run: |
-          mysql --version
-          sudo apt update
-          sudo apt install -y mysql-client mysql-server
-          sudo /etc/init.d/mysql start
-          mysql -h 127.0.0.1 -uroot -proot < sql/create_mysql.sql
+          mysql version: 8.0
+          mysql database: kaizen_test
+          mysql user: kaizen
+          mysql password: kaizen
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
