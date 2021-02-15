@@ -9,14 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_ROOT_PASSWORD: root
-        ports:
-          - '8888:3306'
+
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -25,7 +18,7 @@ jobs:
       - name: Set up MySQL 8
         uses: mirromutth/mysql-action@v1.1
         with:
-          mysql version: 8.0
+          mysql version: 8
           mysql root password: root
       - name: Verify MySQL connection
         run: |
