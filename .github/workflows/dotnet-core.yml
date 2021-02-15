@@ -13,6 +13,10 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.100
       - name: Shutdown Ubuntu MySQL (SUDO)
         run: sudo service mysql stop
       - name: Set up MySQL 8
@@ -22,10 +26,7 @@ jobs:
           mysql database: kaizen_test
           mysql user: kaizen
           mysql password: kaizen
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 5.0.100
+        run: mysql --version
       - name: Install dependencies
         run: dotnet restore
       - name: Build
