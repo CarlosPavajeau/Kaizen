@@ -26,7 +26,10 @@ jobs:
           mysql database: kaizen_test
           mysql user: kaizen
           mysql password: kaizen
-        run: mysql --version
+      - name: Check MySQL version
+        run: |
+          mysql --version
+          mysql -h 127.0.0.1 -uroot -proot < sql/create_mysql.sql
       - name: Install dependencies
         run: dotnet restore
       - name: Build
