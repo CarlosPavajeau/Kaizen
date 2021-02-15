@@ -23,9 +23,6 @@ jobs:
         uses: shogo82148/actions-setup-mysql@v1
         with:
           mysql-version: '8.0'
-      - name: Check MySQL version
-        run: |
-          mysql -uroot -h127.0.0.1 < sql/create_mysql.sql
       - name: Install dependencies
         run: dotnet restore
       - name: Build
