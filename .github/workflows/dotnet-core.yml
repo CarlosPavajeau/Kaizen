@@ -25,8 +25,8 @@ jobs:
           mysql-version: '8.0'
       - name: Check MySQL version
         run: |
-          mysql -h127.0.0.1 -uroot -proot -e 'SELECT version();'
-          mysql -h127.0.0.1 -uroot -proot < sql/create_mysql.sql
+          mysql -uroot -h127.0.0.1 -e 'SELECT version();'
+          mysql -uroot -h127.0.0.1 < sql/create_mysql.sql
       - name: Install dependencies
         run: dotnet restore
       - name: Build
