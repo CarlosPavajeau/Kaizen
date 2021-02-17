@@ -2,7 +2,6 @@ matrix:
   include:
     - language: csharp
       sudo: false
-      dist: trusty
       solution: Kaisen.sln
       mono: none
       dotnet: 5.0.100
