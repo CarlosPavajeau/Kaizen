@@ -10,7 +10,7 @@ sudo dpkg --install mysql-apt-config_0.8.10-1_all.deb
 sudo apt-get update -q
 sudo apt-get install -q -y --force-yes -o Dpkg::Options::=--force-confnew mysql-server
 echo -e "[mysqld]\ndefault_authentication_plugin=mysql_native_password" | sudo tee --append /etc/mysql/my.cnf
-sud /etc/init.d/mysql start
+sudo /etc/init.d/mysql start
 sudo mysql_upgrade
 
 mysql --version
