@@ -6,10 +6,8 @@ matrix:
       mono: none
       dotnet: 5.0.100
 
-      before_script:
-        - bash ./install-mysql-8.0.sh
-
       before_install:
+        - bash ./install-mysql-8.0.sh
         - git config user.email "travis@build.bot" && git config user.name "Travis CI"
 
       install:
