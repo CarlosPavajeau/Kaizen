@@ -1,12 +1,14 @@
 matrix:
   include:
     - language: csharp
+      sudo: false
+      dist: trusty
       solution: Kaisen.sln
       mono: none
       dotnet: 5.0.100
 
-      services:
-        - mysql
+      before_script:
+        - bash ./install-mysql-8.0.sh
 
       before_install:
         - git config user.email "travis@build.bot" && git config user.name "Travis CI"
