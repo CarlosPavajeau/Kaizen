@@ -40,10 +40,5 @@ namespace Kaizen.Infrastructure.Repositories
                 .Include(c => c.ContactPeople)
                 .Where(c => c.State == ClientState.Pending).ToListAsync();
         }
-
-        public void UpdateClientAddress(ClientAddress clientAddress)
-        {
-            ApplicationDbContext.Entry(clientAddress).State = EntityState.Modified;
-        }
     }
 }

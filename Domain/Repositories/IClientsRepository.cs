@@ -7,8 +7,6 @@ namespace Kaizen.Domain.Repositories
 {
     public interface IClientsRepository : IRepositoryBase<Client, string>
     {
-        void UpdateClientAddress(ClientAddress clientAddress);
-
         Task<IEnumerable<Client>> GetClientRequestsAsync();
         Task<Client> GetClientWithUser(string id);
 
