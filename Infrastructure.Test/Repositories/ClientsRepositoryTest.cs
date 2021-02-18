@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Kaizen.Domain.Data;
 using Kaizen.Domain.Entities;
@@ -67,13 +68,14 @@ namespace Infrastructure.Test.Repositories
                     },
                     ContactPeople = new List<ContactPerson>
                     {
-                        new ContactPerson
+                        new()
                         {
                             Name = "Jesus Guerrero",
                             PhoneNumber = "3163100223",
                             ClientId = "12345678"
                         }
-                    }
+                    },
+                    UserId = ApplicationUserRepositoryTest.SavedUserId
                 };
 
                 _clientsRepository.Insert(client);
@@ -110,6 +112,41 @@ namespace Infrastructure.Test.Repositories
             {
                 Assert.Fail(e.Message);
             }
+        }
+
+        [Test]
+        public async Task Search_Existing_Client_With_User()
+        {
+            var client = await _clientsRepository.GetClientWithUser("12345678");
+
+            Assert.IsNotNull(client);
+            Assert.AreEqual(ApplicationUserRepositoryTest.SavedUserId, client.UserId);
+        }
+
+        [Test]
+        public async Task Search_ClientId_Of_Non_Existent_Client()
+        {
+            var clientId = await _clientsRepository.GetClientId("123-456-789");
+
+            Assert.IsNull(clientId);
+        }
+
+        [Test]
+        public async Task Search_ClientId_Of_Existing_Client()
+        {
+            var clientId = await _clientsRepository.GetClientId(ApplicationUserRepositoryTest.SavedUserId);
+
+            Assert.IsNotNull(clientId);
+            Assert.AreEqual("12345678", clientId);
+        }
+
+        [Test]
+        public async Task Search_Client_Requests()
+        {
+            var clientRequests = await _clientsRepository.GetClientRequestsAsync();
+
+            Assert.IsNotNull(clientRequests);
+            Assert.IsTrue(clientRequests.Any());
         }
 
         [Test]
