@@ -18,4 +18,18 @@
       <mat-icon [matTooltip]="'Eliminar notificación'">delete</mat-icon>
     </ng-template>
   </div>
+  <div *ngIf="notifications.length == 0">
+    <div class="pt-2 pb-2 pr-2 pl-2">
+      <img
+        src="/assets/images/relax_people.svg"
+        alt="Empty list"
+        width="230"
+        height="230"
+        class="center-block-content"
+      />
+      <h4 class="text-center empty-list-text">
+        No tienes notificaciones.
+      </h4>
+    </div>
+  </div>
 </mat-menu>
