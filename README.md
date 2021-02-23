@@ -1,13 +1,13 @@
-<h1 style="text-align: center;">
+<h1 align="center">
   Kaizen
 </h1>
 
-<p style="text-align: center;">
+<p align="center">
   Web software for the management of administrative control of sanitation companies.
 </p>
 <br>
 
-<p style="text-align: center;">
+<p align="center">
     <a href="https://github.com/Cantte/Kaizen/pulls/"
     title="Pull request"> <img src="https://img.shields.io/github/issues-pr/Cantte/Kaizen" 
     alt="Kaizen Pull requests">
@@ -35,10 +35,10 @@
 </p>
 
 <br>
-<h3 style="text-align: center;">
+<h3 align="center">
   Build status
 </h3>
-<p style="text-align: center;">
+<p align="center">
   <a href="https://travis-ci.com/github/cantte/Kaizen" title="Travis CI">
     <img src="https://travis-ci.com/cantte/Kaizen.svg?branch=master"
      alt="Kaizen TravisCI status">
@@ -58,17 +58,17 @@
 </p>
 
 <br>
-<h3 style="text-align: center;">
+<h3 align="center">
   Analysis
 </h3>
-<p style="text-align: center;">
+<p align="center">
   <a href="https://app.codacy.com/gh/cantte/Kaizen?utm_source=github.com&utm_medium=referral&utm_content=cantte/Kaizen&utm_campaign=Badge_Grade" title="Codacy Analysis">
     <img alt="Codacy grade" src="https://img.shields.io/codacy/grade/b60d66bdb2844aceb557e7a65f0f4ba7">
   </a>
 </p>
 <br>
 
-<p style="text-align: center;">
+<p align="center">
   The application has the modules for managing users, clients, employees, inventory, services, service requests, payments, activity schedule and work orders.
 </p>
 <hr>
