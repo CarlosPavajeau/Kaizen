@@ -6,33 +6,25 @@ using Kaizen.Core.Services;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.Middleware;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 
 namespace Kaizen.HostedServices.ProcessingServices
 {
     public class PendingActivitiesToConfirmed : IScopedProcessingService
     {
-        private static readonly int DelayTime = (int)TimeSpan.FromDays(1.0).TotalMilliseconds;
+        private static readonly int DelayTime = (int) TimeSpan.FromDays(1.0).TotalMilliseconds;
 
         private readonly IActivitiesRepository _activitiesRepository;
         private readonly IMailService _mailService;
         private readonly IMailTemplate _mailTemplate;
-        private readonly IHttpContextAccessor _accessor;
-        private readonly LinkGenerator _generator;
 
         public PendingActivitiesToConfirmed(
             IActivitiesRepository activitiesRepository,
             IMailService mailService,
-            IMailTemplate mailTemplate,
-            IHttpContextAccessor accessor,
-            LinkGenerator generator)
+            IMailTemplate mailTemplate)
         {
             _activitiesRepository = activitiesRepository;
             _mailService = mailService;
             _mailTemplate = mailTemplate;
-            _accessor = accessor;
-            _generator = generator;
         }
 
         public async Task DoWork(CancellationToken cancellationToken)
@@ -60,11 +52,12 @@ namespace Kaizen.HostedServices.ProcessingServices
                 $"{activity.Client.FirstName} {activity.Client.SecondName} {activity.Client.LastName} {activity.Client.SecondLastName}",
                 $"{activity.Date}", activityConfirmationLink, activityRejectLink, changeDateLink);
 
-            await _mailService.SendEmailAsync(activity.Client.User.Email, "Actividad pendiente a confirmación", mailMessage,
+            await _mailService.SendEmailAsync(activity.Client.User.Email, "Actividad pendiente a confirmación",
+                mailMessage,
                 true);
         }
 
-        private string GetActivityLink(string action, int activityCode)
+        private static string GetActivityLink(string action, int activityCode)
         {
             UriBuilder uriBuilder = new UriBuilder(KaizenHttpContext.BaseUrl)
             {

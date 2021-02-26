@@ -9,8 +9,6 @@ using Kaizen.Extensions;
 using Kaizen.Hubs;
 using Kaizen.Middleware;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Kaizen.DomainEvents.Handlers
@@ -24,22 +22,20 @@ namespace Kaizen.DomainEvents.Handlers
             private readonly IHubContext<ClientHub> _clientHub;
             private readonly IMailTemplate _mailTemplate;
             private readonly IStatisticsRepository _statisticsRepository;
-            private readonly IHttpContextAccessor _accessor;
-            private readonly LinkGenerator _generator;
 
-            public Handler(IMailService mailService, IHubContext<ClientHub> clientHub, IMailTemplate mailTemplate, IApplicationUserRepository applicationUserRepository,
-                IStatisticsRepository statisticsRepository, IHttpContextAccessor accessor, LinkGenerator generator)
+            public Handler(IMailService mailService, IHubContext<ClientHub> clientHub, IMailTemplate mailTemplate,
+                IApplicationUserRepository applicationUserRepository,
+                IStatisticsRepository statisticsRepository)
             {
                 _mailService = mailService;
                 _clientHub = clientHub;
                 _mailTemplate = mailTemplate;
                 _statisticsRepository = statisticsRepository;
-                _accessor = accessor;
-                _generator = generator;
                 _applicationUserRepository = applicationUserRepository;
             }
 
-            public async Task Handle(DomainEventNotification<SavedPerson> notification, CancellationToken cancellationToken)
+            public async Task Handle(DomainEventNotification<SavedPerson> notification,
+                CancellationToken cancellationToken)
             {
                 Client savedClient = notification.DomainEvent.Client;
 
@@ -50,7 +46,8 @@ namespace Kaizen.DomainEvents.Handlers
 
             private async Task SendConfirmationEmail(Client client)
             {
-                string emailConfirmationToken = await _applicationUserRepository.GenerateEmailConfirmationTokenAsync(client.User);
+                string emailConfirmationToken =
+                    await _applicationUserRepository.GenerateEmailConfirmationTokenAsync(client.User);
                 UriBuilder uriBuilder = new UriBuilder(KaizenHttpContext.BaseUrl)
                 {
                     Path = "user/ConfirmEmail",
@@ -58,17 +55,19 @@ namespace Kaizen.DomainEvents.Handlers
                 };
                 string emailConfirmationLink = uriBuilder.ToString();
 
-                string emailMessage = _mailTemplate.LoadTemplate("NewClient.html", $"{client.FirstName} {client.LastName}",
-                                                          $"{client.TradeName}", $"{client.ClientAddress.City}",
-                                                          $"{client.ClientAddress.Neighborhood}", $"{client.ClientAddress.Street}",
-                                                          $"{emailConfirmationLink}");
+                string emailMessage = _mailTemplate.LoadTemplate("NewClient.html",
+                    $"{client.FirstName} {client.LastName}",
+                    $"{client.TradeName}", $"{client.ClientAddress.City}",
+                    $"{client.ClientAddress.Neighborhood}", $"{client.ClientAddress.Street}",
+                    $"{emailConfirmationLink}");
 
                 await _mailService.SendEmailAsync(client.User.Email, "Cliente Registrado", emailMessage, true);
             }
 
             private async Task NotifyNewClientRegister(CancellationToken cancellationToken)
             {
-                await _clientHub.Clients.Groups("Administrator", "OfficeEmployee").SendAsync("NewPersonRequest", cancellationToken: cancellationToken);
+                await _clientHub.Clients.Groups("Administrator", "OfficeEmployee")
+                    .SendAsync("NewPersonRequest", cancellationToken: cancellationToken);
             }
 
             private async Task RegisterNewClient()
