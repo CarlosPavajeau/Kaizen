@@ -7,6 +7,7 @@ using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.Extensions;
 using Kaizen.Infrastructure.Identity;
+using Kaizen.Middleware;
 using Kaizen.Models.ApplicationUser;
 using Kaizen.Test.Helpers;
 using Microsoft.AspNetCore.Http;
@@ -328,6 +329,8 @@ namespace Kaizen.Test.Controllers
             urlHelper.Setup(r => r.Action(It.IsAny<UrlActionContext>())).Returns("callbackUrl").Verifiable();
 
             httpRequest.SetupGet(r => r.Scheme).Returns("https");
+            httpRequest.SetupGet(r => r.Host).Returns(new HostString("localhost"));
+            httpRequest.SetupGet(r => r.PathBase).Returns(PathString.Empty);
 
             httpContext.SetupGet(r => r.Request).Returns(httpRequest.Object);
 
@@ -336,6 +339,11 @@ namespace Kaizen.Test.Controllers
             {
                 HttpContext = httpContext.Object
             };
+
+            var httpContextAccessor = new Mock<IHttpContextAccessor>();
+            httpContextAccessor.SetupGet(r => r.HttpContext).Returns(httpContext.Object);
+
+            KaizenHttpContext.Configure(httpContextAccessor.Object);
         }
     }
 }

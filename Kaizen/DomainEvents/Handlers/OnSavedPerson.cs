@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Kaizen.Core.Services;
@@ -6,6 +7,7 @@ using Kaizen.Domain.Events;
 using Kaizen.Domain.Repositories;
 using Kaizen.Extensions;
 using Kaizen.Hubs;
+using Kaizen.Middleware;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -49,8 +51,12 @@ namespace Kaizen.DomainEvents.Handlers
             private async Task SendConfirmationEmail(Client client)
             {
                 string emailConfirmationToken = await _applicationUserRepository.GenerateEmailConfirmationTokenAsync(client.User);
-                string emailConfirmationLink = _generator.GetUriByAction(_accessor.HttpContext, "ConfirmEmail", "user",
-                    new { token = emailConfirmationToken.Base64ForUrlEncode(), email = client.User.Email });
+                UriBuilder uriBuilder = new UriBuilder(KaizenHttpContext.BaseUrl)
+                {
+                    Path = "user/ConfirmEmail",
+                    Query = $"token={emailConfirmationToken.Base64ForUrlEncode()}&email={client.User.Email}"
+                };
+                string emailConfirmationLink = uriBuilder.ToString();
 
                 string emailMessage = _mailTemplate.LoadTemplate("NewClient.html", $"{client.FirstName} {client.LastName}",
                                                           $"{client.TradeName}", $"{client.ClientAddress.City}",

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Kaizen.Core.Services;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
+using Kaizen.Middleware;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 
@@ -65,7 +66,11 @@ namespace Kaizen.HostedServices.ProcessingServices
 
         private string GetActivityLink(string action, int activityCode)
         {
-            return _generator.GetUriByAction(_accessor.HttpContext, $"{action}/{activityCode}", "activity_schedule");
+            UriBuilder uriBuilder = new UriBuilder(KaizenHttpContext.BaseUrl)
+            {
+                Path = $"activity_schedule/{action}/{activityCode}",
+            };
+            return uriBuilder.ToString();
         }
     }
 }

@@ -1,5 +1,7 @@
 using Kaizen.Middleware;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Kaizen.Extensions
 {
@@ -16,6 +18,11 @@ namespace Kaizen.Extensions
         public static void ConfigureExceptionHandler(this IApplicationBuilder app)
         {
             app.UseMiddleware<ExceptionMiddleware>();
+        }
+
+        public static void UseHttpContext(this IApplicationBuilder app)
+        {
+            KaizenHttpContext.Configure(app.ApplicationServices.GetRequiredService<IHttpContextAccessor>());
         }
     }
 }

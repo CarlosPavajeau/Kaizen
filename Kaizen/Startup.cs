@@ -48,6 +48,8 @@ namespace Kaizen
             services.AddCors();
             services.AddSignalR();
 
+            services.AddHttpContextAccessor();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
             // In production, the Angular files will be served from this directory
@@ -84,6 +86,7 @@ namespace Kaizen
             app.UseSwaggerApiDocumentation();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseHttpContext();
 
             app.UseEndpoints(endpoints =>
             {

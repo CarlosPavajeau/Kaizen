@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Kaizen.Core.Exceptions.User;
@@ -5,6 +6,7 @@ using Kaizen.Core.Security;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.Extensions;
+using Kaizen.Middleware;
 using Kaizen.Models.ApplicationUser;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -160,8 +162,13 @@ namespace Kaizen.Controllers
             }
 
             string token = await _userRepository.GeneratePasswordResetTokenAsync(user);
-            string resetPasswordLink = Url.Action("ResetPassword", "user",
-                new {token = token.Base64ForUrlEncode(), email = user.Email}, Request.Scheme);
+
+            UriBuilder uriBuilder = new UriBuilder(KaizenHttpContext.BaseUrl)
+            {
+                Path = "user/ResetPassword",
+                Query = $"token={token.Base64ForUrlEncode()}&email={user.Email}"
+            };
+            string resetPasswordLink = uriBuilder.Uri.ToString();
 
             return await _userRepository.SendPasswordResetTokenAsync(user, resetPasswordLink);
         }
