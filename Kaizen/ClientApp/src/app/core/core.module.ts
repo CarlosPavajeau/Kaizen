@@ -15,6 +15,8 @@ import { CheckClientExistsService } from '@core/services/check-client-exists.ser
 import { CheckUserExistsService } from '@core/services/check-user-exists.service';
 import { MomentUtcDateAdapter } from '@global/configs/moment-utc-date-adapter';
 import { CookieService } from 'ngx-cookie-service';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { getSpanishPaginatorIntl } from '@core/utils/spanish-mat-paginator-intl';
 
 registerLocaleData(localeEs);
 
@@ -41,7 +43,7 @@ export class CoreModule {
   constructor(
     @Optional()
     @SkipSelf()
-    parentModule: CoreModule
+      parentModule: CoreModule
   ) {
     if (parentModule) {
       throw new Error('CoreModule has already been loaded. You should only import Core modules in the AppModule only.');
@@ -59,7 +61,8 @@ export class CoreModule {
         { provide: MAT_DATE_LOCALE, useValue: 'es-us' },
         { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
         { provide: DateAdapter, useClass: MomentUtcDateAdapter },
-        { provide: LOCALE_ID, useValue: 'es' }
+        { provide: LOCALE_ID, useValue: 'es' },
+        { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() }
       ]
     };
   }
