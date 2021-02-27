@@ -47,6 +47,7 @@
               <th mat-header-cell *matHeaderCellDef>Opciones</th>
               <td mat-cell *matCellDef="let workOrder">
                 <a
+                  class="table-actions-button"
                   mat-icon-button
                   routerLink="/work_orders/{{ workOrder.code }}"
                   [matTooltip]="'Ver más información'"

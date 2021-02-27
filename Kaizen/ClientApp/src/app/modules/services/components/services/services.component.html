@@ -43,6 +43,7 @@
               <th mat-header-cell *matHeaderCellDef>Opciones</th>
               <td mat-cell *matCellDef="let service">
                 <a
+                  class="table-actions-button"
                   mat-icon-button
                   routerLink="/services/{{ service.code }}"
                   [matTooltip]="'Ver más información'"
@@ -50,13 +51,14 @@
                   <mat-icon>visibility</mat-icon>
                 </a>
                 <a
+                  class="table-actions-button"
                   mat-icon-button
                   routerLink="/services/edit/{{ service.code }}"
                   [matTooltip]="'Editar servicio'"
                 >
                   <mat-icon>edit</mat-icon>
                 </a>
-                <a mat-icon-button [matTooltip]="'Eliminar servicio'">
+                <a class="table-actions-button" mat-icon-button [matTooltip]="'Eliminar servicio'">
                   <mat-icon>delete</mat-icon>
                 </a>
               </td>

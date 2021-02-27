@@ -68,16 +68,17 @@
               <th mat-header-cell *matHeaderCellDef>Opciones</th>
               <td mat-cell *matCellDef="let client">
                 <a
+                  class="table-actions-button"
                   mat-icon-button
                   routerLink="/clients/{{ client.id }}"
                   [matTooltip]="'Ver más información'"
                 >
                   <mat-icon>visibility</mat-icon>
                 </a>
-                <a mat-icon-button [matTooltip]="'Editar cliente'">
+                <a class="table-actions-button" mat-icon-button [matTooltip]="'Editar cliente'">
                   <mat-icon>edit</mat-icon>
                 </a>
-                <a mat-icon-button [matTooltip]="'Eliminar cliente'">
+                <a class="table-actions-button" mat-icon-button [matTooltip]="'Eliminar cliente'">
                   <mat-icon>delete</mat-icon>
                 </a>
               </td>

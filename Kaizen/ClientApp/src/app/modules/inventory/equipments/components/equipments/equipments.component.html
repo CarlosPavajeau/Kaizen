@@ -51,6 +51,7 @@
               <th mat-header-cell *matHeaderCellDef>Opciones</th>
               <td mat-cell *matCellDef="let equipment">
                 <a
+                  class="table-actions-button"
                   mat-icon-button
                   routerLink="/inventory/equipments/{{ equipment.code }}"
                   [matTooltip]="'Ver más información'"
@@ -58,6 +59,7 @@
                   <mat-icon>visibility</mat-icon>
                 </a>
                 <a
+                  class="table-actions-button"
                   mat-icon-button
                   routerLink="/inventory/equipments/edit/{{ equipment.code }}"
                   [matTooltip]="'Editar equipo'"
@@ -65,6 +67,7 @@
                   <mat-icon>edit</mat-icon>
                 </a>
                 <a
+                  class="table-actions-button"
                   mat-icon-button
                   [matTooltip]="'Eliminar equipo'"
                   (click)="deleteEquipment(equipment)"

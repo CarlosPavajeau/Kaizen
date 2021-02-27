@@ -60,7 +60,7 @@ button {
 }
 
 *::-webkit-scrollbar {
-  width: 0%;
+  width: 0;
 }
 
 .form-element,
@@ -299,13 +299,11 @@ table {
 
 app-header + article {
   padding: 3.2rem;
-  padding: 32px;
   background: #142454;
 }
 
 .our-services-article {
   padding: 3.2rem;
-  padding: 32px;
   background: #142454;
 }
 
@@ -440,4 +438,8 @@ mat-panel-description .icon-text-container span {
 
 .contact-people-card .icon-text-container {
   justify-content: center;
+}
+
+.table-actions-button:hover {
+  color: rgba(39, 39, 39, .85);
 }
