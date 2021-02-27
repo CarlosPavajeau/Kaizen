@@ -84,6 +84,10 @@
       </button>
       <span>Ecolplag</span>
       <div class="spacer"></div>
+      <a mat-icon-button class="map-link" routerLink="/employees/map" *ngIf="isAdmin"
+         [matTooltip]="'Mapa de empleados'">
+        <mat-icon>map</mat-icon>
+      </a>
       <app-notifications></app-notifications>
       <button mat-icon-button [matMenuTriggerFor]="accountMenu" [matTooltip]="'Opciones de cuenta'">
         <mat-icon>account_circle</mat-icon>

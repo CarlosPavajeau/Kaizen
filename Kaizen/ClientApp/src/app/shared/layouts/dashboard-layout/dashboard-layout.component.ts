@@ -7,6 +7,7 @@ import { DashboardCard } from '@core/models/dashboard-card';
 import { EmployeeLocationService } from '@modules/employees/services/employee-location.service';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { ADMINISTRATOR_ROLE } from '@global/roles';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -16,11 +17,13 @@ import { map, shareReplay } from 'rxjs/operators';
 export class DashboardLayoutComponent implements OnInit {
   isHandset$: Observable<boolean>;
   userRole: string;
+
   @ViewChild('drawer', { static: true })
   drawer: MatSidenav;
 
   isSidenavClose = false;
   isLogout = false;
+  isAdmin = false;
 
   menuOptions: DashboardCard[] = [];
 
@@ -28,7 +31,8 @@ export class DashboardLayoutComponent implements OnInit {
     private breakPointObserver: BreakpointObserver,
     private authService: AuthenticationService,
     private employeeLocationService: EmployeeLocationService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.isHandset$ = this.breakPointObserver
@@ -36,18 +40,19 @@ export class DashboardLayoutComponent implements OnInit {
       .pipe(map((result) => result.matches), shareReplay());
 
     this.userRole = this.authService.getUserRole();
+    this.isAdmin = this.userRole == ADMINISTRATOR_ROLE;
     this.menuOptions = DASHBOARDS_CARDS[this.userRole];
   }
 
   closeSidenav(): void {
     if (this.drawer.opened) {
-      this.drawer.toggle();
+      this.drawer.toggle().then(r => {});
       this.isSidenavClose = true;
     }
   }
 
   toggleSidenav(): void {
-    this.drawer.toggle();
+    this.drawer.toggle().then(r => {});
     this.isSidenavClose = !this.isSidenavClose;
   }
 

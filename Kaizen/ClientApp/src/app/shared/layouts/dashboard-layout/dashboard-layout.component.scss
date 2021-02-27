@@ -34,10 +34,15 @@ a.sidenav-link:hover {
   color: white !important;
   display: none;
 }
+
 .dashboard-expansion-panel mat-panel-title {
   color: white !important;
 }
 
 .dashboard-expansion-panel mat-nav-list mat-icon {
   margin-right: 7px;
+}
+
+.map-link:hover {
+  color: #c1ffbede;
 }
