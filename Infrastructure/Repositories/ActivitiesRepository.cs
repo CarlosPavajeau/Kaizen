@@ -6,24 +6,32 @@ using Kaizen.Domain.Data;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
+
 namespace Kaizen.Infrastructure.Repositories
 {
     public class ActivitiesRepository : RepositoryBase<Activity, int>, IActivitiesRepository
     {
-        private readonly DateTime _limitDate = DateTime.Parse($"{DateTime.Now.Year}/12/31");
+        private DateTime _limitDate = DateTime.Parse($"{DateTime.Now.Year}/12/31");
         private readonly IEmployeesRepository _employeesRepository;
 
-        public ActivitiesRepository(ApplicationDbContext applicationDbContext, IEmployeesRepository employeesRepository) : base(applicationDbContext)
+        public ActivitiesRepository(ApplicationDbContext applicationDbContext, IEmployeesRepository employeesRepository)
+            : base(applicationDbContext)
         {
             _employeesRepository = employeesRepository;
         }
 
         public async Task ScheduleActivities(Activity activity)
         {
-            if (activity.Periodicity == PeriodicityType.Casual) { return; }
+            if (activity.Periodicity == PeriodicityType.Casual)
+            {
+                return;
+            }
 
             int dayInterval = GetDayInterval(activity.Periodicity);
-            if (dayInterval == -1) { return; }
+            if (dayInterval == -1)
+            {
+                return;
+            }
 
             string[] activityServiceCodes = activity.ActivitiesServices.Select(s => s.ServiceCode).ToArray();
             List<string> activityEmployeeCodes = activity.ActivitiesEmployees.Select(a => a.EmployeeId).ToList();
@@ -54,7 +62,8 @@ namespace Kaizen.Infrastructure.Repositories
             await ApplicationDbContext.SaveChangesAsync();
         }
 
-        private static bool ActivityCanBeScheduled(ICollection<string> activityEmployeeCodes, IEnumerable<Employee> availableEmployees)
+        private static bool ActivityCanBeScheduled(ICollection<string> activityEmployeeCodes,
+            IEnumerable<Employee> availableEmployees)
         {
             return activityEmployeeCodes.All(_ => availableEmployees.Any(a => activityEmployeeCodes.Contains(a.Id)));
         }
@@ -105,17 +114,19 @@ namespace Kaizen.Infrastructure.Repositories
                 .ThenInclude(a => a.EquipmentsServices)
                 .ThenInclude(a => a.Equipment)
                 .Where(a => a.State == ActivityState.Pending &&
-                       a.Date.Month == date.Month && a.Date.Day == date.Day &&
-                       a.ActivitiesEmployees.Select(activityEmployee => activityEmployee.EmployeeId).Contains(employeeId))
+                            a.Date.Month == date.Month && a.Date.Day == date.Day &&
+                            a.ActivitiesEmployees.Select(activityEmployee => activityEmployee.EmployeeId)
+                                .Contains(employeeId))
                 .ToListAsync();
         }
 
-        private async Task<IEnumerable<Activity>> GetClientActivities(string clientId, ActivityState state = ActivityState.Pending)
+        private async Task<IEnumerable<Activity>> GetClientActivities(string clientId,
+            ActivityState state = ActivityState.Pending)
         {
             return await GetAll().Include(a => a.ActivitiesServices).ThenInclude(a => a.Service)
-               .Include(a => a.ActivitiesEmployees).ThenInclude(a => a.Employee)
-               .Where(a => a.State == state && a.ClientId == clientId)
-               .ToListAsync();
+                .Include(a => a.ActivitiesEmployees).ThenInclude(a => a.Employee)
+                .Where(a => a.State == state && a.ClientId == clientId)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Activity>> GetPendingClientActivities(string clientId)
@@ -141,6 +152,15 @@ namespace Kaizen.Infrastructure.Repositories
                          MySqlDbFunctionsExtensions.DateDiffDay(EF.Functions, a.Date, today) > 0
                 )
                 .ToListAsync();
+        }
+
+        public void UpdateLimitDate()
+        {
+            int currentYear = DateTime.Now.Year;
+            if (currentYear > _limitDate.Year)
+            {
+                _limitDate = DateTime.Parse($"{currentYear}/12/31");
+            }
         }
     }
 }

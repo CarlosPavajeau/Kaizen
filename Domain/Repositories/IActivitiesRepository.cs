@@ -15,5 +15,7 @@ namespace Kaizen.Domain.Repositories
         Task<IEnumerable<Activity>> GetAppliedClientActivities(string clientId);
 
         Task<IEnumerable<Activity>> GetPendingActivitiesToConfirmed();
+
+        void UpdateLimitDate();
     }
 }

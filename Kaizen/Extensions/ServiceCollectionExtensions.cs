@@ -11,10 +11,7 @@ namespace Kaizen.Extensions
     {
         public static void ConfigureGlobalFilters(this IServiceCollection services)
         {
-            services.AddMvc(config =>
-            {
-                config.Filters.Add(new ModelStateFilterAttribute());
-            });
+            services.AddMvc(config => { config.Filters.Add(new ModelStateFilterAttribute()); });
         }
 
         public static void ConfigureHostedServices(this IServiceCollection services)
@@ -22,10 +19,12 @@ namespace Kaizen.Extensions
             services.AddHostedService<EmployeeContractHostedService>();
             services.AddHostedService<OverdueBillsHostedService>();
             services.AddHostedService<PendingActivitiesToBeConfirmedHostedService>();
+            services.AddHostedService<ActivitySchedulingDeadlineUpdateHostedService>();
 
             services.AddScoped(typeof(EmployeeContract));
             services.AddScoped(typeof(OverdueBills));
             services.AddScoped(typeof(PendingActivitiesToConfirmed));
+            services.AddScoped(typeof(ActivitySchedulingDeadlineUpdate));
         }
 
         public static void ConfigureDomainEventDispatcher(this IServiceCollection services)
