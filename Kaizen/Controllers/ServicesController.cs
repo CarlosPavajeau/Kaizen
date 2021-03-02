@@ -117,7 +117,7 @@ namespace Kaizen.Controllers
         }
 
         [Authorize(Roles = "Administrator")]
-        [HttpPost]
+        [HttpPost("[action]")]
         public async Task<ActionResult<ServiceTypeViewModel>> ServiceTypes([FromBody] ServiceTypeInputModel serviceTypeInputModel)
         {
             ServiceType serviceType = _mapper.Map<ServiceType>(serviceTypeInputModel);
