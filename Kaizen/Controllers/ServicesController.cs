@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -113,6 +114,19 @@ namespace Kaizen.Controllers
             }
 
             return _mapper.Map<ServiceViewModel>(service);
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPost]
+        public async Task<ActionResult<ServiceTypeViewModel>> ServiceTypes([FromBody] ServiceTypeInputModel serviceTypeInputModel)
+        {
+            ServiceType serviceType = _mapper.Map<ServiceType>(serviceTypeInputModel);
+
+            _servicesRepository.Insert(serviceType);
+
+            await _unitWork.SaveAsync();
+
+            return _mapper.Map<ServiceTypeViewModel>(serviceType);
         }
 
         [Authorize(Roles = "Administrator")]

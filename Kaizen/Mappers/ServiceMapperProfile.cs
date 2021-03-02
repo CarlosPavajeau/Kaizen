@@ -31,6 +31,7 @@ namespace Kaizen.Mappers
                 }
             });
 
+            CreateMap<ServiceTypeInputModel, ServiceType>();
             CreateMap<ServiceType, ServiceTypeViewModel>();
             CreateMap<Service, ServiceViewModel>().BeforeMap((service, _) =>
             {

@@ -10,5 +10,7 @@ namespace Kaizen.Domain.Repositories
     {
         IQueryable<ServiceType> GetServiceTypes();
         Task<IEnumerable<ServiceType>> GetServiceTypesAsync();
+
+        void Insert(ServiceType serviceType);
     }
 }

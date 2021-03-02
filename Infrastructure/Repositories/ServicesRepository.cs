@@ -33,5 +33,10 @@ namespace Kaizen.Infrastructure.Repositories
         {
             return await ApplicationDbContext.ServiceTypes.ToListAsync();
         }
+
+        public void Insert(ServiceType serviceType)
+        {
+            ApplicationDbContext.ServiceTypes.Add(serviceType);
+        }
     }
 }
