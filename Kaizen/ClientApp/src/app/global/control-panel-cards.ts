@@ -68,7 +68,8 @@ export const DASHBOARDS_CARDS: { [role: string]: DashboardCard[] } = {
       isMenu: true,
       subMenu: [
         { title: 'Registrar servicio', url: '/services/register', iconName: 'add_circle' },
-        { title: 'Ver servicios', url: '/services', iconName: 'view_list' }
+        { title: 'Ver servicios', url: '/services', iconName: 'view_list' },
+        { title: 'Ver tipos de servicio', url: '/services/service_types', iconName: 'list' }
       ]
     },
     {

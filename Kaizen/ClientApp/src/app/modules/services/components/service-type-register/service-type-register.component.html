@@ -1,0 +1,20 @@
+<h1 mat-dialog-title>Registro de tipo de servicio</h1>
+<div mat-dialog-content [formGroup]="serviceTypeForm">
+  <div class="form-element">
+    <mat-form-field>
+      <mat-label>Nombre del tipo de servicio</mat-label>
+      <input matInput type="text" formControlName="name">
+      <mat-hint>Digite el nombre del nuevo tipo de servicio</mat-hint>
+    </mat-form-field>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <div class="pt-4">
+    <button mat-stroked-button color="warn" (click)="onCancel()">
+      Cancelar
+    </button>
+    <button mat-raised-button class="royal_azure" (click)="saveServiceType()">
+      Registrar tipo de servicio
+    </button>
+  </div>
+</div>

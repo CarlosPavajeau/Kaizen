@@ -9,6 +9,8 @@ import { SelectEquipmentsComponent } from './components/select-equipments/select
 import { SelectProductsComponent } from './components/select-products/select-products.component';
 import { ServiceDetailComponent } from './components/service-detail/service-detail.component';
 import { ServiceEditComponent } from './components/service-edit/service-edit.component';
+import { ServiceTypeRegisterComponent } from './components/service-type-register/service-type-register.component';
+import { ServiceTypesComponent } from './components/service-types/service-types.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { ServiceEditComponent } from './components/service-edit/service-edit.com
     ServiceEditComponent,
     SelectEmployeesComponent,
     SelectEquipmentsComponent,
-    SelectProductsComponent
+    SelectProductsComponent,
+    ServiceTypeRegisterComponent,
+    ServiceTypesComponent
   ],
   imports: [ FormsModule, ReactiveFormsModule, SharedModule, ServicesRoutingModule ]
 })

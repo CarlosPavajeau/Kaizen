@@ -1,0 +1,60 @@
+<section class="container">
+  <ng-container
+    *ngIf="serviceTypes$ | observableWithStatus | async as obs"
+    [ngSwitch]="obs.status"
+  >
+    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+      <div class="center-block-content pt-5">
+        <div class="center-flex-content">
+          <mat-spinner></mat-spinner>
+        </div>
+        <h4 class="text-center mt-4 empty-list-text">Cargando tipos de servicio...</h4>
+      </div>
+    </ng-template>
+    <ng-template [ngSwitchCase]="ObsStatus.Success">
+      <div class="text-center">
+        <h1>Tipos de servicio</h1>
+      </div>
+      <div class="center-block-content">
+        <div class="float-right pb-2 pr-2">
+          <button class="royal_azure" mat-fab [matTooltip]="'Añadir un nuevo tipo de servicio'" (click)="registerServiceType()">
+            <mat-icon>add_circle</mat-icon>
+          </button>
+        </div>
+        <div>
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z6">
+            <ng-container matColumnDef="code">
+              <th mat-header-cell *matHeaderCellDef>Código</th>
+              <td mat-cell *matCellDef="let serviceType">{{ serviceType.id }}</td>
+            </ng-container>
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Nombre</th>
+              <td mat-cell *matCellDef="let serviceType">{{ serviceType.name }}</td>
+            </ng-container>
+            <ng-container matColumnDef="options">
+              <th mat-header-cell *matHeaderCellDef>Opciones</th>
+              <td mat-cell *matCellDef="let serviceType">
+                <a
+                  class="table-actions-button"
+                  mat-icon-button
+                  [matTooltip]="'Editar tipo de servicio'"
+                >
+                  <mat-icon>edit</mat-icon>
+                </a>
+                <a class="table-actions-button" mat-icon-button [matTooltip]="'Eliminar tipo de servicio'">
+                  <mat-icon>delete</mat-icon>
+                </a>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+          <mat-paginator
+            [pageSizeOptions]="[15, 30, 50, 100]"
+            showFirstLastButtons
+          ></mat-paginator>
+        </div>
+      </div>
+    </ng-template>
+  </ng-container>
+</section>

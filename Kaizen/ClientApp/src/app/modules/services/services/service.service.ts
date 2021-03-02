@@ -27,6 +27,10 @@ export class ServiceService {
     return this.http.post<Service>(SERVICES_API_URL, service);
   }
 
+  saveServiceType(serviceType: ServiceType): Observable<ServiceType> {
+    return this.http.post<ServiceType>(`${SERVICES_API_URL}/ServiceTypes`, serviceType);
+  }
+
   updateService(service: Service): Observable<Service> {
     return this.http.put<Service>(`${SERVICES_API_URL}/${service.code}`, service);
   }
