@@ -1,4 +1,8 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AppModule } from '@app/app.module';
+import { SharedModule } from '@shared/shared.module';
 
 import { ServiceTypesComponent } from './service-types.component';
 
@@ -8,9 +12,10 @@ describe('ServiceTypesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [ HttpClientTestingModule, AppModule, SharedModule, MatDialogModule ],
       declarations: [ ServiceTypesComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
