@@ -4,10 +4,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ServiceTypeRegisterComponent } from '@modules/services/components/service-type-register/service-type-register.component';
-import { Service } from '@modules/services/models/service';
 import { ServiceType } from '@modules/services/models/service-type';
 import { ServiceService } from '@modules/services/services/service.service';
-import { SelectDateModalComponent } from '@shared/components/select-date-modal/select-date-modal.component';
 import { ObservableStatus } from '@shared/models/observable-with-status';
 import { Observable } from 'rxjs';
 
@@ -30,7 +28,7 @@ export class ServiceTypesComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private serviceService: ServiceService, private dateDialog: MatDialog,) {
+  constructor(private serviceService: ServiceService, private matDialog: MatDialog,) {
   }
 
   ngOnInit(): void {
@@ -52,11 +50,11 @@ export class ServiceTypesComponent implements OnInit, AfterViewInit {
   }
 
   registerServiceType(): void {
-    const dateRef = this.dateDialog.open(ServiceTypeRegisterComponent, {
+    const matDialogRef = this.matDialog.open(ServiceTypeRegisterComponent, {
       width: '700px'
     });
 
-    dateRef.afterClosed().subscribe((serviceType: ServiceType) => {
+    matDialogRef.afterClosed().subscribe((serviceType: ServiceType) => {
       if (serviceType) {
         this.serviceService.saveServiceType(serviceType).subscribe((savedServiceType: ServiceType) => {
           if (savedServiceType) {
