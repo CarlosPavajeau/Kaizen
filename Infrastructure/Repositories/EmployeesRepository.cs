@@ -25,16 +25,14 @@ namespace Kaizen.Infrastructure.Repositories
                 .FirstOrDefaultAsync(e => e.Id == id || e.UserId == id);
         }
 
+        public void Insert(EmployeeCharge employeeCharge)
+        {
+            ApplicationDbContext.EmployeeCharges.Add(employeeCharge);
+        }
+
         public IQueryable<EmployeeCharge> GetAllEmployeeCharges()
         {
             return ApplicationDbContext.EmployeeCharges;
-        }
-
-        public async Task<Employee> GetEmployeeWithCharge(string id)
-        {
-            return await ApplicationDbContext.Employees
-                .Include(e => e.EmployeeCharge)
-                .FirstOrDefaultAsync(e => e.Id == id);
         }
 
         public async Task<IEnumerable<Employee>> GetTechniciansAvailable(DateTime date, string[] serviceCodes)

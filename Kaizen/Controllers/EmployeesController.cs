@@ -24,7 +24,8 @@ namespace Kaizen.Controllers
         private readonly IUnitWork _unitWork;
         private readonly IMapper _mapper;
 
-        public EmployeesController(IEmployeesRepository employeesRepository, IApplicationUserRepository applicationUserRepository, IUnitWork unitWork, IMapper mapper)
+        public EmployeesController(IEmployeesRepository employeesRepository,
+            IApplicationUserRepository applicationUserRepository, IUnitWork unitWork, IMapper mapper)
         {
             _employeesRepository = employeesRepository;
             _applicationUserRepository = applicationUserRepository;
@@ -50,14 +51,15 @@ namespace Kaizen.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<ActionResult<IEnumerable<EmployeeViewModel>>> TechniciansAvailable([FromQuery] DateTime date, [FromQuery] string serviceCodes)
+        public async Task<ActionResult<IEnumerable<EmployeeViewModel>>> TechniciansAvailable([FromQuery] DateTime date,
+            [FromQuery] string serviceCodes)
         {
-            IEnumerable<Employee> techniciansAvailable = await _employeesRepository.GetTechniciansAvailable(date, serviceCodes.Split(','));
+            IEnumerable<Employee> techniciansAvailable =
+                await _employeesRepository.GetTechniciansAvailable(date, serviceCodes.Split(','));
             return Ok(_mapper.Map<IEnumerable<EmployeeViewModel>>(techniciansAvailable));
         }
 
         [HttpGet("[action]")]
-        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<EmployeeChargeViewModel>>> EmployeeCharges()
         {
             List<EmployeeCharge> employeeCharges = await _employeesRepository.GetAllEmployeeCharges().ToListAsync();
@@ -77,7 +79,6 @@ namespace Kaizen.Controllers
         }
 
         [HttpGet("[action]/{id}")]
-        [AllowAnonymous]
         public async Task<ActionResult<bool>> CheckExists(string id)
         {
             return await _employeesRepository.GetAll().AnyAsync(c => c.Id == id);
@@ -92,7 +93,8 @@ namespace Kaizen.Controllers
                 return BadRequest($"No existe ningún empleado registrado con el código {id}.");
             }
 
-            bool employeeContractAlreadyExists = await _employeesRepository.EmployeeContractAlreadyExists(employeeModel.ContractCode);
+            bool employeeContractAlreadyExists =
+                await _employeesRepository.EmployeeContractAlreadyExists(employeeModel.ContractCode);
             if (!employeeContractAlreadyExists)
             {
                 EmployeeContract contract = _mapper.Map<EmployeeContract>(employeeModel.EmployeeContract);
@@ -133,13 +135,15 @@ namespace Kaizen.Controllers
             Employee employee = _mapper.Map<Employee>(employeeModel);
             employee.EmployeeCharge = employeeCharge;
 
-            IdentityResult result = await _applicationUserRepository.CreateAsync(employee.User, employeeModel.User.Password);
+            IdentityResult result =
+                await _applicationUserRepository.CreateAsync(employee.User, employeeModel.User.Password);
             if (!result.Succeeded)
             {
                 return this.IdentityResultErrors(result);
             }
 
-            IdentityResult roleResult = await _applicationUserRepository.AddToRoleAsync(employee.User, GetEmployeeRole(employee));
+            IdentityResult roleResult =
+                await _applicationUserRepository.AddToRoleAsync(employee.User, GetEmployeeRole(employee));
             if (!roleResult.Succeeded)
             {
                 return this.IdentityResultErrors(roleResult);
@@ -162,6 +166,19 @@ namespace Kaizen.Controllers
             }
 
             return _mapper.Map<EmployeeViewModel>(employee);
+        }
+
+        [HttpPost("[action]")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult<EmployeeChargeViewModel>> EmployeeCharges(
+            [FromBody] EmployeeChargeInputModel employeeChargeInputModel)
+        {
+            EmployeeCharge employeeCharge = _mapper.Map<EmployeeCharge>(employeeChargeInputModel);
+
+            _employeesRepository.Insert(employeeCharge);
+            await _unitWork.SaveAsync();
+
+            return _mapper.Map<EmployeeChargeViewModel>(employeeCharge);
         }
 
         private static string GetEmployeeRole(Employee employee)

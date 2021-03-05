@@ -10,9 +10,10 @@ namespace Kaizen.Mappers
         {
             CreateMap<EmployeeEditModel, Employee>();
             CreateMap<EmployeeInputModel, Employee>();
-
-            CreateMap<EmployeeCharge, EmployeeChargeViewModel>();
             CreateMap<Employee, EmployeeViewModel>();
+
+            CreateMap<EmployeeChargeInputModel, EmployeeCharge>();
+            CreateMap<EmployeeCharge, EmployeeChargeViewModel>();
 
             CreateMap<EmployeeContract, EmployeeContractModel>();
             CreateMap<EmployeeContractModel, EmployeeContract>();

@@ -9,8 +9,8 @@ namespace Kaizen.Domain.Repositories
 {
     public interface IEmployeesRepository : IRepositoryBase<Employee, string>
     {
+        void Insert(EmployeeCharge employeeCharge);
         IQueryable<EmployeeCharge> GetAllEmployeeCharges();
-        Task<Employee> GetEmployeeWithCharge(string id);
         Task<IEnumerable<Employee>> GetTechniciansAvailable(DateTime date, string[] serviceCodes);
 
         Task<IEnumerable<Employee>> EmployeesWithContractCloseToExpiration();
