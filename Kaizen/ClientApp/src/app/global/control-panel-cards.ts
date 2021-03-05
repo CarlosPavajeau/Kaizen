@@ -59,7 +59,8 @@ export const DASHBOARDS_CARDS: { [role: string]: DashboardCard[] } = {
       isMenu: true,
       subMenu: [
         { title: 'Registrar empleado', url: '/employees/register', iconName: 'person_add' },
-        { title: 'Ver empleados', url: '/employees', iconName: 'people' }
+        { title: 'Ver empleados', url: '/employees', iconName: 'people' },
+        { title: 'Ver cargos de empleado', url: '/employees/charges', iconName: 'list' }
       ]
     },
     {
