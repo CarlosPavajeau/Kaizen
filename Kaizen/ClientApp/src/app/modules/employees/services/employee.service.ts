@@ -37,6 +37,10 @@ export class EmployeeService {
     return this.http.post<Employee>(EMPLOYEES_API_URL, employee);
   }
 
+  saveEmployeeCharge(employeeCharge: EmployeeCharge): Observable<EmployeeCharge> {
+    return this.http.post<EmployeeCharge>(`${EMPLOYEES_API_URL}/EmployeeCharges`, employeeCharge);
+  }
+
   updateEmployee(employee: Employee): Observable<Employee> {
     return this.http.put<Employee>(`${EMPLOYEES_API_URL}/${employee.id}`, employee);
   }

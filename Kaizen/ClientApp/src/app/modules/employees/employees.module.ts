@@ -9,9 +9,11 @@ import { EmployeeRegisterComponent } from './components/employee-register/employ
 import { EmployeesComponent } from './components/employees/employees.component';
 import { EmployeesRoutingModule } from './employees-routing.module';
 import { EmployeeMapComponent } from './components/employee-map/employee-map.component';
+import { EmployeeChargeRegisterComponent } from './components/employee-charge-register/employee-charge-register.component';
+import { EmployeeChargesComponent } from './components/employee-charges/employee-charges.component';
 
 @NgModule({
-  declarations: [ EmployeeRegisterComponent, EmployeesComponent, EmployeeDetailComponent, EmployeeEditComponent, EmployeeMapComponent ],
+  declarations: [ EmployeeRegisterComponent, EmployeesComponent, EmployeeDetailComponent, EmployeeEditComponent, EmployeeMapComponent, EmployeeChargeRegisterComponent, EmployeeChargesComponent ],
   imports: [ EmployeesRoutingModule, SharedModule, UserModule, FormsModule, ReactiveFormsModule, GoogleMapsModule ]
 })
 export class EmployeesModule {
