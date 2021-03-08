@@ -1,6 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { DASHBOARDS_CARDS } from '@app/global/control-panel-cards';
 import { AuthenticationService } from '@core/authentication/authentication.service';
 import { DashboardCard } from '@core/models/dashboard-card';
@@ -27,10 +28,13 @@ export class DashboardLayoutComponent implements OnInit {
 
   menuOptions: DashboardCard[] = [];
 
+  loading = false;
+
   constructor(
     private breakPointObserver: BreakpointObserver,
     private authService: AuthenticationService,
-    private employeeLocationService: EmployeeLocationService
+    private employeeLocationService: EmployeeLocationService,
+    private router: Router
   ) {
   }
 
@@ -42,17 +46,28 @@ export class DashboardLayoutComponent implements OnInit {
     this.userRole = this.authService.getUserRole();
     this.isAdmin = this.userRole == ADMINISTRATOR_ROLE;
     this.menuOptions = DASHBOARDS_CARDS[this.userRole];
+
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        console.log('loading start')
+        this.loading = true;
+      } else if (event instanceof NavigationEnd) {
+        this.loading = false;
+      }
+    });
   }
 
   closeSidenav(): void {
     if (this.drawer.opened) {
-      this.drawer.toggle().then(r => {});
+      this.drawer.toggle().then(r => {
+      });
       this.isSidenavClose = true;
     }
   }
 
   toggleSidenav(): void {
-    this.drawer.toggle().then(r => {});
+    this.drawer.toggle().then(r => {
+    });
     this.isSidenavClose = !this.isSidenavClose;
   }
 
