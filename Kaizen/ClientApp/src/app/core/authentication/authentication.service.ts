@@ -10,49 +10,55 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  readonly USER_LOCAL_STORAGE_KEY = 'currentUser';
+  private readonly userLocalStorageKey = 'currentUser';
+  private readonly userTokenKey = 'user_token';
 
-  constructor(private http: HttpClient, private cookieService: CookieService) {}
+  constructor(private http: HttpClient, private cookieService: CookieService) {
+  }
 
   registerUser(user: User): Observable<User> {
     return this.http.post<User>(AUTH_API_URL, user);
   }
 
   loginUser(user: LoginRequest): Observable<User> {
-    return this.http.post<User>(`${AUTH_API_URL}/Login`, user);
+    return this.http.post<User>(`${ AUTH_API_URL }/Login`, user);
   }
 
   logoutUser(): Observable<boolean> {
     this.removeUser();
     localStorage.removeItem('current_person');
 
-    return this.http.post<boolean>(`${AUTH_API_URL}/Logout`, null);
+    return this.http.post<boolean>(`${ AUTH_API_URL }/Logout`, null);
   }
 
   removeUser(): void {
-    localStorage.removeItem(this.USER_LOCAL_STORAGE_KEY);
-    this.cookieService.delete('user_token');
+    localStorage.removeItem(this.userLocalStorageKey);
+    this.cookieService.delete(this.userTokenKey);
   }
 
   setCurrentUser(user: User): void {
-    this.cookieService.set('user_token', user.token, 365, '/', null, true);
+    this.cookieService.set(this.userTokenKey, user.token, 365, '/', null, true);
     user.token = undefined;
     const user_str = JSON.stringify(user);
-    localStorage.setItem(this.USER_LOCAL_STORAGE_KEY, user_str);
+    localStorage.setItem(this.userLocalStorageKey, user_str);
   }
 
   getToken(): string {
-    return this.cookieService.get('user_token');
+    return this.cookieService.get(this.userTokenKey);
   }
 
   getCurrentUser(): User {
-    const user_str = localStorage.getItem(this.USER_LOCAL_STORAGE_KEY);
+    const userToken = this.getToken();
+    if (userToken === null || userToken === undefined || userToken === '') {
+      return null;
+    }
+
+    const user_str = localStorage.getItem(this.userLocalStorageKey);
     if (user_str === null || user_str === undefined) {
       return null;
-    } else {
-      const user: User = JSON.parse(user_str);
-      return user;
     }
+
+    return JSON.parse(user_str) as User;
   }
 
   getUserRole(): string {
