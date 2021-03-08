@@ -7,14 +7,14 @@ import { ServiceRequest } from '@modules/service-requests/models/service-request
   providedIn: 'root'
 })
 export class ServiceRequestSignalrService extends BaseSignalrService {
-  onNewServiceRequestRegister: EventEmitter<ServiceRequest>;
+  onNewServiceRequestRegister: EventEmitter<ServiceRequest> = new EventEmitter<ServiceRequest>();
 
   constructor(private authService: AuthenticationService) {
     super();
   }
 
   public startConnection() {
-    super.buildConnection('/ServiceRequestHub', this.authService.getToken());
+    super.buildConnection('/ServiceRequestsHub', this.authService.getToken());
     super.startConnection();
   }
 
