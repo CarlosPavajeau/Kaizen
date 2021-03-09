@@ -1,4 +1,3 @@
-using AutoMapper;
 using Kaizen.Domain.Extensions;
 using Kaizen.Extensions;
 using Kaizen.Infrastructure.Extensions;

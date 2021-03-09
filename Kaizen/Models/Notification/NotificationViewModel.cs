@@ -1,6 +1,4 @@
-﻿using Kaizen.Domain.Entities;
-
-namespace Kaizen.Models.Notification
+﻿namespace Kaizen.Models.Notification
 {
     public class NotificationViewModel : NotificationEditModel
     {
