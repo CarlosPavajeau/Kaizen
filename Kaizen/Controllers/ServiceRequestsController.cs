@@ -70,6 +70,7 @@ namespace Kaizen.Controllers
             }
 
             _mapper.Map(serviceRequestModel, serviceRequest);
+            serviceRequest.PublishEvent(new UpdatedServiceRequest(serviceRequest));
             _serviceRequestsRepository.Update(serviceRequest);
 
             try
