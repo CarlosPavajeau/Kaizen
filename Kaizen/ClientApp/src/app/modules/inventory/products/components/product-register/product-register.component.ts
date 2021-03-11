@@ -9,6 +9,7 @@ import { ApplicationMonths, APPLICATION_MONTHS, MonthBit } from '@core/models/mo
 import { UploadDownloadService } from '@core/services/upload-download.service';
 import { Product } from '@modules/inventory/products/models/product';
 import { ProductService } from '@modules/inventory/products/services/product.service';
+import { DialogsService } from '@shared/services/dialogs.service';
 import { NotificationsService } from '@shared/services/notifications.service';
 
 @Component({
@@ -40,7 +41,7 @@ export class ProductRegisterComponent implements OnInit, IForm {
     private productService: ProductService,
     private uploadDownloadService: UploadDownloadService,
     private formBuilder: FormBuilder,
-    private notificationService: NotificationsService,
+    private dialogsService: DialogsService,
     private router: Router
   ) {}
 
@@ -100,7 +101,7 @@ export class ProductRegisterComponent implements OnInit, IForm {
           const product = this.mapProduct(fileNames);
 
           this.productService.saveProduct(product).subscribe((productSave) => {
-            this.notificationService.showSuccessMessage(
+            this.dialogsService.showSuccessDialog(
               `El producto ${productSave.name} fue registrado con éxito`,
               () => {
                 this.router.navigateByUrl('/inventory/products');

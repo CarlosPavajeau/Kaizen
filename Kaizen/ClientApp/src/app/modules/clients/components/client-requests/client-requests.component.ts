@@ -4,7 +4,7 @@ import { ClientState } from '@modules/clients/models/client-state';
 import { ClientService } from '@modules/clients/services/client.service';
 import { ClientSignalrService } from '@modules/clients/services/client-signalr.service';
 import { ObservableStatus } from '@shared/models/observable-with-status';
-import { NotificationsService } from '@shared/services/notifications.service';
+import { SnackBarService } from '@shared/services/snack-bar.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -21,7 +21,7 @@ export class ClientRequestsComponent implements OnInit {
 
   constructor(
     private clientService: ClientService,
-    private notificationsService: NotificationsService,
+    private snackBarService: SnackBarService,
     private clientSignalrService: ClientSignalrService
   ) {
   }
@@ -34,7 +34,7 @@ export class ClientRequestsComponent implements OnInit {
 
     this.clientSignalrService.onNewClientRegister.subscribe((newClient: Client) => {
       this.clientRequests.push(newClient);
-      this.notificationsService.addMessage(`Se ha registrado un nuevo cliente`, 'Ok', 'left');
+      this.snackBarService.addMessage(`Se ha registrado un nuevo cliente`, 'Ok', 'left');
     });
   }
 

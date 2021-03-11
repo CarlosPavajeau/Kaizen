@@ -13,7 +13,7 @@ import { ServiceRequestService } from '@modules/service-requests/services/servic
 import { Service } from '@modules/services/models/service';
 import { ServiceService } from '@modules/services/services/service.service';
 import { ObservableStatus } from '@shared/models/observable-with-status';
-import { NotificationsService } from '@shared/services/notifications.service';
+import { DialogsService } from '@shared/services/dialogs.service';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -51,10 +51,11 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
     private serviceRequestService: ServiceRequestService,
     private clientService: ClientService,
     private serviceService: ServiceService,
-    private notificationService: NotificationsService,
+    private dialogsService: DialogsService,
     private formBuilder: FormBuilder,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.loadData();
@@ -110,14 +111,14 @@ export class ServiceRequestRegisterComponent implements OnInit, IForm {
       this.savingData = true;
       this.serviceRequestService.saveServiceRequest(serviceRequest).subscribe((serviceRequestSave) => {
         if (serviceRequestSave) {
-          this.notificationService.showSuccessMessage(
-            `Solicitud de servicio N° ${serviceRequestSave.code} registrada. Espere nuestra pronta respuesta.`,
+          this.dialogsService.showSuccessDialog(
+            `Solicitud de servicio N° ${ serviceRequestSave.code } registrada. Espere nuestra pronta respuesta.`,
             () => {
               this.router.navigateByUrl('/user/profile');
             }
           );
         } else {
-          this.notificationService.showErrorMessage(
+          this.dialogsService.showErrorDialog(
             'La solicitud de servicio no pudo ser registrada. Por favor verifique que los campos enviados son correctos.'
           );
         }

@@ -11,7 +11,7 @@ import { ProductInvoice } from '@modules/payments/models/product-invoice';
 import { PaymentService } from '@modules/payments/services/payment.service';
 import { ProductInvoiceService } from '@modules/payments/services/product-invoice.service';
 import { ObservableStatus } from '@shared/models/observable-with-status';
-import { NotificationsService } from '@shared/services/notifications.service';
+import { DialogsService } from '@shared/services/dialogs.service';
 import * as _moment from 'moment';
 import { Moment } from 'moment';
 import { Observable, of } from 'rxjs';
@@ -65,9 +65,10 @@ export class PayProductInvoiceComponent implements OnInit, IForm, OnDestroy {
     private formBuilder: FormBuilder,
     private activatedRouter: ActivatedRoute,
     private router: Router,
-    private notificationsService: NotificationsService,
+    private dialogsService: DialogsService,
     @Inject(DOCUMENT) private _document: Document
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -144,7 +145,7 @@ export class PayProductInvoiceComponent implements OnInit, IForm, OnDestroy {
             .payProductInvoice(this.productInvoice, paymentModel)
             .subscribe((productInvoice: ProductInvoice) => {
               if (productInvoice) {
-                this.notificationsService.showSuccessMessage(
+                this.dialogsService.showSuccessDialog(
                   'Pago processado correctamente, su factura ha sido pagada.',
                   () => {
                     this.router.navigateByUrl('/payments/invoices/products');

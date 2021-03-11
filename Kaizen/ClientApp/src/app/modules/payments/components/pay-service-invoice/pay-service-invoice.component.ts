@@ -6,12 +6,12 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 import { MatDatepicker } from '@angular/material/datepicker';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IForm } from '@app/core/models/form';
-import { NotificationsService } from '@app/shared/services/notifications.service';
 import { PayModel } from '@modules/payments/models/pay';
 import { ServiceInvoice } from '@modules/payments/models/service-invoice';
 import { PaymentService } from '@modules/payments/services/payment.service';
 import { ServiceInvoiceService } from '@modules/payments/services/service-invoice.service';
 import { ObservableStatus } from '@shared/models/observable-with-status';
+import { DialogsService } from '@shared/services/dialogs.service';
 import * as _moment from 'moment';
 // tslint:disable-next-line:no-duplicate-imports
 import { Moment } from 'moment';
@@ -67,9 +67,10 @@ export class PayServiceInvoiceComponent implements OnInit, IForm, OnDestroy {
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private notificationsService: NotificationsService,
+    private dialogsService: DialogsService,
     @Inject(DOCUMENT) private _document: Document
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -145,7 +146,7 @@ export class PayServiceInvoiceComponent implements OnInit, IForm, OnDestroy {
             .payServiceInvoice(this.serviceInvoice, paymentModel)
             .subscribe((serviceInvoice: ServiceInvoice) => {
               if (serviceInvoice) {
-                this.notificationsService.showSuccessMessage(
+                this.dialogsService.showSuccessDialog(
                   'Pago processado correctamente, su factura ha sido pagada.',
                   () => {
                     this.router.navigateByUrl('/payments/service_invoices');

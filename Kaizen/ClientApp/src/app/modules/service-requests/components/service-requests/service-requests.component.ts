@@ -4,7 +4,7 @@ import { ServiceRequest } from '@modules/service-requests/models/service-request
 import { ServiceRequestSignalrService } from '@modules/service-requests/services/service-request-signalr.service';
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
 import { ObservableStatus } from '@shared/models/observable-with-status';
-import { NotificationsService } from '@shared/services/notifications.service';
+import { SnackBarService } from '@shared/services/snack-bar.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -21,7 +21,7 @@ export class ServiceRequestsComponent implements OnInit {
   constructor(
     private serviceRequestService: ServiceRequestService,
     private serviceRequestSignalrService: ServiceRequestSignalrService,
-    private notificationsService: NotificationsService
+    private snackBarService: SnackBarService
   ) {
   }
 
@@ -33,7 +33,7 @@ export class ServiceRequestsComponent implements OnInit {
 
     this.serviceRequestSignalrService.onNewServiceRequestRegister.subscribe((data: ServiceRequest) => {
       if (data) {
-        this.notificationsService.addMessage(`Se ha hecho una nueva solicitud de servicio`, 'Ok', 'left');
+        this.snackBarService.addMessage(`Se ha hecho una nueva solicitud de servicio`, 'Ok', 'left');
         this.serviceRequests.push(data);
       }
     });

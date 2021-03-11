@@ -3,8 +3,8 @@ import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResetPasswordModel } from '@modules/users/models/reset-password';
 import { UserService } from '@modules/users/services/user.service';
+import { DialogsService } from '@shared/services/dialogs.service';
 import { HttpErrorHandlerService } from '@shared/services/http-error-handler.service';
-import { NotificationsService } from '@shared/services/notifications.service';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -38,14 +38,15 @@ export class ResetPasswordComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private actiatedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
-    private notificationsService: NotificationsService,
+    private dialogsService: DialogsService,
     private errorHandler: HttpErrorHandlerService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
-    this.actiatedRoute.queryParamMap.subscribe((queryParams) => {
+    this.activatedRoute.queryParamMap.subscribe((queryParams) => {
       this.token = queryParams.get('token');
       this.email = queryParams.get('email');
     });
@@ -74,7 +75,7 @@ export class ResetPasswordComponent implements OnInit {
           )
           .subscribe((result) => {
             if (result) {
-              this.notificationsService.showSuccessMessage('Contraseña de acceso modificado con éxito.', () => {
+              this.dialogsService.showSuccessDialog('Contraseña de acceso modificado con éxito.', () => {
                 this.router.navigateByUrl('/user/login');
               });
             }

@@ -5,6 +5,7 @@ import { IForm } from '@core/models/form';
 import { Equipment } from '@modules/inventory/equipments/models/equipment';
 import { EquipmentService } from '@modules/inventory/equipments/services/equipment.service';
 import { ObservableStatus } from '@shared/models/observable-with-status';
+import { DialogsService } from '@shared/services/dialogs.service';
 import { NotificationsService } from '@shared/services/notifications.service';
 import { Observable } from 'rxjs';
 
@@ -35,9 +36,10 @@ export class EquipmentEditComponent implements OnInit, IForm {
     private equipmentService: EquipmentService,
     private formBuilder: FormBuilder,
     private activatedRoute: ActivatedRoute,
-    private notificationsService: NotificationsService,
+    private dialogsService: DialogsService,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -99,8 +101,8 @@ export class EquipmentEditComponent implements OnInit, IForm {
     this.updatingEquipment = true;
     this.equipmentService.updateEquipment(equipment).subscribe((upgradedEquipment) => {
       if (upgradedEquipment) {
-        this.notificationsService.showSuccessMessage(
-          `Se actualizaron correctamente los datos del equipo identificado con el código ${equipment.code}.`,
+        this.dialogsService.showSuccessDialog(
+          `Se actualizaron correctamente los datos del equipo identificado con el código ${ equipment.code }.`,
           () => {
             this.router.navigateByUrl('/equipments');
             this.updatingEquipment = false;

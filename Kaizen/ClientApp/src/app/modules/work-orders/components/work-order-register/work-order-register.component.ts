@@ -12,7 +12,7 @@ import { WorkOrderState } from '@modules/work-orders/models/work-order-state';
 import { WorkOrderService } from '@modules/work-orders/service/work-order.service';
 import { DigitalSignatureComponent } from '@shared/components/digital-signature/digital-signature.component';
 import { ObservableStatus } from '@shared/models/observable-with-status';
-import { NotificationsService } from '@shared/services/notifications.service';
+import { DialogsService } from '@shared/services/dialogs.service';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -46,8 +46,9 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
     private formBuilder: FormBuilder,
     private activateRoute: ActivatedRoute,
     private router: Router,
-    private notificationsService: NotificationsService
-  ) {}
+    private dialogsService: DialogsService
+  ) {
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -83,12 +84,12 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
       const arrivalTime = this.controls['arrivalTime'].value;
       const date = new Date();
       const arrivalTimeISO = new Date(
-        `${date.getFullYear()}-${zeroPad(date.getMonth() + 1, 2)}-${zeroPad(date.getDate(), 2)}T${arrivalTime}:00Z`
+        `${ date.getFullYear() }-${ zeroPad(date.getMonth() + 1, 2) }-${ zeroPad(date.getDate(), 2) }T${ arrivalTime }:00Z`
       );
 
-      const executionTime = `${zeroPad(date.getHours(), 2)}:${zeroPad(date.getMinutes(), 2)}`;
+      const executionTime = `${ zeroPad(date.getHours(), 2) }:${ zeroPad(date.getMinutes(), 2) }`;
       const executionDate = new Date(
-        `${date.getFullYear()}-${zeroPad(date.getMonth() + 1, 2)}-${zeroPad(date.getDate(), 2)}T${executionTime}:00Z`
+        `${ date.getFullYear() }-${ zeroPad(date.getMonth() + 1, 2) }-${ zeroPad(date.getDate(), 2) }T${ executionTime }:00Z`
       );
 
       const employee: Employee = JSON.parse(localStorage.getItem('current_person'));
@@ -107,8 +108,8 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
       this.savingOrUpdatingData = true;
       this.workOrderService.saveWorkOrder(workOrder).subscribe((workOrderSave) => {
         if (workOrderSave) {
-          this.notificationsService.showSuccessMessage(
-            `Orden de trabajo N°${workOrderSave.code} generada con éxito.`,
+          this.dialogsService.showSuccessDialog(
+            `Orden de trabajo N°${ workOrderSave.code } generada con éxito.`,
             () => {
               this.workOrder = workOrderSave;
               this.savingOrUpdatingData = false;
@@ -131,8 +132,8 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
         this.savingOrUpdatingData = true;
         this.workOrderService.updateWorkOrder(workOrder).subscribe((workOrderUpdate) => {
           if (workOrderUpdate) {
-            this.notificationsService.showSuccessMessage(
-              `Orden de trabajo N°${workOrderUpdate.code} confirmada correctamente.`,
+            this.dialogsService.showSuccessDialog(
+              `Orden de trabajo N°${ workOrderUpdate.code } confirmada correctamente.`,
               () => {
                 this.workOrder = workOrderUpdate;
                 this.savingOrUpdatingData = false;
@@ -150,8 +151,8 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
     this.savingOrUpdatingData = true;
     this.workOrderService.updateWorkOrder(this.workOrder).subscribe((workOrderUpdate) => {
       if (workOrderUpdate) {
-        this.notificationsService.showSuccessMessage(
-          `Orden de trabajo N°${workOrderUpdate.code} cancelada correctamente.`,
+        this.dialogsService.showSuccessDialog(
+          `Orden de trabajo N°${ workOrderUpdate.code } cancelada correctamente.`,
           () => {
             this.router.navigateByUrl('/user/profile');
           }
@@ -167,18 +168,17 @@ export class WorkOrderRegisterComponent implements OnInit, IForm {
 
       const departureTime = this.controls['departureTime'].value;
       const date = new Date();
-      const departureTimeISO = new Date(
-        `${date.getFullYear()}-${zeroPad(date.getMonth() + 1, 2)}-${zeroPad(date.getDate(), 2)}T${departureTime}:00Z`
+      this.workOrder.departureTime = new Date(
+        `${ date.getFullYear() }-${ zeroPad(date.getMonth() + 1, 2) }-${ zeroPad(date.getDate(), 2) }T${ departureTime }:00Z`
       );
-      this.workOrder.departureTime = departureTimeISO;
 
       this.workOrder.workOrderState = WorkOrderState.Valid;
 
       this.savingOrUpdatingData = true;
       this.workOrderService.updateWorkOrder(this.workOrder).subscribe((workOrderUpdate) => {
         if (workOrderUpdate) {
-          this.notificationsService.showSuccessMessage(
-            `Orden de trabajo N°${workOrderUpdate.code} guardada correctamente.`,
+          this.dialogsService.showSuccessDialog(
+            `Orden de trabajo N°${ workOrderUpdate.code } guardada correctamente.`,
             () => {
               this.router.navigateByUrl('/user/profile');
             }

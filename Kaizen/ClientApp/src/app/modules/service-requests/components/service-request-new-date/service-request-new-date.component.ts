@@ -7,7 +7,7 @@ import { ServiceRequestState } from '@modules/service-requests/models/service-re
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
 import { SelectDateModalComponent } from '@shared/components/select-date-modal/select-date-modal.component';
 import { ObservableStatus } from '@shared/models/observable-with-status';
-import { NotificationsService } from '@shared/services/notifications.service';
+import { DialogsService } from '@shared/services/dialogs.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -26,8 +26,9 @@ export class ServiceRequestNewDateComponent implements OnInit {
     private serviceRequestService: ServiceRequestService,
     private router: Router,
     private dateDialog: MatDialog,
-    private notificationsService: NotificationsService
-  ) {}
+    private dialogsService: DialogsService
+  ) {
+  }
 
   ngOnInit(): void {
     this.loadData();
@@ -59,7 +60,7 @@ export class ServiceRequestNewDateComponent implements OnInit {
   private updateServiceRequest(serviceRequest: ServiceRequest): void {
     this.updatingServiceRequest = true;
     this.serviceRequestService.updateServiceRequest(serviceRequest).subscribe((serviceRequestUpdate) => {
-      this.notificationsService.showSuccessMessage(
+      this.dialogsService.showSuccessDialog(
         'Fecha de la solicitud del servicio modificada con éxito. Espere nuestra respuesta.',
         () => {
           this.router.navigateByUrl('/user/profile');

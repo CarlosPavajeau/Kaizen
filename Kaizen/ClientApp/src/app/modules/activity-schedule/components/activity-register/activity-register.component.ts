@@ -20,7 +20,7 @@ import { Service } from '@modules/services/models/service';
 import { ServiceService } from '@modules/services/services/service.service';
 import { SelectDateModalComponent } from '@shared/components/select-date-modal/select-date-modal.component';
 import { ObservableStatus } from '@shared/models/observable-with-status';
-import { NotificationsService } from '@shared/services/notifications.service';
+import { DialogsService } from '@shared/services/dialogs.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -58,12 +58,13 @@ export class ActivityRegisterComponent implements OnInit, IForm {
     private employeeService: EmployeeService,
     private serviceService: ServiceService,
     private clientService: ClientService,
-    private notificationsService: NotificationsService,
+    private dialogsService: DialogsService,
     private activateRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
     public dateDialog: MatDialog,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.activateRoute.queryParamMap.subscribe((queryParams) => {
@@ -131,9 +132,10 @@ export class ActivityRegisterComponent implements OnInit, IForm {
         if (activitySave) {
           if (this.fromServiceRequest) {
             this.serviceRequest.state = ServiceRequestState.Accepted;
-            this.serviceRequestService.updateServiceRequest(this.serviceRequest).subscribe((serviceRequestUpdate) => {
-              this.onSaveActivity(activitySave.code, '/service_requests');
-            });
+            this.serviceRequestService.updateServiceRequest(this.serviceRequest)
+              .subscribe(() => {
+                this.onSaveActivity(activitySave.code, '/service_requests');
+              });
           } else {
             this.onSaveActivity(activitySave.code, '/activity_schedule');
           }
@@ -143,8 +145,9 @@ export class ActivityRegisterComponent implements OnInit, IForm {
   }
 
   private onSaveActivity(activityCode: number, url: string): void {
-    this.notificationsService.showSuccessMessage(
-      `Actividad N° ${activityCode} agendada con éxito. Tambíen se agendaron todas las actividades siguientes dependiendo de la periodicidad de la actividad`,
+    this.dialogsService.showSuccessDialog(
+      `Actividad N° ${ activityCode } agendada con éxito. Tambíen se agendaron todas las actividades
+                siguientes dependiendo de la periodicidad de la actividad`,
       () => {
         this.router.navigateByUrl(url);
       }
@@ -155,7 +158,7 @@ export class ActivityRegisterComponent implements OnInit, IForm {
     if (this.fromServiceRequest) {
       const isoDate = buildIsoDate(
         this.serviceRequest.date,
-        `${zeroPad(this.serviceRequest.date.getHours(), 2)}:${zeroPad(this.serviceRequest.date.getMinutes(), 2)}`
+        `${ zeroPad(this.serviceRequest.date.getHours(), 2) }:${ zeroPad(this.serviceRequest.date.getMinutes(), 2) }`
       );
 
       return {

@@ -7,7 +7,7 @@ import { Employee } from '@modules/employees/models/employee';
 import { EmployeeCharge } from '@modules/employees/models/employee-charge';
 import { EmployeeService } from '@modules/employees/services/employee.service';
 import { ObservableStatus } from '@shared/models/observable-with-status';
-import { NotificationsService } from '@shared/services/notifications.service';
+import { DialogsService } from '@shared/services/dialogs.service';
 import { alphabeticCharacters, numericCharacters } from '@shared/validators/characters-validators';
 import { Observable } from 'rxjs';
 
@@ -41,9 +41,10 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
   constructor(
     private employeeService: EmployeeService,
     private formBuilder: FormBuilder,
-    private notificationsService: NotificationsService,
+    private dialogsService: DialogsService,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.loadEmployeeCharges();
@@ -111,8 +112,8 @@ export class EmployeeRegisterComponent implements OnInit, IForm {
       const employee: Employee = this.mapEmployee(user);
 
       this.employeeService.saveEmployee(employee).subscribe((employeeRegister) => {
-        this.notificationsService.showSuccessMessage(
-          `El empleado ${employeeRegister.firstName} ${employeeRegister.lastName} fue registrado con éxito`,
+        this.dialogsService.showSuccessDialog(
+          `El empleado ${ employeeRegister.firstName } ${ employeeRegister.lastName } fue registrado con éxito`,
           () => {
             this.router.navigateByUrl('/employees');
           }

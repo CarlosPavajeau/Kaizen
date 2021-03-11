@@ -7,7 +7,7 @@ import { APPLICATION_MONTHS, MonthBit } from '@core/models/months';
 import { Product } from '@modules/inventory/products/models/product';
 import { ProductService } from '@modules/inventory/products/services/product.service';
 import { ObservableStatus } from '@shared/models/observable-with-status';
-import { NotificationsService } from '@shared/services/notifications.service';
+import { DialogsService } from '@shared/services/dialogs.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -46,9 +46,11 @@ export class ProductEditComponent implements OnInit, IForm, AfterViewInit {
     private productService: ProductService,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private notificationsService: NotificationsService,
+    private dialogsService: DialogsService,
     private router: Router
-  ) {}
+  ) {
+  }
+
   ngAfterViewInit(): void {
     console.log(this.monthSelect);
   }
@@ -149,7 +151,7 @@ export class ProductEditComponent implements OnInit, IForm, AfterViewInit {
     this.uploadingProduct = true;
     this.productService.updateProduct(product).subscribe((productUpdated) => {
       if (productUpdated) {
-        this.notificationsService.showSuccessMessage(`Datos básicos del producto ${product.name} actualizados.`, () => {
+        this.dialogsService.showSuccessDialog(`Datos básicos del producto ${ product.name } actualizados.`, () => {
           this.router.navigateByUrl('/inventory/products');
           this.uploadingProduct = false;
         });

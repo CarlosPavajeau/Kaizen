@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ClientSignalrService } from '@modules/clients/services/client-signalr.service';
 import { NotificationItem } from '@shared/models/notification-item';
+import { NotificationsSignalrService } from '@shared/services/notifications-signalr.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-notifications',
@@ -9,10 +10,21 @@ import { NotificationItem } from '@shared/models/notification-item';
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
   notifications: NotificationItem[] = [];
+  newNotification: Subscription;
 
-  constructor(private clientSignalR: ClientSignalrService) {}
+  constructor(private notificationSignalR: NotificationsSignalrService) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.notificationSignalR.startConnection();
+    this.notificationSignalR.addOnNewNotification();
 
-  ngOnDestroy(): void {}
+    this.newNotification = this.notificationSignalR.onNewNotification$.subscribe((notification: NotificationItem) => {
+      this.notifications.push(notification);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.newNotification.unsubscribe();
+  }
 }

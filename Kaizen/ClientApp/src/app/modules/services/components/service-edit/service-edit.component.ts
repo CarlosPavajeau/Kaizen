@@ -10,6 +10,7 @@ import { Service } from '@modules/services/models/service';
 import { ServiceType } from '@modules/services/models/service-type';
 import { ServiceService } from '@modules/services/services/service.service';
 import { ObservableStatus } from '@shared/models/observable-with-status';
+import { DialogsService } from '@shared/services/dialogs.service';
 import { NotificationsService } from '@shared/services/notifications.service';
 import { Observable } from 'rxjs';
 
@@ -40,9 +41,10 @@ export class ServiceEditComponent implements OnInit, IForm {
     private serviceService: ServiceService,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private notificationsService: NotificationsService,
+    private dialogsService: DialogsService,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -127,8 +129,8 @@ export class ServiceEditComponent implements OnInit, IForm {
     this.updatingService = true;
     this.serviceService.updateService(service).subscribe((serviceUpdated) => {
       if (serviceUpdated) {
-        this.notificationsService.showSuccessMessage(
-          `Datos del servicio ${service.name} actualizados con éxito.`,
+        this.dialogsService.showSuccessDialog(
+          `Datos del servicio ${ service.name } actualizados con éxito.`,
           () => {
             this.updatingService = false;
             this.router.navigateByUrl('/services');

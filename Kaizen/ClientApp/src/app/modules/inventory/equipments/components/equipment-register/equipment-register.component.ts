@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { IForm } from '@core/models/form';
 import { Equipment } from '@modules/inventory/equipments/models/equipment';
 import { EquipmentService } from '@modules/inventory/equipments/services/equipment.service';
-import { NotificationsService } from '@shared/services/notifications.service';
+import { DialogsService } from '@shared/services/dialogs.service';
 import { EquipmentExistsValidator } from '@shared/validators/equipment-exists-validator';
 
 @Component({
@@ -30,9 +30,10 @@ export class EquipmentRegisterComponent implements OnInit, IForm {
     private equipmentService: EquipmentService,
     private formBuilder: FormBuilder,
     private equipmentValidator: EquipmentExistsValidator,
-    private notificationService: NotificationsService,
+    private dialogsService: DialogsService,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -67,8 +68,8 @@ export class EquipmentRegisterComponent implements OnInit, IForm {
 
       this.savingData = true;
       this.equipmentService.saveEquipment(equipment).subscribe((equipmentSave) => {
-        this.notificationService.showSuccessMessage(
-          `El equipo ${equipmentSave.name} ha sido registrado con éxito`,
+        this.dialogsService.showSuccessDialog(
+          `El equipo ${ equipmentSave.name } ha sido registrado con éxito`,
           () => {
             this.router.navigateByUrl('/inventory/equipments');
           }

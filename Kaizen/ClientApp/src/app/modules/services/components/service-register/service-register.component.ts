@@ -9,7 +9,7 @@ import { Service } from '@modules/services/models/service';
 import { ServiceType } from '@modules/services/models/service-type';
 import { ServiceService } from '@modules/services/services/service.service';
 import { ObservableStatus } from '@shared/models/observable-with-status';
-import { NotificationsService } from '@shared/services/notifications.service';
+import { DialogsService } from '@shared/services/dialogs.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -37,9 +37,10 @@ export class ServiceRegisterComponent implements OnInit, IForm {
   constructor(
     private serviceService: ServiceService,
     private formBuilder: FormBuilder,
-    private notificationService: NotificationsService,
+    private dialogsService: DialogsService,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -65,8 +66,8 @@ export class ServiceRegisterComponent implements OnInit, IForm {
 
       this.savingData = true;
       this.serviceService.saveService(service).subscribe((serviceSave) => {
-        this.notificationService.showSuccessMessage(
-          `El servicio ${serviceSave.name} ha sido registrado con éxito`,
+        this.dialogsService.showSuccessDialog(
+          `El servicio ${ serviceSave.name } ha sido registrado con éxito`,
           () => {
             this.router.navigateByUrl('/services');
           }

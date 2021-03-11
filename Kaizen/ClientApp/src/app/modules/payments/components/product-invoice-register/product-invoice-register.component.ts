@@ -13,7 +13,7 @@ import { ProductInvoice } from '@modules/payments/models/product-invoice';
 import { ProductInvoiceDetail } from '@modules/payments/models/product-invoice-detail';
 import { ProductInvoiceService } from '@modules/payments/services/product-invoice.service';
 import { ObservableStatus } from '@shared/models/observable-with-status';
-import { NotificationsService } from '@shared/services/notifications.service';
+import { DialogsService } from '@shared/services/dialogs.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -38,10 +38,11 @@ export class ProductInvoiceRegisterComponent implements OnInit, IForm {
   constructor(
     private productService: ProductService,
     private productInvoiceService: ProductInvoiceService,
-    private notificationsService: NotificationsService,
+    private dialogsService: DialogsService,
     private formBuilder: FormBuilder,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -63,7 +64,7 @@ export class ProductInvoiceRegisterComponent implements OnInit, IForm {
     if (this.selectedProducts.length > 0) {
       const client: Client = JSON.parse(localStorage.getItem('current_person'));
       const today = new Date();
-      const todayISO = buildIsoDate(today, `${zeroPad(today.getHours(), 2)}:${zeroPad(today.getMinutes(), 2)}`);
+      const todayISO = buildIsoDate(today, `${ zeroPad(today.getHours(), 2) }:${ zeroPad(today.getMinutes(), 2) }`);
       const productInvoice: ProductInvoice = {
         state: InvoiceState.Generated,
         paymentMethod: PaymentMethod.None,
@@ -75,10 +76,10 @@ export class ProductInvoiceRegisterComponent implements OnInit, IForm {
       this.savingProductInvoice = true;
       this.productInvoiceService.saveProductInvoice(productInvoice).subscribe((result) => {
         if (result) {
-          this.notificationsService.showSuccessMessage(
+          this.dialogsService.showSuccessDialog(
             'Factura de producto generada con éxito, puede proceder a pagarla.',
             () => {
-              this.router.navigateByUrl(`payments/pay/product_invoice/${result.id}`);
+              this.router.navigateByUrl(`payments/pay/product_invoice/${ result.id }`);
             }
           );
         }

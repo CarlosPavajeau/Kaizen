@@ -7,7 +7,7 @@ import { User } from '@core/models/user';
 import { Client } from '@modules/clients/models/client';
 import { ClientState } from '@modules/clients/models/client-state';
 import { ClientService } from '@modules/clients/services/client.service';
-import { NotificationsService } from '@shared/services/notifications.service';
+import { DialogsService } from '@shared/services/dialogs.service';
 import { alphabeticCharacters, numericCharacters } from '@shared/validators/characters-validators';
 
 @Component({
@@ -47,9 +47,10 @@ export class ClientRegisterComponent implements OnInit, IForm {
     private clientService: ClientService,
     private authService: AuthenticationService,
     private formBuilder: FormBuilder,
-    private notificationsService: NotificationsService,
+    private dialogsService: DialogsService,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -150,14 +151,14 @@ export class ClientRegisterComponent implements OnInit, IForm {
 
       this.clientService.saveClient(client).subscribe((clientRegister) => {
         if (this.authService.userLoggedIn()) {
-          this.notificationsService.showSuccessMessage(
-            `Cliente ${clientRegister.firstName} ${clientRegister.lastName} registrado con éxito.`,
+          this.dialogsService.showSuccessDialog(
+            `Cliente ${ clientRegister.firstName } ${ clientRegister.lastName } registrado con éxito.`,
             () => {
               this.router.navigateByUrl('/clients');
             }
           );
         } else {
-          this.notificationsService.showSuccessMessage(
+          this.dialogsService.showSuccessDialog(
             `Sus datos fueron registrados correctamente y su solicitud fue enviada. Espere nuestra respuesta.`,
             () => {
               this.router.navigateByUrl('/user/login');
@@ -175,7 +176,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
       this.ubicationForm.valid &&
       (
         this.controls['clientType'].value === 'JuridicPerson' ? this.legalPersonForm.valid :
-        true)
+          true)
     );
   }
 

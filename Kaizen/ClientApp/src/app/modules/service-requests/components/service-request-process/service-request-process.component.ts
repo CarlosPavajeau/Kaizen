@@ -8,7 +8,7 @@ import { ServiceRequestState } from '@modules/service-requests/models/service-re
 import { ServiceRequestService } from '@modules/service-requests/services/service-request.service';
 import { SelectDateModalComponent } from '@shared/components/select-date-modal/select-date-modal.component';
 import { ObservableStatus } from '@shared/models/observable-with-status';
-import { NotificationsService } from '@shared/services/notifications.service';
+import { DialogsService } from '@shared/services/dialogs.service';
 import { Observable } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 
@@ -33,16 +33,16 @@ export class ServiceRequestProcessComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private router: Router,
     public dateDialog: MatDialog,
-    private notificationsService: NotificationsService
-  ) {}
+    private dialogsService: DialogsService
+  ) {
+  }
 
   ngOnInit(): void {
     this.loadData();
   }
 
   private loadData(): void {
-    const code = +this.activateRoute.snapshot.paramMap.get('code');
-    this.serviceRequestCode = code;
+    this.serviceRequestCode = +this.activateRoute.snapshot.paramMap.get('code');
   }
 
   onLoadedServiceRequest(serviceRequest: ServiceRequest): void {
@@ -82,7 +82,7 @@ export class ServiceRequestProcessComponent implements OnInit {
       )
       .subscribe((serviceRequestUpdate) => {
         if (serviceRequestUpdate) {
-          this.notificationsService.showSuccessMessage(`Fecha de solicitud de servicio modificada con éxito`, () => {
+          this.dialogsService.showSuccessDialog(`Fecha de solicitud de servicio modificada con éxito`, () => {
             this.router.navigateByUrl('/service_requests');
           });
         }

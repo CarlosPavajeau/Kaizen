@@ -8,6 +8,7 @@ import { EmployeeCharge } from '@modules/employees/models/employee-charge';
 import { EmployeeContract } from '@modules/employees/models/employee-contract';
 import { EmployeeService } from '@modules/employees/services/employee.service';
 import { ObservableStatus } from '@shared/models/observable-with-status';
+import { DialogsService } from '@shared/services/dialogs.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -33,9 +34,10 @@ export class EmployeeEditComponent implements OnInit, IForm {
     private employeeService: EmployeeService,
     private activatedRoute: ActivatedRoute,
     private formBuilder: FormBuilder,
-    private notificationsService: NotificationsService,
+    private dialogsService: DialogsService,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -81,8 +83,8 @@ export class EmployeeEditComponent implements OnInit, IForm {
       this.updatingEmployee = true;
       this.employeeService.updateEmployee(employee).subscribe((updatedEmployee) => {
         if (updatedEmployee) {
-          this.notificationsService.showSuccessMessage(
-            `Los datos del empleado ${updatedEmployee.firstName} ${updatedEmployee.lastName} fueron actualizados con éxito.`,
+          this.dialogsService.showSuccessDialog(
+            `Los datos del empleado ${ updatedEmployee.firstName } ${ updatedEmployee.lastName } fueron actualizados con éxito.`,
             () => {
               this.updatingEmployee = false;
               this.router.navigateByUrl('/employees');

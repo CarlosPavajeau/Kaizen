@@ -11,8 +11,8 @@ import { EmployeeService } from '@modules/employees/services/employee.service';
 import { ChangePasswordModel } from '@modules/users/models/change-password';
 import { UserService } from '@modules/users/services/user.service';
 import { Person } from '@shared/models/person';
+import { DialogsService } from '@shared/services/dialogs.service';
 import { HttpErrorHandlerService } from '@shared/services/http-error-handler.service';
-import { NotificationsService } from '@shared/services/notifications.service';
 import { alphabeticCharacters, numericCharacters } from '@shared/validators/characters-validators';
 import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -58,9 +58,10 @@ export class ManageDataComponent implements OnInit, IForm {
     private authService: AuthenticationService,
     private clientService: ClientService,
     private employeeService: EmployeeService,
-    private notificationsService: NotificationsService,
+    private dialogsService: DialogsService,
     private errorHandlerService: HttpErrorHandlerService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.loadData();
@@ -165,7 +166,7 @@ export class ManageDataComponent implements OnInit, IForm {
         )
         .subscribe((userUpdated) => {
           if (userUpdated) {
-            this.notificationsService.showSuccessMessage('Contraseña de acceso modificada con éxito.', () => {
+            this.dialogsService.showSuccessDialog('Contraseña de acceso modificada con éxito.', () => {
               this.authService.logoutUser();
               location.reload();
             });
@@ -199,7 +200,7 @@ export class ManageDataComponent implements OnInit, IForm {
 
         this.updatingData = true;
         this.employeeService.updateEmployee(employee).subscribe((employeeUpdated) => {
-          this.notificationsService.showSuccessMessage(`Datos personales actualizados con éxito.`, () => {
+          this.dialogsService.showSuccessDialog(`Datos personales actualizados con éxito.`, () => {
             this.afterUpdateData(employeeUpdated);
           });
         });
@@ -246,7 +247,7 @@ export class ManageDataComponent implements OnInit, IForm {
     this.updatingData = true;
     this.clientService.updateClient(client).subscribe((clientUpdated) => {
       if (clientUpdated) {
-        this.notificationsService.showSuccessMessage(successMessage, () => {
+        this.dialogsService.showSuccessDialog(successMessage, () => {
           this.afterUpdateData(clientUpdated);
         });
       }

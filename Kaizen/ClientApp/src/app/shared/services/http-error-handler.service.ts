@@ -1,20 +1,22 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { DialogsService } from '@shared/services/dialogs.service';
 import { NotificationsService } from '@shared/services/notifications.service';
+import { SnackBarService } from '@shared/services/snack-bar.service';
 import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpErrorHandlerService {
-  constructor(private notificationsService: NotificationsService, private router: Router) {}
+  constructor(private dialogsService: DialogsService, private snackBarService: SnackBarService, private router: Router) {}
 
   handleError<T>(operation = 'operation', result?: T) {
     return (error: HttpErrorResponse): Observable<T> => {
       console.log(error.url);
       console.log(error);
-      this.notificationsService.addMessage(`Error en: ${operation}`, 'Ok');
+      this.snackBarService.addMessage(`Error en: ${operation}`, 'Ok');
       return of(result as T);
     };
   }
@@ -22,11 +24,11 @@ export class HttpErrorHandlerService {
   handleHttpError(error: HttpErrorResponse, action?: () => void): void {
     console.log(error);
     if (typeof error.error === 'string') {
-      this.notificationsService.showErrorMessage(error.error, () => {
+      this.dialogsService.showErrorDialog(error.error, () => {
         this.afterCloseErrorPanel(action);
       });
     } else if (error.error.Message !== undefined && error.error.Message !== null) {
-      this.notificationsService.showErrorMessage(error.error.Message, () => {
+      this.dialogsService.showErrorDialog(error.error.Message, () => {
         this.afterCloseErrorPanel(action);
       });
     } else if (error.error.errors) {
@@ -36,7 +38,7 @@ export class HttpErrorHandlerService {
           errorMessage += `- ${element} <br/>`;
         });
       }
-      this.notificationsService.showErrorMessage(errorMessage, () => {
+      this.dialogsService.showErrorDialog(errorMessage, () => {
         this.afterCloseErrorPanel(action);
       });
     }
