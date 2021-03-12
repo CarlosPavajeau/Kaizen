@@ -49,7 +49,7 @@ namespace Kaizen.DomainEvents.Handlers
                     return;
                 }
 
-                await SendServiceRequestNotification(clientNotification, client.User.UserName, cancellationToken);
+                await SendServiceRequestNotification(clientNotification, client.User.Id, cancellationToken);
             }
 
             private async Task<Notification> SaveServiceRequestNotification(ServiceRequestState serviceRequestState,
@@ -87,11 +87,11 @@ namespace Kaizen.DomainEvents.Handlers
                 return notification;
             }
 
-            private async Task SendServiceRequestNotification(Notification clientNotification, string username,
+            private async Task SendServiceRequestNotification(Notification clientNotification, string userid,
                 CancellationToken cancellationToken)
             {
                 var notificationViewModel = _mapper.Map<NotificationViewModel>(clientNotification);
-                await _notificationsHub.Clients.User(username).SendAsync("OnNewNotification",
+                await _notificationsHub.Clients.User(userid).SendAsync("OnNewNotification",
                     notificationViewModel, cancellationToken);
             }
         }
