@@ -31,9 +31,6 @@ export class EmployeeMapComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadGoogleMapsApi();
 
-    this.employeeSignalR.startConnection();
-    this.employeeSignalR.addOnUpdateEmployeeLocation();
-
     this.employeeSignalR.onUpdateEmployeeLocation.subscribe((employeeLocation: EmployeeLocation) => {
       const index = this.employeeLocations.findIndex((e) => e.id == employeeLocation.id);
       if (index != -1) {

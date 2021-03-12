@@ -11,6 +11,8 @@ export class EmployeeSignalrService extends BaseSignalrService {
 
   constructor(private authService: AuthenticationService) {
     super();
+    this.startConnection();
+    this.addOnUpdateEmployeeLocation();
   }
 
   public startConnection(): void {

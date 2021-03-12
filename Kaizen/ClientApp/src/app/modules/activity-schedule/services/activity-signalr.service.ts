@@ -11,11 +11,13 @@ export class ActivitySignalrService extends BaseSignalrService {
 
   constructor(private authService: AuthenticationService) {
     super();
+    this.startConnection();
   }
 
   public startConnection() {
     super.buildConnection('/ActivityHub', this.authService.getToken());
     super.startConnection();
+    this.addOnNewActivityRegister();
   }
 
   public addOnNewActivityRegister(): void {

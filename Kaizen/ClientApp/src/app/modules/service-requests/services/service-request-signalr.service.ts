@@ -11,11 +11,13 @@ export class ServiceRequestSignalrService extends BaseSignalrService {
 
   constructor(private authService: AuthenticationService) {
     super();
+    this.startConnection();
   }
 
   public startConnection() {
     super.buildConnection('/ServiceRequestsHub', this.authService.getToken());
     super.startConnection();
+    this.addOnNewServiceRequestRegister();
   }
 
   public addOnNewServiceRequestRegister(): void {

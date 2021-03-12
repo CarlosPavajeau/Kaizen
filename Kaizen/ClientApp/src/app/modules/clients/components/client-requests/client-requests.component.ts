@@ -29,9 +29,6 @@ export class ClientRequestsComponent implements OnInit {
   ngOnInit(): void {
     this.loadClientRequests();
 
-    this.clientSignalrService.startConnection();
-    this.clientSignalrService.addOnNewClientRegister();
-
     this.clientSignalrService.onNewClientRegister.subscribe((newClient: Client) => {
       this.clientRequests.push(newClient);
       this.snackBarService.addMessage(`Se ha registrado un nuevo cliente`, 'Ok', 'left');

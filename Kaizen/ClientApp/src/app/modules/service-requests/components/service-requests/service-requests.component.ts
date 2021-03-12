@@ -28,9 +28,6 @@ export class ServiceRequestsComponent implements OnInit {
   ngOnInit(): void {
     this.loadServiceRequests();
 
-    this.serviceRequestSignalrService.startConnection();
-    this.serviceRequestSignalrService.addOnNewServiceRequestRegister();
-
     this.serviceRequestSignalrService.onNewServiceRequestRegister.subscribe((data: ServiceRequest) => {
       if (data) {
         this.snackBarService.addMessage(`Se ha hecho una nueva solicitud de servicio`, 'Ok', 'left');
