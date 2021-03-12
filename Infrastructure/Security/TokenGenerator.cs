@@ -18,7 +18,7 @@ namespace Kaizen.Infrastructure.Security
 
         public IConfiguration Configuration { get; }
 
-        public string GenerateToken(string username, string role)
+        public string GenerateToken(string id, string username, string role)
         {
             JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             byte[] key = Encoding.ASCII.GetBytes(Configuration["AppSettings:Key"]);
@@ -27,6 +27,7 @@ namespace Kaizen.Infrastructure.Security
             {
                 Subject = new ClaimsIdentity(new[]
                 {
+                    new Claim(ClaimTypes.NameIdentifier, id),
                     new Claim(ClaimTypes.Name, username),
                     new Claim(ClaimTypes.Role, role)
                 }),

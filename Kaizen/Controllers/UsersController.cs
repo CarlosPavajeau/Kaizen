@@ -130,7 +130,7 @@ namespace Kaizen.Controllers
             ApplicationUserViewModel userView = _mapper.Map<ApplicationUserViewModel>(user);
             string role = await _userRepository.GetUserRoleAsync(user);
 
-            userView.Token = _tokenGenerator.GenerateToken(user.UserName, role);
+            userView.Token = _tokenGenerator.GenerateToken(user.Id, user.UserName, role);
 
             return userView;
         }

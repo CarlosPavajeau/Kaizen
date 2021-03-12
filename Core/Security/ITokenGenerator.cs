@@ -2,6 +2,6 @@ namespace Kaizen.Core.Security
 {
     public interface ITokenGenerator
     {
-        string GenerateToken(string username, string role);
+        string GenerateToken(string id, string username, string role);
     }
 }

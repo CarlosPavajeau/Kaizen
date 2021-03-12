@@ -40,7 +40,7 @@ namespace Infrastructure.Test.Security
         [Test]
         public void Generate_And_Verify_Token()
         {
-            var token = _tokenGenerator.GenerateToken("admin", "Administrator");
+            var token = _tokenGenerator.GenerateToken("123", "admin", "Administrator");
             Assert.IsTrue(token.Length > 0);
 
             var handler = new JwtSecurityTokenHandler();
