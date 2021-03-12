@@ -7,10 +7,6 @@ namespace Kaizen.Hubs
 {
     public class EmployeeLocationHub : BaseHub
     {
-        public EmployeeLocationHub(IApplicationUserRepository applicationUserRepository) : base(applicationUserRepository)
-        {
-        }
-
         public async Task UpdateEmployeeLocation(EmployeeLocation employeeLocation)
         {
             await Clients.Group("Administrator").SendAsync("OnUpdateEmployeeLocation", employeeLocation);

@@ -6,8 +6,5 @@ namespace Kaizen.Hubs
     [Authorize]
     public class ApplicationUserHub : BaseHub
     {
-        public ApplicationUserHub(IApplicationUserRepository applicationUserRepository) : base(applicationUserRepository)
-        {
-        }
     }
 }
