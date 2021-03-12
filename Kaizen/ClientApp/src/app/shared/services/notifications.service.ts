@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthenticationService } from '@core/authentication/authentication.service';
 import { NOTIFICATIONS_API_URL } from '@global/endpoints';
 import { NotificationItem } from '@shared/models/notification-item';
 import { Observable } from 'rxjs';
@@ -10,10 +9,10 @@ import { Observable } from 'rxjs';
 })
 export class NotificationsService {
 
-  constructor(private http: HttpClient, private authService: AuthenticationService) {
+  constructor(private http: HttpClient) {
   }
 
   getNotifications(userId: string): Observable<NotificationItem[]> {
-    return this.http.get<NotificationItem[]>(`${NOTIFICATIONS_API_URL}/${userId}`);
+    return this.http.get<NotificationItem[]>(`${ NOTIFICATIONS_API_URL }/${ userId }`);
   }
 }
