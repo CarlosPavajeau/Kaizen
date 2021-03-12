@@ -49,7 +49,6 @@ export class DashboardLayoutComponent implements OnInit {
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
-        console.log('loading start')
         this.loading = true;
       } else if (event instanceof NavigationEnd) {
         this.loading = false;
