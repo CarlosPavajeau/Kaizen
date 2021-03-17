@@ -1,12 +1,11 @@
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav
     #drawer
-    class="sidenav"
+    class="sidenav mat-elevation-z6"
     fixedInViewport
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false"
-    [class.mat-elevation-z6]="true"
   >
     <mat-toolbar>
       Menu
@@ -107,7 +106,7 @@
         </button>
       </mat-menu>
     </mat-toolbar>
-    <div style="margin-top: 30px">
+    <div style="" class="dashboard-content">
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>

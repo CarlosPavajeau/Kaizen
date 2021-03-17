@@ -1,12 +1,10 @@
 <div class="control-panel">
-  <div class="center-block-content">
-    <div class="row">
-      <div
-        class="control-card mx-auto col-lg-4 col-sm-12 col-xl-3 col-md-6"
-        *ngFor="let card of controlCards"
-      >
-        <app-dashboard-card [dashboardCard]="card"></app-dashboard-card>
-      </div>
-    </div>
+  <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="24px" fxLayoutAlign="flex-start">
+    <ng-container *ngFor="let card of controlCards">
+      <app-dashboard-card [dashboardCard]="card"
+                          fxFlex="0 1 calc(25%- 24px)"
+                          fxFlex.lt-md="0 1 calc(33.3% - 24px)"
+                          fxFlex.lt-sm="100%"></app-dashboard-card>
+    </ng-container>
   </div>
 </div>
