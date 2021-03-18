@@ -7,6 +7,7 @@ import { ActivityScheduleService } from '@modules/activity-schedule/services/act
 import { ObservableStatus } from '@shared/models/observable-with-status';
 import * as moment from 'moment';
 import { Observable } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-activity-schedule',
@@ -37,7 +38,7 @@ export class ActivityScheduleComponent implements OnInit {
   }
 
   private loadData(): void {
-    this.activities$ = this.activityScheduleService.getActivities();
+    this.activities$ = this.activityScheduleService.getActivities().pipe(delay(3000));
     this.activities$.subscribe((activities) => {
       this.activities = activities;
       this.onLoadData();

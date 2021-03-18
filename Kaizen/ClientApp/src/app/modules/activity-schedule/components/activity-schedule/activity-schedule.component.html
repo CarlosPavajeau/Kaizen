@@ -1,10 +1,10 @@
 <div class="container">
-  <div class="calendar-header">
+  <mat-toolbar>
     <div class="calendar-control">
       <button mat-stroked-button class="mr-3" (click)="showCurrentDate()">
         Hoy
       </button>
-      <div style="display: inline-block">
+      <div style="display: inline-block" class="mr-4">
         <button
           mat-icon-button
           [matTooltip]="previousMessages[view]"
@@ -20,19 +20,20 @@
           <mat-icon>navigate_next</mat-icon>
         </button>
       </div>
-      <ng-container
-        *ngIf="activities$ | observableWithStatus | async as obs"
-        [ngSwitch]="obs.status"
-      >
-        <ng-template [ngSwitchCase]="ObsStatus.Loading">
-          <div class="loading-option">
-            <mat-spinner [diameter]="20"></mat-spinner>
-            <span>Cargando actividades...</span>
-          </div>
-        </ng-template>
-      </ng-container>
     </div>
-    <div class="calendar-control float-right">
+    <ng-container
+      *ngIf="activities$ | observableWithStatus | async as obs"
+      [ngSwitch]="obs.status"
+    >
+      <ng-template [ngSwitchCase]="ObsStatus.Loading">
+        <div class="loading-option">
+          <mat-spinner [diameter]="20"></mat-spinner>
+          <span>Cargando actividades...</span>
+        </div>
+      </ng-template>
+    </ng-container>
+    <div class="spacer"></div>
+    <div class="calendar-control">
       <button mat-icon-button class="mr-2"><mat-icon>search</mat-icon></button>
       <button mat-stroked-button [matMenuTriggerFor]="menu">
         {{ activityScheduleViewNames[view] }}
@@ -46,7 +47,7 @@
         <button mat-menu-item (click)="setView(ScheduleView.Day)">Día</button>
       </mat-menu>
     </div>
-  </div>
+  </mat-toolbar>
   <mat-divider></mat-divider>
   <div class="calendar">
     <app-activity-schedule-month
