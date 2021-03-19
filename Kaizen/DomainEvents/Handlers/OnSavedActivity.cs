@@ -19,21 +19,26 @@ namespace Kaizen.DomainEvents.Handlers
             private readonly IHubContext<ActivityHub> _hubContext;
             private readonly IMapper _mapper;
             private readonly IMailService _mailService;
+            private readonly IMailTemplate _mailTemplate;
             private readonly IActivitiesRepository _activitiesRepository;
             private readonly IClientsRepository _clientsRepository;
             private readonly IUnitWork _unitWork;
 
-            public Handler(IHubContext<ActivityHub> hubContext, IMapper mapper, IMailService mailService, IActivitiesRepository activitiesRepository, IClientsRepository clientsRepository, IUnitWork unitWork)
+            public Handler(IHubContext<ActivityHub> hubContext, IMapper mapper, IMailService mailService,
+                IMailTemplate mailTemplate,
+                IActivitiesRepository activitiesRepository, IClientsRepository clientsRepository, IUnitWork unitWork)
             {
                 _hubContext = hubContext;
                 _mapper = mapper;
                 _mailService = mailService;
+                _mailTemplate = mailTemplate;
                 _activitiesRepository = activitiesRepository;
                 _clientsRepository = clientsRepository;
                 _unitWork = unitWork;
             }
 
-            public async Task Handle(DomainEventNotification<SavedActivity> notification, CancellationToken cancellationToken)
+            public async Task Handle(DomainEventNotification<SavedActivity> notification,
+                CancellationToken cancellationToken)
             {
                 Activity activity = notification.DomainEvent.Activity;
 
@@ -41,7 +46,6 @@ namespace Kaizen.DomainEvents.Handlers
                 await NotifyNewActivityRegister(activity, cancellationToken);
                 await SendNotificationEmail(activity);
                 await UpdateClientState(activity);
-
             }
 
             private async Task NotifyNewActivityRegister(Activity activity, CancellationToken cancellationToken)
@@ -53,14 +57,19 @@ namespace Kaizen.DomainEvents.Handlers
             private async Task SendNotificationEmail(Activity activity)
             {
                 Client client = activity.Client;
-                await _mailService.SendEmailAsync(client.User.Email, "Actividad pendiente", $"Estimado {client.LastName} {client.FirstName} hemos agendado " +
-                    $"la actividad N° {activity.Code} para el día {activity.Date} para aplicar los servicios solicitados por usted");
+
+                string emailMessage = _mailTemplate.LoadTemplate("NewActivity.html",
+                    $"{client.LastName} {client.FirstName}", activity.Date.ToString("yyyy/MM/dd hh:mm tt"));
+
+                await _mailService.SendEmailAsync(client.User.Email, "Solicitud de servicios", emailMessage, true);
             }
 
             private async Task UpdateClientState(Activity activity)
             {
                 Client client = activity.Client;
-                client.State = (activity.Periodicity == PeriodicityType.Casual) ? ClientState.Casual : ClientState.Active;
+                client.State = (activity.Periodicity == PeriodicityType.Casual)
+                    ? ClientState.Casual
+                    : ClientState.Active;
 
                 _clientsRepository.Update(client);
 
