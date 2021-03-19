@@ -35,15 +35,15 @@ namespace Kaizen.Infrastructure.Extensions
                 .AddDefaultTokenProviders();
         }
 
-        public static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddJwtAuthentication(this IServiceCollection services,
+            IConfiguration configuration)
         {
             byte[] key = Encoding.ASCII.GetBytes(configuration["AppSettings:Key"]);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).
-            AddJwtBearer(x =>
+            }).AddJwtBearer(x =>
             {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
@@ -136,6 +136,7 @@ namespace Kaizen.Infrastructure.Extensions
                 .AddScoped<IProductInvoicesRepository, ProductInvoicesRepository>();
             services.AddScoped<IStatisticsRepository, StatisticsRepository>();
             services.AddScoped<INotificationsRepository, NotificationsRepository>();
+            services.AddScoped<ICertificatesRepository, CertificatesRepository>();
         }
 
         public static void ConfigureTokenGenerator(this IServiceCollection services)
