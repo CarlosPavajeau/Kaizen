@@ -19,7 +19,7 @@ export class ClientsComponent implements OnInit, AfterViewInit {
   clients$: Observable<Client[]>;
 
   dataSource: MatTableDataSource<Client> = new MatTableDataSource<Client>(this.clients);
-  displayedColumns: string[] = [ 'id', 'name', 'clientType', 'phonenumber', 'options' ];
+  displayedColumns: string[] = [ 'id', 'name', 'clientType', 'phonenumber', 'state', 'options' ];
 
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;

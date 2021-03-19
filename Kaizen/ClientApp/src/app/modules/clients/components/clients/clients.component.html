@@ -64,6 +64,16 @@
                 {{ client.firstPhoneNumber }}
               </td>
             </ng-container>
+            <ng-container matColumnDef="state">
+              <th mat-header-cell *matHeaderCellDef>Estado</th>
+              <td mat-cell *matCellDef="let client">
+                <mat-chip-list>
+                  <mat-chip [class]="'client-state-' + client?.state">
+                    {{ client.state | clientState }}
+                  </mat-chip>
+                </mat-chip-list>
+              </td>
+            </ng-container>
             <ng-container matColumnDef="options">
               <th mat-header-cell *matHeaderCellDef>Opciones</th>
               <td mat-cell *matCellDef="let client">
