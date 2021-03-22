@@ -14,7 +14,7 @@
     <PackageReference Include="MercadoPagoCore" Version="5.0.0" />
     <PackageReference Include="MercadoPagoCore.Extensions.Microsoft.DependencyInjection" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.4" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.1" />
   </ItemGroup>
 
 </Project>
