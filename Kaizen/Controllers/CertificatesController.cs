@@ -1,12 +1,10 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Kaizen.Domain.Repositories;
 using Kaizen.Models.Certificate;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Kaizen.Controllers
 {
@@ -39,12 +37,7 @@ namespace Kaizen.Controllers
         [HttpGet("Client/{clientId}")]
         public async Task<ActionResult<IEnumerable<CertificateViewModel>>> GetClientCertificates(string clientId)
         {
-            var certificates = await _certificatesRepository.GetAll()
-                .Include(c => c.WorkOrder)
-                .ThenInclude(w => w.Activity)
-                .ThenInclude(a => a.Client)
-                .Where(c => c.WorkOrder.Activity.ClientId == clientId)
-                .ToListAsync();
+            var certificates = await _certificatesRepository.GetClientCertificates(clientId);
 
             return Ok(_mapper.Map<IEnumerable<CertificateViewModel>>(certificates));
         }
