@@ -1,7 +1,6 @@
 .footer {
   overflow: hidden;
-  padding: 20px 10px 10px;
-  padding-top: 30px;
+  padding: 30px 10px 10px;
   background: #162250;
 }
 
@@ -32,4 +31,8 @@ footer span {
   color: white;
   text-decoration: none;
   font-size: 12px;
+}
+
+.footer-social-brand-item {
+  padding: 0 0.75rem;
 }

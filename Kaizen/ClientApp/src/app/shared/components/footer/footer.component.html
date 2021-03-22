@@ -3,8 +3,8 @@
     <section class="text-center">
       <h1>Ecolplag S.A.S</h1>
     </section>
-    <div class="row">
-      <div class="col-xs-12 col-md-4">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="40px" fxLayoutAlign="flex-start">
+      <div fxFlex.xs="12" fxFlex.md="4">
         <div class="footer-section">
           <h2>Acerca de nuestra empresa</h2>
           <ul>
@@ -17,7 +17,7 @@
           </ul>
         </div>
       </div>
-      <div class="col-xs-12 col-md-4">
+      <div fxFlex.xs="12" fxFlex.md="4">
         <div class="footer-section">
           <h2>Soporte al cliente</h2>
           <ul>
@@ -28,7 +28,15 @@
         </div>
       </div>
     </div>
-    <section style="margin-top: 1rem" class="text-center">
+    <section class="text-center mt-3">
+      <a mat-icon-button class="footer-social-brand-item" href="https://www.facebook.com/" target="_blank">
+        <mat-icon>facebook</mat-icon>
+      </a>
+      <a mat-icon-button class="footer-social-brand-item" href="https://www.youtube.com/" target="_blank">
+        <mat-icon>smart_display</mat-icon>
+      </a>
+    </section>
+    <section class="text-center mt-3">
       <span>
         Ecolplag S.A.S. <span>&copy; {{ year }}</span> Todos los derechos
         reservados.
