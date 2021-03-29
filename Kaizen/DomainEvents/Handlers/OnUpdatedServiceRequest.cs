@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -5,6 +6,7 @@ using Kaizen.Domain.Entities;
 using Kaizen.Domain.Events;
 using Kaizen.Domain.Repositories;
 using Kaizen.Hubs;
+using Kaizen.Middleware;
 using Kaizen.Models.Notification;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
@@ -43,7 +45,7 @@ namespace Kaizen.DomainEvents.Handlers
                 var client =
                     await _clientsRepository.GetClientWithUser(serviceRequest.ClientId);
 
-                var clientNotification = await SaveServiceRequestNotification(serviceRequest.State, client.User);
+                var clientNotification = await SaveServiceRequestNotification(serviceRequest, client.User);
                 if (clientNotification is null)
                 {
                     return;
@@ -52,10 +54,10 @@ namespace Kaizen.DomainEvents.Handlers
                 await SendServiceRequestNotification(clientNotification, client.User.Id, cancellationToken);
             }
 
-            private async Task<Notification> SaveServiceRequestNotification(ServiceRequestState serviceRequestState,
+            private async Task<Notification> SaveServiceRequestNotification(ServiceRequest serviceRequest,
                 ApplicationUser user)
             {
-                var message = serviceRequestState switch
+                var message = serviceRequest.State switch
                 {
                     ServiceRequestState.Accepted =>
                         "Hemos aceptado tu solicitud de servicio y agendamos las actividades a aplicar. " +
@@ -72,12 +74,21 @@ namespace Kaizen.DomainEvents.Handlers
                     return null;
                 }
 
-                Notification notification = new Notification
+                var serviceRequestUrl = new UriBuilder(KaizenHttpContext.BaseUrl)
+                {
+                    Path = serviceRequest.State == ServiceRequestState.PendingSuggestedDate
+                        ? "/service_requests/new_date"
+                        : $"service_requests/{serviceRequest.Code}"
+                };
+
+
+                var notification = new Notification
                 {
                     Title = "Respuesta de solicitud de servicio",
                     Message = message,
                     Icon = "question_answer",
                     State = NotificationState.Pending,
+                    Url = serviceRequestUrl.ToString(),
                     UserId = user.Id
                 };
 
