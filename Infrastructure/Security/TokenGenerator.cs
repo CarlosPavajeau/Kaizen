@@ -10,13 +10,14 @@ namespace Kaizen.Infrastructure.Security
 {
     public class TokenGenerator : ITokenGenerator
     {
-        const int TokenDurationDays = 7;
+        private const int TokenDurationDays = 7;
+
         public TokenGenerator(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         public string GenerateToken(string id, string username, string role)
         {
@@ -32,7 +33,8 @@ namespace Kaizen.Infrastructure.Security
                     new Claim(ClaimTypes.Role, role)
                 }),
                 Expires = DateTime.Now.AddDays(TokenDurationDays),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256Signature)
             };
 
             SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);

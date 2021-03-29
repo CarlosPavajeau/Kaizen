@@ -7,7 +7,7 @@ using Kaizen.Domain.Repositories;
 
 namespace Kaizen.Infrastructure.Repositories
 {
-    public class UnitWork : IUnitWork
+    public sealed class UnitWork : IUnitWork
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IDomainEventDispatcher _eventDispatcher;
@@ -24,7 +24,7 @@ namespace Kaizen.Infrastructure.Repositories
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (disposing)
             {

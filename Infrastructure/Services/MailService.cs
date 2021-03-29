@@ -52,7 +52,7 @@ namespace Kaizen.Infrastructure.Services
             }
         }
 
-        private void ConfigEmail(string email, string subject, string message, bool isHtml = false)
+        private void ConfigEmail(string email, string subject, string message, bool isHtml)
         {
             MailMessage = new MailMessage
             {

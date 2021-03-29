@@ -6,7 +6,7 @@ namespace Kaizen.Domain.Data.Providers
 {
     public class SqlServerDataProvider : IDataProvider
     {
-        public DataProvider Provider { get; } = DataProvider.SQLServer;
+        public DataProvider Provider { get; } = DataProvider.SqlServer;
 
         public ApplicationDbContext CreateDbContext(string connectionString)
         {

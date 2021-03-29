@@ -2,8 +2,8 @@
 {
     public enum DataProvider
     {
-        SQLite,
-        MySQL,
-        SQLServer
+        SqLite,
+        MySql,
+        SqlServer
     }
 }

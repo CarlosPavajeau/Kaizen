@@ -57,13 +57,7 @@ namespace Kaizen.Infrastructure.Repositories
 
         public async Task<ApplicationUser> FindByNameOrEmailAsync(string usernameOrEmail)
         {
-            ApplicationUser user = await FindByNameAsync(usernameOrEmail);
-
-            if (user is null)
-            {
-                user = await FindByEmailAsync(usernameOrEmail);
-            }
-
+            ApplicationUser user = await FindByNameAsync(usernameOrEmail) ?? await FindByEmailAsync(usernameOrEmail);
             return user;
         }
 

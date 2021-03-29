@@ -8,7 +8,7 @@ namespace Kaizen.Domain.Data.Providers
 {
     public class MySqlDataProvider : IDataProvider
     {
-        public DataProvider Provider { get; } = DataProvider.MySQL;
+        public DataProvider Provider { get; } = DataProvider.MySql;
 
         public ApplicationDbContext CreateDbContext(string connectionString)
         {
