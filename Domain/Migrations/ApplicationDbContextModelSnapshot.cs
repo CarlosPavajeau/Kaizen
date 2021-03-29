@@ -568,6 +568,9 @@ namespace Kaizen.Domain.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("Url")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("UserId")
                         .HasColumnType("varchar(191)");
 
