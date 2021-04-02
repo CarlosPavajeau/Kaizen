@@ -24,7 +24,8 @@ namespace Kaizen.Controllers
         private readonly IUnitWork _unitWork;
         private readonly IMapper _mapper;
 
-        public ClientsController(IClientsRepository clientsRepository, IApplicationUserRepository applicationUserRepository, IUnitWork unitWork, IMapper mapper)
+        public ClientsController(IClientsRepository clientsRepository,
+            IApplicationUserRepository applicationUserRepository, IUnitWork unitWork, IMapper mapper)
         {
             _clientsRepository = clientsRepository;
             _applicationUserRepository = applicationUserRepository;
@@ -81,6 +82,7 @@ namespace Kaizen.Controllers
             }
 
             _mapper.Map(clientModel, client);
+            client.PublishEvent(new UpdatedClient(client));
             _clientsRepository.Update(client);
 
             try
@@ -91,7 +93,8 @@ namespace Kaizen.Controllers
             {
                 if (!ClientExists(id))
                 {
-                    return NotFound($"Actualización fallida. El cliente con identificación {id} no se encuentra registrado.");
+                    return NotFound(
+                        $"Actualización fallida. El cliente con identificación {id} no se encuentra registrado.");
                 }
 
                 throw;
@@ -106,7 +109,8 @@ namespace Kaizen.Controllers
         {
             Client client = _mapper.Map<Client>(clientInput);
 
-            IdentityResult result = await _applicationUserRepository.CreateAsync(client.User, clientInput.User.Password);
+            IdentityResult result =
+                await _applicationUserRepository.CreateAsync(client.User, clientInput.User.Password);
             if (!result.Succeeded)
             {
                 return this.IdentityResultErrors(result);
