@@ -30,7 +30,7 @@ const routes: Routes = [
       {
         path: ':code',
         component: ServiceRequestDetailComponent,
-        canActivate: [ AuthGuard, AdminOrOfficeEmployeeGuard ]
+        canActivate: [ AuthGuard ]
       }
     ]
   }
