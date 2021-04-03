@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -6,7 +5,6 @@ using Kaizen.Domain.Entities;
 using Kaizen.Domain.Events;
 using Kaizen.Domain.Repositories;
 using Kaizen.Hubs;
-using Kaizen.Middleware;
 using Kaizen.Models.Notification;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
@@ -74,13 +72,9 @@ namespace Kaizen.DomainEvents.Handlers
                     return null;
                 }
 
-                var serviceRequestUrl = new UriBuilder(KaizenHttpContext.BaseUrl)
-                {
-                    Path = serviceRequest.State == ServiceRequestState.PendingSuggestedDate
-                        ? "/service_requests/new_date"
-                        : $"service_requests/{serviceRequest.Code}"
-                };
-
+                var serviceRequestUrl = serviceRequest.State == ServiceRequestState.PendingSuggestedDate
+                    ? "/service_requests/new_date"
+                    : $"/service_requests/{serviceRequest.Code}";
 
                 var notification = new Notification
                 {
@@ -88,7 +82,7 @@ namespace Kaizen.DomainEvents.Handlers
                     Message = message,
                     Icon = "question_answer",
                     State = NotificationState.Pending,
-                    Url = serviceRequestUrl.ToString(),
+                    Url = serviceRequestUrl,
                     UserId = user.Id
                 };
 
