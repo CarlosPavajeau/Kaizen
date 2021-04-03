@@ -623,9 +623,9 @@
               </div>
             </form>
           </mat-step>
-          <mat-step [stepControl]="ubicationForm">
+          <mat-step [stepControl]="locationForm">
             <ng-template matStepLabel>Datos de ubicación</ng-template>
-            <form [formGroup]="ubicationForm">
+            <form [formGroup]="locationForm">
               <div class="form-row">
                 <div class="form-col">
                   <div class="form-element">
@@ -639,7 +639,7 @@
                       />
                       <mat-hint>Digite su ciudad</mat-hint>
                       <mat-error
-                        *ngIf="ubication_controls['city'].hasError('required')"
+                        *ngIf="location_controls['city'].hasError('required')"
                         >Su ciudad es requerida</mat-error
                       >
                     </mat-form-field>
@@ -658,7 +658,7 @@
                       <mat-hint>Digite su barrio</mat-hint>
                       <mat-error
                         *ngIf="
-                          ubication_controls['neighborhood'].hasError(
+                          location_controls['neighborhood'].hasError(
                             'required'
                           )
                         "
@@ -678,7 +678,7 @@
                   />
                   <mat-hint>Digite su calle</mat-hint>
                   <mat-error
-                    *ngIf="ubication_controls['street'].hasError('required')"
+                    *ngIf="location_controls['street'].hasError('required')"
                     >Su calle es requerida</mat-error
                   >
                 </mat-form-field>

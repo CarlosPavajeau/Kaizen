@@ -20,7 +20,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
   legalPersonForm: FormGroup;
   contactPersonForm: FormGroup;
   contactPeopleForm: FormGroup;
-  ubicationForm: FormGroup;
+  locationForm: FormGroup;
   savingData = false;
 
   public get controls(): { [key: string]: AbstractControl } {
@@ -35,8 +35,8 @@ export class ClientRegisterComponent implements OnInit, IForm {
     return this.contactPersonForm.controls;
   }
 
-  public get ubication_controls(): { [key: string]: AbstractControl } {
-    return this.ubicationForm.controls;
+  public get location_controls(): { [key: string]: AbstractControl } {
+    return this.locationForm.controls;
   }
 
   public get contact_people_controls(): { [key: string]: AbstractControl } {
@@ -61,11 +61,11 @@ export class ClientRegisterComponent implements OnInit, IForm {
     this.initLegalPersonForm();
     this.initContactForm();
     this.initContactPeopleForm();
-    this.initUbicationForm();
+    this.initLocationForm();
   }
 
-  private initUbicationForm() {
-    this.ubicationForm = this.formBuilder.group({
+  private initLocationForm() {
+    this.locationForm = this.formBuilder.group({
       city: [ '', [ Validators.required, Validators.minLength(3), Validators.maxLength(40) ] ],
       neighborhood: [ '', [ Validators.required, Validators.minLength(3), Validators.maxLength(40) ] ],
       street: [ '', [ Validators.required, Validators.minLength(3), Validators.maxLength(40) ] ]
@@ -173,7 +173,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
     return (
       this.clientForm.valid &&
       this.contactPersonForm.valid &&
-      this.ubicationForm.valid &&
+      this.locationForm.valid &&
       (
         this.controls['clientType'].value === 'JuridicPerson' ? this.legalPersonForm.valid :
           true)
@@ -181,7 +181,7 @@ export class ClientRegisterComponent implements OnInit, IForm {
   }
 
   mapClient(user: User): Client {
-    const client: Client = {
+    return {
       ...this.clientForm.value,
       ...this.contactPersonForm.value,
       contactPeople: [
@@ -194,13 +194,11 @@ export class ClientRegisterComponent implements OnInit, IForm {
           phonenumber: this.contact_people_controls['person_phonenumber_2'].value
         }
       ],
-      clientAddress: { ...this.ubicationForm.value },
+      clientAddress: { ...this.locationForm.value },
       nit: this.legal_controls['NIT'].value,
       businessName: this.legal_controls['businessName'].value,
       user: user,
       state: ClientState.Pending
     };
-
-    return client;
   }
 }
