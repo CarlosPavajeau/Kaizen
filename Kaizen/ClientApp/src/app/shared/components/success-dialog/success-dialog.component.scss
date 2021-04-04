@@ -1,1 +1,16 @@
+.SuccessDialog__message {
+  color: rgba(0, 0, 0, 0.57) !important;
+}
 
+.SuccessDialog__icon {
+  font-size: 70px !important;
+  width: 70px !important;
+  height: 70px !important;
+  color: var(--forest-green-web);
+  margin-bottom: 20px;
+}
+
+.SuccessDialog__button {
+  background: var(--forest-green-web);
+  color: white;
+}

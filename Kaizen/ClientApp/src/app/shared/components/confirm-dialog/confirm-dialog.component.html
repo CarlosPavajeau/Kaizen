@@ -1,17 +1,14 @@
-<h1 mat-dialog-title>¿Está seguro de realizar esta acción?</h1>
+<h1 mat-dialog-title>¿Estás seguro de realizar esta acción?</h1>
 <div mat-dialog-content>
-  <p *ngIf="message">{{ message }}</p>
-  <p *ngIf="!message">
-    Puede que, al confirmar esta acción, esta no sea reversible.
+  <p class="ConfirmDialog__message">
+    {{ message ? message : 'Puede que, al confirmar esta acción, esta no sea reversible.' }}
   </p>
 </div>
-<div mat-dialog-actions>
-  <div class="full-width">
-    <button mat-stroked-button color="warn" (click)="onCancel()">
-      Cancelar
-    </button>
-    <button mat-raised-button class="royal_azure" (click)="onConfirm()">
-      Confirmar
-    </button>
-  </div>
-</div>
+<mat-dialog-actions align="end">
+  <button mat-raised-button class="royal_azure" (click)="onConfirm()">
+    Sí, deseo relizar está acción
+  </button>
+  <button mat-stroked-button color="warn" (click)="onCancel()">
+    No, deseo cancelar está acción
+  </button>
+</mat-dialog-actions>

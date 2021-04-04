@@ -1,18 +1,14 @@
-<div class="text-center">
-  <h1 mat-dialog-title>Error</h1>
-</div>
+<h1 mat-dialog-title>Error</h1>
 <div mat-dialog-content>
   <div class="text-center">
-    <mat-icon color="warn" class="error-icon">
+    <mat-icon color="warn" class="ErrorDialog__icon">
       cancel
     </mat-icon>
   </div>
-  <p [innerHTML]="message"></p>
+  <p [innerHTML]="message" class="ErrorDialog__message"></p>
 </div>
-<div mat-dialog-actions>
-  <div class="full-width">
-    <button mat-raised-button mat-dialog-close color="warn">
-      Continuar
-    </button>
-  </div>
-</div>
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close color="warn">
+    Continuar
+  </button>
+</mat-dialog-actions>

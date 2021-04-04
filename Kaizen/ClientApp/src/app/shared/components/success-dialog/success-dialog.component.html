@@ -1,18 +1,14 @@
-<div class="text-center">
-  <h1 mat-dialog-title>Éxito</h1>
-</div>
+<h1 mat-dialog-title>Éxito</h1>
 <div mat-dialog-content>
   <div class="text-center">
-    <mat-icon class="success-icon">
+    <mat-icon class="SuccessDialog__icon">
       check_circle
     </mat-icon>
   </div>
-  <p [innerHTML]="message"></p>
+  <p [innerHTML]="message" class="SuccessDialog__message"></p>
 </div>
-<div mat-dialog-actions>
-  <div class="full-width">
-    <button mat-raised-button class="success-button" mat-dialog-close>
-      Continuar
-    </button>
-  </div>
-</div>
+<mat-dialog-actions align="end">
+  <button mat-raised-button class="SuccessDialog__button" mat-dialog-close>
+    Continuar
+  </button>
+</mat-dialog-actions>
