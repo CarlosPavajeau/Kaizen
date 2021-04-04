@@ -29,76 +29,56 @@
           </h4>
         </div>
       </div>
-      <div class="center-block-content" *ngIf="obs.value as dayStatistics">
-        <div class="row">
-          <div
-            class="pt-2 pb-2 mt-2 mb-2 mx-auto col-lg-4 col-sm-12 col-xl-4 col-md-6"
-          >
-            <mat-card class="mat-elevation-z3">
-              <mat-card-header>
-                <mat-card-title>Clientes registrados</mat-card-title>
-              </mat-card-header>
-              <mat-card-content>
-                <h2
-                  *ngIf="dayStatistics.clientsRegistered"
-                  class="text-center mat-display-2 statistics-info"
-                >
-                  {{ dayStatistics.clientsRegistered }}
-                </h2>
-              </mat-card-content>
-            </mat-card>
-          </div>
-          <div
-            class="pt-2 pb-2 mt-2 mb-2 mx-auto col-lg-4 col-sm-12 col-xl-4 col-md-6"
-          >
-            <mat-card class="mat-elevation-z3">
-              <mat-card-header>
-                <mat-card-title>Clientes visitados</mat-card-title>
-              </mat-card-header>
-              <mat-card-content>
-                <h2
-                  *ngIf="dayStatistics.clientsVisited"
-                  class="text-center mat-display-2 statistics-info"
-                >
-                  {{ dayStatistics.clientsVisited }}
-                </h2>
-              </mat-card-content>
-            </mat-card>
-          </div>
-          <div
-            class="pt-2 pb-2 mt-2 mb-2 mx-auto col-lg-4 col-sm-12 col-xl-4 col-md-6"
-          >
-            <mat-card class="mat-elevation-z3">
-              <mat-card-header>
-                <mat-card-title>Actividades aplicadas</mat-card-title>
-              </mat-card-header>
-              <mat-card-content>
-                <h2
-                  *ngIf="dayStatistics.appliedActivities"
-                  class="text-center mat-display-2 statistics-info"
-                >
-                  {{ dayStatistics.appliedActivities }}
-                </h2>
-              </mat-card-content>
-            </mat-card>
-          </div>
-          <div
-            class="pt-2 pb-2 mt-2 mb-2 mx-auto col-lg-4 col-sm-12 col-xl-4 col-md-6"
-          >
-            <mat-card class="mat-elevation-z3">
-              <mat-card-header>
-                <mat-card-title>Ganacias del día</mat-card-title>
-              </mat-card-header>
-              <mat-card-content>
-                <h2
-                  *ngIf="dayStatistics.profits"
-                  class="text-center mat-display-1 statistics-info"
-                >
-                  {{ dayStatistics.profits | currency: "COP" }}
-                </h2>
-              </mat-card-content>
-            </mat-card>
-          </div>
+      <div *ngIf="obs.value as dayStatistics">
+        <div class="TodayStatistics__container">
+          <mat-card class="TodayStatistics__card mat-elevation-z0 mr-4 mb-5">
+            <mat-card-header>
+              <mat-card-title>
+                Actividades aplicadas
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <h2 class="TodayStatistics__card__content text-center mat-display-3">
+                {{ dayStatistics.appliedActivities }}
+              </h2>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="TodayStatistics__card mat-elevation-z0 mr-4 mb-5">
+            <mat-card-header>
+              <mat-card-title>
+                Clientes visitados
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <h2 class="TodayStatistics__card__content text-center mat-display-3">
+                {{ dayStatistics.clientsVisited }}
+              </h2>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="TodayStatistics__card mat-elevation-z0 mr-4 mb-5">
+            <mat-card-header>
+              <mat-card-title>
+                Clientes registrados
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <h2 class="TodayStatistics__card__content text-center mat-display-3">
+                {{ dayStatistics.clientsRegistered }}
+              </h2>
+            </mat-card-content>
+          </mat-card>
+          <mat-card class="TodayStatistics__card mat-elevation-z0 mr-4 mb-5">
+            <mat-card-header>
+              <mat-card-title>
+                Ganacias del día
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <h2 class="TodayStatistics__card__content text-center mat-display-3">
+                {{ dayStatistics.profits | currency: "COP":"symbol-narrow" }}
+              </h2>
+            </mat-card-content>
+          </mat-card>
         </div>
       </div>
     </ng-template>
