@@ -1,0 +1,73 @@
+.form-element,
+input,
+mat-form-field {
+  width: 100%;
+  font-size: initial !important;
+}
+
+.form-element table {
+  width: 100%;
+}
+
+.form-element table td {
+  padding-right: 8px;
+}
+
+.form-select {
+  width: 100%;
+}
+
+.form-buttons {
+  padding-top: 1.5rem;
+}
+
+.form-buttons button {
+  margin-right: 0.7rem;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: row;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.form-col {
+  flex: 1;
+  margin-right: 0;
+}
+
+.form-col:last-child {
+  margin-right: 0;
+}
+
+@media (min-width: 525px) {
+  .form-col {
+    margin-right: 1.5rem;
+  }
+
+  .form-select {
+    width: 50%;
+  }
+}
+
+.search-field {
+  float: right;
+  max-width: 300px;
+}
+
+.mat-stepper-vertical .mat-form-field {
+  margin-top: 16px;
+}
+
+.mat-stepper-vertical button {
+  margin-right: 10px;
+}
+
+.mat-form-field {
+  margin-top: 16px;
+}
+
+table {
+  width: 100%;
+}

@@ -1,0 +1,286 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+@import 'base';
+@import 'forms';
+
+.mat-stepper-vertical {
+  margin-top: 8px;
+}
+
+.mat-stepper-horizontal {
+  margin-top: 8px;
+}
+
+.mat-card {
+  min-width: 250px;
+}
+
+.mat-cell a:hover {
+  color: initial !important;
+}
+
+.mat-expansion-panel-header-title,
+.mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.center-flex-content {
+  display: flex;
+  justify-content: center;
+}
+
+.center-block-content {
+  display: block;
+  margin: 0 auto;
+}
+
+.center-element {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.mat-form-field + .mat-slide-toggle {
+  margin-top: 0.7rem;
+}
+
+.royal_azure,
+.royal_azure:hover {
+  background: var(--royal_azure);
+  color: white;
+}
+
+.mat-fab.royal_azure {
+  background: var(--royal_azure) !important;
+}
+
+.container {
+  min-height: 405px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.calendar-control,
+.calendar-header {
+  display: inline-block;
+}
+
+.calendar-header {
+  margin-bottom: 7px;
+  width: 100%;
+}
+
+.calendar {
+  margin-top: 1rem;
+}
+
+.different-month {
+  color: var(--silver);
+}
+
+.mat-loading .mat-progress-spinner {
+  position: absolute;
+  top: calc(50% - 10px);
+  left: calc(50% - 10px);
+}
+
+.user-card {
+  width: auto;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+@media (min-width: 601px) {
+  .user-card {
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    min-height: 500px;
+    width: 450px;
+  }
+}
+
+.navigation-loading {
+  z-index: 9999;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, .5);
+}
+
+.navigation-loading .mat-spinner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+.navigation-loading .mat-progress-spinner circle,
+.navigation-loading .mat-spinner circle {
+  stroke: var(--forest-green-web) !important;
+}
+
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.our-services-article {
+  padding: 3.2rem;
+  background: #142454;
+}
+
+.home-rows {
+  overflow: hidden;
+}
+
+.home-row {
+  background: #162250;
+  max-width: 920px;
+  margin: 32px auto;
+  padding: 15px;
+  border-radius: 15px;
+}
+
+div[layout="row"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.home-row .promo-img,
+.home-row .text-container {
+  max-width: 50%;
+}
+
+.home-row .promo-img {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+}
+
+.home-row .promo-img > div > img,
+.home-row .promo-img > div {
+  width: 100%;
+  height: 100%;
+}
+
+.text-headline {
+  font-size: 1.7rem;
+  font-weight: 500;
+  text-align: center;
+  color: #f7f7f2;
+  margin-top: 10px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  line-height: 1.2;
+}
+
+.text-body {
+  color: #f7f7f2 !important;
+}
+
+.our-services {
+  padding-top: 10px;
+}
+
+@media (max-width: 600px) {
+  .home-rows {
+    margin: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  div[layout="row"] {
+    display: block;
+  }
+
+  .home-row .promo-img,
+  .home-row .text-container {
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .home-row .promo-img-container:nth-child(2n),
+  .home-row .text-container:nth-child(2n) {
+    flex-direction: column-reverse;
+  }
+
+  .home-row .text-block {
+    padding: 0;
+  }
+}
+
+.empty-list-text {
+  color: var(--grullo);
+}
+
+.icon-text-container {
+  display: flex;
+  align-items: center;
+  margin: 10px 16px;
+}
+
+.icon-text-container > mat-icon {
+  margin-right: 7px;
+}
+
+.icon-text-container span {
+  font-size: 17px;
+}
+
+.mat-panel-description .icon-text-container {
+  margin: 0;
+}
+
+.mat-panel-description .icon-text-container span {
+  font-size: 15px;
+}
+
+.loading-option {
+  display: flex;
+  align-items: center;
+  align-content: center;
+
+  span,
+  .loading-option-text {
+    position: absolute;
+    padding-left: 25px;
+  }
+}
+
+.contact-people-card {
+  background-color: rgba(4, 141, 215, 0.1);
+  border-radius: 10px;
+}
+
+.contact-people-card .icon-text-container {
+  justify-content: center;
+}
+
+.table-actions-button:hover {
+  color: rgba(39, 39, 39, .85);
+}
