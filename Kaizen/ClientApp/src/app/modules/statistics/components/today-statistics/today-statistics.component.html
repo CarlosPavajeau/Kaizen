@@ -31,54 +31,74 @@
       </div>
       <div *ngIf="obs.value as dayStatistics">
         <div class="TodayStatistics__container">
-          <mat-card class="TodayStatistics__card mat-elevation-z0 mr-4 mb-5">
-            <mat-card-header>
-              <mat-card-title>
-                Actividades aplicadas
-              </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <h2 class="TodayStatistics__card__content text-center mat-display-3">
-                {{ dayStatistics.appliedActivities }}
-              </h2>
-            </mat-card-content>
-          </mat-card>
-          <mat-card class="TodayStatistics__card mat-elevation-z0 mr-4 mb-5">
-            <mat-card-header>
-              <mat-card-title>
-                Clientes visitados
-              </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <h2 class="TodayStatistics__card__content text-center mat-display-3">
-                {{ dayStatistics.clientsVisited }}
-              </h2>
-            </mat-card-content>
-          </mat-card>
-          <mat-card class="TodayStatistics__card mat-elevation-z0 mr-4 mb-5">
-            <mat-card-header>
-              <mat-card-title>
-                Clientes registrados
-              </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <h2 class="TodayStatistics__card__content text-center mat-display-3">
-                {{ dayStatistics.clientsRegistered }}
-              </h2>
-            </mat-card-content>
-          </mat-card>
-          <mat-card class="TodayStatistics__card mat-elevation-z0 mr-4 mb-5">
-            <mat-card-header>
-              <mat-card-title>
-                Ganacias del día
-              </mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-              <h2 class="TodayStatistics__card__content text-center mat-display-3">
-                {{ dayStatistics.profits | currency: "COP":"symbol-narrow" }}
-              </h2>
-            </mat-card-content>
-          </mat-card>
+          <div class="TodayStatistics__item">
+            <mat-card class="TodayStatistics__card">
+              <mat-card-header>
+                <mat-icon mat-card-avatar class="TodayStatistics__card__avatar">
+                  event_available
+                </mat-icon>
+                <mat-card-title>
+                  <h1 class="TodayStatistics__card__title mat-display-3">
+                    {{ dayStatistics.appliedActivities }}
+                  </h1>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="TodayStatistics__card__content">
+                <p>Actividades aplicadas</p>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <div class="TodayStatistics__item">
+            <mat-card class="TodayStatistics__card">
+              <mat-card-header>
+                <mat-icon mat-card-avatar class="TodayStatistics__card__avatar">
+                  people
+                </mat-icon>
+                <mat-card-title>
+                  <h1 class="TodayStatistics__card__title mat-display-3">
+                    {{ dayStatistics.clientsVisited }}
+                  </h1>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="TodayStatistics__card__content">
+                <p>Clientes visitados</p>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <div class="TodayStatistics__item">
+            <mat-card class="TodayStatistics__card">
+              <mat-card-header>
+                <mat-icon mat-card-avatar class="TodayStatistics__card__avatar">
+                  person_add
+                </mat-icon>
+                <mat-card-title>
+                  <h1 class="TodayStatistics__card__title mat-display-3">
+                    {{ dayStatistics.clientsRegistered }}
+                  </h1>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="TodayStatistics__card__content">
+                <p>Clientes registrados</p>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <div class="TodayStatistics__item">
+            <mat-card class="TodayStatistics__card">
+              <mat-card-header>
+                <mat-icon mat-card-avatar class="TodayStatistics__card__avatar">
+                  paid
+                </mat-icon>
+                <mat-card-title>
+                  <h1 class="TodayStatistics__card__title mat-display-3">
+                    {{ dayStatistics.profits | currency: "COP":"symbol-narrow" }}
+                  </h1>
+                </mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="TodayStatistics__card__content">
+                Ganancias del día
+              </mat-card-content>
+            </mat-card>
+          </div>
         </div>
       </div>
     </ng-template>

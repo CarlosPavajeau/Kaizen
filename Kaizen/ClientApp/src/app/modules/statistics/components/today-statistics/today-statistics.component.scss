@@ -1,13 +1,24 @@
+.TodayStatistics__card__title {
+  font-size: 32px !important;
+  font-weight: bold;
+  line-height: 1.1;
+}
+
+.TodayStatistics__card__avatar {
+  color: rgba(0, 0, 0, 0.57) !important;
+}
+
 .TodayStatistics__card__content {
-  color: rgba(0, 0, 0, 0.57)
+  color: rgba(52, 49, 76, 0.54) !important;
+  padding-left: 57px;
 }
 
 .TodayStatistics__container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
   flex-wrap: wrap;
+  box-sizing: border-box;
+  width: calc(100% + 24px);
+  margin: -12px;
 }
 
 @media (min-width: 960px) {
@@ -16,6 +27,43 @@
   }
 }
 
-.TodayStatistics__card {
-  border: 1px solid rgba(0, 0, 0, 0.12);
+.TodayStatistics__item {
+  flex-grow: 0;
+  max-width: 100%;
+  flex-basis: 100%;
+  padding: 12px;
+  margin: 0;
+  box-sizing: border-box;
 }
+
+@media (min-width: 600px) {
+  .TodayStatistics__item {
+    flex-grow: 0;
+    max-width: 50%;
+    flex-basis: 50%;
+  }
+}
+
+@media (min-width: 960px) {
+  .TodayStatistics__item {
+    flex-grow: 0;
+    max-width: 25%;
+    flex-basis: 25%;
+  }
+}
+
+
+.TodayStatistics__card {
+  box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.06),
+  0px 3px 4px 0px rgba(0, 0, 0, 0.04),
+  0px 1px 8px 0px rgba(0, 0, 0, 0.04);
+}
+
+.mat-display-3 {
+  margin: 0;
+}
+
+.mat-card {
+  min-width: auto;
+}
+
