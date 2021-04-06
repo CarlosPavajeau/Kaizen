@@ -6,7 +6,7 @@ using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.Models.ServiceInvoice;
 using Kaizen.Test.Helpers;
-using MercadoPagoCore.Client.Payment;
+using MercadoPago.Client.Payment;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
