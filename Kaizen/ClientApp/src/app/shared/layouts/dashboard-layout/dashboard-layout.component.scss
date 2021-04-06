@@ -9,6 +9,10 @@
   padding-left: 7px;
 }
 
+.sidenav {
+  width: 240px;
+}
+
 .sidenav,
 .sidenav .mat-toolbar,
 .dashboard-toolbar {
@@ -33,12 +37,6 @@ a.sidenav-link:hover {
 .dashboard-expansion-panel * {
   background: #142454;
   color: white !important;
-}
-
-.mat-expansion-indicator::after,
-.mat-expansion-indicator {
-  color: white !important;
-  display: none;
 }
 
 .dashboard-expansion-panel mat-panel-title {

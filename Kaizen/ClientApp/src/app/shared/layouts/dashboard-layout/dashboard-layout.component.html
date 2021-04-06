@@ -1,25 +1,48 @@
+<mat-toolbar class="dashboard-toolbar">
+  <button
+    type="button"
+    aria-label="Toggle sidenav"
+    mat-icon-button
+    (click)="toggleSidenav()"
+    *ngIf="(isHandset$ | async) || isSidenavClose"
+  >
+    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+  </button>
+  <span>Ecolplag</span>
+  <div class="spacer"></div>
+  <a mat-icon-button class="map-link" routerLink="/employees/map" *ngIf="isAdmin"
+     [matTooltip]="'Mapa de empleados'">
+    <mat-icon>map</mat-icon>
+  </a>
+  <app-notifications></app-notifications>
+  <button mat-icon-button [matMenuTriggerFor]="accountMenu" [matTooltip]="'Opciones de cuenta'">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <mat-menu #accountMenu="matMenu">
+    <a mat-menu-item routerLink="/user/profile">
+      <mat-icon>face</mat-icon>
+      <span>Mi perfil</span>
+    </a>
+    <a mat-menu-item routerLink="/user/edit">
+      <mat-icon>settings</mat-icon>
+      <span>Datos de acceso</span>
+    </a>
+    <button mat-menu-item (click)="logout()" [appLoadingButton]="isLogout">
+      <mat-icon>power_settings_new</mat-icon>
+      <span class="nav-caption">Cerrar sesión</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav
     #drawer
-    class="sidenav mat-elevation-z6"
-    fixedInViewport
+    class="sidenav mat-elevation-z4"
     [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="(isHandset$ | async) === false"
   >
-    <mat-toolbar>
-      Menu
-      <div class="spacer"></div>
-      <button
-        mat-icon-button
-        (click)="closeSidenav()"
-        [matTooltip]="'Cerrar barra lateral'"
-      >
-        <mat-icon>cancel</mat-icon>
-      </button>
-    </mat-toolbar>
     <mat-nav-list>
-      <div *ngFor="let menuOption of menuOptions">
+      <ng-container *ngFor="let menuOption of menuOptions">
         <a
           class="sidenav-link"
           *ngIf="!menuOption.isMenu"
@@ -31,7 +54,6 @@
         </a>
         <mat-expansion-panel
           *ngIf="menuOption.isMenu"
-          hideToggle="true"
           [class.mat-elevation-z0]="true"
           dense
           class="dashboard-expansion-panel"
@@ -42,7 +64,7 @@
           </mat-expansion-panel-header>
           <mat-nav-list dense>
             <a
-              class="sidenav-link"
+              class="sidenav-link pl-4"
               *ngFor="let menuItem of menuOption?.subMenu"
               mat-list-item
               [routerLink]="menuItem.url"
@@ -52,7 +74,7 @@
             </a>
           </mat-nav-list>
         </mat-expansion-panel>
-      </div>
+      </ng-container>
     </mat-nav-list>
     <mat-nav-list>
       <a
@@ -71,41 +93,6 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar class="dashboard-toolbar">
-      <button
-        type="button"
-        aria-label="Toggle sidenav"
-        mat-icon-button
-        (click)="toggleSidenav()"
-        *ngIf="(isHandset$ | async) || isSidenavClose"
-      >
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
-      <span>Ecolplag</span>
-      <div class="spacer"></div>
-      <a mat-icon-button class="map-link" routerLink="/employees/map" *ngIf="isAdmin"
-         [matTooltip]="'Mapa de empleados'">
-        <mat-icon>map</mat-icon>
-      </a>
-      <app-notifications></app-notifications>
-      <button mat-icon-button [matMenuTriggerFor]="accountMenu" [matTooltip]="'Opciones de cuenta'">
-        <mat-icon>account_circle</mat-icon>
-      </button>
-      <mat-menu #accountMenu="matMenu">
-        <a mat-menu-item routerLink="/user/profile">
-          <mat-icon>face</mat-icon>
-          <span>Mi perfil</span>
-        </a>
-        <a mat-menu-item routerLink="/user/edit">
-          <mat-icon>settings</mat-icon>
-          <span>Datos de acceso</span>
-        </a>
-        <button mat-menu-item (click)="logout()" [appLoadingButton]="isLogout">
-          <mat-icon>power_settings_new</mat-icon>
-          <span class="nav-caption">Cerrar sesión</span>
-        </button>
-      </mat-menu>
-    </mat-toolbar>
     <div style="" class="dashboard-content">
       <router-outlet></router-outlet>
     </div>

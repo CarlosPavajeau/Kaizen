@@ -275,3 +275,12 @@ div[layout="row"] {
 .table-actions-button:hover {
   color: rgba(39, 39, 39, .85);
 }
+
+.mat-expansion-indicator,
+.mat-expansion-indicator::after {
+  color: white !important;
+}
+
+.mat-expansion-panel-body {
+  padding: 0 !important;
+}
