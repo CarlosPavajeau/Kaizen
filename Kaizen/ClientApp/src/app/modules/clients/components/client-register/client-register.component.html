@@ -11,6 +11,13 @@
           <mat-step [stepControl]="clientForm">
             <ng-template matStepLabel>Datos personales</ng-template>
             <form [formGroup]="clientForm">
+              <div class="form-element mt-1">
+                <label id="clientType" class="form-radio-label">Tipo de persona:</label>
+                <mat-radio-group aria-labelledby="clientType" required formControlName="clientType" color="primary" class="form-radio">
+                  <mat-radio-button [value]="'NaturalPerson'" class="form-radio-button">Persona natural</mat-radio-button>
+                  <mat-radio-button [value]="'JuridicPerson'" class="form-radio-button">Persona jurídica</mat-radio-button>
+                </mat-radio-group>
+              </div>
               <div class="form-element">
                 <mat-form-field>
                   <mat-label>Identificación</mat-label>
@@ -192,22 +199,6 @@
                   >
                   <mat-error *ngIf="controls['tradeName'].hasError('maxlength')"
                     >Digite máximo 30 caracteres</mat-error
-                  >
-                </mat-form-field>
-              </div>
-              <div class="form-element form-select">
-                <mat-form-field>
-                  <mat-label>Tipo de cliente</mat-label>
-                  <mat-select required formControlName="clientType">
-                    <mat-option [value]="'NaturalPerson'"
-                      >Persona natural</mat-option
-                    >
-                    <mat-option [value]="'JuridicPerson'"
-                      >Persona juridica</mat-option
-                    >
-                  </mat-select>
-                  <mat-error *ngIf="controls['clientType'].hasError('required')"
-                    >Campo requerido</mat-error
                   >
                 </mat-form-field>
               </div>
