@@ -21,9 +21,10 @@ export class LoadingButtonDirective implements OnChanges {
   @HostBinding('disabled')
   @Input('appLoadingButton')
   loading: boolean;
+
   @Input() color: ThemePalette = 'primary';
 
-  private spinnerFactory: ComponentFactory<MatProgressSpinner>;
+  private readonly spinnerFactory: ComponentFactory<MatProgressSpinner>;
   private spinner: ComponentRef<MatProgressSpinner>;
 
   constructor(
@@ -56,6 +57,7 @@ export class LoadingButtonDirective implements OnChanges {
       this.spinner.instance.color = this.color;
       this.spinner.instance.mode = 'indeterminate';
       this.rendered.appendChild(this.elementRef.nativeElement, this.spinner.instance._elementRef.nativeElement);
+      this.rendered.setProperty(this.elementRef.nativeElement, 'disabled', true);
     }
   }
 
