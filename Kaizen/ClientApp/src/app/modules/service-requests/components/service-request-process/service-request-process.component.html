@@ -51,6 +51,7 @@
                 class="mr-5"
                 (click)="cancelServiceRequest()"
                 [appLoadingButton]="updatingServiceRequest"
+                [disabled]="updatingServiceRequest"
               >
                 Cancelar solicitud
               </button>
@@ -59,6 +60,7 @@
                 color="primary"
                 (click)="suggestAnotherDate()"
                 [appLoadingButton]="updatingServiceRequest"
+                [disabled]="updatingServiceRequest"
               >
                 Sugerir otra fecha
               </button>
@@ -80,6 +82,7 @@
                 class="royal_azure mr-5"
                 (click)="suggestAnotherDate()"
                 [appLoadingButton]="updatingServiceRequest"
+                [disabled]="updatingServiceRequest"
               >
                 Sugerir otra fecha
               </button>
@@ -88,6 +91,7 @@
                 color="warn"
                 (click)="cancelServiceRequest()"
                 [appLoadingButton]="updatingServiceRequest"
+                [disabled]="updatingServiceRequest"
               >
                 Cancelar solicitud
               </button>

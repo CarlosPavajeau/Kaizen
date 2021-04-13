@@ -89,8 +89,9 @@
                 <button
                   mat-raised-button
                   class="royal_azure"
-                  (click)="updateEquipmentBasicData()"
+                  (click)="updateEquipmentBasicData(equipment)"
                   [appLoadingButton]="updatingEquipment"
+                  [disabled]="updatingEquipment"
                 >
                   Actualizar datos básicos
                 </button>
@@ -153,8 +154,9 @@
                 <button
                   mat-raised-button
                   class="royal_azure"
-                  (click)="updateEquipmentInInventory()"
+                  (click)="updateEquipmentInInventory(equipment)"
                   [appLoadingButton]="updatingEquipment"
+                  [disabled]="updatingEquipment"
                 >
                   Actualizar datos de inventario
                 </button>

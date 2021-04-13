@@ -96,6 +96,7 @@
                   class="royal_azure"
                   (click)="updateBasicData(service)"
                   [appLoadingButton]="updatingService"
+                  [disabled]="updatingService"
                 >
                   Actualizar datos básicos
                 </button>
@@ -112,6 +113,7 @@
                   class="royal_azure"
                   (click)="updateEquipments(service)"
                   [appLoadingButton]="updatingService"
+                  [disabled]="updatingService"
                 >
                   Actualizar equipos asignados
                 </button>
@@ -128,6 +130,7 @@
                   class="royal_azure"
                   (click)="updateProducts(service)"
                   [appLoadingButton]="updatingService"
+                  [disabled]="updatingService"
                 >
                   Actualizar productos asignados
                 </button>
@@ -144,6 +147,7 @@
                   class="royal_azure"
                   (click)="updateEmployees(service)"
                   [appLoadingButton]="updatingService"
+                  [disabled]="updatingService"
                 >
                   Actualizar empleados asignados
                 </button>

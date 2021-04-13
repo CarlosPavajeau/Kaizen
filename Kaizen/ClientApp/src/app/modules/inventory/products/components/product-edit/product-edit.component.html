@@ -81,6 +81,7 @@
                   class="royal_azure"
                   (click)="updateProductBasicData(product)"
                   [appLoadingButton]="uploadingProduct"
+                  [disabled]="uploadingProduct"
                 >
                   Actualizar datos básicos
                 </button>
@@ -128,6 +129,7 @@
                   class="royal_azure"
                   (click)="updateProductInInventory(product)"
                   [appLoadingButton]="uploadingProduct"
+                  [disabled]="uploadingProduct"
                 >
                   Actualizar datos de inventario
                 </button>

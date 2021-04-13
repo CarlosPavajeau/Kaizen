@@ -151,6 +151,7 @@
                   class="royal_azure"
                   (click)="loadTechniciansAvailable()"
                   [appLoadingButton]="loadingTechniciansAvailable"
+                  [disabled]="loadingTechniciansAvailable"
                 >
                   Buscar técnicos disponibles
                 </button>
@@ -224,6 +225,7 @@
                   class="royal_azure mr-5"
                   (click)="onSubmit()"
                   [appLoadingButton]="savingData"
+                  [disabled]="savingData"
                 >
                   Agendar actividad
                 </button>

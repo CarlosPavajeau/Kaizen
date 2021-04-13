@@ -27,7 +27,7 @@
       <mat-icon>settings</mat-icon>
       <span>Datos de acceso</span>
     </a>
-    <button mat-menu-item (click)="logout()" [appLoadingButton]="isLogout">
+    <button mat-menu-item (click)="logout()" [appLoadingButton]="isLogout" [disabled]="isLogout">
       <mat-icon>power_settings_new</mat-icon>
       <span class="nav-caption">Cerrar sesión</span>
     </button>
@@ -86,7 +86,7 @@
         <mat-icon>settings</mat-icon>
         <span class="nav-caption">Datos de acceso</span>
       </a>
-      <a class="sidenav-link" mat-list-item (click)="logout()" [appLoadingButton]="isLogout">
+      <a class="sidenav-link" mat-list-item (click)="logout()" [appLoadingButton]="isLogout" [disabled]="isLogout">
         <mat-icon>power_settings_new</mat-icon>
         <span class="nav-caption">Cerrar sesión</span>
       </a>

@@ -96,6 +96,7 @@
               class="royal_azure"
               (click)="acceptClient(clientRequest)"
               [appLoadingButton]="updatingClientRequest"
+              [disabled]="updatingClientRequest"
             >
               Aceptar solicitud de cliente
             </button>
@@ -104,6 +105,7 @@
               color="warn"
               (click)="rejectClient(clientRequest)"
               [appLoadingButton]="updatingClientRequest"
+              [disabled]="updatingClientRequest"
             >
               Rechazar solicitud de cliente
             </button>

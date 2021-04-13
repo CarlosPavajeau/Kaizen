@@ -150,6 +150,7 @@
                       class="royal_azure"
                       (click)="generateWorkOrder(activity)"
                       [appLoadingButton]="savingOrUpdatingData"
+                      [disabled]="savingOrUpdatingData"
                     >
                       Generar orden de trabajo
                     </button>
@@ -181,6 +182,7 @@
                         color="primary"
                         (click)="clearSignaturePad()"
                         [appLoadingButton]="savingOrUpdatingData"
+                        [disabled]="savingOrUpdatingData"
                       >
                         Limpiar firma
                       </button>
@@ -192,6 +194,7 @@
                       class="royal_azure mr-4"
                       (click)="confirmWorkOrder()"
                       [appLoadingButton]="savingOrUpdatingData"
+                      [disabled]="savingOrUpdatingData"
                     >
                       Confirmar orden de trabajo
                     </button>
@@ -200,6 +203,7 @@
                       color="warn"
                       (click)="cancelWorkOrder()"
                       [appLoadingButton]="savingOrUpdatingData"
+                      [disabled]="savingOrUpdatingData"
                     >
                       Cancelar orden de trabajo
                     </button>
@@ -265,6 +269,7 @@
                       class="royal_azure"
                       (click)="saveWorkOrder()"
                       [appLoadingButton]="savingOrUpdatingData"
+                      [disabled]="savingOrUpdatingData"
                     >
                       Registrar orden de trabajo
                     </button>

@@ -65,6 +65,7 @@
       mat-button
       (click)="onLogout()"
       [appLoadingButton]="isLogout"
+      [disabled]="isLogout"
       *ngIf="isLogged"
       fxShow="true"
       fxHide.xs

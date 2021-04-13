@@ -222,7 +222,7 @@
               mat-raised-button
               class="royal_azure"
               (click)="onSubmit()"
-              [disabled]="!payForm.valid"
+              [disabled]="!payForm.valid && paymentInProcess"
               [appLoadingButton]="paymentInProcess"
             >
               <mat-icon>attach_money</mat-icon>

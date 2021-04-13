@@ -27,6 +27,7 @@
             class="royal_azure mr-2"
             (click)="acceptSuggestedDate(serviceRequest)"
             [appLoadingButton]="updatingServiceRequest"
+            [disabled]="updatingServiceRequest"
           >
             Aceptar fecha sugerida
           </button>
@@ -35,6 +36,7 @@
             color="primary"
             (click)="suggestAnotherDate(serviceRequest)"
             [appLoadingButton]="updatingServiceRequest"
+            [disabled]="updatingServiceRequest"
           >
             Sugerir otra fecha
           </button>

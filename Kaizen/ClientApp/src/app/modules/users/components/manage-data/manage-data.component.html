@@ -91,6 +91,7 @@
               class="royal_azure"
               (click)="changePassword()"
               [appLoadingButton]="updatingData"
+              [disabled]="updatingData"
             >
               Cambiar contraseña
             </button>
@@ -252,6 +253,7 @@
               class="royal_azure"
               (click)="updatePersonalData()"
               [appLoadingButton]="updatingData"
+              [disabled]="updatingData"
             >
               Actualizar datos personales
             </button>
@@ -324,6 +326,7 @@
               class="royal_azure"
               (click)="updateUbicationData()"
               [appLoadingButton]="updatingData"
+              [disabled]="updatingData"
             >
               Actualizar datos de ubicación
             </button>
@@ -451,6 +454,7 @@
               class="royal_azure"
               (click)="updateContactPeople()"
               [appLoadingButton]="updatingData"
+              [disabled]="updatingData"
             >
               Actualizar personas de contacto
             </button>
