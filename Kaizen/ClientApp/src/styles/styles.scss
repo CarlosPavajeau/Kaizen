@@ -24,6 +24,10 @@
   flex-basis: 0;
 }
 
+.mat-expansion-panel-header-title {
+  align-items: center;
+}
+
 .mat-expansion-panel-header-description {
   justify-content: space-between;
   align-items: center;
@@ -281,6 +285,6 @@ div[layout="row"] {
   color: white !important;
 }
 
-.mat-expansion-panel-body {
+.dashboard-expansion-panel .mat-expansion-panel-body {
   padding: 0 !important;
 }
