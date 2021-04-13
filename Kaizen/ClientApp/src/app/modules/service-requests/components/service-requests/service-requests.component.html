@@ -16,7 +16,6 @@
     <ng-template [ngSwitchCase]="ObsStatus.Success">
       <div>
         <h1 class="text-center">Solicitudes de servicio</h1>
-        <br />
       </div>
       <mat-divider></mat-divider>
       <div class="pt-3">
@@ -33,25 +32,27 @@
           </div>
         </div>
         <mat-accordion *ngIf="serviceRequests?.length > 0">
-          <h3>
-            Están pendientes {{ serviceRequests?.length }} solicitudes de
-            servicio
-          </h3>
           <mat-expansion-panel *ngFor="let serviceRequest of serviceRequests">
             <mat-expansion-panel-header>
-              <mat-panel-title
-                >Solicitud de servicio N°
-                {{ serviceRequest.code }}</mat-panel-title
-              >
-              <mat-panel-description
-                >Está solicitud fue hecha para el dia y hora
-                {{ serviceRequest.date | date: "yyyy/MM/dd HH:mm" }}
+              <mat-panel-title>
+                <span>
+                   Solicitud de servicio N° {{ serviceRequest.code }}
+                </span>
+              </mat-panel-title>
+              <mat-panel-description>
+                <div class="icon-text-container">
+                  <mat-icon [matTooltip]="'Fecha de aplicación'">
+                    today
+                  </mat-icon>
+                  {{ serviceRequest.date | date: "MMMM d, y, h:mm a" }}
+                </div>
                 <mat-icon
-                  color="warn"
+                  color="primary"
                   [matTooltip]="'Click para ver más información'"
                   [matTooltipShowDelay]="300"
                   [matTooltipPosition]="'above'"
-                  >info</mat-icon
+                >info
+                </mat-icon
                 >
               </mat-panel-description>
             </mat-expansion-panel-header>
@@ -60,20 +61,21 @@
               identificado con C.C.
               <strong>{{ serviceRequest.clientId }}</strong>
             </h4>
+            <span>Con una periodicidad {{ serviceRequest.periodicity | periodicity }}.</span>
             <mat-action-row>
+              <a
+                mat-button
+                class="royal_azure"
+                routerLink="/service_requests/process/{{ serviceRequest.code }}">
+                Revisar solicitud
+              </a>
               <button
                 mat-button
                 color="warn"
                 (click)="rejectServiceRequest(serviceRequest)"
               >
-                Rechazar
+                Rechazar solicitud
               </button>
-              <a
-                mat-button
-                class="royal_azure"
-                routerLink="/service_requests/process/{{ serviceRequest.code }}"
-                >Revisar solicitud</a
-              >
             </mat-action-row>
           </mat-expansion-panel>
         </mat-accordion>

@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>Elija una nueva fecha y hora de aplicación</h1>
-<div mat-dialog-content [formGroup]="dateForm">
+<div mat-dialog-content [formGroup]="dateForm" class="mt-2">
   <div class="form-row">
     <div class="form-col">
       <div class="form-element">
@@ -43,13 +43,13 @@
     </div>
   </div>
 </div>
-<div mat-dialog-actions>
-  <div class="pt-4">
-    <button mat-stroked-button color="warn" (click)="onCancel()">
-      Cancelar
-    </button>
+<mat-dialog-actions align="end">
+  <div class="pt-4 mt-2">
     <button mat-raised-button class="royal_azure" (click)="saveDate()">
-      Cambiar fecha
+      Cambiar fecha de solicitud
+    </button>
+    <button mat-flat-button (click)="onCancel()">
+      Mantener fecha de solicitud
     </button>
   </div>
-</div>
+</mat-dialog-actions>
