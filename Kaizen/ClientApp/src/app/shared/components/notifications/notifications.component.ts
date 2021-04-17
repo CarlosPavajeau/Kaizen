@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthenticationService } from '@core/authentication/authentication.service';
-import { NotificationItem } from '@shared/models/notification-item';
+import { NotificationItem, NotificationState } from '@shared/models/notification-item';
 import { ObservableStatus } from '@shared/models/observable-with-status';
 import { NotificationsSignalrService } from '@shared/services/notifications-signalr.service';
 import { NotificationsService } from '@shared/services/notifications.service';
@@ -40,5 +40,13 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.newNotification.unsubscribe();
+  }
+
+  onViewOrDeleteNotification(notification: NotificationItem): void {
+    notification.state = NotificationState.View;
+    this.notificationsService.updateNotification(notification)
+      .subscribe((notificationUpdated: NotificationItem) => {
+        this.notifications = this.notifications.filter(n => n.id !== notificationUpdated.id);
+      });
   }
 }

@@ -15,4 +15,8 @@ export class NotificationsService {
   getNotifications(userId: string): Observable<NotificationItem[]> {
     return this.http.get<NotificationItem[]>(`${ NOTIFICATIONS_API_URL }/${ userId }`);
   }
+
+  updateNotification(notification: NotificationItem): Observable<NotificationItem> {
+    return this.http.put<NotificationItem>(`${ NOTIFICATIONS_API_URL }/${ notification.id }`, notification);
+  }
 }

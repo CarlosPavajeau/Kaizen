@@ -26,9 +26,17 @@
       </span>
         </div>
         <div class="spacer"></div>
-        <mat-icon [routerLink]="notification.url" *ngIf="notification.url; else notUrl">visibility</mat-icon>
+        <a
+          mat-icon-button
+          *ngIf="notification.url; else notUrl"
+          [routerLink]="notification.url"
+          (click)="onViewOrDeleteNotification(notification)">
+          <mat-icon>visibility</mat-icon>
+        </a>
         <ng-template #notUrl>
-          <mat-icon [matTooltip]="'Eliminar notificación'">delete</mat-icon>
+          <button mat-icon-button (click)="onViewOrDeleteNotification(notification)">
+            <mat-icon [matTooltip]="'Eliminar notificación'">delete</mat-icon>
+          </button>
         </ng-template>
       </div>
       <div *ngIf="notifications.length == 0">
