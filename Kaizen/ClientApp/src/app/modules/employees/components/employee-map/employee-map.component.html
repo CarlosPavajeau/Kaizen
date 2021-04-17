@@ -1,6 +1,6 @@
 <section class="container">
   <div *ngIf="apiLoaded | async">
-    <google-map #googleMap [options]="mapOptions" [height]="550" [width]="'100%'">
+    <google-map #googleMap [options]="mapOptions" [height]="'90vh'" [width]="'100%'">
       <map-marker #marker="mapMarker" *ngFor="let employeeLocation of employeeLocations"
                   [position]="{ lat: employeeLocation.location.latitude, lng: employeeLocation.location.longitude }"
                   [options]="markerOptions" (mapClick)="openInfoWindow(marker, infoWindow)">
