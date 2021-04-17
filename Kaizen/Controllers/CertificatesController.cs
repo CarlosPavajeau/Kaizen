@@ -22,7 +22,7 @@ namespace Kaizen.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<CertificateViewModel>> GetCertificate(int id)
         {
             var certificate = await _certificatesRepository.FindByIdAsync(id);

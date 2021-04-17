@@ -14,12 +14,24 @@ namespace Kaizen.Infrastructure.Repositories
         {
         }
 
-        public async Task<IEnumerable<Certificate>> GetClientCertificates(string clientId)
+        public override async Task<Certificate> FindByIdAsync(int id)
         {
             return await ApplicationDbContext.Certificates
                 .Include(c => c.WorkOrder)
                 .ThenInclude(w => w.Activity)
                 .ThenInclude(a => a.Client)
+                .Include(c => c.WorkOrder)
+                .ThenInclude(w => w.Activity)
+                .ThenInclude(a => a.ActivitiesServices)
+                .ThenInclude(a => a.Service)
+                .Include(c => c.WorkOrder)
+                .ThenInclude(w => w.Employee)
+                .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        public async Task<IEnumerable<Certificate>> GetClientCertificates(string clientId)
+        {
+            return await ApplicationDbContext.Certificates
                 .Where(c => c.WorkOrder.Activity.ClientId == clientId)
                 .ToListAsync();
         }
