@@ -1,1 +1,79 @@
-<p>certificate-detail works!</p>
+<div class="container">
+  <ng-container
+    *ngIf="certificate$ | observableWithStatus | async as obs"
+    [ngSwitch]="obs.status">
+    <ng-template [ngSwitchCase]="ObsStatus.Loading">
+      <div class="center-block-content pt-5">
+        <div class="center-flex-content">
+          <mat-spinner></mat-spinner>
+        </div>
+        <h4 class="text-center mt-4 empty-list-text">Cargando certificado...</h4>
+      </div>
+    </ng-template>
+    <ng-template [ngSwitchCase]="ObsStatus.Success">
+      <div *ngIf="obs.value as certificate">
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>
+              Certificado N° {{ certificate.id}}
+            </mat-card-title>
+            <mat-card-subtitle>
+              Válido hasta {{ certificate.validity |  date:"MMMM d 'del' y 'hasta las' h:mm a" }}
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="icon-text-container">
+              <mat-icon [matTooltip]="'Fecha de ejecución'">today</mat-icon>
+              <span>{{ certificate.workOrder.executionDate | date }}</span>
+            </div>
+            <div class="icon-text-container">
+              <mat-icon [matTooltip]="'Hora de llegada del técnico'">schedule</mat-icon>
+              <span>{{ certificate.workOrder.arrivalTime | date: "hh:mm a" }}</span>
+            </div>
+            <div class="icon-text-container">
+              <mat-icon [matTooltip]="'Hora de salida del técnico'">timer</mat-icon>
+              <span>{{ certificate.workOrder.departureTime | date: "hh:mm a" }}</span>
+            </div>
+            <div class="icon-text-container">
+              <mat-icon [matTooltip]="'Empleado que generó la ordern de trabajo'">
+                engineering
+              </mat-icon>
+              <span>
+                {{ certificate.workOrder.employee.firstName }} {{ certificate.workOrder.employee.secondName }}
+                {{ certificate.workOrder.employee.lastName }} {{ certificate.workOrder.employee.secondLastName }}
+              </span>
+            </div>
+            <div>
+              <mat-list>
+                <div matSubheader>
+                  Servicios aplicados
+                </div>
+                <mat-list-item *ngFor="let service of certificate.workOrder.activity.services">
+                  <div class="icon-text-container">
+                    <mat-icon>bolt</mat-icon>
+                    <span>{{ service.code }} - {{ service.name }}</span>
+                  </div>
+                </mat-list-item>
+              </mat-list>
+            </div>
+            <mat-divider inset></mat-divider>
+            <h2 class="mt-3">Observaciones</h2>
+            <p>{{ certificate.workOrder.observations }}</p>
+            <mat-divider inset></mat-divider>
+            <h2 class="mt-3">Firma del cliente</h2>
+            <div>
+              <img
+                src="data:image/png;base64,{{ certificate.workOrder.clientSignature }}"
+                alt="Client signature"
+              />
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button class="royal_azure">Imprimir certificado</button>
+            <button mat-button>Descargar certificado</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </ng-template>
+  </ng-container>
+</div>

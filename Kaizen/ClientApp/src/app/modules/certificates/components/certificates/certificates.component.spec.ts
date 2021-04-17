@@ -1,4 +1,6 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SharedModule } from '@shared/shared.module';
 
 import { CertificatesComponent } from './certificates.component';
 
@@ -8,7 +10,8 @@ describe('CertificatesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CertificatesComponent ]
+      declarations: [ CertificatesComponent ],
+      imports: [ SharedModule, HttpClientTestingModule ]
     })
     .compileComponents();
   });
@@ -16,7 +19,6 @@ describe('CertificatesComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CertificatesComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
