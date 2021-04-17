@@ -13,6 +13,7 @@ export const DASHBOARDS_CARDS: { [role: string]: DashboardCard[] } = {
     },
     { title: 'Solicitar un servicio', iconName: 'add_circle', url: '/service_requests/register' },
     { title: 'Mis visitas', iconName: 'info', url: '/activity_schedule/client_schedule' },
+    { title: 'Mis certificados', iconName: 'task', url: '/certificates' },
     { title: 'Evaluar servicios', iconName: 'stars' }
   ],
   Administrator: [

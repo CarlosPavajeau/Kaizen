@@ -50,6 +50,10 @@ const routes: Routes = [
     path: 'work_orders',
     loadChildren: () => import('@modules/work-orders/work-orders.module').then((m) => m.WorkOrdersModule)
   },
+  {
+    path: 'certificates',
+    loadChildren: () => import('@modules/certificates/certificates.module').then((m) => m.CertificatesModule)
+  },
   { path: '**', component: Page404Component }
 ];
 
@@ -58,4 +62,5 @@ const routes: Routes = [
   imports: [ RouterModule.forRoot(routes, { enableTracing: false, relativeLinkResolution: 'legacy' }) ],
   exports: [ RouterModule ]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule {
+}
