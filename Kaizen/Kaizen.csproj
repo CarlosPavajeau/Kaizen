@@ -30,7 +30,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.2" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.2" />
   </ItemGroup>
 
   <ItemGroup>
