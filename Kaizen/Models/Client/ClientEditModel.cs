@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Kaizen.Domain.Entities;
 using Kaizen.Models.Base;
+using Kaizen.Validations;
 
 namespace Kaizen.Models.Client
 {
@@ -18,6 +19,7 @@ namespace Kaizen.Models.Client
 
         [Required(ErrorMessage = "El primer teléfono de contacto es requerido")]
         public string FirstPhoneNumber { get; set; }
+
         public string SecondPhoneNumber { get; set; }
         public string FirstLandLine { get; set; }
         public string SecondLandLine { get; set; }
@@ -25,6 +27,7 @@ namespace Kaizen.Models.Client
         [Required(ErrorMessage = "La dirección es requerida")]
         public ClientAddressModel ClientAddress { get; set; }
 
+        [NotNullOrEmptyCollection(ErrorMessage = "Se deben asignar personas de contacto")]
         public List<ContactPersonModel> ContactPeople { get; set; }
 
         [Required(ErrorMessage = "El estado del cliente es requerido")]
