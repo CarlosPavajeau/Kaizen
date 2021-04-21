@@ -78,6 +78,7 @@ namespace Kaizen.Test.Controllers
             _servicesRepository.Setup(r => r.Update(It.IsAny<Service>())).Verifiable();
 
             _servicesRepository.Setup(r => r.Insert(It.IsAny<Service>())).Verifiable();
+            _servicesRepository.Setup(r => r.Insert(It.IsAny<ServiceType>())).Verifiable();
         }
 
         private void SetUpUnitWork()
@@ -198,6 +199,19 @@ namespace Kaizen.Test.Controllers
             Assert.NotNull(result);
             Assert.IsNull(result.Value);
             Assert.IsInstanceOf<ConflictObjectResult>(result.Result);
+        }
+
+        [Test]
+        public async Task Save_New_ServiceType()
+        {
+            var result = await _servicesController.ServiceTypes(new ServiceTypeInputModel
+            {
+                Name = "Control de plagas"
+            });
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Value);
+            Assert.AreEqual("Control de plagas", result.Value.Name);
         }
     }
 }
