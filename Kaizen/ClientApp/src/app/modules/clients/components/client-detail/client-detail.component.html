@@ -16,90 +16,64 @@
         <mat-card>
           <mat-card-header>
             <mat-card-title>
-              Información del cliente {{ client.firstName }}
+              {{ client.firstName }}
               {{ client.secondName }}
               {{ client.lastName }}
               {{ client.secondLastName }}
             </mat-card-title>
             <mat-card-subtitle>
-              Identificación del cliente: {{ client.id }}
+              C.C. {{ client.id }}
             </mat-card-subtitle>
           </mat-card-header>
-
           <mat-card-content>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Nombre comercial y tipo de persona'">
-                business
-              </mat-icon>
-              <span>
-                {{ client.tradeName }},
-                <span>
-                  {{
-                  client.clientType == "JuridicPerson"
-                    ? "persona jurídica"
-                    : "persona natural"
-                  }}
-                </span>
-              </span>
-            </div>
-            <div
-              class="icon-text-container"
+            <app-card-info-item
+              [icon]="'business'"
+              [title]="'Nombre comercial y tipo de persona'">
+              {{ client.tradeName }},
+              {{ client.clientType === 'JuridicPerson' ? 'Persona jurídica' : 'Persona natural' }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item
+              [icon]="'phone'"
+              [title]="'Teléfonos de contacto'">
+              {{ client.firstPhoneNumber }} {{ client.secondPhoneNumber }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item
               *ngIf="client.clientType == 'JuridicPerson'"
-            >
-              <mat-icon [matTooltip]="'NIT y razón social'">gavel</mat-icon>
-              <span>{{ client.nit }}, {{ client.businessName }}</span>
-            </div>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Teléfonos de contacto'">phone</mat-icon>
-              <span>{{ client.firstPhoneNumber }}</span>
-              <span *ngIf="client.secondPhoneNumber">
-                , {{ client.secondPhoneNumber }}
+              [icon]="'gavel'"
+              [title]="'NIT y razón social'">
+              {{ client.nit }}, {{ client.businessName }}
+            </app-card-info-item>
+            <mat-divider *ngIf="client.clientType == 'JuridicPerson'" inset></mat-divider>
+            <app-card-info-item
+              *ngIf="client.firstLandLine"
+              [icon]="'dialpad'"
+              [title]="'Números fijos'">
+              {{ client.firstLandLine }} {{ client.secondLandLine }}
+            </app-card-info-item>
+            <mat-divider *ngIf="client.firstLandLine" inset></mat-divider>
+            <app-card-info-item
+              [icon]="'place'"
+              [title]="'Dirección del cliente'">
+              {{ client.clientAddress.city }},
+              {{ client.clientAddress.neighborhood }},
+              {{ client.clientAddress.street }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item
+              [icon]="'fact_check'"
+              [title]="'Estado del cliente'">
+              {{ client.state | clientState }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item
+              [icon]="'people'"
+              [title]="'Personas de contacto'">
+              <span *ngFor="let contactPerson of client.contactPeople" style="display: block">
+                {{ contactPerson.name }},  {{ contactPerson.phonenumber }}
               </span>
-            </div>
-            <div *ngIf="client.firstLandLine" class="icon-text-container">
-              <mat-icon [matTooltip]="'Números fijos de contacto'"
-              >dialpad
-              </mat-icon
-              >
-              <span>{{ client.firstLandLine }}</span>
-              <span *ngIf="client.secondLandLine">
-                , {{ client.secondLandLine }}
-              </span>
-            </div>
-            <div class="icon-text-container" *ngIf="client.clientAddress">
-              <mat-icon [matTooltip]="'Dirección del cliente'">place</mat-icon>
-              <span>
-                {{ client.clientAddress.city }},
-                {{ client.clientAddress.neighborhood }},
-                {{ client.clientAddress.street }}
-              </span>
-            </div>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Estado del cliente'"
-              >fact_check
-              </mat-icon
-              >
-              <span>{{ client.state | clientState }}</span>
-            </div>
-            <div *ngIf="client.contactPeople?.length > 0">
-              <div>
-                <mat-list>
-                  <div matSubheader>Personas de contacto</div>
-                  <mat-list-item *ngFor="let contactPerson of client.contactPeople">
-                    <mat-chip-list>
-                      <mat-chip>
-                        <mat-icon class="mr-2">face</mat-icon>
-                        <span>{{ contactPerson.name }}</span>
-                      </mat-chip>
-                      <mat-chip>
-                        <mat-icon class="mr-2">phone</mat-icon>
-                        <span>{{ contactPerson.phonenumber }}</span>
-                      </mat-chip>
-                    </mat-chip-list>
-                  </mat-list-item>
-                </mat-list>
-              </div>
-            </div>
+            </app-card-info-item>
           </mat-card-content>
         </mat-card>
       </div>

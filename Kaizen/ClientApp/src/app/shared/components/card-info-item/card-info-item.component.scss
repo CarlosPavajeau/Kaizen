@@ -1,0 +1,39 @@
+.CardInfo__item {
+  display: flex;
+  align-items: center;
+  position: relative;
+  text-decoration: none;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: left;
+  background-clip: padding-box;
+  justify-content: space-between;
+  padding: 16px;
+
+  -webkit-box-align: center;
+  -webkit-box-pack: justify;
+}
+
+.CardInfo__subtitle {
+  margin: 0 !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+  line-height: 1.57 !important;
+}
+
+.CardInfo__subtitle__icon {
+  margin-right: 7px;
+}
+
+.CardInfo__text {
+  margin: 0 !important;
+  font-weight: 400 !important;
+  font-size: 0.875rem !important;
+  line-height: 1.43 !important;
+  color: rgba(0, 0, 0, 0.57) !important;
+}
+
+.CardInfo__subtitle__container {
+  display: flex;
+  align-items: center;
+}

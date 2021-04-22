@@ -43,6 +43,7 @@ import { PeriodicityPipe } from './pipes/periodicity.pipe';
 import { ServiceRequestStatePipe } from './pipes/service-request-state.pipe';
 import { WorkOrderStatePipe } from './pipes/work-order-state.pipe';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { CardInfoItemComponent } from './components/card-info-item/card-info-item.component';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import { NotificationsComponent } from './components/notifications/notifications
 
     ActivityStatePipe,
     ApplicationMonthsPipe,
+    CardInfoItemComponent,
     ClientsFilterPipe,
     ClientStatePipe,
     FilterEmployeesPipe,
@@ -88,6 +90,7 @@ import { NotificationsComponent } from './components/notifications/notifications
   imports: [ CommonModule, FlexLayoutModule, FormsModule, MaterialModule, ReactiveFormsModule, RouterModule ],
   exports: [
     AboutComponent,
+    CardInfoItemComponent,
     ConfirmDialogComponent,
     DashboardCardComponent,
     DigitalSignatureComponent,
