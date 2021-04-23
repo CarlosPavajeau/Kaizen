@@ -19,40 +19,25 @@
               {{ equipment.name }}
             </mat-card-title>
             <mat-card-subtitle>
-              Código de equipo: {{ equipment.code }}
+              Código del equipo: {{ equipment.code }}
             </mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Fecha de compra/mantenimiento'"
-                >event</mat-icon
-              >
-              <span>
-                {{ equipment.maintenanceDate | date: "MMMM d, y hh:mm a" }}
-              </span>
-            </div>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Cantidad de equipos en inventario'">
-                all_inbox
-              </mat-icon>
-              <span>{{ equipment.amount }}</span>
-            </div>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Precio del equipo'">
-                monetization_on
-              </mat-icon>
-              <span>
-                {{ equipment.price | currency: "COP":"symbol-narrow" }}
-              </span>
-            </div>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Descripción del equipo'">
-                description
-              </mat-icon>
-              <span>
-                {{ equipment.description }}
-              </span>
-            </div>
+            <app-card-info-item title="Fecha de compra/mantenimiento" icon="event">
+              {{ equipment.maintenanceDate | date: "MMMM d, y hh:mm a" }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Cantidad de equipos en inventario" icon="all_inbox">
+              {{ equipment.amount }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Precio" icon="monetization_on">
+              {{ equipment.price | currency: "COP":"symbol-narrow" }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Descripción del equipo" icon="description">
+              {{ equipment.description }}
+            </app-card-info-item>
           </mat-card-content>
           <mat-card-actions>
             <a

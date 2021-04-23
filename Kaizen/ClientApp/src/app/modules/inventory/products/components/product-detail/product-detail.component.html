@@ -17,46 +17,29 @@
           <mat-card-header>
             <mat-card-title> {{ product.name }} </mat-card-title>
             <mat-card-subtitle>
-              Código de producto: {{ product.code }}
+              Código del producto: {{ product.code }}
             </mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Cantidad de producto en inventario'">
-                all_inbox
-              </mat-icon>
-              <span>{{ product.amount }}</span>
-            </div>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Presentación del producto'">
-                assignment
-              </mat-icon>
-              <span>{{ product.presentation }}</span>
-            </div>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Precio del producto'">
-                monetization_on
-              </mat-icon>
-              <span>
-                {{ product.price | currency: "COP":"symbol-narrow" }}
-              </span>
-            </div>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Meses de aplicación del producto'">
-                date_range
-              </mat-icon>
-              <span>
-                {{ product.applicationMonths | applicationMonths }}
-              </span>
-            </div>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Descripción del producto'">
-                description
-              </mat-icon>
-              <span>
-                {{ product.description }}
-              </span>
-            </div>
+            <app-card-info-item title="Cantidad de productos en inventario" icon="all_inbox">
+              {{ product.amount }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Presentación del producto" icon="assignment">
+              {{ product.presentation }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Precio del producto" icon="monetization_on">
+              {{ product.price | currency: "COP":"symbol-narrow" }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Meses de aplicacion" icon="date_range">
+              {{ product.applicationMonths | applicationMonths }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Descripción del producto" icon="description">
+              {{ product.description }}
+            </app-card-info-item>
           </mat-card-content>
           <mat-card-actions>
             <a

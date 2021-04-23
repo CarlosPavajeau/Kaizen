@@ -20,33 +20,25 @@
               {{ employee.lastName }} {{ employee.secondLastName }}
             </mat-card-title>
             <mat-card-subtitle>
-              Identificado con {{ employee.id }}
+              C.C. {{ employee.id }}
             </mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Cargo del empleado'"
-                >engineering</mat-icon
-              >
-              <span>{{ employee.employeeCharge.charge }}</span>
-            </div>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Código de contrato del empleado'">
-                assignment
-              </mat-icon>
-              <span>{{ employee.employeeContract.contractCode }}</span>
-            </div>
-            <div class="icon-text-container">
-              <mat-icon
-                [matTooltip]="'Fecha de iniciación y finalización del contrato'"
-              >
-                date_range
-              </mat-icon>
-              <span>
-                {{ employee.employeeContract.startDate | date: "MMMM d, y" }} -
-                {{ employee.employeeContract.endDate | date: "MMMM d, y" }}
-              </span>
-            </div>
+            <app-card-info-item title="Cargo del empleado" icon="engineering">
+              {{ employee.employeeCharge.charge }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Código de contrato" icon="assignment">
+              {{ employee.employeeContract.contractCode }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Fecha de iniciación del contrato" icon="today">
+              {{ employee.employeeContract.startDate | date: "MMMM d, y" }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Fecha de finalización del contrato" icon="date_range">
+              {{ employee.employeeContract.endDate | date: "MMMM d, y" }}
+            </app-card-info-item>
           </mat-card-content>
           <mat-card-actions>
             <a

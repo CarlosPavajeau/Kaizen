@@ -15,47 +15,41 @@
     </ng-template>
     <ng-template [ngSwitchCase]="ObsStatus.Success">
       <div *ngIf="serviceRequest">
-        <h1 class="text-center">Solicitud N° {{ serviceRequest.code }}</h1>
-        <h2>
-          Solicitud del servicio hecha por el cliente
-          {{ serviceRequest.client.firstName }}
-          {{ serviceRequest.client.secondName }}
-          {{ serviceRequest.client.lastName }}
-          {{ serviceRequest.client.secondLastName }}.
-        </h2>
-        <div class="pt-2 pb-3">
-          <mat-list>
-            <div mat-subheader>
-              La solicitud fue hecha para aplicar los siguientes servicios:
-            </div>
-            <mat-list-item *ngFor="let service of serviceRequest.services">
-              <mat-icon style="margin-right: 7px" color="primary"
-                >offline_bolt</mat-icon
-              >
-              <span>
-                {{ service.code }} - {{ service.name }} :
-                {{ service.cost | currency: "COP":"symbol-narrow" }}
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>Solicitud de servicio N° {{ serviceRequest.code }}</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <app-card-info-item title="Nombre del cliente" icon="person">
+              {{ serviceRequest.client.firstName }}
+              {{ serviceRequest.client.secondName }}
+              {{ serviceRequest.client.lastName }}
+              {{ serviceRequest.client.secondLastName }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Nombre comercial del cliente" icon="business">
+              {{ serviceRequest.client.tradeName }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Teléfonos de contacto del cliente" icon="phone">
+              {{ serviceRequest.client.firstPhoneNumber }} {{ serviceRequest.client.secondPhoneNumber }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Fecha y hora de aplicación de los servicios" icon="today">
+              {{ serviceRequest.date | date: "MMMM d, y, h:mm a" }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Periodicidad de las visitas" icon="repeat">
+              {{ serviceRequest.periodicity | periodicity }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Servicios solicitados" icon="bolt">
+              <span *ngFor="let service of serviceRequest.services" style="display: block">
+                {{ service.name }}
               </span>
-              <mat-divider></mat-divider>
-            </mat-list-item>
-          </mat-list>
-          <div class="pt-4">
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Fecha de aplicación'">today</mat-icon>
-              <span style="font-size: 16px">
-                {{ serviceRequest.date | date: "MMMM d, y, h:mm a" }}
-              </span>
-            </div>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Periodicidad de visitas'"
-                >repeat</mat-icon
-              >
-              <span style="font-size: 16px">
-                {{ serviceRequest.periodicity | periodicity }}.
-              </span>
-            </div>
-          </div>
-        </div>
+            </app-card-info-item>
+          </mat-card-content>
+        </mat-card>
       </div>
     </ng-template>
   </ng-container>

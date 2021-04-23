@@ -19,64 +19,31 @@
             <mat-card-subtitle>Código: {{ service.code }}</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Precio del servicio'">
-                monetization_on
-              </mat-icon>
-              <span>{{ service.cost | currency: "COP":"symbol-narrow" }}</span>
-            </div>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Tipo de servicio'">
-                batch_prediction
-              </mat-icon>
-              <span>{{ service.serviceType.name }}</span>
-            </div>
-            <div>
-              <mat-list>
-                <div matSubheader>Productos utilizados</div>
-                <mat-list-item
-                  *ngFor="let product of service.products; last as last"
-                >
-                  <div class="icon-text-container">
-                    <mat-icon>eco</mat-icon>
-                    <span>{{ product.code }} - {{ product.name }}</span>
-                  </div>
-                  <mat-divider *ngIf="!last"></mat-divider>
-                </mat-list-item>
-              </mat-list>
-            </div>
-            <div>
-              <mat-list>
-                <div matSubheader>Equipos utilizados</div>
-                <mat-list-item
-                  *ngFor="let equipment of service.equipments; last as last"
-                >
-                  <div class="icon-text-container">
-                    <mat-icon>construction</mat-icon>
-                    <span>{{ equipment.code }} - {{ equipment.name }}</span>
-                  </div>
-                  <mat-divider *ngIf="!last"></mat-divider>
-                </mat-list-item>
-              </mat-list>
-            </div>
-            <div>
-              <mat-list>
-                <div matSubheader>Empleados asignados</div>
-                <mat-list-item
-                  *ngFor="let employee of service.employees; last as last"
-                >
-                  <div class="icon-text-container">
-                    <mat-icon>engineering</mat-icon>
-                    <span>
-                      {{ employee.id }} - {{ employee.firstName }}
-                      {{ employee.secondName }} {{ employee.lastName }}
-                      {{ employee.secondLastName }}
-                    </span>
-                  </div>
-                  <mat-divider *ngIf="!last"></mat-divider>
-                </mat-list-item>
-              </mat-list>
-            </div>
+            <app-card-info-item title="Tipo de servicio" icon="batch_prediction">
+              {{ service.serviceType.name }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Precio del servicio" icon="monetization_on">
+              {{ service.cost | currency: "COP":"symbol-narrow" }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Productos utilizados" icon="eco">
+              <span *ngFor="let product of service.products" style="display: block">
+                {{ product.name }}
+              </span>
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Equipos utilizados" icon="construction">
+              <span *ngFor="let equipment of service.equipments" style="display: block">
+                {{ equipment.name }}
+              </span>
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Empleados asignados" icon="engineering">
+              <span *ngFor="let employee of service.employees" style="display: block">
+                {{ employee.firstName }} {{ employee.secondName }} {{ employee.lastName }} {{ employee.secondLastName }}
+              </span>
+            </app-card-info-item>
           </mat-card-content>
           <mat-card-actions>
             <a

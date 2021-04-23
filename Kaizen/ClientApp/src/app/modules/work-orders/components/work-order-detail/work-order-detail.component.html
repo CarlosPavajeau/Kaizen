@@ -17,7 +17,7 @@
       <div *ngIf="obs.value as workOrder">
         <mat-card>
           <mat-card-header>
-            <mat-card-title class="text-center">
+            <mat-card-title>
               Orden de trabajo N°
               {{ workOrder.code }}
             </mat-card-title>
@@ -26,41 +26,32 @@
             </mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Fecha de ejecución'">
-                calendar_today
-              </mat-icon>
-              <span>{{ workOrder.executionDate | date }}</span>
-            </div>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Hora de llegada'">schedule</mat-icon>
-              <span>{{ workOrder.arrivalTime | date: "h:mm a" }}</span>
-            </div>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Estado'">flag</mat-icon>
-              <span>{{ workOrder.workOrderState | workOrderState }}</span>
-            </div>
-            <div *ngIf="workOrder.departureTime" class="icon-text-container">
-              <mat-icon [matTooltip]="'Hora de salida'">timer</mat-icon>
-              <span>
-                {{ workOrder.departureTime | date: "h:mm a" }}
-              </span>
-            </div>
-            <div *ngIf="workOrder.employee" class="icon-text-container">
-              <mat-icon [matTooltip]="'Empleado que generó la orden'">
-                engineering
-              </mat-icon>
-              <span>
-                {{ workOrder?.employee?.firstName }}
-                {{ workOrder?.employee?.secondName }}
-                {{ workOrder?.employee?.lastName }}
-                {{ workOrder?.employee?.secondLastName }}
-              </span>
-            </div>
-            <div *ngIf="workOrder.observations" class="icon-text-container">
-              <mat-icon [matTooltip]="'Observaciones'">assignment</mat-icon>
-              <span>{{ workOrder.observations }}</span>
-            </div>
+            <app-card-info-item title="Fecha de ejecución" icon="calendar_today">
+              {{ workOrder.executionDate | date }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Hora de llegada" icon="schedule">
+              {{ workOrder.arrivalTime | date: "h:mm a" }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Estado" icon="flag">
+              {{ workOrder.workOrderState | workOrderState }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item *ngIf="workOrder.departureTime" title="Hora de salida" icon="timer">
+              {{ workOrder.departureTime | date: "h:mm a" }}
+            </app-card-info-item>
+            <mat-divider *ngIf="workOrder.departureTime" inset></mat-divider>
+            <app-card-info-item title="Empleado que generó la orden" icon="engineering">
+              {{ workOrder?.employee?.firstName }}
+              {{ workOrder?.employee?.secondName }}
+              {{ workOrder?.employee?.lastName }}
+              {{ workOrder?.employee?.secondLastName }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Observaciones" icon="assignment">
+              {{ workOrder.observations }}
+            </app-card-info-item>
             <div class="pt-2 mb-3">
               <mat-divider inset></mat-divider>
             </div>

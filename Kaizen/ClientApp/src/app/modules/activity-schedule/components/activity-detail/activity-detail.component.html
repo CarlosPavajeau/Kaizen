@@ -13,73 +13,56 @@
     </ng-template>
     <ng-template [ngSwitchCase]="ObsStatus.Success">
       <div *ngIf="obs.value as activity">
-        <h1 class="text-center">Actividad N° {{ activity.code }}</h1>
-        <h2>
-          Actividad agendada para visitar el cliente
-          {{ activity.client.firstName }} {{ activity.client.secondName }}
-          {{ activity.client.lastName }} {{ activity.client.secondLastName }}
-        </h2>
-        <mat-divider class="pt-2 pb-3"></mat-divider>
-        <div>
-          <h4 [style.color]="'rgba(0,0,0,.54)'">Infomación del cliente</h4>
-          <div class="icon-text-container">
-            <mat-icon [matTooltip]="'Nombre comercial'"> business </mat-icon>
-            <span> {{ activity.client.tradeName }} </span>
-          </div>
-          <div class="icon-text-container">
-            <mat-icon [matTooltip]="'Teléfonos de contacto'">phone</mat-icon>
-            <span>{{ activity.client.firstPhoneNumber }}</span>
-            <span *ngIf="activity.client.secondPhoneNumber">
-              , {{ activity.client.secondPhoneNumber }}
-            </span>
-          </div>
-          <div
-            class="icon-text-container"
-            *ngIf="activity.client.clientAddress"
-          >
-            <mat-icon [matTooltip]="'Dirección del cliente'">place</mat-icon>
-            <span>
+        <mat-card>
+          <mat-card-header>
+            <mat-card-title>
+              Actividad N° {{ activity.code }}
+            </mat-card-title>
+            <mat-card-subtitle>
+              Estado: {{ activity.state | activityState }}
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <app-card-info-item [title]="'Nombre del cliente'" [icon]="'person'">
+              {{ activity.client.firstName }} {{ activity.client.secondName }}
+              {{ activity.client.lastName }} {{ activity.client.secondLastName }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item [title]="'Nombre comercial del cliente'" [icon]="'business'">
+              {{ activity.client.tradeName }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item [title]="'Teléfonos de contacto del cliente'" [icon]="'phone'">
+              {{ activity.client.firstPhoneNumber }} {{ activity.client.secondPhoneNumber }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item [title]="'Ubicación del cliente'" [icon]="'place'">
               {{ activity.client.clientAddress.city }},
               {{ activity.client.clientAddress.neighborhood }},
               {{ activity.client.clientAddress.street }}
-            </span>
-          </div>
-          <h4 [style.color]="'rgba(0,0,0,.54)'">Infomación de la actividad</h4>
-          <div class="icon-text-container">
-            <mat-icon [matTooltip]="'Fecha de aplicación'">today</mat-icon>
-            <span>{{ activity.date | date: "MMMM d, y, h:mm a" }}</span>
-          </div>
-          <div class="icon-text-container">
-            <mat-icon [matTooltip]="'Periodicidad de visitas'">repeat</mat-icon>
-            <span>{{ activity.periodicity | periodicity }}</span>
-          </div>
-          <div class="icon-text-container">
-            <mat-icon [matTooltip]="'Estado de la actividad'">flag</mat-icon>
-            <span>{{ activity.state | activityState }}</span>
-          </div>
-          <div>
-            <mat-list>
-              <div mat-subheader>Servicios solicitados</div>
-              <mat-list-item *ngFor="let service of activity.services">
-                <mat-icon style="margin-right: 7px" color="primary"
-                  >offline_bolt</mat-icon
-                >
-                {{ service.code }} - {{ service.name }} :
-                {{ service.cost | currency: "COP":"symbol-narrow" }}
-              </mat-list-item>
-            </mat-list>
-          </div>
-          <div>
-            <mat-list>
-              <div mat-subheader>Empleados asignados</div>
-              <mat-list-item *ngFor="let employee of activity.employees">
-                <mat-icon style="margin-right: 7px">engineering</mat-icon>
-                {{ employee.id }} - {{ employee.firstName }}
-                {{ employee.lastName }}
-              </mat-list-item>
-            </mat-list>
-          </div>
-        </div>
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item [title]="'Fecha de aplicación de la actividad'" [icon]="'today'">
+              {{ activity.date | date: "MMMM d, y, h:mm a" }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item [title]="'Periodicidad de la actividad'" [icon]="'repeat'">
+              {{ activity.periodicity | periodicity }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item [title]="'Servicios solicitados'" [icon]="'offline_bolt'">
+              <span *ngFor="let service of activity.services" style="display: block">
+                {{ service.name }}
+              </span>
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item [title]="'Empleados asignados'" [icon]="'engineering'">
+              <span *ngFor="let employee of activity.employees" style="display: block">
+                {{ employee.firstName }} {{ employee.secondName }} {{ employee.lastName }} {{ employee.secondLastName }}
+              </span>
+            </app-card-info-item>
+          </mat-card-content>
+        </mat-card>
       </div>
     </ng-template>
   </ng-container>

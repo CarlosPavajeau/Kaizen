@@ -18,47 +18,36 @@
               Certificado N° {{ certificate.id}}
             </mat-card-title>
             <mat-card-subtitle>
-              Válido hasta {{ certificate.validity |  date:"MMMM d 'del' y 'hasta las' h:mm a" }}
+              Válido hasta {{ certificate.validity |  date:"MMMM d 'del' y" }}
             </mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Fecha de ejecución'">today</mat-icon>
-              <span>{{ certificate.workOrder.executionDate | date }}</span>
-            </div>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Hora de llegada del técnico'">schedule</mat-icon>
-              <span>{{ certificate.workOrder.arrivalTime | date: "hh:mm a" }}</span>
-            </div>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Hora de salida del técnico'">timer</mat-icon>
-              <span>{{ certificate.workOrder.departureTime | date: "hh:mm a" }}</span>
-            </div>
-            <div class="icon-text-container">
-              <mat-icon [matTooltip]="'Empleado que generó la ordern de trabajo'">
-                engineering
-              </mat-icon>
-              <span>
-                {{ certificate.workOrder.employee.firstName }} {{ certificate.workOrder.employee.secondName }}
-                {{ certificate.workOrder.employee.lastName }} {{ certificate.workOrder.employee.secondLastName }}
-              </span>
-            </div>
-            <div>
-              <mat-list>
-                <div matSubheader>
-                  Servicios aplicados
-                </div>
-                <mat-list-item *ngFor="let service of certificate.workOrder.activity.services">
-                  <div class="icon-text-container">
-                    <mat-icon>bolt</mat-icon>
-                    <span>{{ service.code }} - {{ service.name }}</span>
-                  </div>
-                </mat-list-item>
-              </mat-list>
-            </div>
+            <app-card-info-item title="Fecha de ejecución de la actividad" icon="today">
+              {{ certificate.workOrder.executionDate | date }}
+            </app-card-info-item>
             <mat-divider inset></mat-divider>
-            <h2 class="mt-3">Observaciones</h2>
-            <p>{{ certificate.workOrder.observations }}</p>
+            <app-card-info-item title="Hora de llegada del técnico" icon="schedule">
+              {{ certificate.workOrder.arrivalTime | date: "hh:mm a" }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Hora de salida del técnico" icon="timer">
+              {{ certificate.workOrder.departureTime | date: "hh:mm a" }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Empleado que generó la orden" icon="engineering">
+              {{ certificate.workOrder.employee.firstName }} {{ certificate.workOrder.employee.secondName }}
+              {{ certificate.workOrder.employee.lastName }} {{ certificate.workOrder.employee.secondLastName }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Servicios aplicado" icon="bolt">
+              <span *ngFor="let service of certificate.workOrder.activity.services" style="display:block;">
+                {{ service.name }}
+              </span>
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Observaciones" icon="description">
+              {{ certificate.workOrder.observations }}
+            </app-card-info-item>
             <mat-divider inset></mat-divider>
             <h2 class="mt-3">Firma del cliente</h2>
             <div>

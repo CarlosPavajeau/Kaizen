@@ -20,49 +20,32 @@
             <mat-card-title>
               Factura de servicio N° {{ serviceInvoice.id }}
             </mat-card-title>
+            <mat-card-subtitle>
+              Estado: {{ serviceInvoice.state | invoiceState }}
+            </mat-card-subtitle>
           </mat-card-header>
           <mat-card-content>
-            <div class="pt-3">
-              <app-invoice-detail [invoice]="serviceInvoice"></app-invoice-detail>
-            </div>
-            <div class="pt-2 pb-3">
-              <mat-list>
-                <div mat-subheader>Se facturan los siguientes servicios</div>
-                <mat-list-item
-                  *ngFor="let detail of serviceInvoice.serviceInvoiceDetails"
-                >
-                  <div class="icon-text-container">
-                    <mat-icon color="primary">offline_bolt</mat-icon>
-                    <span>{{detail.serviceName}}</span>
-                  </div>
-                  <mat-divider></mat-divider>
-                </mat-list-item>
-              </mat-list>
-            </div>
-            <div class="mt-5">
-              <div class="icon-text-container">
-                <mat-icon style="color: #138b3b">payments</mat-icon>
-                <span>
-                  Sub total:
-                  {{
-                    serviceInvoice.subTotal | currency: "COP":"symbol-narrow"
-                  }}
-                </span>
-              </div>
-              <div class="icon-text-container">
-                <mat-icon style="color: #138b3b">shopping_bag</mat-icon>
-                <span> IVA: {{ serviceInvoice.iva * 100 }}% </span>
-              </div>
-              <div class="icon-text-container">
-                <mat-icon style="color: #138b3b">monetization_on</mat-icon>
-                <span>
-                  Total a pagar:
-                  <strong>
-                    {{ serviceInvoice.total | currency: "COP":"symbol-narrow" }}
-                  </strong>
-                </span>
-              </div>
-            </div>
+            <app-invoice-detail [invoice]="serviceInvoice"></app-invoice-detail>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Servicios facturados" icon="offline_bolt">
+              <span *ngFor="let detail of serviceInvoice.serviceInvoiceDetails" style="display: block">
+                {{ detail.serviceName }}
+              </span>
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Subtotal" icon="payments">
+              {{
+              serviceInvoice.subTotal | currency: "COP":"symbol-narrow"
+              }}
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="IVA" icon="shopping_bag">
+              {{ serviceInvoice.iva * 100 }}%
+            </app-card-info-item>
+            <mat-divider inset></mat-divider>
+            <app-card-info-item title="Total" icon="monetization_on">
+              {{ serviceInvoice.total | currency: "COP":"symbol-narrow" }}
+            </app-card-info-item>
           </mat-card-content>
           <mat-card-actions
             *ngIf="
