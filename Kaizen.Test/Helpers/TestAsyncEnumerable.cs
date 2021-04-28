@@ -29,7 +29,7 @@ namespace Kaizen.Test.Helpers
             return GetAsyncEnumerator();
         }
 
-        public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken)
+        public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken )
         {
             return new TestAsyncEnumerator<T>(this.AsEnumerable().GetEnumerator());
         }

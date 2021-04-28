@@ -32,21 +32,16 @@ namespace Kaizen.DomainEvents.Handlers
         {
             await _statisticsRepository.RegisterProfits(notification.DomainEvent.Invoice.Total);
 
-            switch (notification.DomainEvent.Invoice)
+            if (notification.DomainEvent.Invoice is ProductInvoice productInvoice)
             {
-                case ProductInvoice productInvoice:
-                {
-                    await _invoiceHub.Clients.Group("Administrator")
-                        .SendAsync("OnPaidProductInvoice", _mapper.Map<ProductInvoiceViewModel>(productInvoice),
-                            cancellationToken);
-                    break;
-                }
-                case ServiceInvoice serviceInvoice:
-                {
-                    await _invoiceHub.Clients.Group("Administrator").SendAsync("OnPaidServiceInvoice",
-                        _mapper.Map<ServiceInvoiceViewModel>(serviceInvoice), cancellationToken);
-                    break;
-                }
+                await _invoiceHub.Clients.Group("Administrator")
+                    .SendAsync("OnPaidProductInvoice", _mapper.Map<ProductInvoiceViewModel>(productInvoice),
+                        cancellationToken);
+            }
+            else if (notification.DomainEvent.Invoice is ServiceInvoice serviceInvoice)
+            {
+                await _invoiceHub.Clients.Group("Administrator").SendAsync("OnPaidServiceInvoice",
+                    _mapper.Map<ServiceInvoiceViewModel>(serviceInvoice), cancellationToken);
             }
         }
     }

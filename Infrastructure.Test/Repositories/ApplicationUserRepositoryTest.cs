@@ -11,7 +11,7 @@ namespace Infrastructure.Test.Repositories
     [TestFixture]
     public class ApplicationUserRepositoryTest : BaseRepositoryTest
     {
-        public static string SavedUserId;
+        public static string SavedUserId { get; private set; }
 
         private IApplicationUserRepository _applicationUserRepository;
 

@@ -14,9 +14,8 @@ namespace Infrastructure.Test.Services.MailTemplates
     public class MailTemplateTest
     {
         private IMailTemplate _mailTemplate;
-        private Mock<IHostEnvironment> _hostEnvironment;
 
-        protected ServiceProvider ServiceProvider { get; private set; }
+        private ServiceProvider ServiceProvider { get; set; }
 
         [OneTimeSetUp]
         public void Init()
@@ -30,12 +29,12 @@ namespace Infrastructure.Test.Services.MailTemplates
         [SetUp]
         public void SetUp()
         {
-            _hostEnvironment = new Mock<IHostEnvironment>();
+            Mock<IHostEnvironment> hostEnvironment = new Mock<IHostEnvironment>();
 
-            string path = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-            _hostEnvironment.Setup(h => h.ContentRootPath).Returns(path);
+            string path = System.IO.Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location);
+            hostEnvironment.Setup(h => h.ContentRootPath).Returns(path);
 
-            _mailTemplate = new MailTemplate(_hostEnvironment.Object,
+            _mailTemplate = new MailTemplate(hostEnvironment.Object,
                 ServiceProvider.GetService<ILogger<MailTemplate>>());
         }
 
@@ -63,7 +62,7 @@ namespace Infrastructure.Test.Services.MailTemplates
         {
             try
             {
-                string template = _mailTemplate.LoadTemplate("NonExistentTemplate.html");
+                _ = _mailTemplate.LoadTemplate("NonExistentTemplate.html");
                 Assert.Fail("The template to search should not exist.");
             }
             catch (ArgumentException e)
