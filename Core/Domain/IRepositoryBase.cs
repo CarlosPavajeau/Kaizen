@@ -11,7 +11,7 @@ namespace Kaizen.Core.Domain
         IQueryable<T> Where(Expression<Func<T, bool>> expression);
 
         void Insert(T entity);
-        T FindById(TKey id);
+
         Task<T> FindByIdAsync(TKey id);
         void Update(T entity);
         void Delete(T entity);

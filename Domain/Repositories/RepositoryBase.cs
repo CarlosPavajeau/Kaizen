@@ -10,7 +10,7 @@ namespace Kaizen.Domain.Repositories
 {
     public abstract class RepositoryBase<T, TKey> : IRepositoryBase<T, TKey> where T : class
     {
-        protected ApplicationDbContext ApplicationDbContext { get; set; }
+        protected ApplicationDbContext ApplicationDbContext { get; }
 
         protected RepositoryBase(ApplicationDbContext applicationDbContext)
         {
@@ -35,11 +35,6 @@ namespace Kaizen.Domain.Repositories
         public virtual void Update(T entity)
         {
             ApplicationDbContext.Set<T>().Update(entity);
-        }
-
-        public virtual T FindById(TKey id)
-        {
-            return ApplicationDbContext.Set<T>().Find(id);
         }
 
         public virtual async Task<T> FindByIdAsync(TKey id)
