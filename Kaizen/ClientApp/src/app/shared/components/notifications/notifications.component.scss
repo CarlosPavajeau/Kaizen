@@ -28,7 +28,7 @@
   width: fit-content;
 }
 
-::ng-deep.mat-menu-panel {
+.notification-menu ::ng-deep.mat-menu-panel {
   max-width: none !important;
   max-height: 300px !important;
 }

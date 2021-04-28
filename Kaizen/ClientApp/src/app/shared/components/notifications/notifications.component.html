@@ -1,7 +1,7 @@
 <button mat-icon-button [matTooltip]="'Notificaciones'" [matMenuTriggerFor]="notificationsMenu">
   <mat-icon [matBadge]="notifications.length" [matBadgeHidden]="notifications.length === 0">notifications</mat-icon>
 </button>
-<mat-menu #notificationsMenu="matMenu">
+<mat-menu #notificationsMenu="matMenu" class="notification-menu">
   <ng-container
     *ngIf="notifications$ | observableWithStatus | async as obs"
     [ngSwitch]="obs.status"

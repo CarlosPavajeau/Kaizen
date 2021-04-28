@@ -3,13 +3,18 @@
   font-size: 11px;
   width: 100%;
   min-height: 20px;
-  line-height: 0px;
+  line-height: 0;
 }
 
 .month-activity-button mat-icon,
 .month-activity-button .mat-icon {
   font-size: 11px !important;
   height: 11px !important;
+}
+
+::ng-deep.mat-menu-panel {
+  min-width: 350px;
+  max-width: 350px !important;
 }
 
 .periodicity-0 {

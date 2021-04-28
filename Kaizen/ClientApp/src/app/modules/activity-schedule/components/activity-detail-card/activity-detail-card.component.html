@@ -1,22 +1,21 @@
 <mat-card class="mat-elevation-z" *ngIf="activity">
-  <mat-card-title class="text-center">
-    <h3 class="text-center">Actividad N° {{ activity.code }}</h3>
-  </mat-card-title>
+  <mat-card-header>
+    <mat-card-title>
+      Actividad N° {{ activity.code }}
+    </mat-card-title>
+  </mat-card-header>
   <mat-card-content>
-    <span>
-      Actividad para el cliente
-      <strong
-        >{{ activity.client.firstName }} {{ activity.client.lastName }}</strong
-      >
-      con nombre comercial de
-      <strong>{{ activity.client.tradeName }}</strong
-      >.
-    </span>
-    <span>
-      Para la fecha
-      <strong>{{ activity.date | date: "MMMM d, y, h:mm a" }}</strong
-      >. Con una periodicidad {{ activity.periodicity | periodicity }}.
-    </span>
+    <app-card-info-item title="Cliente" icon="person">
+      {{ activity.client.tradeName }}
+    </app-card-info-item>
+    <mat-divider inset></mat-divider>
+    <app-card-info-item title="Fecha" icon="today">
+      {{ activity.date | date: "MMMM d, y, h:mm a" }}
+    </app-card-info-item>
+    <mat-divider inset></mat-divider>
+    <app-card-info-item title="Periodicidad" icon="repeat">
+      {{ activity.periodicity | periodicity }}
+    </app-card-info-item>
   </mat-card-content>
   <mat-card-actions>
     <a
