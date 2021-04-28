@@ -9,9 +9,7 @@ export function alphabeticCharacters(): ValidatorFn {
     const regex = new RegExp('^([aA-zZñÑáéíóúÁÉÍÓÚüÜ]*)$');
     const isAlphabetic = regex.test(control.value);
 
-    return
-      isAlphabetic ? null :
-      { notAlphabetic: true };
+    return isAlphabetic ? null : { notAlphabetic: true };
   };
 }
 
@@ -24,8 +22,6 @@ export function numericCharacters(): ValidatorFn {
     const regex = new RegExp('^([0-9]*)$');
     const isNumeric = regex.test(control.value);
 
-    return
-      isNumeric ? null :
-      { notNumeric: true };
+    return isNumeric ? null : { notNumeric: true };
   };
 }
