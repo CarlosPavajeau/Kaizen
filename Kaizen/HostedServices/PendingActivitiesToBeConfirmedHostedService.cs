@@ -12,18 +12,18 @@ namespace Kaizen.HostedServices
         {
         }
 
-        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await DoWork(cancellationToken);
+            await DoWork(stoppingToken);
         }
 
-        private async Task DoWork(CancellationToken cancellationToken)
+        private async Task DoWork(CancellationToken stoppingToken)
         {
             using IServiceScope scope = ServiceProvider.CreateScope();
             PendingActivitiesToConfirmed pendingActivitiesToConfirmed =
                 scope.ServiceProvider.GetRequiredService<PendingActivitiesToConfirmed>();
 
-            await pendingActivitiesToConfirmed.DoWork(cancellationToken);
+            await pendingActivitiesToConfirmed.DoWork(stoppingToken);
         }
     }
 }
