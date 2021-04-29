@@ -23,7 +23,7 @@
             class="mat-elevation-z6"
             aria-describedby="products_table">
             <ng-container matColumnDef="code">
-              <th mat-header-cell *matHeaderCellDef>Código</th>
+              <th scope="col" mat-header-cell *matHeaderCellDef>Código</th>
               <td mat-cell *matCellDef="let product">
                 {{ product.code | uppercase }}
               </td>
@@ -33,7 +33,7 @@
               <td mat-cell *matCellDef="let product">{{ product.name }}</td>
             </ng-container>
             <ng-container matColumnDef="amount">
-              <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+              <th scope="col" mat-header-cell *matHeaderCellDef>Cantidad</th>
               <td mat-cell *matCellDef="let product">{{ product.amount }}</td>
             </ng-container>
             <ng-container matColumnDef="presentation">
