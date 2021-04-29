@@ -57,6 +57,20 @@ namespace Kaizen.Controllers
             return Ok(_mapper.Map<IEnumerable<ServiceTypeViewModel>>(serviceTypes));
         }
 
+        [Authorize(Roles = "Administrator")]
+        [HttpPost("[action]")]
+        public async Task<ActionResult<ServiceTypeViewModel>> ServiceTypes(
+            [FromBody] ServiceTypeInputModel serviceTypeInputModel)
+        {
+            ServiceType serviceType = _mapper.Map<ServiceType>(serviceTypeInputModel);
+
+            _servicesRepository.Insert(serviceType);
+
+            await _unitWork.SaveAsync();
+
+            return _mapper.Map<ServiceTypeViewModel>(serviceType);
+        }
+
         [HttpGet("[action]/{id}")]
         [AllowAnonymous]
         public async Task<bool> CheckExists(string id)
@@ -114,19 +128,6 @@ namespace Kaizen.Controllers
             }
 
             return _mapper.Map<ServiceViewModel>(service);
-        }
-
-        [Authorize(Roles = "Administrator")]
-        [HttpPost("[action]")]
-        public async Task<ActionResult<ServiceTypeViewModel>> ServiceTypes([FromBody] ServiceTypeInputModel serviceTypeInputModel)
-        {
-            ServiceType serviceType = _mapper.Map<ServiceType>(serviceTypeInputModel);
-
-            _servicesRepository.Insert(serviceType);
-
-            await _unitWork.SaveAsync();
-
-            return _mapper.Map<ServiceTypeViewModel>(serviceType);
         }
 
         [Authorize(Roles = "Administrator")]

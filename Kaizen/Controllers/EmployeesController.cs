@@ -66,6 +66,19 @@ namespace Kaizen.Controllers
             return Ok(_mapper.Map<IEnumerable<EmployeeChargeViewModel>>(employeeCharges));
         }
 
+        [HttpPost("[action]")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult<EmployeeChargeViewModel>> EmployeeCharges(
+            [FromBody] EmployeeChargeInputModel employeeChargeInputModel)
+        {
+            EmployeeCharge employeeCharge = _mapper.Map<EmployeeCharge>(employeeChargeInputModel);
+
+            _employeesRepository.Insert(employeeCharge);
+            await _unitWork.SaveAsync();
+
+            return _mapper.Map<EmployeeChargeViewModel>(employeeCharge);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<EmployeeViewModel>> GetEmployee(string id)
         {
@@ -166,19 +179,6 @@ namespace Kaizen.Controllers
             }
 
             return _mapper.Map<EmployeeViewModel>(employee);
-        }
-
-        [HttpPost("[action]")]
-        [Authorize(Roles = "Administrator")]
-        public async Task<ActionResult<EmployeeChargeViewModel>> EmployeeCharges(
-            [FromBody] EmployeeChargeInputModel employeeChargeInputModel)
-        {
-            EmployeeCharge employeeCharge = _mapper.Map<EmployeeCharge>(employeeChargeInputModel);
-
-            _employeesRepository.Insert(employeeCharge);
-            await _unitWork.SaveAsync();
-
-            return _mapper.Map<EmployeeChargeViewModel>(employeeCharge);
         }
 
         private static string GetEmployeeRole(Employee employee)
