@@ -13,11 +13,15 @@
     </ng-template>
     <ng-template [ngSwitchCase]="ObsStatus.Success">
       <div class="text-center">
-        <h1>Productos registrados</h1>
+        <h1 id="products_table">Productos registrados</h1>
       </div>
       <div class="center-block-content">
         <div>
-          <table mat-table [dataSource]="dataSource" class="mat-elevation-z6">
+          <table
+            mat-table
+            [dataSource]="dataSource"
+            class="mat-elevation-z6"
+            aria-describedby="products_table">
             <ng-container matColumnDef="code">
               <th mat-header-cell *matHeaderCellDef>Código</th>
               <td mat-cell *matCellDef="let product">
@@ -25,7 +29,7 @@
               </td>
             </ng-container>
             <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef>Nombre</th>
+              <th scope="col" mat-header-cell *matHeaderCellDef>Nombre</th>
               <td mat-cell *matCellDef="let product">{{ product.name }}</td>
             </ng-container>
             <ng-container matColumnDef="amount">
@@ -33,25 +37,25 @@
               <td mat-cell *matCellDef="let product">{{ product.amount }}</td>
             </ng-container>
             <ng-container matColumnDef="presentation">
-              <th mat-header-cell *matHeaderCellDef>Presentación</th>
+              <th scope="col" mat-header-cell *matHeaderCellDef>Presentación</th>
               <td mat-cell *matCellDef="let product">
                 {{ product.presentation }}
               </td>
             </ng-container>
             <ng-container matColumnDef="price">
-              <th mat-header-cell *matHeaderCellDef>Precio</th>
+              <th scope="col" mat-header-cell *matHeaderCellDef>Precio</th>
               <td mat-cell *matCellDef="let product">
                 {{ product.price | currency: "COP":"symbol-narrow" }}
               </td>
             </ng-container>
             <ng-container matColumnDef="months">
-              <th mat-header-cell *matHeaderCellDef>Meses de aplicacion</th>
+              <th scope="col" mat-header-cell *matHeaderCellDef>Meses de aplicacion</th>
               <td mat-cell *matCellDef="let product">
                 {{ product.applicationMonths | applicationMonths }}
               </td>
             </ng-container>
             <ng-container matColumnDef="options">
-              <th mat-header-cell *matHeaderCellDef>Opciones</th>
+              <th scope="col" mat-header-cell *matHeaderCellDef>Opciones</th>
               <td mat-cell *matCellDef="let product">
                 <a
                   class="table-actions-button"

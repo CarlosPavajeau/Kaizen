@@ -15,7 +15,7 @@
     </ng-template>
     <ng-template [ngSwitchCase]="ObsStatus.Success">
       <div class="text-center">
-        <h1>Facturas de servicio</h1>
+        <h1 id="service_invoices_table">Facturas de servicio</h1>
       </div>
       <div class="center-block-content">
         <div class="form-element search-field"></div>
@@ -25,15 +25,16 @@
             [dataSource]="dataSource"
             matSort
             class="mat-elevation-z6"
+            aria-describedby="service_invoices_table"
           >
             <ng-container matColumnDef="id">
-              <th mat-header-cell *matHeaderCellDef>Código</th>
+              <th scope="col" mat-header-cell *matHeaderCellDef>Código</th>
               <td mat-cell *matCellDef="let serviceInvoice">
                 {{ serviceInvoice.id }}
               </td>
             </ng-container>
             <ng-container matColumnDef="state">
-              <th mat-header-cell *matHeaderCellDef>Estado</th>
+              <th scope="col" mat-header-cell *matHeaderCellDef>Estado</th>
               <td mat-cell *matCellDef="let serviceInvoice">
                 <mat-chip-list>
                   <mat-chip [class]="'invoice-state-' + serviceInvoice?.state">
@@ -43,25 +44,25 @@
               </td>
             </ng-container>
             <ng-container matColumnDef="iva">
-              <th mat-header-cell *matHeaderCellDef>IVA</th>
+              <th scope="col" mat-header-cell *matHeaderCellDef>IVA</th>
               <td mat-cell *matCellDef="let serviceInvoice">
                 {{ serviceInvoice.iva * 100 }} %
               </td>
             </ng-container>
             <ng-container matColumnDef="subtotal">
-              <th mat-header-cell *matHeaderCellDef>SubTotal</th>
+              <th scope="col" mat-header-cell *matHeaderCellDef>SubTotal</th>
               <td mat-cell *matCellDef="let serviceInvoice">
                 {{ serviceInvoice.subTotal | currency: "COP":"symbol-narrow" }}
               </td>
             </ng-container>
             <ng-container matColumnDef="total">
-              <th mat-header-cell *matHeaderCellDef>Total</th>
+              <th scope="col" mat-header-cell *matHeaderCellDef>Total</th>
               <td mat-cell *matCellDef="let serviceInvoice">
                 {{ serviceInvoice.total | currency: "COP":"symbol-narrow" }}
               </td>
             </ng-container>
             <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef>Opciones</th>
+              <th scope="col" mat-header-cell *matHeaderCellDef>Opciones</th>
               <td mat-cell *matCellDef="let serviceInvoice">
                 <a
                   mat-icon-button

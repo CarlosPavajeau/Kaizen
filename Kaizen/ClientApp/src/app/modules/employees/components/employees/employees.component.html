@@ -13,19 +13,22 @@
     </ng-template>
     <ng-template [ngSwitchCase]="ObsStatus.Success">
       <div class="text-center">
-        <h1>Empleados de la Empresa</h1>
+        <h1 id="employees_table">Empleados de la Empresa</h1>
       </div>
       <div class="center-block-content">
-        <div class="form-element search-field">
-          <mat-form-field>
-            <mat-label>Buscar empleado</mat-label>
+        <div class="form-element search-field ml-3 mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Buscar un empleado</mat-label>
             <input
               matInput
               #search
               type="text"
-              placeholder="Buscar un empleado"
+              placeholder="1007833 ó Juan"
               (keyup)="applyFilter($event.target.value)"
             />
+            <mat-hint>
+              Digite la identificación o el nombre del empleado
+            </mat-hint>
           </mat-form-field>
         </div>
         <div>
@@ -34,15 +37,16 @@
             [dataSource]="dataSource"
             matSort
             class="mat-elevation-z6"
+            aria-describedby="employees_table"
           >
             <ng-container matColumnDef="id">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>
                 Identificación
               </th>
               <td mat-cell *matCellDef="let employee">{{ employee.id }}</td>
             </ng-container>
             <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>
                 Nombre completo
               </th>
               <td mat-cell *matCellDef="let employee">
@@ -51,7 +55,7 @@
               </td>
             </ng-container>
             <ng-container matColumnDef="employeeCharge">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>
                 Cargo del empleado
               </th>
               <td mat-cell *matCellDef="let employee">
@@ -59,7 +63,7 @@
               </td>
             </ng-container>
             <ng-container matColumnDef="options">
-              <th mat-header-cell *matHeaderCellDef>Opciones</th>
+              <th scope="col" mat-header-cell *matHeaderCellDef>Opciones</th>
               <td mat-cell *matCellDef="let employee">
                 <a
                   class="table-actions-button"

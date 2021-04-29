@@ -13,19 +13,23 @@
     </ng-template>
     <ng-template [ngSwitchCase]="ObsStatus.Success">
       <div class="text-center">
-        <h1>Clientes registrados</h1>
+        <h1 id="clients_table">Clientes registrados</h1>
       </div>
       <div class="center-block-content">
-        <div class="form-element search-field">
-          <mat-form-field>
-            <mat-label>Buscar cliente</mat-label>
+        <div class="form-element search-field ml-3 mb-3">
+          <mat-form-field appearance="outline">
+            <mat-label>Buscar un cliente</mat-label>
+            <mat-icon matSuffix>search</mat-icon>
             <input
               matInput
               #search
               type="text"
-              placeholder="Buscar un cliente"
+              placeholder="1007870912 ó Manolo"
               (keyup)="applyFilter($event.target.value)"
             />
+            <mat-hint>
+              Digite la identificación o el nombre del cliente
+            </mat-hint>
           </mat-form-field>
         </div>
         <div>
@@ -34,22 +38,23 @@
             [dataSource]="dataSource"
             matSort
             class="mat-elevation-z6"
+            aria-describedby="clients_table"
           >
             <ng-container matColumnDef="id">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>
                 Identificación
               </th>
               <td mat-cell *matCellDef="let client">{{ client.id }}</td>
             </ng-container>
             <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef>Nombre completo</th>
+              <th scope="col" mat-header-cell *matHeaderCellDef>Nombre completo</th>
               <td mat-cell *matCellDef="let client">
                 {{ client.firstName }} {{ client.secondName }}
                 {{ client.lastName }} {{ client.secondLastName }}
               </td>
             </ng-container>
             <ng-container matColumnDef="clientType">
-              <th mat-header-cell *matHeaderCellDef>Tipo de cliente</th>
+              <th scope="col" mat-header-cell *matHeaderCellDef>Tipo de cliente</th>
               <td mat-cell *matCellDef="let client">
                 {{
                   client.clientType == "JuridicPerson"
@@ -59,13 +64,13 @@
               </td>
             </ng-container>
             <ng-container matColumnDef="phonenumber">
-              <th mat-header-cell *matHeaderCellDef>Número de teléfono</th>
+              <th scope="col" mat-header-cell *matHeaderCellDef>Número de teléfono</th>
               <td mat-cell *matCellDef="let client">
                 {{ client.firstPhoneNumber }}
               </td>
             </ng-container>
             <ng-container matColumnDef="state">
-              <th mat-header-cell *matHeaderCellDef>Estado</th>
+              <th scope="col" mat-header-cell *matHeaderCellDef>Estado</th>
               <td mat-cell *matCellDef="let client">
                 <mat-chip-list>
                   <mat-chip [class]="'client-state-' + client?.state">
@@ -75,7 +80,7 @@
               </td>
             </ng-container>
             <ng-container matColumnDef="options">
-              <th mat-header-cell *matHeaderCellDef>Opciones</th>
+              <th scope="col" mat-header-cell *matHeaderCellDef>Opciones</th>
               <td mat-cell *matCellDef="let client">
                 <a
                   class="table-actions-button"
