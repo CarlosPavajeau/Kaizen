@@ -13,8 +13,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-employee-register',
-  templateUrl: './employee-register.component.html',
-  styleUrls: [ './employee-register.component.scss' ]
+  templateUrl: './employee-register.component.html'
 })
 export class EmployeeRegisterComponent implements OnInit, IForm {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

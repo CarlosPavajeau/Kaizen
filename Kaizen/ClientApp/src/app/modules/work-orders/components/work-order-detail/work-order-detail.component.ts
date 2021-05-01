@@ -7,15 +7,15 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-work-order-detail',
-  templateUrl: './work-order-detail.component.html',
-  styleUrls: [ './work-order-detail.component.scss' ]
+  templateUrl: './work-order-detail.component.html'
 })
 export class WorkOrderDetailComponent implements OnInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;
 
   workOrder$: Observable<WorkOrder>;
 
-  constructor(private workOrderService: WorkOrderService, private activatedRoute: ActivatedRoute) {}
+  constructor(private workOrderService: WorkOrderService, private activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
     this.loadData();

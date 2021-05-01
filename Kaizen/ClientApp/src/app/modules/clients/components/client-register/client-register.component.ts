@@ -12,8 +12,7 @@ import { alphabeticCharacters, numericCharacters } from '@shared/validators/char
 
 @Component({
   selector: 'app-client-register',
-  templateUrl: './client-register.component.html',
-  styleUrls: [ './client-register.component.scss' ]
+  templateUrl: './client-register.component.html'
 })
 export class ClientRegisterComponent implements OnInit, IForm {
   clientForm: FormGroup;

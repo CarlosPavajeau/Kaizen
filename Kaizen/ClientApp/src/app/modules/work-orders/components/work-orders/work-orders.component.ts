@@ -9,8 +9,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-work-orders',
-  templateUrl: './work-orders.component.html',
-  styleUrls: [ './work-orders.component.scss' ]
+  templateUrl: './work-orders.component.html'
 })
 export class WorkOrdersComponent implements OnInit, AfterViewInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;
@@ -25,7 +24,8 @@ export class WorkOrdersComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private workOrderService: WorkOrderService) {}
+  constructor(private workOrderService: WorkOrderService) {
+  }
 
   ngOnInit(): void {
     this.loadData();

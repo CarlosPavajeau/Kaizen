@@ -5,8 +5,7 @@ import { EmployeeCharge } from '@modules/employees/models/employee-charge';
 
 @Component({
   selector: 'app-employee-charge-register',
-  templateUrl: './employee-charge-register.component.html',
-  styleUrls: [ './employee-charge-register.component.scss' ]
+  templateUrl: './employee-charge-register.component.html'
 })
 export class EmployeeChargeRegisterComponent implements OnInit {
   employeeChargeForm: FormGroup;

@@ -3,8 +3,7 @@ import { Activity } from '@modules/activity-schedule/models/activity';
 
 @Component({
   selector: 'app-activity-detail-card',
-  templateUrl: './activity-detail-card.component.html',
-  styleUrls: [ './activity-detail-card.component.scss' ]
+  templateUrl: './activity-detail-card.component.html'
 })
 export class ActivityDetailCardComponent implements OnInit {
   @Input() activity: Activity;

@@ -10,8 +10,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-service-invoice-detail',
-  templateUrl: './service-invoice-detail.component.html',
-  styleUrls: [ './service-invoice-detail.component.scss' ]
+  templateUrl: './service-invoice-detail.component.html'
 })
 export class ServiceInvoiceDetailComponent implements OnInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;
@@ -24,7 +23,8 @@ export class ServiceInvoiceDetailComponent implements OnInit {
     private serviceInvoiceService: ServiceInvoiceService,
     private activatedRoute: ActivatedRoute,
     private authService: AuthenticationService
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.loadData();

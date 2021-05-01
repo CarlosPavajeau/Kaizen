@@ -19,8 +19,7 @@ import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-service-request-register',
-  templateUrl: './service-request-register.component.html',
-  styleUrls: [ './service-request-register.component.scss' ]
+  templateUrl: './service-request-register.component.html'
 })
 export class ServiceRequestRegisterComponent implements OnInit, IForm {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

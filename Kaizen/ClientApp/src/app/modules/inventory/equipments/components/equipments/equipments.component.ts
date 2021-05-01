@@ -11,8 +11,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-equipments',
-  templateUrl: './equipments.component.html',
-  styleUrls: [ './equipments.component.scss' ]
+  templateUrl: './equipments.component.html'
 })
 export class EquipmentsComponent implements OnInit, AfterViewInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;
@@ -28,7 +27,8 @@ export class EquipmentsComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private equipmentService: EquipmentService, private matDialog: MatDialog) {}
+  constructor(private equipmentService: EquipmentService, private matDialog: MatDialog) {
+  }
 
   ngOnInit(): void {
     this.loadEquipments();
@@ -50,7 +50,7 @@ export class EquipmentsComponent implements OnInit, AfterViewInit {
   deleteEquipment(equipment: Equipment): void {
     const dialogRef = this.matDialog.open(ConfirmDialogComponent, {
       width: '500px',
-      data: `Está seguro de eliminar el equipo "${equipment.name}", una vez confirmada la acción no podra revertirla.`
+      data: `Está seguro de eliminar el equipo "${ equipment.name }", una vez confirmada la acción no podra revertirla.`
     });
 
     dialogRef.afterClosed().subscribe((result) => {

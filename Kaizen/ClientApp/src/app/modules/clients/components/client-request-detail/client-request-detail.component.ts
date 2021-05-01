@@ -8,8 +8,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-client-request-detail',
-  templateUrl: './client-request-detail.component.html',
-  styleUrls: [ './client-request-detail.component.scss' ]
+  templateUrl: './client-request-detail.component.html'
 })
 export class ClientRequestDetailComponent implements OnInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;
@@ -17,7 +16,8 @@ export class ClientRequestDetailComponent implements OnInit {
   clientRequest$: Observable<Client>;
   updatingClientRequest = false;
 
-  constructor(private clientService: ClientService, private activeRoute: ActivatedRoute, private router: Router) {}
+  constructor(private clientService: ClientService, private activeRoute: ActivatedRoute, private router: Router) {
+  }
 
   ngOnInit(): void {
     this.loadClientRequest();

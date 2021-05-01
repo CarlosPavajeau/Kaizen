@@ -12,8 +12,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-service-request-new-date',
-  templateUrl: './service-request-new-date.component.html',
-  styleUrls: [ './service-request-new-date.component.scss' ]
+  templateUrl: './service-request-new-date.component.html'
 })
 export class ServiceRequestNewDateComponent implements OnInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

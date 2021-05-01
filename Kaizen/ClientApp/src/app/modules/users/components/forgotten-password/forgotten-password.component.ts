@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { UserService } from '../../services/user.service';
+import { UserService } from '@modules/users/services/user.service';
 
 @Component({
   selector: 'app-forgotten-password',
-  templateUrl: './forgotten-password.component.html',
-  styleUrls: [ './forgotten-password.component.scss' ]
+  templateUrl: './forgotten-password.component.html'
 })
 export class ForgottenPasswordComponent implements OnInit {
   usernameOrEmail: FormControl = new FormControl('', [
@@ -16,9 +15,11 @@ export class ForgottenPasswordComponent implements OnInit {
   sendingRequest = false;
   requestResult = false;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) {
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   onSubmit(): void {
     if (this.usernameOrEmail.valid) {

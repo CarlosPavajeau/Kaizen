@@ -11,8 +11,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-employee-charges',
-  templateUrl: './employee-charges.component.html',
-  styleUrls: [ './employee-charges.component.scss' ]
+  templateUrl: './employee-charges.component.html'
 })
 export class EmployeeChargesComponent implements OnInit, AfterViewInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

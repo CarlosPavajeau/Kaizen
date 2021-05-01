@@ -7,8 +7,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-employee-detail',
-  templateUrl: './employee-detail.component.html',
-  styleUrls: [ './employee-detail.component.scss' ]
+  templateUrl: './employee-detail.component.html'
 })
 export class EmployeeDetailComponent implements OnInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

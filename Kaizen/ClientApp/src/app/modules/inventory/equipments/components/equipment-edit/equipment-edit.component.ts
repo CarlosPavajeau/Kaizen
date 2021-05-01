@@ -11,8 +11,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-equipment-edit',
-  templateUrl: './equipment-edit.component.html',
-  styleUrls: [ './equipment-edit.component.scss' ]
+  templateUrl: './equipment-edit.component.html'
 })
 export class EquipmentEditComponent implements OnInit, IForm {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

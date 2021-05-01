@@ -7,15 +7,15 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-service-detail',
-  templateUrl: './service-detail.component.html',
-  styleUrls: [ './service-detail.component.scss' ]
+  templateUrl: './service-detail.component.html'
 })
 export class ServiceDetailComponent implements OnInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;
 
   service$: Observable<Service>;
 
-  constructor(private serviceService: ServiceService, private activatedRoute: ActivatedRoute) {}
+  constructor(private serviceService: ServiceService, private activatedRoute: ActivatedRoute) {
+  }
 
   ngOnInit(): void {
     this.loadData();

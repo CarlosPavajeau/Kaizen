@@ -11,8 +11,7 @@ import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-activity-schedule',
-  templateUrl: './activity-schedule.component.html',
-  styleUrls: [ './activity-schedule.component.scss' ]
+  templateUrl: './activity-schedule.component.html'
 })
 export class ActivityScheduleComponent implements OnInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

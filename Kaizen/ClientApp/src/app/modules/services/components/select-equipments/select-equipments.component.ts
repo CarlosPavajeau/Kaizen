@@ -10,8 +10,7 @@ import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-select-equipments',
-  templateUrl: './select-equipments.component.html',
-  styleUrls: [ './select-equipments.component.scss' ]
+  templateUrl: './select-equipments.component.html'
 })
 export class SelectEquipmentsComponent implements OnInit, IForm {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;
@@ -27,7 +26,8 @@ export class SelectEquipmentsComponent implements OnInit, IForm {
     return this.selectEquipmentsForm.controls;
   }
 
-  constructor(private equipmentService: EquipmentService, private formBuilder: FormBuilder) {}
+  constructor(private equipmentService: EquipmentService, private formBuilder: FormBuilder) {
+  }
 
   ngOnInit(): void {
     this.initForm();

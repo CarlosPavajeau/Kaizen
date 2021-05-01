@@ -9,8 +9,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-service-requests',
-  templateUrl: './service-requests.component.html',
-  styleUrls: [ './service-requests.component.scss' ]
+  templateUrl: './service-requests.component.html'
 })
 export class ServiceRequestsComponent implements OnInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

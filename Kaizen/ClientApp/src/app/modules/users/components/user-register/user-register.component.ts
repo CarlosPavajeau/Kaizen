@@ -5,8 +5,7 @@ import { UserExistsValidator } from '@shared/validators/user-exists-validator';
 
 @Component({
   selector: 'app-user-register',
-  templateUrl: './user-register.component.html',
-  styleUrls: [ './user-register.component.scss' ]
+  templateUrl: './user-register.component.html'
 })
 export class UserRegisterComponent implements OnInit {
   registerForm: FormGroup;
@@ -18,7 +17,8 @@ export class UserRegisterComponent implements OnInit {
     return this.registerForm.controls;
   }
 
-  constructor(private userValidator: UserExistsValidator, private formBuilder: FormBuilder) {}
+  constructor(private userValidator: UserExistsValidator, private formBuilder: FormBuilder) {
+  }
 
   ngOnInit(): void {
     this.initForm();

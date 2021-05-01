@@ -3,8 +3,7 @@ import { Invoice } from "@modules/payments/models/invoice";
 
 @Component({
   selector: 'app-invoice-detail',
-  templateUrl: './invoice-detail.component.html',
-  styleUrls: [ './invoice-detail.component.scss' ]
+  templateUrl: './invoice-detail.component.html'
 })
 export class InvoiceDetailComponent implements OnInit {
   @Input('invoice') invoice: Invoice;

@@ -18,8 +18,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-invoice-register',
-  templateUrl: './product-invoice-register.component.html',
-  styleUrls: [ './product-invoice-register.component.scss' ]
+  templateUrl: './product-invoice-register.component.html'
 })
 export class ProductInvoiceRegisterComponent implements OnInit, IForm {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

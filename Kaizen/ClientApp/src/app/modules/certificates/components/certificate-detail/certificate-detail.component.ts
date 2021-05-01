@@ -7,8 +7,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-certificate-detail',
-  templateUrl: './certificate-detail.component.html',
-  styleUrls: [ './certificate-detail.component.scss' ]
+  templateUrl: './certificate-detail.component.html'
 })
 export class CertificateDetailComponent implements OnInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

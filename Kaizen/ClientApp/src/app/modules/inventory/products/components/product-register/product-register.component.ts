@@ -10,12 +10,10 @@ import { UploadDownloadService } from '@core/services/upload-download.service';
 import { Product } from '@modules/inventory/products/models/product';
 import { ProductService } from '@modules/inventory/products/services/product.service';
 import { DialogsService } from '@shared/services/dialogs.service';
-import { NotificationsService } from '@shared/services/notifications.service';
 
 @Component({
   selector: 'app-product-register',
-  templateUrl: './product-register.component.html',
-  styleUrls: [ './product-register.component.scss' ]
+  templateUrl: './product-register.component.html'
 })
 export class ProductRegisterComponent implements OnInit, IForm {
   allMonths: MonthBit[];
@@ -43,7 +41,8 @@ export class ProductRegisterComponent implements OnInit, IForm {
     private formBuilder: FormBuilder,
     private dialogsService: DialogsService,
     private router: Router
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.initForm();
@@ -102,7 +101,7 @@ export class ProductRegisterComponent implements OnInit, IForm {
 
           this.productService.saveProduct(product).subscribe((productSave) => {
             this.dialogsService.showSuccessDialog(
-              `El producto ${productSave.name} fue registrado con éxito`,
+              `El producto ${ productSave.name } fue registrado con éxito`,
               () => {
                 this.router.navigateByUrl('/inventory/products');
               }

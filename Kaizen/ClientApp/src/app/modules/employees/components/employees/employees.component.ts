@@ -9,8 +9,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-employees',
-  templateUrl: './employees.component.html',
-  styleUrls: [ './employees.component.scss' ]
+  templateUrl: './employees.component.html'
 })
 export class EmployeesComponent implements OnInit, AfterViewInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;
@@ -26,7 +25,8 @@ export class EmployeesComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private employeeService: EmployeeService) {}
+  constructor(private employeeService: EmployeeService) {
+  }
 
   ngOnInit(): void {
     this.loadEmployees();

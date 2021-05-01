@@ -5,8 +5,7 @@ import { buildIsoDate } from '@core/utils/date-utils';
 
 @Component({
   selector: 'app-select-date-modal',
-  templateUrl: './select-date-modal.component.html',
-  styleUrls: [ './select-date-modal.component.scss' ]
+  templateUrl: './select-date-modal.component.html'
 })
 export class SelectDateModalComponent implements OnInit {
   dateForm: FormGroup;
@@ -14,7 +13,8 @@ export class SelectDateModalComponent implements OnInit {
   minDate: Date;
   maxDate: Date;
 
-  constructor(public dialogRef: MatDialogRef<SelectDateModalComponent>, private formBuilder: FormBuilder) {}
+  constructor(public dialogRef: MatDialogRef<SelectDateModalComponent>, private formBuilder: FormBuilder) {
+  }
 
   ngOnInit(): void {
     this.dateForm = this.formBuilder.group({

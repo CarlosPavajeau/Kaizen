@@ -13,8 +13,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-employee-edit',
-  templateUrl: './employee-edit.component.html',
-  styleUrls: [ './employee-edit.component.scss' ]
+  templateUrl: './employee-edit.component.html'
 })
 export class EmployeeEditComponent implements OnInit, IForm {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

@@ -25,8 +25,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-activity-register',
-  templateUrl: './activity-register.component.html',
-  styleUrls: [ './activity-register.component.scss' ]
+  templateUrl: './activity-register.component.html'
 })
 export class ActivityRegisterComponent implements OnInit, IForm {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

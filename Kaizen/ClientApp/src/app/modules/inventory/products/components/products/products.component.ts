@@ -9,8 +9,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-products',
-  templateUrl: './products.component.html',
-  styleUrls: [ './products.component.scss' ]
+  templateUrl: './products.component.html'
 })
 export class ProductsComponent implements OnInit, AfterViewInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

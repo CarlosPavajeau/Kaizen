@@ -9,8 +9,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-services',
-  templateUrl: './services.component.html',
-  styleUrls: [ './services.component.scss' ]
+  templateUrl: './services.component.html'
 })
 export class ServicesComponent implements OnInit, AfterViewInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;
@@ -26,7 +25,8 @@ export class ServicesComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private serviceService: ServiceService) {}
+  constructor(private serviceService: ServiceService) {
+  }
 
   ngOnInit(): void {
     this.loadServices();

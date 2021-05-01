@@ -12,8 +12,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-invoices',
-  templateUrl: './product-invoices.component.html',
-  styleUrls: [ './product-invoices.component.scss' ]
+  templateUrl: './product-invoices.component.html'
 })
 export class ProductInvoicesComponent implements OnInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

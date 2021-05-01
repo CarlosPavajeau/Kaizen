@@ -14,8 +14,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-service-register',
-  templateUrl: './service-register.component.html',
-  styleUrls: [ './service-register.component.scss' ]
+  templateUrl: './service-register.component.html'
 })
 export class ServiceRegisterComponent implements OnInit, IForm {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

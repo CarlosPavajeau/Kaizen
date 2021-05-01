@@ -10,8 +10,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-invoice-detail',
-  templateUrl: './product-invoice-detail.component.html',
-  styleUrls: [ './product-invoice-detail.component.scss' ]
+  templateUrl: './product-invoice-detail.component.html'
 })
 export class ProductInvoiceDetailComponent implements OnInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;
@@ -34,7 +33,7 @@ export class ProductInvoiceDetailComponent implements OnInit {
   private loadData(): void {
     const id = +this.activatedRoute.snapshot.paramMap.get('id');
     this.productInvoice$ = this.productInvoiceService.getProductInvoice(id);
-    
+
     const role = this.authService.getUserRole();
     if (role === CLIENT_ROLE) {
       this.isClient = true;

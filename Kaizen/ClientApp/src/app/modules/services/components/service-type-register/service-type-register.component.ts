@@ -5,8 +5,7 @@ import { ServiceType } from '@modules/services/models/service-type';
 
 @Component({
   selector: 'app-service-type-register',
-  templateUrl: './service-type-register.component.html',
-  styleUrls: [ './service-type-register.component.scss' ]
+  templateUrl: './service-type-register.component.html'
 })
 export class ServiceTypeRegisterComponent implements OnInit {
   serviceTypeForm: FormGroup;
@@ -16,7 +15,7 @@ export class ServiceTypeRegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.serviceTypeForm = this.formBuilder.group({
-      name: [ '', [Validators.required, Validators.minLength(5), Validators.maxLength(70)] ],
+      name: [ '', [ Validators.required, Validators.minLength(5), Validators.maxLength(70) ] ],
     });
   }
 

@@ -16,8 +16,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-service-edit',
-  templateUrl: './service-edit.component.html',
-  styleUrls: [ './service-edit.component.scss' ]
+  templateUrl: './service-edit.component.html'
 })
 export class ServiceEditComponent implements OnInit, IForm {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

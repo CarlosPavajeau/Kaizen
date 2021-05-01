@@ -18,8 +18,7 @@ import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-work-order-register',
-  templateUrl: './work-order-register.component.html',
-  styleUrls: [ './work-order-register.component.scss' ]
+  templateUrl: './work-order-register.component.html'
 })
 export class WorkOrderRegisterComponent implements OnInit, IForm {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

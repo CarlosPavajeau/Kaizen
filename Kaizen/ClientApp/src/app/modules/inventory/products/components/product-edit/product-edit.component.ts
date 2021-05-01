@@ -12,8 +12,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-edit',
-  templateUrl: './product-edit.component.html',
-  styleUrls: [ './product-edit.component.scss' ]
+  templateUrl: './product-edit.component.html'
 })
 export class ProductEditComponent implements OnInit, IForm, AfterViewInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

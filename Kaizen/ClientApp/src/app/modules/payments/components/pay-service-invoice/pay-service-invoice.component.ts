@@ -35,7 +35,6 @@ export const DATE_FORMATS = {
 @Component({
   selector: 'app-pay-service-invoice',
   templateUrl: './pay-service-invoice.component.html',
-  styleUrls: [ './pay-service-invoice.component.scss' ],
   providers: [
     {
       provide: DateAdapter,

@@ -7,8 +7,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-activity-detail',
-  templateUrl: './activity-detail.component.html',
-  styleUrls: [ './activity-detail.component.scss' ]
+  templateUrl: './activity-detail.component.html'
 })
 export class ActivityDetailComponent implements OnInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

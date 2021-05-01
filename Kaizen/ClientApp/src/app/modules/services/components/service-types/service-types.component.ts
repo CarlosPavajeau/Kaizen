@@ -11,8 +11,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-service-types',
-  templateUrl: './service-types.component.html',
-  styleUrls: [ './service-types.component.scss' ]
+  templateUrl: './service-types.component.html'
 })
 export class ServiceTypesComponent implements OnInit, AfterViewInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;

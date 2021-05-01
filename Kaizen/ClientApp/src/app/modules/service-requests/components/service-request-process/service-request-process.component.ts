@@ -14,8 +14,7 @@ import { filter, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-service-request-process',
-  templateUrl: './service-request-process.component.html',
-  styleUrls: [ './service-request-process.component.scss' ]
+  templateUrl: './service-request-process.component.html'
 })
 export class ServiceRequestProcessComponent implements OnInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;
