@@ -12,9 +12,9 @@ namespace Kaizen.Domain.Data.Providers
 
         public ApplicationDbContext CreateDbContext(string connectionString)
         {
-            DbContextOptionsBuilder<ApplicationDbContext> optionBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-            optionBuilder.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 20)),
-                mySqlOptions => mySqlOptions.CharSetBehavior(CharSetBehavior.NeverAppend))
+            DbContextOptionsBuilder<ApplicationDbContext> optionBuilder =
+                new DbContextOptionsBuilder<ApplicationDbContext>();
+            optionBuilder.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 20)))
                 .EnableSensitiveDataLogging()
                 .EnableDetailedErrors();
 
@@ -25,10 +25,9 @@ namespace Kaizen.Domain.Data.Providers
         {
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 20)),
-                mySqlOptions => mySqlOptions.CharSetBehavior(CharSetBehavior.NeverAppend))
-                .EnableSensitiveDataLogging()
-                .EnableDetailedErrors();
+                options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 20)))
+                    .EnableSensitiveDataLogging()
+                    .EnableDetailedErrors();
             });
 
             return services;
