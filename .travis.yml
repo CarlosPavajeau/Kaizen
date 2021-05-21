@@ -14,7 +14,7 @@ matrix:
         - mysql -uroot -e 'CREATE DATABASE mysql_test;'
         - mysql -uroot < sql/create_mysql.sql
         - nvm --version
-        - nvm install 12.16.1
+        - nvm install 14.x
         - node --version
 
       script:
@@ -23,7 +23,7 @@ matrix:
         - dotnet test --no-restore --verbosity normal
     - language: node_js
       node_js:
-        - "12.16.1"
+        - "14.x"
 
       addons:
         apt:
