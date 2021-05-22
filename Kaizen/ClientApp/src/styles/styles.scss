@@ -58,8 +58,8 @@
 
 .royal_azure,
 .royal_azure:hover {
-  background: var(--royal_azure);
-  color: white;
+  background: var(--royal_azure) !important;
+  color: white !important;
 }
 
 .mat-fab.royal_azure {
