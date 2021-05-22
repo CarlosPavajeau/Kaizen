@@ -64,6 +64,7 @@ namespace Kaizen
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwaggerApiDocumentation();
             }
             else
             {
@@ -82,7 +83,6 @@ namespace Kaizen
             }
 
             app.UseRouting();
-            app.UseSwaggerApiDocumentation();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseHttpContext();
