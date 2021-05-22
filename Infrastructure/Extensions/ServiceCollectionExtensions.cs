@@ -23,10 +23,6 @@ namespace Kaizen.Infrastructure.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        private const string TermsOfServiceUri = "https://cla.dotnetfoundation.org/";
-        private const string ContactUrl = "https://github.com/cantte/";
-        private const string LicenseUrl = "https://www.byasystems.co/license";
-
         public static void AddIdentityConfig(this IServiceCollection services)
         {
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -58,37 +54,39 @@ namespace Kaizen.Infrastructure.Extensions
             return services;
         }
 
-        public static IServiceCollection AddSwagger(this IServiceCollection services)
+        public static IServiceCollection AddSwagger(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSwaggerGen(s =>
             {
-                s.SwaggerDoc("v1", new OpenApiInfo
+                s.SwaggerDoc(configuration["Swagger:SwaggerDoc:Name"], new OpenApiInfo
                 {
-                    Version = "v1",
-                    Title = "Ecolplag API",
-                    Description = "Ecolplag API - ASP.NET Core Web",
-                    TermsOfService = new Uri(TermsOfServiceUri),
+                    Version = configuration["Swagger:SwaggerDoc:Version"],
+                    Title = configuration["Swagger:SwaggerDoc:Title"],
+                    Description = configuration["Swagger:SwaggerDoc:Description"],
+                    TermsOfService = new Uri(configuration["Swagger:SwaggerDoc:TermsOfServiceUri"]),
                     Contact = new OpenApiContact
                     {
-                        Name = "Carlos Andrés Pavajeau Max",
-                        Email = "cantte098@gmail.com",
-                        Url = new Uri(ContactUrl)
+                        Name = configuration["Swagger:SwaggerDoc:Contact:Name"],
+                        Email = configuration["Swagger:SwaggerDoc:Contact:Email"],
+                        Url = new Uri(configuration["Swagger:SwaggerDoc:Contact:Url"])
                     },
                     License = new OpenApiLicense
                     {
-                        Name = "Dotnet foundation license",
-                        Url = new Uri(LicenseUrl)
+                        Name = configuration["Swagger:SwaggerDoc:License:Name"],
+                        Url = new Uri(configuration["Swagger:SwaggerDoc:License:Url"])
                     }
                 });
 
-                s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                s.AddSecurityDefinition(configuration["Swagger:SecurityDefinition:Name"], new OpenApiSecurityScheme
                 {
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer",
-                    BearerFormat = "JWT",
-                    In = ParameterLocation.Header,
-                    Description = "JWT Authorization header using the Bearer scheme."
+                    Name = configuration["Swagger:SecurityDefinition:Name"],
+                    Type = (SecuritySchemeType) Enum.Parse(typeof(SecuritySchemeType),
+                        configuration["Swagger:SecurityDefinition:Type"]),
+                    Scheme = configuration["Swagger:SecurityDefinition:Schema"],
+                    BearerFormat = configuration["Swagger:SecurityDefinition:BearerFormat"],
+                    In = (ParameterLocation) Enum.Parse(typeof(ParameterLocation),
+                        configuration["Swagger:SecurityDefinition:In"]),
+                    Description = configuration["Swagger:SecurityDefinition:Description"]
                 });
 
                 s.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -98,8 +96,9 @@ namespace Kaizen.Infrastructure.Extensions
                         {
                             Reference = new OpenApiReference
                             {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "Bearer"
+                                Type = (ReferenceType) Enum.Parse(typeof(ReferenceType),
+                                    configuration["Swagger:SecurityRequirement:Type"]),
+                                Id = configuration["Swagger:SecurityRequirement:Id"]
                             }
                         },
                         Array.Empty<string>()

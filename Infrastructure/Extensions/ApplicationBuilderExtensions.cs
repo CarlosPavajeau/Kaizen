@@ -1,18 +1,16 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 
 namespace Kaizen.Infrastructure.Extensions
 {
     public static class ApplicationBuilderExtensions
     {
-        private const string SwaggerUrl = "/swagger/v1/swagger.json";
-        private const string SwaggerApiName = "My API version-1";
-
-        public static IApplicationBuilder UseSwaggerApiDocumentation(this IApplicationBuilder app)
+        public static IApplicationBuilder UseSwaggerApiDocumentation(this IApplicationBuilder app, IConfiguration configuration)
         {
             app.UseSwagger();
             app.UseSwaggerUI(s =>
             {
-                s.SwaggerEndpoint(SwaggerUrl, SwaggerApiName);
+                s.SwaggerEndpoint(configuration["Swagger:Url"], configuration["Swagger:Name"]);
             });
 
             return app;

@@ -35,7 +35,7 @@ namespace Kaizen
 
             services.AddJwtAuthentication(Configuration);
             services.ConfigureTokenGenerator();
-            services.AddSwagger();
+            services.AddSwagger(Configuration);
 
             services.AddAutoMapper(typeof(Startup));
             services.AddMediatR(typeof(Startup));
@@ -52,10 +52,7 @@ namespace Kaizen
             services.AddControllersWithViews();
             services.AddRazorPages();
             // In production, the Angular files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "ClientApp/dist";
-            });
+            services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,7 +61,7 @@ namespace Kaizen
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwaggerApiDocumentation();
+                app.UseSwaggerApiDocumentation(Configuration);
             }
             else
             {
