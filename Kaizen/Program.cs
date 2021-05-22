@@ -20,7 +20,6 @@ namespace Kaizen
                 .ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();
-                    logging.AddConsole();
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
