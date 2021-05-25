@@ -1,0 +1,10 @@
+# Directories
+**/bin/
+**/obj/
+**/out/
+**/node_modules/
+node_modules
+
+# Files
+Dockerfile*
+**/*.md

@@ -1,0 +1,20 @@
+version: "3.7"
+
+services:
+  kaizen_web:
+    build: .
+    container_name: kaizen
+    ports:
+      - "3000:3000"
+    depends_on:
+      - kaizen_database
+  kaizen_database:
+    image: "mysql:latest"
+    container_name: kayzen_mysql_server
+    command: "--default-authentication-plugin=mysql_native_password"
+    restart: "always"
+    environment:
+      MYSQL_ROOT_PASSWORD: "kaizen_db_password"
+      MYSQL_DATABASE: kaizen
+volumes:
+  kaizen_data:
