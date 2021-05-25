@@ -1,5 +1,5 @@
-mat-toolbar.royal_azure a.active,
-mat-toolbar.royal_azure a:hover {
+mat-toolbar a.active,
+mat-toolbar a:hover {
   border-bottom: 1.5px solid white;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
@@ -37,6 +37,7 @@ mat-toolbar button {
 
 .nav-main-header h2 {
   font-weight: lighter;
+  color: white !important;
 }
 
 .nav-link {
