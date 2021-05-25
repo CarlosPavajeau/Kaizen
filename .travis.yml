@@ -14,7 +14,7 @@ matrix:
         - mysql -uroot -e 'CREATE DATABASE mysql_test;'
         - mysql -uroot < sql/create_mysql.sql
         - nvm --version
-        - nvm install 14.x
+        - nvm install 14.17.0
         - node --version
 
       script:
