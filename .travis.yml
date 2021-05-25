@@ -23,7 +23,7 @@ matrix:
         - dotnet test --no-restore --verbosity normal
     - language: node_js
       node_js:
-        - "14.x"
+        - "14.17.0"
 
       addons:
         apt:
