@@ -8,7 +8,6 @@ using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.Models.ProductInvoice;
 using Kaizen.Test.Helpers;
-using MercadoPago.Client.Payment;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -22,17 +21,15 @@ namespace Kaizen.Test.Controllers
         private ProductInvoicesController _productInvoicesController;
         private Mock<IProductInvoicesRepository> _productInvoicesRepository;
         private Mock<IUnitWork> _unitWork;
-        private Mock<PaymentClient> _paymentClient;
 
         [SetUp]
         public void SetUp()
         {
             _productInvoicesRepository = new Mock<IProductInvoicesRepository>();
             _unitWork = new Mock<IUnitWork>();
-            _paymentClient = new Mock<PaymentClient>();
 
             _productInvoicesController = new ProductInvoicesController(_productInvoicesRepository.Object,
-                _unitWork.Object, ServiceProvider.GetService<IMapper>(), _paymentClient.Object);
+                _unitWork.Object, ServiceProvider.GetService<IMapper>());
 
             SetUpProductInvoicesRepository();
             SetUpUnitWork();
@@ -43,14 +40,14 @@ namespace Kaizen.Test.Controllers
             _productInvoicesRepository.Setup(r => r.GetAll()).Returns(new TestAsyncEnumerable<ProductInvoice>(
                 new List<ProductInvoice>
                 {
-                    new ()
+                    new()
                     {
                         Id = 1,
                         ClientId = "1007870922",
                         GenerationDate = DateTime.Now,
                         ProductInvoiceDetails = new List<ProductInvoiceDetail>()
                     },
-                    new ()
+                    new()
                     {
                         Id = 2,
                         ClientId = "1007870922",
@@ -66,11 +63,10 @@ namespace Kaizen.Test.Controllers
                 GenerationDate = DateTime.Now,
                 ProductInvoiceDetails = new List<ProductInvoiceDetail>()
             });
-            _productInvoicesRepository.Setup(r => r.FindByIdAsync(3)).ReturnsAsync((ProductInvoice)null);
+            _productInvoicesRepository.Setup(r => r.FindByIdAsync(3)).ReturnsAsync((ProductInvoice) null);
 
             _productInvoicesRepository.Setup(r => r.Update(It.IsAny<ProductInvoice>()));
             _productInvoicesRepository.Setup(r => r.Insert(It.IsAny<ProductInvoice>())).Verifiable();
-
         }
 
         private void SetUpUnitWork()
@@ -110,10 +106,11 @@ namespace Kaizen.Test.Controllers
         [Test]
         public async Task Update_Existing_ProductInvoice()
         {
-            ActionResult<ProductInvoiceViewModel> result = await _productInvoicesController.PutProductInvoice(1, new ProductInvoiceEditModel
-            {
-                State = InvoiceState.Regenerated
-            });
+            ActionResult<ProductInvoiceViewModel> result = await _productInvoicesController.PutProductInvoice(1,
+                new ProductInvoiceEditModel
+                {
+                    State = InvoiceState.Regenerated
+                });
 
             Assert.NotNull(result);
             Assert.NotNull(result.Value);
@@ -122,10 +119,11 @@ namespace Kaizen.Test.Controllers
         [Test]
         public async Task Update_Non_Existent_ProductInvoice()
         {
-            ActionResult<ProductInvoiceViewModel> result = await _productInvoicesController.PutProductInvoice(3, new ProductInvoiceEditModel
-            {
-                State = InvoiceState.Regenerated
-            });
+            ActionResult<ProductInvoiceViewModel> result = await _productInvoicesController.PutProductInvoice(3,
+                new ProductInvoiceEditModel
+                {
+                    State = InvoiceState.Regenerated
+                });
 
             Assert.IsNotNull(result);
             Assert.IsNull(result.Value);
@@ -135,11 +133,12 @@ namespace Kaizen.Test.Controllers
         [Test]
         public async Task Save_New_ProductInvoice()
         {
-            ActionResult<ProductInvoiceViewModel> result = await _productInvoicesController.PostProductInvoice(new ProductInvoiceInputModel
-            {
-                ClientId = "1007870922",
-                State = InvoiceState.Generated
-            });
+            ActionResult<ProductInvoiceViewModel> result = await _productInvoicesController.PostProductInvoice(
+                new ProductInvoiceInputModel
+                {
+                    ClientId = "1007870922",
+                    State = InvoiceState.Generated
+                });
 
             Assert.NotNull(result);
             Assert.NotNull(result.Value);

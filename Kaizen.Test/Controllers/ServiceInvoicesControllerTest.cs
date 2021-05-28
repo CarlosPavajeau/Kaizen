@@ -6,7 +6,6 @@ using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.Models.ServiceInvoice;
 using Kaizen.Test.Helpers;
-using MercadoPago.Client.Payment;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -20,17 +19,15 @@ namespace Kaizen.Test.Controllers
         private ServiceInvoicesController _serviceInvoicesController;
         private Mock<IServiceInvoicesRepository> _serviceInvoicesRepository;
         private Mock<IUnitWork> _unitWork;
-        private Mock<PaymentClient> _paymentClient;
 
         [SetUp]
         public void SetUp()
         {
             _serviceInvoicesRepository = new Mock<IServiceInvoicesRepository>();
             _unitWork = new Mock<IUnitWork>();
-            _paymentClient = new Mock<PaymentClient>();
 
             _serviceInvoicesController = new ServiceInvoicesController(_serviceInvoicesRepository.Object,
-                _unitWork.Object, ServiceProvider.GetService<IMapper>(), _paymentClient.Object);
+                _unitWork.Object, ServiceProvider.GetService<IMapper>());
 
             SetUpServiceInvoicesRepository();
             SetUpUnitWork();
@@ -71,7 +68,7 @@ namespace Kaizen.Test.Controllers
                 }
             });
 
-            _serviceInvoicesRepository.Setup(r => r.FindByIdAsync(3)).ReturnsAsync((ServiceInvoice)null);
+            _serviceInvoicesRepository.Setup(r => r.FindByIdAsync(3)).ReturnsAsync((ServiceInvoice) null);
 
             _serviceInvoicesRepository.Setup(r => r.GetClientInvoices("1007870922"))
                 .ReturnsAsync(new List<ServiceInvoice>
@@ -128,7 +125,8 @@ namespace Kaizen.Test.Controllers
         [Test]
         public async Task Get_ClientInvoices()
         {
-            OkObjectResult result = (await _serviceInvoicesController.ClientInvoices("1007870922")).Result as OkObjectResult;
+            OkObjectResult result =
+                (await _serviceInvoicesController.ClientInvoices("1007870922")).Result as OkObjectResult;
 
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Value);
@@ -138,11 +136,12 @@ namespace Kaizen.Test.Controllers
         [Test]
         public async Task Update_Existing_ServiceInvoice()
         {
-            ActionResult<ServiceInvoiceViewModel> result = await _serviceInvoicesController.PutServiceInvoice(1, new ServiceInvoiceEditModel
-            {
-                PaymentMethod = PaymentMethod.Cash,
-                State = InvoiceState.Paid
-            });
+            ActionResult<ServiceInvoiceViewModel> result = await _serviceInvoicesController.PutServiceInvoice(1,
+                new ServiceInvoiceEditModel
+                {
+                    PaymentMethod = PaymentMethod.Cash,
+                    State = InvoiceState.Paid
+                });
 
             Assert.IsNotNull(result);
             Assert.IsNotNull(result.Value);
@@ -152,11 +151,12 @@ namespace Kaizen.Test.Controllers
         [Test]
         public async Task Update_Non_Existent_ServiceInvoice()
         {
-            ActionResult<ServiceInvoiceViewModel> result = await _serviceInvoicesController.PutServiceInvoice(3, new ServiceInvoiceEditModel
-            {
-                PaymentMethod = PaymentMethod.Cash,
-                State = InvoiceState.Paid
-            });
+            ActionResult<ServiceInvoiceViewModel> result = await _serviceInvoicesController.PutServiceInvoice(3,
+                new ServiceInvoiceEditModel
+                {
+                    PaymentMethod = PaymentMethod.Cash,
+                    State = InvoiceState.Paid
+                });
 
             Assert.IsNotNull(result);
             Assert.IsNull(result.Value);
