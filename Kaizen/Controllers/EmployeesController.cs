@@ -136,6 +136,7 @@ namespace Kaizen.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<EmployeeViewModel>> PostEmployee(EmployeeInputModel employeeModel)
         {
             EmployeeCharge employeeCharge = await _employeesRepository.GetAllEmployeeCharges()
