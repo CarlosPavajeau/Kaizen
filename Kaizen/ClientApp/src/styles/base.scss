@@ -1,3 +1,4 @@
+@import 'typography';
 
 * {
   --yellow_sunshine: #fffb16;
@@ -57,7 +58,7 @@ body {
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: -apple-system, Ubuntu, Inter, Roboto, Helvetica Neue, sans-serif !important;
 }
 
 a {
