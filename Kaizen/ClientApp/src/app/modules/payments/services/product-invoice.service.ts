@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PRODUCT_INVOICES_API_URL } from '@global/endpoints';
-import { PayModel } from '@modules/payments/models/pay';
 import { ProductInvoice } from '@modules/payments/models/product-invoice';
 import { Observable } from 'rxjs';
 
@@ -29,9 +28,5 @@ export class ProductInvoiceService {
 
   updateProductInvoice(productInvoice: ProductInvoice): Observable<ProductInvoice> {
     return this.http.put<ProductInvoice>(`${PRODUCT_INVOICES_API_URL}/${productInvoice.id}`, productInvoice);
-  }
-
-  payProductInvoice(productInvoice: ProductInvoice, paymentModel: PayModel): Observable<ProductInvoice> {
-    return this.http.post<ProductInvoice>(`${PRODUCT_INVOICES_API_URL}/Pay/${productInvoice.id}`, paymentModel);
   }
 }

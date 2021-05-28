@@ -13,3 +13,4 @@ export const PRODUCT_INVOICES_API_URL = 'api/ProductInvoices';
 export const STATISTICS_API_URL = 'api/Statistics';
 export const NOTIFICATIONS_API_URL = 'api/Notifications';
 export const CERTIFICATES_API_URL = 'api/Certificates';
+export const PAYMENTS_API_URL = 'api/Payments';

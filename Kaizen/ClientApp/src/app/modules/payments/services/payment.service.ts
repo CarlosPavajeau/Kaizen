@@ -3,6 +3,9 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { environment } from '@base/environments/environment';
 import { PayModel } from '@modules/payments/models/pay';
 import { Observable } from 'rxjs';
+import { ProductInvoice } from "@modules/payments/models/product-invoice";
+import { PAYMENTS_API_URL } from "@global/endpoints";
+import { ServiceInvoice } from "@modules/payments/models/service-invoice";
 
 declare const Mercadopago: any;
 const cardToken = new EventEmitter<string>();
@@ -48,5 +51,13 @@ export class PaymentService {
     } else {
       paymentMethod.emit(null);
     }
+  }
+
+  payProductInvoice(productInvoice: ProductInvoice, paymentModel: PayModel): Observable<ProductInvoice> {
+    return this.http.post<ProductInvoice>(`${ PAYMENTS_API_URL }/PayProductInvoice/${ productInvoice.id }`, paymentModel);
+  }
+
+  payServiceInvoice(serviceInvoice: ServiceInvoice, paymentModel: PayModel): Observable<ServiceInvoice> {
+    return this.http.post<ServiceInvoice>(`${ PAYMENTS_API_URL }/PayServiceInvoice/${ serviceInvoice.id }`, paymentModel);
   }
 }

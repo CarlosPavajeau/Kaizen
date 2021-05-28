@@ -41,7 +41,7 @@ export const DATE_FORMATS = {
       deps: [ MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS ]
     },
 
-    { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS }
+    {provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS}
   ]
 })
 export class PayProductInvoiceComponent implements OnInit, IForm, OnDestroy {
@@ -139,8 +139,7 @@ export class PayProductInvoiceComponent implements OnInit, IForm, OnDestroy {
           })
         )
         .subscribe((paymentModel: PayModel) => {
-          console.log(paymentModel);
-          this.productInvoiceService
+          this.paymentService
             .payProductInvoice(this.productInvoice, paymentModel)
             .subscribe((productInvoice: ProductInvoice) => {
               if (productInvoice) {

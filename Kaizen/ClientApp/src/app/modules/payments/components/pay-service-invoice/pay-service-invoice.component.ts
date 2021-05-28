@@ -42,7 +42,7 @@ export const DATE_FORMATS = {
       deps: [ MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS ]
     },
 
-    { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS }
+    {provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS}
   ]
 })
 export class PayServiceInvoiceComponent implements OnInit, IForm, OnDestroy {
@@ -140,15 +140,14 @@ export class PayServiceInvoiceComponent implements OnInit, IForm, OnDestroy {
           })
         )
         .subscribe((paymentModel: PayModel) => {
-          console.log(paymentModel);
-          this.serviceInvoiceService
+          this.paymentService
             .payServiceInvoice(this.serviceInvoice, paymentModel)
             .subscribe((serviceInvoice: ServiceInvoice) => {
               if (serviceInvoice) {
                 this.dialogsService.showSuccessDialog(
                   'Pago processado correctamente, su factura ha sido pagada.',
                   () => {
-                    this.router.navigateByUrl('/payments/service_invoices');
+                    this.router.navigateByUrl('/payments/invoices/services');
                   }
                 );
               }
