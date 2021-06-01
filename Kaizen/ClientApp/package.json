@@ -30,7 +30,7 @@
     "@types/googlemaps": "^3.43.3",
     "angular-animations": "^0.11.0",
     "aspnet-prerendering": "^3.0.1",
-    "bootstrap": "^4.6.0",
+    "bootstrap": "^5.0.1",
     "core-js": "^3.12.1",
     "jquery": "^3.6.0",
     "mat-file-input": "^1.0.9",
@@ -39,7 +39,7 @@
     "node-fetch": "^2.6.1",
     "oidc-client": "^1.11.5",
     "popper.js": "^1.16.0",
-    "rxjs": "^6.6.7",
+    "rxjs": "^7.1.0",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
   },
