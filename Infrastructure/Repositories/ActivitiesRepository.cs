@@ -162,6 +162,14 @@ namespace Kaizen.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Activity>> GetActivitiesByYearMonthAndDay(int year, int month, int day)
+        {
+            return await GetAll()
+                .Include(a => a.Client)
+                .Where(a => a.Date.Year == year && a.Date.Month == month && a.Date.Day == day)
+                .ToListAsync();
+        }
+
         public void UpdateLimitDate()
         {
             int currentYear = DateTime.Now.Year;

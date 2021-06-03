@@ -53,6 +53,18 @@ namespace Kaizen.Controllers
             return Ok(_mapper.Map<IEnumerable<ActivityViewModel>>(activities));
         }
 
+        [HttpGet("{year:int}/{month:int}/{day:int}")]
+        public async Task<ActionResult<IEnumerable<ActivityViewModel>>> GetActivities(int year, int month, int day)
+        {
+            if (month > 12)
+            {
+                return BadRequest($"El mes no puede ser mayor a 12, valor recibido {month}.");
+            }
+
+            var activities = await _activitiesRepository.GetActivitiesByYearMonthAndDay(year, month, day);
+            return Ok(_mapper.Map<IEnumerable<ActivityViewModel>>(activities));
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<ActivityViewModel>> GetActivity(int id)
         {

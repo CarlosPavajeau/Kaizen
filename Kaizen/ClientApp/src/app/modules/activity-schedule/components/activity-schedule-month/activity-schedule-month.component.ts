@@ -12,11 +12,10 @@ import { ActivityScheduleService } from '@modules/activity-schedule/services/act
 })
 export class ActivityScheduleMonthComponent implements OnInit {
   @Input() selectedDate: Moment;
-  @Input() allActivities: Activity[] = [];
   activities: Activity[] = [];
 
   @Output() selectDay = new EventEmitter<Moment>();
-  @Output() onLoadActivities = new EventEmitter<Activity[]>();
+  @Output() onLoadActivities = new EventEmitter();
 
   start: Moment;
   weeks: Week[] = [];
@@ -49,16 +48,13 @@ export class ActivityScheduleMonthComponent implements OnInit {
       monthIndex = date.month();
     }
 
-    const activitiesInMonth = this.allActivities.some((a) => a.date.getMonth() == this.selectedDate.month());
-    if (!activitiesInMonth) {
-      this.activityScheduleService.getActivitiesByYearAndMonth(this.selectedDate.year(), this.selectedDate.month())
-        .subscribe((activities: Activity[]) => {
-          this.activities = activities;
-          this.loadActivitiesForDay();
-          this.activities.forEach((activity) => (activity.date = new Date(activity.date)));
-          this.onLoadActivities.emit(activities);
-        });
-    }
+    this.activityScheduleService.getActivitiesByYearAndMonth(this.selectedDate.year(), this.selectedDate.month() + 1)
+      .subscribe((activities: Activity[]) => {
+        this.activities = activities;
+        this.activities.forEach((activity) => (activity.date = new Date(activity.date)));
+        this.loadActivitiesForDay();
+        this.onLoadActivities.emit();
+      });
   }
 
   private loadActivitiesForDay(): void {

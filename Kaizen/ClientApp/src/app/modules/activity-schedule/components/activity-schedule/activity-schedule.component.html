@@ -49,14 +49,14 @@
       *ngIf="view == 0"
       #scheduleMonth
       [selectedDate]="selectedDate"
-      [allActivities]="activities"
       (selectDay)="onSelectDay($event)"
+      (onLoadActivities)="onLoadActivities()"
     ></app-activity-schedule-month>
     <app-activity-schedule-day
       *ngIf="view == 2"
       #scheduleDay
       [selectedDate]="selectedDate"
-      [allActivities]="activities"
+      (onLoadActivities)="onLoadActivities()"
     ></app-activity-schedule-day>
   </div>
 </div>

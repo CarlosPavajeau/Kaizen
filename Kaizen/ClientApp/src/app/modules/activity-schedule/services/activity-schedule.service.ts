@@ -20,6 +20,10 @@ export class ActivityScheduleService {
     return this.http.get<Activity[]>(`${ ACTIVITIES_API_URL }/${ year }/${ month }`);
   }
 
+  getActivitiesByYearMonthAndDay(year: number, month: number, day: number): Observable<Activity[]> {
+    return this.http.get<Activity[]>(`${ ACTIVITIES_API_URL }/${ year }/${ month }/${ day }`);
+  }
+
   getActivity(code: number): Observable<Activity> {
     return this.http.get<Activity>(`${ ACTIVITIES_API_URL }/${ code }`);
   }
