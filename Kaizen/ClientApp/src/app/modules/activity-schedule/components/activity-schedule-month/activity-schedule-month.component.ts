@@ -3,22 +3,26 @@ import { Activity } from '@modules/activity-schedule/models/activity';
 import { Day } from '@modules/activity-schedule/models/day';
 import { Week } from '@modules/activity-schedule/models/week';
 import { Moment } from 'moment';
+import { ActivityScheduleService } from '@modules/activity-schedule/services/activity-schedule.service';
 
 @Component({
   selector: 'app-activity-schedule-month',
   templateUrl: './activity-schedule-month.component.html',
-  styleUrls: [ './activity-schedule-month.component.scss' ]
+  styleUrls: [ './activity-schedule-month.component.scss' ],
 })
 export class ActivityScheduleMonthComponent implements OnInit {
   @Input() selectedDate: Moment;
-  @Input() activities: Activity[] = [];
+  @Input() allActivities: Activity[] = [];
+  activities: Activity[] = [];
 
   @Output() selectDay = new EventEmitter<Moment>();
+  @Output() onLoadActivities = new EventEmitter<Activity[]>();
 
   start: Moment;
   weeks: Week[] = [];
 
-  constructor() {}
+  constructor(private activityScheduleService: ActivityScheduleService) {
+  }
 
   ngOnInit(): void {
     this.buildMonth();
@@ -27,7 +31,7 @@ export class ActivityScheduleMonthComponent implements OnInit {
   private buildMonth(): void {
     this.start = this.selectedDate.clone();
     this.start.date(1);
-    this.resetTime(this.start);
+    ActivityScheduleMonthComponent.resetTime(this.start);
 
     this.weeks = [];
     let done = false;
@@ -37,7 +41,7 @@ export class ActivityScheduleMonthComponent implements OnInit {
 
     while (!done) {
       this.weeks.push({
-        days: this.buildWeek(date.clone(), this.selectedDate)
+        days: ActivityScheduleMonthComponent.buildWeek(date.clone(), this.selectedDate),
       });
 
       date.add(1, 'w');
@@ -45,7 +49,16 @@ export class ActivityScheduleMonthComponent implements OnInit {
       monthIndex = date.month();
     }
 
-    this.loadActivitiesForDay();
+    const activitiesInMonth = this.allActivities.some((a) => a.date.getMonth() == this.selectedDate.month());
+    if (!activitiesInMonth) {
+      this.activityScheduleService.getActivitiesByYearAndMonth(this.selectedDate.year(), this.selectedDate.month())
+        .subscribe((activities: Activity[]) => {
+          this.activities = activities;
+          this.loadActivitiesForDay();
+          this.activities.forEach((activity) => (activity.date = new Date(activity.date)));
+          this.onLoadActivities.emit(activities);
+        });
+    }
   }
 
   private loadActivitiesForDay(): void {
@@ -62,11 +75,11 @@ export class ActivityScheduleMonthComponent implements OnInit {
     });
   }
 
-  private resetTime(time: moment.Moment) {
+  private static resetTime(time: moment.Moment) {
     time.day(0).day(0).hour(0).minute(0).second(0).millisecond(0);
   }
 
-  private buildWeek(date: moment.Moment, month: moment.Moment) {
+  private static buildWeek(date: moment.Moment, month: moment.Moment) {
     const days: Day[] = [];
 
     for (let i = 0; i < 7; ++i) {
@@ -75,7 +88,7 @@ export class ActivityScheduleMonthComponent implements OnInit {
         number: date.date(),
         isCurrentMonth: date.month() === month.month(),
         isToday: date.isSame(new Date(), 'day'),
-        date: date
+        date: date,
       });
 
       date = date.clone();

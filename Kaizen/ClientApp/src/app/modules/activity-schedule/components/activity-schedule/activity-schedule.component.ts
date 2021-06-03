@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ActivityScheduleDayComponent } from '@modules/activity-schedule/components/activity-schedule-day/activity-schedule-day.component';
 import { ActivityScheduleMonthComponent } from '@modules/activity-schedule/components/activity-schedule-month/activity-schedule-month.component';
 import { Activity } from '@modules/activity-schedule/models/activity';
@@ -11,10 +11,9 @@ import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-activity-schedule',
-  templateUrl: './activity-schedule.component.html'
+  templateUrl: './activity-schedule.component.html',
 })
-export class ActivityScheduleComponent implements OnInit {
-  public ObsStatus: typeof ObservableStatus = ObservableStatus;
+export class ActivityScheduleComponent implements OnInit, AfterViewInit {
   public ScheduleView: typeof ActivityScheduleView = ActivityScheduleView;
 
   readonly activityScheduleViewNames: string[] = [ 'Mes', 'Semana', 'Día' ];
@@ -30,34 +29,27 @@ export class ActivityScheduleComponent implements OnInit {
   @ViewChild(ActivityScheduleDayComponent) scheduleDay: ActivityScheduleDayComponent;
   @ViewChild(ActivityScheduleMonthComponent) scheduleMonth: ActivityScheduleMonthComponent;
 
-  constructor(private activityScheduleService: ActivityScheduleService) {}
+  loadingActivities = true;
+
+  constructor(private activityScheduleService: ActivityScheduleService) {
+  }
 
   ngOnInit(): void {
-    this.loadData();
+
   }
 
-  private loadData(): void {
-    this.activities$ = this.activityScheduleService.getActivities().pipe(delay(3000));
-    this.activities$.subscribe((activities) => {
-      this.activities = activities;
-      this.onLoadData();
-    });
-  }
-
-  private onLoadData(): void {
-    this.activities.forEach((activity) => (activity.date = new Date(activity.date)));
-
-    if (this.scheduleDay) {
-      this.scheduleDay.activities = this.activities;
-    }
-    if (this.scheduleMonth) {
-      this.scheduleMonth.activities = this.activities;
-    }
-
+  ngAfterViewInit(): void {
     this.showCurrentDate();
+    if (this.scheduleMonth) {
+      this.scheduleMonth.onLoadActivities.subscribe((activities: Activity[]) => {
+        activities.push(...activities);
+        this.loadingActivities = false;
+      });
+    }
   }
-
+  
   nextDate(): void {
+    this.loadingActivities = true;
     switch (this.view) {
       case ActivityScheduleView.Month: {
         this.scheduleMonth.nextMonth();
@@ -74,6 +66,7 @@ export class ActivityScheduleComponent implements OnInit {
   }
 
   previousDate(): void {
+    this.loadingActivities = true;
     switch (this.view) {
       case ActivityScheduleView.Month: {
         this.scheduleMonth.previousMonth();

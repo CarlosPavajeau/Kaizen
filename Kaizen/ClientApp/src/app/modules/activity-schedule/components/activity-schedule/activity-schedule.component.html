@@ -21,20 +21,15 @@
         </button>
       </div>
     </div>
-    <ng-container
-      *ngIf="activities$ | observableWithStatus | async as obs"
-      [ngSwitch]="obs.status"
-    >
-      <ng-template [ngSwitchCase]="ObsStatus.Loading">
-        <div class="loading-option">
-          <mat-spinner [diameter]="20"></mat-spinner>
-          <span>Cargando actividades...</span>
-        </div>
-      </ng-template>
-    </ng-container>
+    <div *ngIf="loadingActivities" class="loading-option">
+      <mat-spinner [diameter]="20"></mat-spinner>
+      <span>Cargando actividades...</span>
+    </div>
     <div class="spacer"></div>
     <div class="calendar-control">
-      <button mat-icon-button class="mr-2"><mat-icon>search</mat-icon></button>
+      <button mat-icon-button class="mr-2">
+        <mat-icon>search</mat-icon>
+      </button>
       <button mat-stroked-button [matMenuTriggerFor]="menu">
         {{ activityScheduleViewNames[view] }}
         <mat-icon>arrow_drop_down</mat-icon>
@@ -54,14 +49,14 @@
       *ngIf="view == 0"
       #scheduleMonth
       [selectedDate]="selectedDate"
-      [activities]="activities"
+      [allActivities]="activities"
       (selectDay)="onSelectDay($event)"
     ></app-activity-schedule-month>
     <app-activity-schedule-day
       *ngIf="view == 2"
       #scheduleDay
       [selectedDate]="selectedDate"
-      [activities]="activities"
+      [allActivities]="activities"
     ></app-activity-schedule-day>
   </div>
 </div>

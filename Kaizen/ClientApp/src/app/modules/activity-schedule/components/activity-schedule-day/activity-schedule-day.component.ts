@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Activity } from '@modules/activity-schedule/models/activity';
 import { Hour } from '@modules/activity-schedule/models/hour';
 import { Moment } from 'moment';
@@ -6,16 +6,18 @@ import { Moment } from 'moment';
 @Component({
   selector: 'app-activity-schedule-day',
   templateUrl: './activity-schedule-day.component.html',
-  styleUrls: [ './activity-schedule-day.component.scss' ]
+  styleUrls: [ './activity-schedule-day.component.scss' ],
 })
 export class ActivityScheduleDayComponent implements OnInit {
   @Input() selectedDate: Moment;
-  @Input() activities: Activity[];
+  @Input() allActivities: Activity[] = [];
+  activities: Activity[] = [];
 
   hours: Hour[] = [];
   start: Moment;
 
-  constructor() {}
+  constructor() {
+  }
 
   ngOnInit(): void {
     this.buildDay();
@@ -30,7 +32,7 @@ export class ActivityScheduleDayComponent implements OnInit {
       this.hours.push({
         name: this.start.format('hh'),
         number: this.start.hour(),
-        date: this.start
+        date: this.start,
       });
       this.start = this.start.clone();
       this.start.add(1, 'h');
@@ -42,7 +44,7 @@ export class ActivityScheduleDayComponent implements OnInit {
   }
 
   private loadActivitiesForHour(date: Moment) {
-    return this.activities.filter((activity) => {
+    return this.allActivities.filter((activity) => {
       return (
         activity.date.getMonth() === date.month() &&
         activity.date.getDate() === date.date() &&
