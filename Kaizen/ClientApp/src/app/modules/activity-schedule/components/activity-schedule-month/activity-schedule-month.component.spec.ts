@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { SharedModule } from '@app/shared/shared.module';
 import { ActivityScheduleMonthComponent } from './activity-schedule-month.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ActivityScehduleMonthComponent', () => {
   let component: ActivityScheduleMonthComponent;
@@ -9,10 +10,10 @@ describe('ActivityScehduleMonthComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [ SharedModule ],
-        declarations: [ ActivityScheduleMonthComponent ]
+        imports: [ HttpClientTestingModule, SharedModule ],
+        declarations: [ ActivityScheduleMonthComponent ],
       }).compileComponents();
-    })
+    }),
   );
 
   beforeEach(() => {
