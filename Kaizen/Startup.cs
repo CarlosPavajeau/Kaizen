@@ -35,6 +35,7 @@ namespace Kaizen
 
             services.AddJwtAuthentication(Configuration);
             services.ConfigureTokenGenerator();
+            services.ConfigurePdfGenerator();
             services.AddSwagger(Configuration);
 
             services.AddAutoMapper(typeof(Startup));

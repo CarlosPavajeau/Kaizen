@@ -5,7 +5,7 @@ import { Certificate } from '@modules/certificates/models/certificate';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CertificateService {
 
@@ -18,5 +18,12 @@ export class CertificateService {
 
   getCertificate(id: number): Observable<Certificate> {
     return this.http.get<Certificate>(`${ CERTIFICATES_API_URL }/${ id }`);
+  }
+
+  downloadCertificate(id: number): Observable<Blob> {
+    return this.http.get<Blob>(`${ CERTIFICATES_API_URL }/Download/${ id }`, {
+      reportProgress: true,
+      responseType: 'blob' as 'json',
+    });
   }
 }

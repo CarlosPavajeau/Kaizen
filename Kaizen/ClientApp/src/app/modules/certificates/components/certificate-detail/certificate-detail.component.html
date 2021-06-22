@@ -59,7 +59,7 @@
           </mat-card-content>
           <mat-card-actions>
             <button mat-raised-button class="royal_azure">Imprimir certificado</button>
-            <button mat-button>Descargar certificado</button>
+            <button mat-button (click)="downloadCertificate(certificate)">Descargar certificado</button>
           </mat-card-actions>
         </mat-card>
       </div>

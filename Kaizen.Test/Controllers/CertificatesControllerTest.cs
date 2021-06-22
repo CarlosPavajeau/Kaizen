@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Kaizen.Controllers;
+using Kaizen.Core.Pdf;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.Models.Certificate;
@@ -18,14 +19,16 @@ namespace Kaizen.Test.Controllers
     {
         private CertificatesController _certificatesController;
         private Mock<ICertificatesRepository> _certificatesRepository;
+        private Mock<IPdfGenerator> _pdfGenerator;
 
         [SetUp]
         public void SetUp()
         {
             _certificatesRepository = new Mock<ICertificatesRepository>();
+            _pdfGenerator = new Mock<IPdfGenerator>();
 
             _certificatesController =
-                new CertificatesController(_certificatesRepository.Object, ServiceProvider.GetService<IMapper>());
+                new CertificatesController(_certificatesRepository.Object, _pdfGenerator.Object, ServiceProvider.GetService<IMapper>());
 
             SetUpCertificatesRepository();
         }

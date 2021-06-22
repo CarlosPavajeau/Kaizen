@@ -1,12 +1,14 @@
 using System;
 using System.Net;
 using System.Text;
+using Kaizen.Core.Pdf;
 using Kaizen.Core.Security;
 using Kaizen.Core.Services;
 using Kaizen.Domain.Data;
 using Kaizen.Domain.Entities;
 using Kaizen.Domain.Repositories;
 using Kaizen.Infrastructure.Identity;
+using Kaizen.Infrastructure.Pdf;
 using Kaizen.Infrastructure.Repositories;
 using Kaizen.Infrastructure.Security;
 using Kaizen.Infrastructure.Services;
@@ -141,6 +143,11 @@ namespace Kaizen.Infrastructure.Extensions
         public static void ConfigureTokenGenerator(this IServiceCollection services)
         {
             services.AddScoped<ITokenGenerator, TokenGenerator>();
+        }
+
+        public static void ConfigurePdfGenerator(this IServiceCollection services)
+        {
+            services.AddScoped<IPdfGenerator, PdfGenerator>();
         }
 
         public static void LoadMailSettings(this IServiceCollection services, IConfiguration configuration)

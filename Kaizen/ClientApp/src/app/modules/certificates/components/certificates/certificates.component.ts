@@ -4,10 +4,11 @@ import { CertificateService } from '@modules/certificates/services/certificate.s
 import { ObservableStatus } from '@shared/models/observable-with-status';
 import { Person } from '@shared/models/person';
 import { Observable } from 'rxjs';
+import { downloadFile } from '@core/utils/file-utils';
 
 @Component({
   selector: 'app-certificates',
-  templateUrl: './certificates.component.html'
+  templateUrl: './certificates.component.html',
 })
 export class CertificatesComponent implements OnInit {
   public ObsStatus: typeof ObservableStatus = ObservableStatus;
@@ -30,6 +31,14 @@ export class CertificatesComponent implements OnInit {
     this.certificates$ = this.certificatesService.getClientCertificates(current_person.id);
     this.certificates$.subscribe((certificates: Certificate[]) => {
       this.certificates = certificates;
+    });
+  }
+
+  downloadCertificate(certificate: Certificate): void {
+    this.certificatesService.downloadCertificate(certificate.id).subscribe(result => {
+      if (result) {
+        downloadFile(result);
+      }
     });
   }
 }
