@@ -1,14 +1,98 @@
 using System;
+using System.Globalization;
 using System.IO;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
+using iText.Layout.Properties;
 using Kaizen.Core.Pdf;
 
 namespace Kaizen.Infrastructure.Pdf
 {
     public class PdfGenerator : IPdfGenerator
     {
+        private static void MakeCertificateHeader(Document document)
+        {
+        }
+
+        private static void MakeCertificateTitle(Document document, int certificateId)
+        {
+            var title = new Paragraph($"Certificado N° {certificateId:0000}");
+            title.SetTextAlignment(TextAlignment.CENTER);
+            title.SetFontSize(20);
+            title.SetBold();
+
+            document.Add(title);
+        }
+
+        private static void MakeCompanyInfo(Document document)
+        {
+            var companyInfo = new Paragraph("LA SUSCRITA GERENTE DE ECOLPLAG S.A.S.\nNIT: 900.996.037-0");
+            companyInfo.SetTextAlignment(TextAlignment.CENTER);
+            companyInfo.SetFontSize(18);
+            companyInfo.SetMarginTop(30);
+            companyInfo.SetMarginBottom(20);
+            companyInfo.SetBold();
+
+            document.Add(companyInfo);
+        }
+
+        private static void MakeCertificateInfo(Document document, string tradeName, string nit,
+            DateTime applicationDate, string serviceNames)
+        {
+            var title = new Paragraph("CERTIFICA");
+            title.SetTextAlignment(TextAlignment.CENTER);
+            title.SetFontSize(18);
+            title.SetBold();
+            title.SetMarginTop(20);
+            document.Add(title);
+
+            var firstPart = new Paragraph();
+            firstPart.SetMarginTop(20);
+            firstPart.SetTextAlignment(TextAlignment.JUSTIFIED);
+            firstPart.Add($"Que la entidad ");
+
+            var tradeNameText = new Text(tradeName);
+            tradeNameText.SetBold();
+            firstPart.Add(tradeNameText);
+
+            if (!string.IsNullOrEmpty(nit))
+            {
+                firstPart.Add(", identificada con ");
+                var nitText = new Text($"NIT. {nit}");
+                nitText.SetBold();
+                firstPart.Add(nitText);
+            }
+
+            firstPart.Add($", en la fecha " +
+                          $"{applicationDate.ToString("dd 'de' MMMM 'del' yyyy", CultureInfo.CreateSpecificCulture("es-co"))}");
+
+            firstPart.Add($", realizó los servicios de: {serviceNames}.");
+            document.Add(firstPart);
+
+            var secondPart =
+                new Paragraph(
+                    "Nuestros servicios se hacen de acuerdo con la Ley 99 de 1993, REGLAMENTO TÉCNICO DEL SECTOR " +
+                    "DE AGUA Y SANEAMIENTO BÁSICO RAS 2000, SECCIÓN II, TITULO E, Decreto 3930 y Resolución " +
+                    "0631 de 2015.");
+            secondPart.SetTextAlignment(TextAlignment.JUSTIFIED);
+            document.Add(secondPart);
+
+            var thirdPart = new Paragraph(
+                "Esta certificación cumple con las exigencias de los entes de control y promotores de saneamiento, y," +
+                " tiene validez por 180 días contados a partir de la fecha de ejecución del servicio.");
+            thirdPart.SetTextAlignment(TextAlignment.JUSTIFIED);
+            document.Add(thirdPart);
+
+
+            var fourthPart =
+                new Paragraph(
+                    $"Dada en Valledupar, a los " +
+                    $"{DateTime.Now.ToString("dd 'dias' 'del mes de ' MMMM 'de' yyyy.", CultureInfo.CreateSpecificCulture("es-co"))}");
+            fourthPart.SetMarginTop(20);
+            document.Add(fourthPart);
+        }
+
         public MemoryStream GenerateCertificate(int certificateId, string tradeName, string nit,
             DateTime applicationDate,
             string serviceNames)
@@ -19,14 +103,10 @@ namespace Kaizen.Infrastructure.Pdf
             var pdfDocument = new PdfDocument(pdfWriter);
             var document = new Document(pdfDocument);
 
-            document.Add(new Paragraph(certificateId.ToString()));
-            document.Add(new Paragraph(tradeName));
-            if (nit != null)
-            {
-                document.Add(new Paragraph(nit));
-            }
-            document.Add(new Paragraph(applicationDate.ToString("d")));
-            document.Add(new Paragraph(serviceNames));
+            MakeCertificateHeader(document);
+            MakeCertificateTitle(document, certificateId);
+            MakeCompanyInfo(document);
+            MakeCertificateInfo(document, tradeName, nit, applicationDate, serviceNames);
 
             document.Close();
 
