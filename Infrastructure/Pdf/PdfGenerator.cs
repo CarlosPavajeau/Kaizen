@@ -1,7 +1,13 @@
 using System;
 using System.Globalization;
 using System.IO;
+using iText.Kernel.Colors;
+using iText.Kernel.Events;
+using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas;
+using iText.Kernel.Pdf.Colorspace;
+using iText.Kernel.Pdf.Xobject;
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
@@ -89,8 +95,39 @@ namespace Kaizen.Infrastructure.Pdf
                 new Paragraph(
                     $"Dada en Valledupar, a los " +
                     $"{DateTime.Now.ToString("dd 'dias' 'del mes de ' MMMM 'de' yyyy.", CultureInfo.CreateSpecificCulture("es-co"))}");
-            fourthPart.SetMarginTop(20);
+            fourthPart.SetMarginTop(40);
             document.Add(fourthPart);
+        }
+
+        private class PdfFooter : IEventHandler
+        {
+            private const float Side = 20;
+            private const float X = 300;
+            private const float Y = 25;
+            private const float Space = 4.5f;
+            private const float Descent = 3;
+
+            public void HandleEvent(Event @event)
+            {
+                var documentEvent = (PdfDocumentEvent) @event;
+                var pageSize = documentEvent.GetPage().GetPageSize();
+
+                var pdfCanvas = new PdfCanvas(documentEvent.GetPage());
+                var canvas = new Canvas(pdfCanvas, pageSize);
+                canvas.SetFontSize(10);
+                canvas.SetFontColor(ColorConstants.GRAY);
+
+                var text = new Paragraph("Calle 6C N° 19-46 Barrio Los Músicos. Télefonos: (5) 5711106 - 5842747 " +
+                                         "Celulares: 3104538739 - 3168743205\nE-mail: valledupar@ecolplag.com.co - www.ecolplag.com.co\n" +
+                                         "Valledupar - Cesar");
+
+                canvas.ShowTextAligned(text, X, Y, TextAlignment.CENTER);
+                canvas.Close();
+
+                var placeholder = new PdfFormXObject(new Rectangle(0, 0, Side, Side));
+                pdfCanvas.AddXObjectAt(placeholder, X + Space, Y - Descent);
+                pdfCanvas.Release();
+            }
         }
 
         public MemoryStream GenerateCertificate(int certificateId, string tradeName, string nit,
@@ -102,6 +139,8 @@ namespace Kaizen.Infrastructure.Pdf
             pdfWriter.SetCloseStream(false);
             var pdfDocument = new PdfDocument(pdfWriter);
             var document = new Document(pdfDocument);
+
+            pdfDocument.AddEventHandler(PdfDocumentEvent.END_PAGE, new PdfFooter());
 
             MakeCertificateHeader(document);
             MakeCertificateTitle(document, certificateId);
