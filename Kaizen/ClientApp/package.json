@@ -30,7 +30,7 @@
     "@types/googlemaps": "^3.43.3",
     "angular-animations": "^0.11.0",
     "aspnet-prerendering": "^3.0.1",
-    "bootstrap": "^5.0.2",
+    "bootstrap": "^5.1.0",
     "core-js": "^3.16.0",
     "jquery": "^3.6.0",
     "mat-file-input": "^1.0.9",
@@ -63,7 +63,7 @@
   },
   "optionalDependencies": {
     "protractor": "~7.0.0",
-    "ts-node": "~10.1.0",
+    "ts-node": "~10.2.0",
     "tslint": "~6.1.0"
   }
 }
