@@ -63,7 +63,7 @@
   },
   "optionalDependencies": {
     "protractor": "~7.0.0",
-    "ts-node": "~10.1.0",
+    "ts-node": "~10.2.0",
     "tslint": "~6.1.0"
   }
 }
