@@ -31,7 +31,7 @@
     "angular-animations": "^0.11.0",
     "aspnet-prerendering": "^3.0.1",
     "bootstrap": "^5.1.1",
-    "core-js": "^3.17.3",
+    "core-js": "^3.18.0",
     "jquery": "^3.6.0",
     "mat-file-input": "^1.0.9",
     "moment": "^2.29.1",
@@ -44,7 +44,7 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~12.2.5",
+    "@angular-devkit/build-angular": "~12.2.6",
     "@angular/cli": "12.2.5",
     "@angular/compiler-cli": "12.1.0",
     "@angular/language-service": "12.2.5",
