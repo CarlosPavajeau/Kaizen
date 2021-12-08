@@ -16,7 +16,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 5.0.100
+          dotnet-version: 6.0.x
       - name: Shutdown Ubuntu MySQL (SUDO)
         run: sudo service mysql stop
       - name: Set up MySQL 8
