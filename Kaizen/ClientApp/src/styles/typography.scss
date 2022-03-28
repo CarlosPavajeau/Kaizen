@@ -1,4 +1,4 @@
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
 
 $custom-typography: mat.define-typography-config(
   $font-family: '-apple-system, Ubuntu, Inter, Roboto, Helvetica Neue, sans-serif !important',
