@@ -24,7 +24,7 @@
     "@angular/material-moment-adapter": "^13.3.2",
     "@angular/platform-browser": "13.3.0",
     "@angular/platform-browser-dynamic": "13.3.0",
-    "@angular/platform-server": "13.3.2",
+    "@angular/platform-server": "13.3.3",
     "@angular/router": "13.3.0",
     "@aspnet/signalr": "^1.1.4",
     "@types/googlemaps": "^3.43.3",
@@ -44,7 +44,7 @@
     "zone.js": "~0.11.5"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~13.3.2",
+    "@angular-devkit/build-angular": "~13.3.3",
     "@angular/cli": "13.3.2",
     "@angular/compiler-cli": "13.3.0",
     "@angular/language-service": "13.3.2",
