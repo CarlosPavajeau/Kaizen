@@ -34,7 +34,7 @@
     "core-js": "^3.22.4",
     "jquery": "^3.6.0",
     "moment": "^2.29.3",
-    "ngx-cookie-service": "^13.2.0",
+    "ngx-cookie-service": "^13.2.1",
     "ngx-material-file-input": "^3.0.0",
     "node-fetch": "^3.2.4",
     "oidc-client": "^1.11.5",
